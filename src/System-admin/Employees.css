@@ -14,7 +14,7 @@
    box-shadow: var(--box-shadow);
    border-radius: var(--card-border-radius);
    transition: all 0.3s ease;
-
+   /* this is a table */
  }
 
  table:hover {
