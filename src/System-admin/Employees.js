@@ -84,6 +84,15 @@ class Employees extends React.Component {
     document.body.classList.add("Edit-modal-active");
   };
 
+  handlecloseEditClick = () => {
+    this.setState({
+      showEditPage: false,
+    });
+
+    // Add the class to the body when the modal is active
+    document.body.classList.remove("Edit-modal-active");
+  }
+
   handleDeleteClick = (index) => {
     this.setState({
       showDeleteConfirmation: true,
@@ -303,7 +312,7 @@ class Employees extends React.Component {
         {showEditPage && (
           <div className="edit-modal">
             <div className="add-title">
-              <button onClick={this.handleCloseAddBtn}>
+              <button onClick={this.handlecloseEditClick}>
                 <img src={Close} alt="Close" />
               </button>
             </div>

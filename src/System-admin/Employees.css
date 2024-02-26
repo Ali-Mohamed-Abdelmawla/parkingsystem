@@ -81,7 +81,7 @@ table thead{
    display: flex;
    flex-direction: column;
    background-color: var(--color-background);
-   border-radius: var(--card-border-radius);
+   border-radius: var(--button-border-radius);
    border: 1px solid #00000020;
    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
    z-index: 1;
@@ -111,15 +111,18 @@ table thead{
    border: none;
    background-color: transparent;
    cursor: pointer;
-   border-radius: var(--card-border-radius);
+   border-radius: var(--button-border-radius);
  }
 
 [theme = dark]  .dropdown-button{
   color: var(--font-color);
 }
- 
+ [theme = dark]  .dropdown-button:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
  .dropdown-button:hover {
-   background-color: #000;
+   background-color: rgba(0, 0, 0, 0.1);
  }
 
  /* Styles for the delete model */
