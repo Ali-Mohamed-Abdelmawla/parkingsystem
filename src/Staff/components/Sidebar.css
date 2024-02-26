@@ -1,0 +1,83 @@
+.sidebar {
+    width: 250px;
+    background-color: #f2f1f1;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .logo-container {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .logo {
+    width: 50%;
+    height: 80px;
+  }
+  
+  .logo-text {
+    font-weight: bold;
+    font-size: large;
+    margin-top: 5px;
+  }
+  
+  .menu-items {
+    flex-grow: 1;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 10px;
+  }
+  
+  .menu-item:hover {
+    background-color: #e2dcc8;
+  }
+  
+  .menu-item:hover p {
+    margin-left: 5px;
+  }
+   
+  .menu-item a {
+    color: #231f20; 
+    text-decoration: none; 
+    font-weight: bold; 
+    display: flex; 
+    align-items: center; 
+  }
+  
+ 
+  .logout {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-top: 1px solid #ccc;
+  }
+  
+  .logout a {
+    color: #231f20; 
+    text-decoration: none; 
+    font-weight: bold; 
+    display: flex; 
+    align-items: center; 
+  }
+  
+
+  .menu-item svg, .logout svg {
+    width: 24px;
+    height: 24px;
+    fill: black;
+    margin-right: 10px; 
+  }
+  .add{
+    font-weight: bold;
+  }
+
+
+  
+  

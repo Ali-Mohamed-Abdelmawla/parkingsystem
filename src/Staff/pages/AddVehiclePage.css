@@ -1,0 +1,10 @@
+.container {
+    position: absolute;
+    top: 50px;
+    left: 250px;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    background-color: #F2F1F1;
+    overflow: auto;
+}
