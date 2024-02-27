@@ -144,19 +144,19 @@ aside .sidebar .message-count {
   border-radius: var(--border-radius-1);
 }
 
-.theme-switch-container { 
+.themeSwitchContainer { 
   display: flex; 
   align-items: center; 
 } 
 
-.theme-slider { 
+.themeSlider { 
   display: inline-block; 
   height: 34px; 
   position: relative; 
   width: 60px; 
 } 
 
-.theme-slider input { 
+.themeSlider input { 
   display: none; 
 } 
 
@@ -199,7 +199,7 @@ input:checked+.slider:before {
   border-radius: 50%; 
 }
 
-.add-modal {
+.addModal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -214,25 +214,25 @@ input:checked+.slider:before {
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
 }
-.add-modal .add-title{
+.addModal .addTitle{
   width: 100%;
   height: 8%;
   background-color: var(--special-color1);
 }
 
-.add-modal .add-title button{
+.addModal .addTitle button{
 
 background-color: transparent;
 
 }
 
-.add-modal .add-title img{
+.addModal .addTitle img{
 width:30px;
 height: 30px;
 margin: 4px;
 cursor: pointer;
 }
-.add-modal form {
+.addModal form {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -241,12 +241,12 @@ cursor: pointer;
   padding-bottom: 15px;
 }
 
-.add-modal form label {
+.addModal form label {
   display: flex;
   justify-content: center;
 }
 
-.add-modal form input {
+.addModal form input {
   width: 60%;
   align-self: center;
   height: 20px;
@@ -256,11 +256,11 @@ cursor: pointer;
   transition: all 0.5s ease;
 }
 
-.add-modal form input:hover {
+.addModal form input:hover {
   box-shadow: none;
 }
 
-.add-modal form select {
+.addModal form select {
   width: 60%;
   align-self: center;
   height: 35px;
@@ -270,11 +270,11 @@ cursor: pointer;
   transition: all 0.5s ease;
 }
 
-.add-modal form select:hover {
+.addModal form select:hover {
   box-shadow: none;
 }
 
-.add-modal form select option {
+.addModal form select option {
   width: 60%;
   align-self: center;
   height: 20rem;
@@ -285,7 +285,7 @@ cursor: pointer;
   transition: all 0.5s ease;
 }
 
-.add-modal form button {
+.addModal form button {
   min-width: 50px;
   width: 7vw;
   min-height: max-content;
@@ -297,11 +297,11 @@ cursor: pointer;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-.add-modal form button:hover {
+.addModal form button:hover {
   box-shadow: none;
 }
 
-.add-modal form .add-model-buttons {
+.addModal form .addModelButtons {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -323,7 +323,7 @@ body.add-modal-active::before {
 }
 
 
-main .Right-side {
+main .rightSide {
   display: flex;
   flex-direction: column;
   margin-top: 1.4vh;
@@ -331,21 +331,21 @@ main .Right-side {
   gap: 2rem;
 }
 
-main .Right-side .Header {
+main .rightSide .Header {
   display: flex;
   height: 10vh;
   align-items: flex-end;
   justify-content: flex-end;
   transition: all 0.3 ease;
 }
-main .Right-side .Header .search-bar {
+main .rightSide .Header .searchBar {
   height: 100%;
   width: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-main .Right-side .Header input {
+main .rightSide .Header input {
   width: 80%;
   height: 40%;
   align-self: center;
@@ -359,18 +359,18 @@ main .Right-side .Header input {
 
 
 
-main .Right-side .Header img {
+main .rightSide .Header img {
   position: relative;
   right: 2.2rem;
   bottom:0.01rem;
   font-size: large;
 }
 
-[theme = dark] main .Right-side .Header img {
+[theme = dark] main .rightSide .Header img {
 filter: invert(1);
 }
 
-main .Right-side .Header .Theme {
+main .rightSide .Header .Theme {
   height: 100%;
   width: 20%;
   position: relative;
@@ -378,7 +378,7 @@ main .Right-side .Header .Theme {
   justify-content: flex-end;
   align-items: center;
 }
-main .Right-side .Header .Welcome {
+main .rightSide .Header .Welcome {
   height: 100%;
   width: 20%;
   position: relative;
@@ -387,7 +387,7 @@ main .Right-side .Header .Welcome {
   justify-content: center;
   align-items: center;
 }
-main .Right-side .content{
+main .rightSide .content{
   height: 90vh;
 }
 

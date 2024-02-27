@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import "./styles.css";
+import styles from "./styles.module.css";
 
 // importing icons
 import Whitelogo from "./assets/light-mode/White-logo.svg";
@@ -89,17 +89,15 @@ class TheOne extends Component {
     document.body.classList.remove("add-modal-active");
   };
 
-
-
   handleDashboardClick = () => {
     // Handle dashboard button click
     const Dashboardbtn = document.getElementById("Dashboardbtn");
     const Employeebtn = document.getElementById("Employeebtn");
     const Complaintsbtn = document.getElementById("Complaintsbtn");
 
-    Dashboardbtn.classList.add("btn-inMainpage-is-active")
-    Employeebtn.classList.remove("btn-inMainpage-is-active")
-    Complaintsbtn.classList.remove("btn-inMainpage-is-active")
+    Dashboardbtn.classList.add("btn-inMainpage-is-active");
+    Employeebtn.classList.remove("btn-inMainpage-is-active");
+    Complaintsbtn.classList.remove("btn-inMainpage-is-active");
 
     this.setState({
       showDashboardComponent: true,
@@ -114,9 +112,9 @@ class TheOne extends Component {
     const Employeebtn = document.getElementById("Employeebtn");
     const Complaintsbtn = document.getElementById("Complaintsbtn");
 
-    Dashboardbtn.classList.remove("btn-inMainpage-is-active")
-    Employeebtn.classList.add("btn-inMainpage-is-active")
-    Complaintsbtn.classList.remove("btn-inMainpage-is-active")
+    Dashboardbtn.classList.remove("btn-inMainpage-is-active");
+    Employeebtn.classList.add("btn-inMainpage-is-active");
+    Complaintsbtn.classList.remove("btn-inMainpage-is-active");
 
     this.setState({
       showDashboardComponent: false,
@@ -131,9 +129,9 @@ class TheOne extends Component {
     const Employeebtn = document.getElementById("Employeebtn");
     const Complaintsbtn = document.getElementById("Complaintsbtn");
 
-    Dashboardbtn.classList.remove("btn-inMainpage-is-active")
-    Employeebtn.classList.remove("btn-inMainpage-is-active")
-    Complaintsbtn.classList.add("btn-inMainpage-is-active")
+    Dashboardbtn.classList.remove("btn-inMainpage-is-active");
+    Employeebtn.classList.remove("btn-inMainpage-is-active");
+    Complaintsbtn.classList.add("btn-inMainpage-is-active");
 
     this.setState({
       showDashboardComponent: false,
@@ -236,19 +234,14 @@ class TheOne extends Component {
     localStorage.setItem("employees", JSON.stringify(Employees));
   };
 
-
-  
-/* Function to change theme */
- switchTheme = (e) => { 
-  
-    if (e.target.checked) { 
-        document.documentElement.setAttribute('theme', 'dark'); 
-    } 
-    else { 
-        document.documentElement.setAttribute('theme', 'light'); 
-    } 
-} 
-  
+  /* Function to change theme */
+  switchTheme = (e) => {
+    if (e.target.checked) {
+      document.documentElement.setAttribute("theme", "dark");
+    } else {
+      document.documentElement.setAttribute("theme", "light");
+    }
+  };
 
   render() {
     const {
@@ -261,10 +254,10 @@ class TheOne extends Component {
 
     return (
       <React.StrictMode>
-        <div className="container">
+        <div className={styles.container}>
           <aside>
-            <div class="toggle">
-              <div class="logo">
+            <div class={styles.toggle}>
+              <div class={styles.logo}>
                 <img src={Whitelogo} alt={"logo"} />
                 <h2>Rakna</h2>
               </div>
@@ -275,16 +268,16 @@ class TheOne extends Component {
         </div>   close icon is to be used for responsive design  */}
             </div>
 
-            <div class="sidebar">
-              <button onClick={this.handleDashboardClick} id = "Dashboardbtn">
+            <div class={styles.sidebar}>
+              <button onClick={this.handleDashboardClick} id="Dashboardbtn">
                 <img src={Dashboardicon} alt="Dashboard icon" />
                 <h3>Dashboard</h3>
               </button>
-              <button onClick={this.handleEmployeesClick} id = "Employeebtn">
+              <button onClick={this.handleEmployeesClick} id="Employeebtn">
                 <img src={Empoloyeeicon} alt="employee icon" />
                 <h3>Employees</h3>
               </button>
-              <button onClick={this.handleComplaintsClick} id = "Complaintsbtn">
+              <button onClick={this.handleComplaintsClick} id="Complaintsbtn">
                 <img src={Complaintsicon} alt="complaints icon" />
                 <h3>Complaints</h3>
               </button>
@@ -300,35 +293,39 @@ class TheOne extends Component {
           </aside>
 
           <main>
-            <div className="Right-side">
-              <div className="Header">
-                <div className="search-bar">
+            <div className={styles.rightSide}>
+              <div className={styles.Header}>
+                <div className={styles.searchBar}>
                   <input type="text" placeholder="search" />
                   <img src={search} alt="icon"></img>
                 </div>
-                <div className="Theme">
-                  <div class="theme-switch-container">
-                    <label class="theme-slider" for="checkbox">
-                      <input type="checkbox" id="checkbox" onChange={this.switchTheme} />
-                      <div class="round slider"></div>
+                <div className={styles.Theme}>
+                  <div class={styles.themeSwitchContainer}>
+                    <label class={styles.themeSlider} for="checkbox">
+                      <input
+                        type="checkbox"
+                        id="checkbox"
+                        onChange={this.switchTheme}
+                      />
+                      <div className={`${styles.round} ${styles.slider}`}></div>
                     </label>
                   </div>
                   {/* <img src={Darkicon} alt="dark icon"></img>
                   <span>Darkmode</span> */}
                 </div>
 
-                <p className="Welcome">
+                <p className={styles.Welcome}>
                   <small>Welcome, </small>
                   <h3> Ali </h3>
                 </p>
               </div>
-              <div className="Content">
+              <div className={styles.Content}>
                 {showDashboardComponent && <Dashboard />}
                 {showEmployeesComponent && <Employees />}
                 {showComplaintsComponent && <Complaints />}
                 {showAddPage && (
-                  <div className="add-modal">
-                    <div className="add-title">
+                  <div className={styles.addModal}>
+                    <div className={styles.addTitle}>
                       <button onClick={this.handleCloseAddBtn}>
                         <img src={Close} alt="Close" />
                       </button>
@@ -423,7 +420,7 @@ class TheOne extends Component {
                         }}
                       />
 
-                      <div className="add-model-buttons">
+                      <div className={styles.addModelButtons}>
                         <button type="submit">Add</button>
                       </div>
                     </form>
