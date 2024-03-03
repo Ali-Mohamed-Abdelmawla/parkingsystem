@@ -6,7 +6,7 @@ import { ReactComponent as TransactionIcon } from '../assets/light-mode/Transact
 import { ReactComponent as ReportsIcon } from '../assets/light-mode/ReportIcon.svg'; 
 import { ReactComponent as AddVehicleIcon } from '../assets/light-mode/AddVehicleIcon.svg'; 
 import { ReactComponent as LogoutIcon  } from '../assets/light-mode/logoutIcon.svg'; 
-
+import AddVehiclePopup from '../pages/AddVehiclePopup'
 import './Sidebar.css';
 
 const Sidebar = () => {
@@ -55,19 +55,19 @@ const MenuItem = ({ icon, text, to }) => {
   );
 };
 
-const AddVehiclePopup = ({ onClose }) => {
-  return (
-    <div className="popup-container">
-      <div className="popup">
-        <h2>Add Vehicle Popup</h2>
-        <div className="popup-content">
-          {/* Add vehicle form or content here */}
-          <p>This is the popup content.</p>
-        </div>
-        <button className="popup-button" onClick={onClose}>Close</button>
-      </div>
-    </div>
-  );
-};
+// const AddVehiclePopup = ({ onClose }) => {
+//   return (
+//     <div className="popup-container">
+//       <div className="popup">
+//         <h2>Add Vehicle Popup</h2>
+//         <div className="popup-content">
+//           {/* Add vehicle form or content here */}
+//           <p>This is the popup content.</p>
+//         </div>
+//         <button className="popup-button" onClick={onClose}>Close</button>
+//       </div>
+//     </div>
+//   );
+// };
 
 export default Sidebar;
