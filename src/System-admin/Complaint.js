@@ -1,8 +1,8 @@
 import React from 'react';
-import './Employees.css';
+import Complaintstyle from "./Employees.module.css";
 import ExpandIcon from './assets/light-mode/Details-icon.svg';
 import WarningIcon from './assets/light-mode/Delete-icon.svg';
-import viewComponentIcon  from './assets/light-mode/View-component-icon.svg';
+import viewComponentIcon  from './assets/light-mode/View-component-icon(1).svg';
 
 
 class Complaints extends React.Component {
@@ -70,16 +70,6 @@ class Complaints extends React.Component {
     }));
   };
 
-  handleEditClick = (index) => {
-    this.setState({
-      showEditPage: true,
-      editIndex: index,
-      editedComplaint: { ...this.state.Complaints[index] }
-    });
-
-    // Add the class to the body when the modal is active
-    document.body.classList.add("Edit-modal-active");
-  };
 
   handleDeleteClick = (index) => {
     this.setState({
@@ -88,7 +78,7 @@ class Complaints extends React.Component {
     });
 
     // Add the class to the body when the modal is active
-    document.body.classList.add("delete-modal-active");
+    document.body.classList.add(Complaintstyle.deleteModalActive);
   };
 
   handleCancelDelete = () => {
@@ -98,7 +88,7 @@ class Complaints extends React.Component {
     });
 
     // Remove the class when the modal is closed
-    document.body.classList.remove("delete-modal-active");
+    document.body.classList.remove(Complaintstyle.deleteModalActive);
   };
 
   handleConfirmDelete = () => {
@@ -118,7 +108,7 @@ class Complaints extends React.Component {
     });
 
     // Remove the class when the modal is closed
-    document.body.classList.remove("delete-modal-active");
+    document.body.classList.remove(Complaintstyle.deleteModalActive);
   };
 
   handleInputChange = (e) => {
@@ -150,7 +140,7 @@ class Complaints extends React.Component {
     });
 
     // Remove the class when the modal is closed
-    document.body.classList.remove("Edit-modal-active");
+    document.body.classList.remove(Complaintstyle.EditModalActive);
   };
 
   handleViewClick = (index) => {
@@ -160,7 +150,7 @@ class Complaints extends React.Component {
     });
 
     // Add the class to the body when the modal is active
-    document.body.classList.add("view-modal-active");
+    document.body.classList.add(Complaintstyle.viewModalActive);
   };
 
   handleCloseView = () => {
@@ -170,7 +160,7 @@ class Complaints extends React.Component {
     });
 
     // Remove the class when the modal is closed
-    document.body.classList.remove("view-modal-active");
+    document.body.classList.remove(Complaintstyle.viewModalActive);
   };
 
   render() {
@@ -185,7 +175,7 @@ class Complaints extends React.Component {
               <th>Report_type</th>
               <th>Reporter_type</th>
               <th>Report_state</th>
-              <th></th>
+              <th>Settings</th>
             </tr>
           </thead>
           <tbody>
@@ -197,32 +187,26 @@ class Complaints extends React.Component {
                 <td>{complaint.Report_state}</td>
                 <td>
                   <div
-                    className="employee-details"
+                    className={Complaintstyle.employeeDetails}
                     onClick={() => this.toggleDropdown(index)}
                   >
                     <img
                       src={ExpandIcon}
                       alt="Details"
-                      className="expand-icon"
+                      className={Complaintstyle.expandIcon}
                     />
                     {index === expandedRow && (
-                      <div className="dropdown-menu">
+                      <div className={Complaintstyle.dropdownMenu}>
                         <button
-                          className="dropdown-button"
+                          className={Complaintstyle.dropdownButton}
                           onClick={() => this.handleViewClick(index)}
                         >
                           View
                         </button>
                         <hr></hr>
+
                         <button
-                          className="dropdown-button"
-                          onClick={() => this.handleEditClick(index)}
-                        >
-                          Edit
-                        </button>
-                        <hr></hr>
-                        <button
-                          className="dropdown-button"
+                          className={Complaintstyle.dropdownButton}
                           onClick={() => this.handleDeleteClick(index)}
                         >
                           Delete
@@ -237,11 +221,11 @@ class Complaints extends React.Component {
         </table>
 
         {showDeleteConfirmation && (
-          <div className="delete-confirmation">
-            <div className="delete-title"></div>
-            <div className="delete-content">
+          <div className={Complaintstyle.deleteConfirmation}>
+            <div className={Complaintstyle.deleteTitle}></div>
+            <div className={Complaintstyle.deleteContent}>
               <img src={WarningIcon} alt="warning-icon" />
-              <p>Are you sure to delete this employee?</p>
+              <p>Are you sure to delete this report?</p>
               <button onClick={this.handleConfirmDelete}>Confirm</button>
               <button onClick={this.handleCancelDelete}>No</button>
             </div>
@@ -253,12 +237,11 @@ class Complaints extends React.Component {
 
 
         {showViewDetails && (
-          <div className="view-modal">
-            <div className="view-title"></div>
-            <div className="modal-content">
-              <div className="modal-main">
-                <img src={viewComponentIcon} alt="ICON" />
-                <div className= "name">
+          <div className={Complaintstyle.viewModal}>
+            <div className={Complaintstyle.viewTitle}></div>
+            <div className={Complaintstyle.modalContent}>
+              <div className={Complaintstyle.modalComplaintMain}>
+                <div className= {Complaintstyle.name}>
                 <label>
                   <b>Report_id:</b> {this.state.Complaints[viewIndex].Report_id}
                 </label>
@@ -277,7 +260,7 @@ class Complaints extends React.Component {
                 </div>
               </div>
               <hr></hr>
-              <div className="modal-details">
+              <div className={Complaintstyle.modalComplaintsDetails}>
                 <label>
                   <b>Report_message:</b> {this.state.Complaints[viewIndex].Report_message}
                 </label>

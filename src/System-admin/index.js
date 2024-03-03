@@ -10,7 +10,6 @@ import Dashboardicon from "./assets/light-mode/Dashboard.svg";
 import Empoloyeeicon from "./assets/light-mode/Employee-icon.svg";
 import Complaintsicon from "./assets/light-mode/complaints-icon.svg";
 import Logout from "./assets/light-mode/log-out.svg";
-import Close from "./assets/light-mode/Close-icon.svg";
 // import Person from './assets/light-mode/Person.svg';
 import Add from "./assets/light-mode/Add-employee-icon.svg";
 import search from "./assets/light-mode/Search.svg";
@@ -18,6 +17,7 @@ import search from "./assets/light-mode/Search.svg";
 import Dashboard from "./Dashboard";
 import Employees from "./Employees";
 import Complaints from "./Complaint";
+import AddEmployee from "./AddEmployee";
 
 class TheOne extends Component {
   constructor(props) {
@@ -78,7 +78,7 @@ class TheOne extends Component {
       showAddPage: true,
     });
 
-    document.body.classList.add("add-modal-active");
+    document.body.classList.add(styles.addModalActive);
   };
 
   handleCloseAddBtn = () => {
@@ -86,7 +86,7 @@ class TheOne extends Component {
       showAddPage: false,
     });
 
-    document.body.classList.remove("add-modal-active");
+    document.body.classList.remove(styles.addModalActive);
   };
 
   handleDashboardClick = () => {
@@ -95,9 +95,9 @@ class TheOne extends Component {
     const Employeebtn = document.getElementById("Employeebtn");
     const Complaintsbtn = document.getElementById("Complaintsbtn");
 
-    Dashboardbtn.classList.add("btn-inMainpage-is-active");
-    Employeebtn.classList.remove("btn-inMainpage-is-active");
-    Complaintsbtn.classList.remove("btn-inMainpage-is-active");
+    Dashboardbtn.classList.add(styles.sidebarButtonIsActive);
+    Employeebtn.classList.remove(styles.sidebarButtonIsActive);
+    Complaintsbtn.classList.remove(styles.sidebarButtonIsActive);
 
     this.setState({
       showDashboardComponent: true,
@@ -112,9 +112,9 @@ class TheOne extends Component {
     const Employeebtn = document.getElementById("Employeebtn");
     const Complaintsbtn = document.getElementById("Complaintsbtn");
 
-    Dashboardbtn.classList.remove("btn-inMainpage-is-active");
-    Employeebtn.classList.add("btn-inMainpage-is-active");
-    Complaintsbtn.classList.remove("btn-inMainpage-is-active");
+    Dashboardbtn.classList.remove(styles.sidebarButtonIsActive);
+    Employeebtn.classList.add(styles.sidebarButtonIsActive);
+    Complaintsbtn.classList.remove(styles.sidebarButtonIsActive);
 
     this.setState({
       showDashboardComponent: false,
@@ -129,9 +129,9 @@ class TheOne extends Component {
     const Employeebtn = document.getElementById("Employeebtn");
     const Complaintsbtn = document.getElementById("Complaintsbtn");
 
-    Dashboardbtn.classList.remove("btn-inMainpage-is-active");
-    Employeebtn.classList.remove("btn-inMainpage-is-active");
-    Complaintsbtn.classList.add("btn-inMainpage-is-active");
+    Dashboardbtn.classList.remove(styles.sidebarButtonIsActive);
+    Employeebtn.classList.remove(styles.sidebarButtonIsActive);
+    Complaintsbtn.classList.add(styles.sidebarButtonIsActive);
 
     this.setState({
       showDashboardComponent: false,
@@ -140,99 +140,6 @@ class TheOne extends Component {
     });
   };
 
-  // Past Edit
-
-  // handleFormSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   const { addedEmployee } = this.state;
-
-  //   // input validation
-  //   if (!addedEmployee.employeeName || !addedEmployee.phoneNumber || !addedEmployee.Garage_id || !addedEmployee.Role || !addedEmployee.Employee_id || !addedEmployee.National_id || !addedEmployee.Salary) {
-  //     alert("Please fill in all fields before saving.");
-  //     return;
-  //   }
-
-  //   // Update the Employees array with the edited employee
-  //   const { editIndex } = this.state;
-  //   const updatedEmployees = [...this.state.Employees];
-  //   updatedEmployees[editIndex] = editedEmployee;
-
-  //   this.setState({
-  //     showEditPage: false,
-  //     editIndex: null,
-  //     Employees: updatedEmployees,
-  //   }, () => {
-  //     // Save to localStorage after state update
-  //     this.saveToLocalStorage();
-  //   });
-
-  //   // Remove the class when the modal is closed
-  //   document.body.classList.remove("Edit-modal-active");
-  // };
-  handleInputChange = (e) => {
-    const { name, value } = e.target;
-    this.setState((prevState) => ({
-      addedEmployee: {
-        ...prevState.editedEmployee,
-        [name]: value,
-      },
-    }));
-  };
-  handleFormSubmit = (e) => {
-    e.preventDefault();
-
-    const { addedEmployee } = this.state;
-
-    // Input validation
-    if (
-      !addedEmployee.employeeName ||
-      !addedEmployee.phoneNumber ||
-      !addedEmployee.Garage_id ||
-      !addedEmployee.Role ||
-      !addedEmployee.Employee_id ||
-      !addedEmployee.National_id ||
-      !addedEmployee.Salary
-    ) {
-      alert("Please fill in all fields before saving.");
-      return;
-    }
-
-    // Add the new employee to the Employees array
-    const updatedEmployees = [...this.state.Employees, addedEmployee];
-
-    this.setState(
-      {
-        showEditPage: false,
-        editIndex: null,
-        Employees: updatedEmployees,
-        addedEmployee: {
-          // Reset addedEmployee for the next entry
-          employeeName: "",
-          phoneNumber: "",
-          Garage_id: "",
-          Role: "",
-          Employee_id: "",
-          National_id: "",
-          Salary: "",
-        },
-      },
-      () => {
-        // Save to localStorage after state update
-        this.componentWillUnmount();
-      }
-    );
-
-    // Remove the class when the modal is closed
-    document.body.classList.remove("add-modal-active");
-  };
-
-  saveToLocalStorage = () => {
-    const { Employees } = this.state;
-
-    // Convert the Employees array to a JSON string and store it in local storage
-    localStorage.setItem("employees", JSON.stringify(Employees));
-  };
 
   /* Function to change theme */
   switchTheme = (e) => {
@@ -271,19 +178,19 @@ class TheOne extends Component {
             <div class={styles.sidebar}>
               <button onClick={this.handleDashboardClick} id="Dashboardbtn">
                 <img src={Dashboardicon} alt="Dashboard icon" />
-                <h3>Dashboard</h3>
+                <b>Dashboard</b>
               </button>
               <button onClick={this.handleEmployeesClick} id="Employeebtn">
                 <img src={Empoloyeeicon} alt="employee icon" />
-                <h3>Employees</h3>
+                <b>Employees</b>
               </button>
               <button onClick={this.handleComplaintsClick} id="Complaintsbtn">
                 <img src={Complaintsicon} alt="complaints icon" />
-                <h3>Complaints</h3>
+                <b>Complaints</b>
               </button>
               <button onClick={this.handleAddBtn}>
                 <img src={Add} alt="add icon" />
-                <h3>Add Employee</h3>
+                <b>Add Employee</b>
               </button>
               <button>
                 <img src={Logout} alt="logout icon" />
@@ -323,109 +230,7 @@ class TheOne extends Component {
                 {showDashboardComponent && <Dashboard />}
                 {showEmployeesComponent && <Employees />}
                 {showComplaintsComponent && <Complaints />}
-                {showAddPage && (
-                  <div className={styles.addModal}>
-                    <div className={styles.addTitle}>
-                      <button onClick={this.handleCloseAddBtn}>
-                        <img src={Close} alt="Close" />
-                      </button>
-                    </div>
-                    <form onSubmit={this.handleFormSubmit}>
-                      <label>
-                        <b>{addedEmployee.employeeName}</b>
-                      </label>
-                      <input
-                        type="text"
-                        name="employeeName"
-                        placeholder="Name"
-                        value={addedEmployee.employeeName}
-                        onChange={this.handleInputChange}
-                      />
-
-                      <input
-                        required
-                        type="text"
-                        min="0"
-                        id="number"
-                        name="phoneNumber"
-                        placeholder="phoneNumber"
-                        maxLength={11}
-                        onChange={(e) => {
-                          e.target.value = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          ); // Remove non-numeric characters
-                        }}
-                      />
-                      <input
-                        required
-                        type="text"
-                        min="0"
-                        id="number"
-                        name="Garage_id"
-                        placeholder="Garage_id"
-                        maxLength={6}
-                        onChange={(e) => {
-                          e.target.value = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          ); // Remove non-numeric characters
-                        }}
-                      />
-
-                      <select
-                        name="Role"
-                        value={addedEmployee.Role}
-                        onChange={this.handleInputChange}
-                      >
-                        <option value="Systemadmin">System-admin</option>
-                        <option value="Customerservice">
-                          Customer-service
-                        </option>
-                        <option value="Technicalsupport">
-                          Technical-support
-                        </option>
-                        <option value="Staff">Staff</option>
-                      </select>
-
-                      <input
-                        required
-                        type="text"
-                        min="0"
-                        id="number"
-                        name="National_id"
-                        placeholder="National_id"
-                        maxLength={14}
-                        onChange={(e) => {
-                          e.target.value = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          ); // Remove non-numeric characters
-                        }}
-                      />
-
-                      <input
-                        required
-                        type="text"
-                        min="0"
-                        id="number"
-                        name="Salary"
-                        placeholder="Salary"
-                        maxLength={11}
-                        onChange={(e) => {
-                          e.target.value = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          ); // Remove non-numeric characters
-                        }}
-                      />
-
-                      <div className={styles.addModelButtons}>
-                        <button type="submit">Add</button>
-                      </div>
-                    </form>
-                  </div>
-                )}
+                {showAddPage && <AddEmployee onClose={this.handleCloseAddBtn}  />}
               </div>
             </div>
           </main>
