@@ -1,0 +1,43 @@
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 250px; 
+    width: calc(100% - 250px); 
+    height: 50px;
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    padding: 0 20px;
+    background-color: #f2f1f1;
+}
+  
+  .right-content {
+    display: flex;
+    align-items: center;
+    margin: 0 60px;
+  }
+  
+  .dark-mode-text, .welcome-text {
+     margin: 0 10px; 
+    font-size: 10.5px; 
+    font-weight: 800;
+    color: black; 
+  }
+  
+  .spacer {
+    margin: 0 35px;
+    flex-grow: 1; 
+  }
+  
+  .moon-icon{
+    width: 24px; 
+    height: 24px; 
+    fill: black; 
+    margin-left: 1px; 
+  }
+  .profile-icon {
+    width: 40px;
+    height: 40px;
+    fill: black; 
+    margin-left: 1px;
+  }
