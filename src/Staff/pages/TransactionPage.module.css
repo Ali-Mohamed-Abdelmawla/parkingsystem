@@ -1,0 +1,385 @@
+.container {
+    position: absolute;
+    top: 50px;
+    left: 250px;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    background-color: #F2F1F1;
+    overflow: auto;
+}
+
+.tab-container {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 20px; 
+}
+
+.tab {
+    /* cursor: pointer; */
+    padding: 15px 25px; 
+    color: #231F20;
+    transition: border-bottom 0.3s ease;
+    font-size: 20px;
+    font-weight: bold;
+    position: relative; 
+}
+
+
+.tab:hover,
+.active {
+    color: black; 
+}
+
+.tab:hover:before,
+.active:before {
+    content: ''; 
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% + 120px); 
+    height: 2px; 
+    background-color: black; 
+}
+
+.tab-text {
+    font-weight: bold;
+}
+
+.tab-content {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, calc(31.33% - 20px)); /* Adjusted width */
+    gap: 20px;
+}
+.C-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #e2dcc8;
+    display: grid;
+    
+    flex-direction: column;
+}
+
+.C-card-content {
+    display: flex;
+    align-items: center;
+}
+
+.C-icon {
+    width: 50px;
+    height: 50px;
+    fill: #231f20;
+    margin-right: 10px;
+}
+
+.C-Vehicle-info {
+    font-weight: bold;
+    color: #231f20;
+}
+
+.C-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.C-total-cost {
+    color: #231f20;
+}
+
+.C-confirm-button {
+    padding: 10px 20px;
+    background-color: #231f20;
+    color: #f2f1f1;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.C-confirm-button:hover {
+    background-color: #3a3430; /* Darker shade when hovered */
+}
+
+.I-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #e2dcc8;
+    display: grid;
+    
+    flex-direction: column;
+}
+
+.I-card-content {
+    display: flex;
+    align-items: center;
+}
+
+.I-icon {
+    width: 50px;
+    height: 50px;
+    fill: #231f20;
+    margin-right: 10px;}
+
+.I-Vehicle-info {
+    font-weight: bold;
+    color: #231f20;
+}
+
+.I-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    font-weight: bold;
+}
+
+
+.H-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .H-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #e2dcc8;
+    display: grid;
+    
+    flex-direction: column;
+  }
+  
+  .H-card-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .H-icon{
+    width: 50px;
+    height: 50px;
+    fill: #231f20;
+    margin-right: 10px;
+  }
+  
+  .H-Vehicle-info {
+    font-weight: bold;
+    color: #231f20;
+  }
+  
+  .H-Vehicle-info span {
+    font-weight: bold;
+  }
+  
+  .H-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+  
+  
+  .H-total-cost {
+    display: flex;
+    align-items: center;
+  }
+  
+  
+  .H-details-button {
+    background-color: #231F20;
+    color: #F2F1F1;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .H-details-button:hover {
+    background-color: #3B3741;
+  }
+  
+  .tab-content {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Adjusted width */
+    gap: 35px;
+}
+
+.C-card-grid, .I-card-grid, .H-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(350px, 1fr)); /* Ensure 3 cards appear in a row */
+    gap: 35px;
+}
+.C-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 999; /* Ensure the popup appears above other elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .C-popup-content {
+    background-color: #E2DCC8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
+  }
+  
+  .C-popup-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .C-pay-in-cash-button,
+  .C-pay-in-visa-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #231F20; /* Dark color for buttons */
+    color: white;
+    cursor: pointer;
+  }
+  
+  .close-popup-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #E2DCC8; /* Light color for close button */
+    color: #231F20;
+    cursor: pointer;
+  }
+  .H-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 999; /* Ensure the popup appears above other elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .H-popup-content {
+    background-color: #E2DCC8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
+  }
+  
+  .H-popup-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+ 
+  
+  .H-close-popup-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #E2DCC8; /* Light color for close button */
+    color: #231F20;
+    cursor: pointer;
+  }
+  .C-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.C-popup-content {
+    font-family: '231F20', sans-serif; 
+}
+
+.C-popup-content p {
+    margin: 0;
+    font-size: 18px; 
+    font-weight: bold; 
+}
+
+.C-payment-options {
+    margin-top: 20px;
+}
+
+.C-confirm {
+    background-color: #231F20; 
+    color: #F2F1F1; 
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: '231F20', sans-serif; 
+    font-size: 16px; 
+    font-weight: bold; 
+    
+}
+
+.C-confirm:hover {
+    background-color: #333;
+}
+.H-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.H-popup-content {
+  font-family: '231F20', sans-serif; 
+ 
+}
+
+.H-popup-content p {
+  margin: 0;
+  font-size: 18px; 
+  font-weight: bold; 
+}
+
+.H-popup-content span {
+  color: #00DE73; 
+  font-weight: bold; 
+}
+
+.H-close-popup {
+  background-color: #231F20; 
+  color: #F2F1F1; 
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: '231F20', sans-serif; 
+  font-size: 16px; 
+  font-weight: bold; 
+}
+
+.H-close-popup:hover {
+  background-color: #333;
+}
+
+  
