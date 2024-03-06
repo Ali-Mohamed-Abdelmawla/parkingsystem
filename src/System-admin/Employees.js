@@ -1,8 +1,8 @@
 import React from "react";
-import "./Employees.css";
+import Employeestyle from "./Employees.module.css";
 import ExpandIcon from "./assets/light-mode/Details-icon.svg";
 import WarningIcon from "./assets/light-mode/Delete-icon.svg";
-import viewComponentIcon from "./assets/light-mode/View-component-icon.svg";
+import viewComponentIcon from "./assets/light-mode/View-component-icon(1).svg";
 import Close from "./assets/light-mode/Close-icon.svg";
 
 class Employees extends React.Component {
@@ -81,7 +81,7 @@ class Employees extends React.Component {
     });
 
     // Add the class to the body when the modal is active
-    document.body.classList.add("Edit-modal-active");
+    document.body.classList.add(Employeestyle.EditModalActive);
   };
 
   handlecloseEditClick = () => {
@@ -90,7 +90,7 @@ class Employees extends React.Component {
     });
 
     // Add the class to the body when the modal is active
-    document.body.classList.remove("Edit-modal-active");
+    document.body.classList.remove(Employeestyle.EditModalActive);
   }
 
   handleDeleteClick = (index) => {
@@ -100,7 +100,7 @@ class Employees extends React.Component {
     });
 
     // Add the class to the body when the modal is active
-    document.body.classList.add("delete-modal-active");
+    document.body.classList.add(Employeestyle.deleteModalActive);
   };
 
   handleCancelDelete = () => {
@@ -110,7 +110,7 @@ class Employees extends React.Component {
     });
 
     // Remove the class when the modal is closed
-    document.body.classList.remove("delete-modal-active");
+    document.body.classList.remove(Employeestyle.deleteModalActive);
   };
 
   handleConfirmDelete = () => {
@@ -133,7 +133,7 @@ class Employees extends React.Component {
     );
 
     // Remove the class when the modal is closed
-    document.body.classList.remove("delete-modal-active");
+    document.body.classList.remove(Employeestyle.deleteModalActive);
   };
 
   handleInputChange = (e) => {
@@ -164,7 +164,7 @@ class Employees extends React.Component {
   //     this.saveToLocalStorage();
   //   });
 
-  //   document.body.classList.remove("Edit-modal-active");
+  //   document.body.classList.remove(Employeestyle.EditModalActive);
   // };
 
   handleFormSubmit = (e) => {
@@ -204,7 +204,7 @@ class Employees extends React.Component {
     );
 
     // Remove the class when the modal is closed
-    document.body.classList.remove("Edit-modal-active");
+    document.body.classList.remove(Employeestyle.EditModalActive);
   };
 
   handleViewClick = (index) => {
@@ -214,7 +214,7 @@ class Employees extends React.Component {
     });
 
     // Add the class to the body when the modal is active
-    document.body.classList.add("view-modal-active");
+    document.body.classList.add(Employeestyle.viewModalActive);
   };
 
   handleCloseView = () => {
@@ -224,7 +224,7 @@ class Employees extends React.Component {
     });
 
     // Remove the class when the modal is closed
-    document.body.classList.remove("view-modal-active");
+    document.body.classList.remove(Employeestyle.viewModalActive);
   };
 
   render() {
@@ -258,32 +258,32 @@ class Employees extends React.Component {
                 <td>{employee.Role}</td>
                 <td>
                   <div
-                    className="employee-details"
+                    className={Employeestyle.employeeDetails}
                     onClick={() => this.toggleDropdown(index)}
                   >
                     <img
                       src={ExpandIcon}
                       alt="Details"
-                      className="expand-icon"
+                      className={Employeestyle.expandIcon}
                     />
                     {index === expandedRow && (
-                      <div className="dropdown-menu">
+                      <div className={Employeestyle.dropdownMenu}>
                         <button
-                          className="dropdown-button"
+                          className={Employeestyle.dropdownButton}
                           onClick={() => this.handleViewClick(index)}
                         >
                           View
                         </button>
                         <hr></hr>
                         <button
-                          className="dropdown-button"
+                          className={Employeestyle.dropdownButton}
                           onClick={() => this.handleEditClick(index)}
                         >
                           Edit
                         </button>
                         <hr></hr>
                         <button
-                          className="dropdown-button"
+                          className={Employeestyle.dropdownButton}
                           onClick={() => this.handleDeleteClick(index)}
                         >
                           Delete
@@ -298,9 +298,9 @@ class Employees extends React.Component {
         </table>
 
         {showDeleteConfirmation && (
-          <div className="delete-confirmation">
-            <div className="delete-title"></div>
-            <div className="delete-content">
+          <div className={Employeestyle.deleteConfirmation}>
+            <div className={Employeestyle.deleteTitle}></div>
+            <div className={Employeestyle.deleteContent}>
               <img src={WarningIcon} alt="warning-icon" />
               <p>Are you sure to delete this employee?</p>
               <button onClick={this.handleConfirmDelete}>Confirm</button>
@@ -310,8 +310,8 @@ class Employees extends React.Component {
         )}
 
         {showEditPage && (
-          <div className="edit-modal">
-            <div className="add-title">
+          <div className={Employeestyle.editModal}>
+            <div className={Employeestyle.editTitle}>
               <button onClick={this.handlecloseEditClick}>
                 <img src={Close} alt="Close" />
               </button>
@@ -394,7 +394,7 @@ class Employees extends React.Component {
                 }}
               />
 
-              <div className="edit-model-buttons">
+              <div className={Employeestyle.editModelButtons}>
                 <button type="submit">Edit</button>
               </div>
             </form>
@@ -402,12 +402,12 @@ class Employees extends React.Component {
         )}
 
         {showViewDetails && (
-          <div className="view-modal">
-            <div className="view-title"></div>
-            <div className="modal-content">
-              <div className="modal-main">
+          <div className={Employeestyle.viewModal}>
+            <div className={Employeestyle.viewTitle}></div>
+            <div className={Employeestyle.modalContent}>
+              <div className={Employeestyle.modalMain}>
                 <img src={viewComponentIcon} alt="ICON" />
-                <div className="name">
+                <div className={Employeestyle.name}>
                   <label>
                     <b>Name:</b> {this.state.Employees[viewIndex].employeeName}
                   </label>
@@ -418,7 +418,7 @@ class Employees extends React.Component {
                 </div>
               </div>
               <hr></hr>
-              <div className="modal-details">
+              <div className={Employeestyle.modalDetails}>
                 <label>
                   <b>Garage_id:</b> {this.state.Employees[viewIndex].Garage_id}
                 </label>

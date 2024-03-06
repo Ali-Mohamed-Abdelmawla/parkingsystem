@@ -9,6 +9,7 @@ import { ReactComponent as LogoutIcon  } from '../assets/light-mode/logoutIcon.s
 import AddVehiclePopup from '../pages/AddVehiclePopup'; 
 import styles from './Sidebar.module.css';
 
+
 const Sidebar = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -54,5 +55,6 @@ const MenuItem = ({ icon, text, to }) => {
     </div>
   );
 };
+
 
 export default Sidebar;

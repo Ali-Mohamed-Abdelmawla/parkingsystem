@@ -1,0 +1,99 @@
+@import "./main.css";
+
+.webperformance{
+    width:100%;
+    height:40vh;
+    display: flex;
+    flex-direction:column
+}
+.webperformance h1{
+    align-self: flex-start;
+}
+.webperformance .date{
+    display:flex;
+    justify-content: flex-end;
+}
+.webperformance .date input{
+    background-color: var( --color-background);
+    font-weight: bold;
+    font-size: large;
+
+}
+[theme = dark] .webperformance .date input{
+    background-color: var( --color-background);
+    color-scheme: dark;
+    font-weight: bold;
+}
+.GarageStatistics .date{
+    display:flex;
+    justify-content: flex-end;
+}
+.GarageStatistics input{
+    background-color: var( --color-background);
+    font-weight: bold;
+    font-size: large;
+
+}
+[theme = dark] .GarageStatistics input{
+    background-color: var( --color-background);
+    color-scheme: dark;
+    font-weight: bold;
+}
+/* .webperformance input{
+
+} */
+.webperformance .performanceContents{
+    display:flex;
+    align-items: center;
+    height: 30vh;
+}
+.GarageStatistics .statisticsContents{
+    display:flex;
+    align-items: center;
+    height: 30vh;
+}
+ .card{
+    text-align: left;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: space-between;
+    background-color: var(--secondary-color);
+    overflow:visible;
+    padding: var(--card-padding);
+    min-width: 15%;
+    width:auto;
+    min-height: 50%;
+    height: auto;
+    color: var(--font-color);
+    border-radius: var(--card-border-radius);
+    border:1px solid rgba(0, 0, 0, transparent);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    margin-right: 1.5rem;
+    line-height: 1rem; 
+    transition:all 0.3s ease;
+}
+.card:hover{
+    filter: none;
+}
+.cardTitle{
+    display: flex;
+    justify-content: space-between;
+}
+.card small{
+    display: inline-flex;
+    justify-content: flex-start;
+    line-height: -1;
+}
+.card img{
+    align-self: flex-end;
+    width:1.5 rem;
+    height:1.5rem;
+}
+[theme = dark] .card img{
+    filter: invert(1);
+}
+.card h2{
+    font-size:30px;
+    align-self: flex-end;
+}
