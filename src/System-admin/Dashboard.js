@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./Dashboard.css";
+import DashboardStyle from "./Dashboard.module.css";
 import sitevisitors from "./assets/light-mode/Site-visitors.svg";
 import admins from './assets/light-mode/active-admins-icon.svg'; 
 import operations from './assets/light-mode/parking-op.svg';
@@ -14,15 +14,15 @@ class Dashboard extends React.Component {
   render() {
     return (
       <>
-        <div className="webperformance">
+        <div className={DashboardStyle.webperformance}>
           <h1>Website performance</h1>
-          <div className = "date">
+          <div className = {DashboardStyle.date}>
           <input type="date" name="date-taker1" />
           </div>
-          <div className="performance-contents">
+          <div className={DashboardStyle.performanceContents}>
             {/* first card */}
-            <div className="card">
-              <div className="card-title">
+            <div className= {DashboardStyle.card}>
+              <div className= {DashboardStyle.cardTitle}>
                 <small>Site visitors</small>
                 <img src={sitevisitors} alt="icon" />
                 </div>
@@ -30,8 +30,8 @@ class Dashboard extends React.Component {
               
             </div>
             {/* second card */}
-            <div className="card ">
-            <div className = "card-title">
+            <div className= {DashboardStyle.card}>
+            <div className = {DashboardStyle.cardTitle}>
                 <small>Number of active admins</small>
                 <img src={admins} alt="icon" />
                 </div>
@@ -40,15 +40,15 @@ class Dashboard extends React.Component {
           </div>
         </div>
 
-        <div className="Garage-statistics">
+        <div className={DashboardStyle.GarageStatistics}>
           <h1>Garage statistics</h1>
-          <div className = "date">
+          <div className = {DashboardStyle.date}>
           <input type="date" name="date-taker2" />
           </div>
-          <div className="statistics-contents">
+          <div className={DashboardStyle.statisticsContents}>
             {/* second group first card */}
-            <div className="card ">
-              <div className="card-title">
+            <div className={DashboardStyle.card}>
+              <div className={DashboardStyle.cardTitle}>
                 <small>Total parking operations</small>
                 <img src={operations} alt="icon" />
                 </div>
@@ -56,8 +56,8 @@ class Dashboard extends React.Component {
               
             </div>
             {/* second group second card */}
-            <div className="card ">
-              <div className="card-title">
+            <div className={DashboardStyle.card}>
+              <div className={DashboardStyle.cardTitle}>
                 <small>Total revenue</small>
                 <img src={revenue} alt="icon" />
                 </div>
@@ -65,8 +65,8 @@ class Dashboard extends React.Component {
 
             </div>
             {/* second group third card */}
-            <div className="card ">
-              <div className="card-title">
+            <div className={DashboardStyle.card}>
+              <div className={DashboardStyle.cardTitle}>
                 <small> Total expenses </small>
                 <img src={expenses} alt="icon" />
                 </div>

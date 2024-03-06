@@ -6,8 +6,9 @@ import { ReactComponent as TransactionIcon } from '../assets/light-mode/Transact
 import { ReactComponent as ReportsIcon } from '../assets/light-mode/ReportIcon.svg'; 
 import { ReactComponent as AddVehicleIcon } from '../assets/light-mode/AddVehicleIcon.svg'; 
 import { ReactComponent as LogoutIcon  } from '../assets/light-mode/logoutIcon.svg'; 
+import AddVehiclePopup from '../pages/AddVehiclePopup'; 
+import styles from './Sidebar.module.css';
 
-import './Sidebar.css';
 
 const Sidebar = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -21,22 +22,22 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="sidebar">
-      <div className="logo-container">
-        <Logo className="logo" />
-        <span className="logo-text">Rakna</span>
+    <div className={styles.sidebar}>
+      <div className={styles['logo-container']}>
+        <Logo className={styles.logo} />
+        <span className={styles['logo-text']}>Rakna</span>
       </div>
-      <div className="menu-items">
+      <div className={styles['menu-items']}>
         <MenuItem icon={<DashboardIcon />} text="Dashboard" to="/" />
         <MenuItem icon={<TransactionIcon />} text="Transaction" to="/transaction" />
         <MenuItem icon={<ReportsIcon />} text="Reports" to="/reports" />
-        <div className="menu-item" onClick={handlePopupOpen}>
+        <div className={styles['menu-item']} onClick={handlePopupOpen}>
           <AddVehicleIcon />
-          <p className='add'>Add Vehicle</p>
+          <p className={styles.add}>Add Vehicle</p>
         </div>
       </div>
-      <div className="logout">
-        <LogoutIcon className="logout-icon" />
+      <div className={styles.logout}>
+        <LogoutIcon className={styles['logout-icon']} />
         <span>LOGOUT</span>
       </div>
       {isPopupOpen && <AddVehiclePopup onClose={handlePopupClose} />}
@@ -46,7 +47,7 @@ const Sidebar = () => {
 
 const MenuItem = ({ icon, text, to }) => {
   return (
-    <div className="menu-item">
+    <div className={styles['menu-item']}>
       <Link to={to}>
         {icon}
         <p>{text}</p>
@@ -55,19 +56,5 @@ const MenuItem = ({ icon, text, to }) => {
   );
 };
 
-const AddVehiclePopup = ({ onClose }) => {
-  return (
-    <div className="popup-container">
-      <div className="popup">
-        <h2>Add Vehicle Popup</h2>
-        <div className="popup-content">
-          {/* Add vehicle form or content here */}
-          <p>This is the popup content.</p>
-        </div>
-        <button className="popup-button" onClick={onClose}>Close</button>
-      </div>
-    </div>
-  );
-};
 
 export default Sidebar;

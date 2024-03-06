@@ -1,0 +1,75 @@
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; 
+}
+
+.popup {
+  background-color: #E2DCC8; 
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+  width: 400px;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #231F20;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  color: #231F20;
+  margin-bottom: 5px;
+}
+
+input {
+  border: 1px solid #231F20;
+  background-color: #F2F1F1;
+  color: #231F20;
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.plate-number-container {
+  display: flex;
+}
+
+.plate-number-container input {
+  width: 30px;
+  margin-right: 5px;
+}
+
+.popup-button {
+  padding: 10px 20px;
+  background-color: #231F20; 
+  color: #F2F1F1; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.popup-button:hover {
+  background-color: #444; 
+}
+
+.error-message {
+  color: red;
+}
+#ownerName{
+  width:53%;
+}

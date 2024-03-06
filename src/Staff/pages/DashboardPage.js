@@ -1,40 +1,40 @@
 import React from 'react';
-import './DashboardPage.css';
+import styles from './DashboardPage.module.css';
 import groupicon from '../assets/light-mode/groupicon.svg';
 import updateicon from '../assets/light-mode/updateIcon.svg';
 
 const DashboardPage = () => {
   return (
-    <div className="dashboard-container">
-      <h2 className="dashboard-title">Real-time Parking Data</h2>
-      <div className="card-container">
+    <div className={styles['dashboard-container']}>
+      <h2 className={styles['dashboard-title']}>Real-time Parking Data</h2>
+      <div className={styles['card-container']}>
         {/* First Card */}
-        <div className="card">
-          <div className="card-content">
+        <div className={styles.card}>
+          <div className={styles['card-content']}>
             <div>
               <span>Total Spaces</span>
-              <img src={groupicon} alt="Icon" className="icon" />
-              <p className="number">100</p>
+              <img src={groupicon} alt="Icon" className={styles.icon} />
+              <p className={styles.number}>100</p>
             </div>
           </div>
         </div>
         {/* Second Card */}
-        <div className="card">
-          <div className="card-content">
+        <div className={styles.card}>
+          <div className={styles['card-content']}>
             <div>
               <span>Occupied Spaces</span>
-              <img src={updateicon} alt="Icon" className="icon" />
-              <p className="number">70</p>
+              <img src={updateicon} alt="Icon" className={styles.icon} />
+              <p className={styles.number}>70</p>
             </div>
           </div>
         </div>
         {/* Third Card */}
-        <div className="card">
-          <div className="card-content">
+        <div className={styles.card}>
+          <div className={styles['card-content']}>
             <div>
               <span>Available Spaces</span>
-              <img src={updateicon} alt="Icon" className="icon" />
-              <p className="number" style={{ color: '#ED7F16' }}>30</p>
+              <img src={updateicon} alt="Icon" className={styles.icon} />
+              <p className={styles.number} style={{ color: '#ED7F16' }}>30</p>
             </div>
           </div>
         </div>

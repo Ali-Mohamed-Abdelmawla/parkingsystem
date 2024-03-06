@@ -80,7 +80,7 @@ aside .sidebar button {
   gap: 1rem;
   position: relative;
   margin-left: 2rem;
-  transform: all 0.3 ease;
+  transition: background-color 0.4s ease;
 }
 
 aside .sidebar button:hover{
@@ -88,7 +88,7 @@ aside .sidebar button:hover{
 }
 
 /* to highlight a specific button */
-.btn-inMainpage-is-active{
+.sidebarButtonIsActive{
   background-color: var(--secondary-color) !important;
   box-shadow: var(--box-shadow) !important;
 }
@@ -144,19 +144,19 @@ aside .sidebar .message-count {
   border-radius: var(--border-radius-1);
 }
 
-.theme-switch-container { 
+.themeSwitchContainer { 
   display: flex; 
   align-items: center; 
 } 
 
-.theme-slider { 
+.themeSlider { 
   display: inline-block; 
   height: 34px; 
   position: relative; 
   width: 60px; 
 } 
 
-.theme-slider input { 
+.themeSlider input { 
   display: none; 
 } 
 
@@ -199,131 +199,10 @@ input:checked+.slider:before {
   border-radius: 50%; 
 }
 
-.add-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--secondary-color);
-  height: 60vh;
-  width: 25vw;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  transition: all 0.3s ease;
-}
-.add-modal .add-title{
-  width: 100%;
-  height: 8%;
-  background-color: var(--special-color1);
-}
-
-.add-modal .add-title button{
-
-background-color: transparent;
-
-}
-
-.add-modal .add-title img{
-width:30px;
-height: 30px;
-margin: 4px;
-cursor: pointer;
-}
-.add-modal form {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
-  padding-bottom: 15px;
-}
-
-.add-modal form label {
-  display: flex;
-  justify-content: center;
-}
-
-.add-modal form input {
-  width: 60%;
-  align-self: center;
-  height: 20px;
-  padding: var(--card-padding);
-  border-radius: 5px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  transition: all 0.5s ease;
-}
-
-.add-modal form input:hover {
-  box-shadow: none;
-}
-
-.add-modal form select {
-  width: 60%;
-  align-self: center;
-  height: 35px;
-  padding: 0.5rem;
-  border-radius: 5px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  transition: all 0.5s ease;
-}
-
-.add-modal form select:hover {
-  box-shadow: none;
-}
-
-.add-modal form select option {
-  width: 60%;
-  align-self: center;
-  height: 20rem;
-  padding: var(--card-padding);
-  
-  border-radius: 5px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  transition: all 0.5s ease;
-}
-
-.add-modal form button {
-  min-width: 50px;
-  width: 7vw;
-  min-height: max-content;
-  height: 40px;
-  border-radius: var(--button-border-radius);
-  background-color: #000;
-  color: var(--secondary-color);
-  transition: all 0.3s ease;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-}
-
-.add-modal form button:hover {
-  box-shadow: none;
-}
-
-.add-modal form .add-model-buttons {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  cursor: pointer;
-}
-
-body.add-modal-active::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
-  z-index: 999;
-  user-select: none;
-}
 
 
-main .Right-side {
+
+main .rightSide {
   display: flex;
   flex-direction: column;
   margin-top: 1.4vh;
@@ -331,21 +210,21 @@ main .Right-side {
   gap: 2rem;
 }
 
-main .Right-side .Header {
+main .rightSide .Header {
   display: flex;
   height: 10vh;
   align-items: flex-end;
   justify-content: flex-end;
   transition: all 0.3 ease;
 }
-main .Right-side .Header .search-bar {
+main .rightSide .Header .searchBar {
   height: 100%;
   width: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-main .Right-side .Header input {
+main .rightSide .Header input {
   width: 80%;
   height: 40%;
   align-self: center;
@@ -356,21 +235,23 @@ main .Right-side .Header input {
   box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
 }
+main .rightSide .Header input:hover{
+  box-shadow: none;
+}
 
 
-
-main .Right-side .Header img {
+main .rightSide .Header img {
   position: relative;
   right: 2.2rem;
   bottom:0.01rem;
   font-size: large;
 }
 
-[theme = dark] main .Right-side .Header img {
+[theme = dark] main .rightSide .Header img {
 filter: invert(1);
 }
 
-main .Right-side .Header .Theme {
+main .rightSide .Header .Theme {
   height: 100%;
   width: 20%;
   position: relative;
@@ -378,7 +259,7 @@ main .Right-side .Header .Theme {
   justify-content: flex-end;
   align-items: center;
 }
-main .Right-side .Header .Welcome {
+main .rightSide .Header .Welcome {
   height: 100%;
   width: 20%;
   position: relative;
@@ -387,7 +268,19 @@ main .Right-side .Header .Welcome {
   justify-content: center;
   align-items: center;
 }
-main .Right-side .content{
+main .rightSide .content{
   height: 90vh;
 }
 
+body.addModalActive::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 999;
+  -webkit-user-select: none;
+}
