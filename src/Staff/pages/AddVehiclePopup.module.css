@@ -35,11 +35,11 @@ label {
 }
 
 input {
-  border: 1px solid #231F20;
+  /* border: 1px solid #231F20; */
   background-color: #F2F1F1;
-  color: #231F20;
+  /* color: #231F20; */
   padding: 5px;
-  width: 100%;
+  /* width: 100%; */
   box-sizing: border-box;
   border-radius: 3px;
 }

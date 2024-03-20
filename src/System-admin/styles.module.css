@@ -234,6 +234,10 @@ main .rightSide .Header input {
   background-color: var(--secondary-color);
   box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
+  font-size: 15px;
+}
+[theme = dark] main .rightSide .Header input {
+  color:white
 }
 main .rightSide .Header input:hover{
   box-shadow: none;
