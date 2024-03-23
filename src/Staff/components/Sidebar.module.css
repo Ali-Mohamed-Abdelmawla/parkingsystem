@@ -27,6 +27,7 @@
   }
   
   .menu-item {
+    margin-top: 30px;
     display: flex;
     align-items: center;
     padding: 20px;
@@ -79,5 +80,48 @@
   }
 
 
-  
+/* Dark mode styles */
+.sidebar.dark-mode {
+  background-color: #231f20;
+  color: white;
+}
+
+.sidebar.dark-mode .menu-item:hover {
+  background-color: #363636;
+}
+
+.sidebar.dark-mode .menu-item a {
+  color: white;
+}
+
+.sidebar.dark-mode .logout {
+  border-top: 1px solid #555;
+}
+
+.sidebar.dark-mode .logout span {
+  color: white;
+}
+
+/* Dark mode styles */
+.sidebar.dark-mode {
+  background-color: #231f20;
+  color: white;
+}
+
+.sidebar.dark-mode .menu-item:hover {
+  background-color: #000000;
+}
+
+.sidebar.dark-mode .menu-item a {
+  color: white;
+}
+
+.sidebar.dark-mode .logout {
+  border-top: 1px solid #555;
+}
+
+.sidebar.dark-mode .logout span {
+  color: white;
+}
+
   

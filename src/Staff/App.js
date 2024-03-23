@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar'; 
 import TopBar from './components/TopBar'; 
@@ -8,33 +8,27 @@ import Reports from './pages/ReportsPage';
 import AddVehicle from './pages/AddVehiclePage';
 
 const App = () => {
+  const [darkMode, setDarkMode] = useState(false);
   const name = "Slsabeel";
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
-    <div className="app">
-     
-        <TopBar name={name} />
-        <div className="content">
-          <Sidebar />
-          <Routes>
-            {/* Dashboard route */}
-            <Route path="/" element={<Dashboard />} />
-
-            {/* Transaction route */}
-            <Route path="/transaction" element={<Transaction />} /> {/* Render the TransactionPage component */}
-
-            {/* Other routes */}
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/add-vehicle" element={<AddVehicle />} />
-          </Routes>
-        </div>
-     
+    <div className={`app ${darkMode ? 'dark-mode' : ''}`}>
+      <TopBar name={name} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <div className="content">
+        <Sidebar darkMode={darkMode} name={name} />
+        <Routes>
+          <Route path="/" element={<Dashboard darkMode={darkMode} />} />
+          <Route path="/transaction" element={<Transaction darkMode={darkMode} />} />
+          <Route path="/reports" element={<Reports darkMode={darkMode} />} />
+          <Route path="/add-vehicle" element={<AddVehicle darkMode={darkMode}/>} />
+        </Routes>
+      </div>
     </div>
   );
 }
 
 export default App;
-
-
-
-
