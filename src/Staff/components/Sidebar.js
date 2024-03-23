@@ -15,8 +15,7 @@ import { ReactComponent as DarkLogoutIcon } from '../assets/Dark-mode/logoutIcon
 import AddVehiclePopup from '../pages/AddVehiclePopup'; 
 import styles from './Sidebar.module.css';
 
-const Sidebar = ({ darkMode, name }) => {
-
+const Sidebar = ({ darkMode, name, toggleDarkMode }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handlePopupOpen = () => {
@@ -50,7 +49,7 @@ const Sidebar = ({ darkMode, name }) => {
 
         <span>LOGOUT</span>
       </div>
-      {isPopupOpen && <AddVehiclePopup onClose={handlePopupClose} />}
+      {isPopupOpen && <AddVehiclePopup onClose={handlePopupClose} darkMode={darkMode} />}
     </div>
   );
 };
@@ -67,3 +66,4 @@ const MenuItem = ({ icon, text, to }) => {
 };
 
 export default Sidebar;
+
