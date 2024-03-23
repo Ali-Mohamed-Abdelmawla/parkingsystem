@@ -50,7 +50,7 @@
 .tab-content {
     margin-top: 20px;
     display: grid;
-    grid-template-columns: repeat(3, calc(31.33% - 20px)); /* Adjusted width */
+    grid-template-columns: repeat(3, calc(31.33% - 20px)); 
     gap: 20px;
 }
 .C-card {
@@ -72,7 +72,6 @@
 .C-icon {
     width: 50px;
     height: 50px;
-    fill: #231f20;
     margin-right: 10px;
 }
 
@@ -102,7 +101,7 @@
 }
 
 .C-confirm-button:hover {
-    background-color: #3a3430; /* Darker shade when hovered */
+    background-color: #000000; 
 }
 
 .I-card {
@@ -124,7 +123,6 @@
 .I-icon {
     width: 50px;
     height: 50px;
-    fill: #231f20;
     margin-right: 10px;}
 
 .I-Vehicle-info {
@@ -166,7 +164,6 @@
   .H-icon{
     width: 50px;
     height: 50px;
-    fill: #231f20;
     margin-right: 10px;
   }
   
@@ -203,13 +200,13 @@
   }
   
   .H-details-button:hover {
-    background-color: #3B3741;
+    background-color: #000000;
   }
   
   .tab-content {
     margin-top: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Adjusted width */
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
     gap: 35px;
 }
 
@@ -224,8 +221,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    z-index: 999; /* Ensure the popup appears above other elements */
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 999; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -235,7 +232,7 @@
     background-color: #E2DCC8;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
   }
   
   .C-popup-buttons {
@@ -243,22 +240,22 @@
     justify-content: space-between;
   }
   
-  .C-pay-in-cash-button,
+  /* .C-pay-in-cash-button,
   .C-pay-in-visa-button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #231F20; /* Dark color for buttons */
+    background-color: #231F20; 
     color: white;
     cursor: pointer;
-  }
+  } */
   
   .close-popup-button {
     margin-top: 20px;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #E2DCC8; /* Light color for close button */
+    background-color: #E2DCC8; 
     color: #231F20;
     cursor: pointer;
   }
@@ -268,8 +265,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    z-index: 999; /* Ensure the popup appears above other elements */
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 999; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -279,7 +276,7 @@
     background-color: #E2DCC8;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
   }
   
   .H-popup-buttons {
@@ -294,7 +291,7 @@
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #E2DCC8; /* Light color for close button */
+    background-color: #E2DCC8; 
     color: #231F20;
     cursor: pointer;
   }
@@ -314,9 +311,9 @@
 }
 
 .C-popup-content p {
-    margin: 0;
     font-size: 18px; 
     font-weight: bold; 
+    margin-top: 10px;
 }
 
 .C-payment-options {
@@ -337,7 +334,10 @@
 }
 
 .C-confirm:hover {
-    background-color: #333;
+  background-color: #000000;
+}
+.H-close-popup:hover:hover{
+  background-color: #000000;
 }
 .H-popup {
   position: fixed;
@@ -356,14 +356,20 @@
 }
 
 .H-popup-content p {
-  margin: 0;
   font-size: 18px; 
-  font-weight: bold; 
+  font-weight: bold;
+  margin-top: 10px; 
 }
-
+hr{
+    color: #231F20; 
+    border-style:solid; 
+    margin: 25px 0;  
+}
 .H-popup-content span {
-  color: #00DE73; 
+  color: #231F20; 
   font-weight: bold; 
+  font-size: 20px;
+  padding-top: 25px;
 }
 
 .H-close-popup {
@@ -381,5 +387,82 @@
 .H-close-popup:hover {
   background-color: #333;
 }
+.C-card:hover,
+.I-card:hover,
+.H-card:hover {
+  box-shadow: none;
+}
+.C-card-bottom .C-confirm-button,
+.I-card-bottom .I-confirm-button,
+.H-card-bottom .H-details-button {
+    margin-top: 10px; 
+}
+.dark-mode {
+  background: #231F20;
+  color: #FFFFFF;
+}
 
-  
+.dark-mode .C-icon,
+.dark-mode .I-icon,
+.dark-mode .H-icon {
+  fill: #FFFFFF;
+}
+
+.dark-mode .C-confirm-button,
+.dark-mode .I-confirm-button,
+.dark-mode .H-details-button,
+.dark-mode .H-close-popup {
+  background-color: #8C8671;
+  color: #FFFFFF;
+}
+
+.dark-mode .C-confirm-button:hover,
+.dark-mode .I-confirm-button:hover,
+.dark-mode .H-details-button:hover,
+.dark-mode .H-close-popup:hover {
+  background-color: #6c6651;
+}
+
+.dark-mode .C-card,
+.dark-mode .I-card,
+.dark-mode .H-card {
+  background-color: #000000;
+  border: #000000;
+}
+
+.dark-mode .C-popup-content,
+.dark-mode .H-popup-content {
+  background-color: #231F20;
+}
+
+.dark-mode .tab {
+  color: #FFFFFF;
+}
+
+.dark-mode .tab:hover:before,
+.dark-mode .active:before {
+    background-color: #FFFFFF; 
+}
+.dark-mode .C-Vehicle-info,
+.dark-mode .H-Vehicle-info,
+.dark-mode .I-Vehicle-info {
+  font-weight: bold;
+  color: #ffffff;
+}
+.dark-mode .C-popconfirm{
+background-color: #8C8671;
+}
+
+.dark-mode .C-popconfirm:hover{
+  background-color: #6c6651;
+  }
+.C-popconfirm:hover{
+    background-color: #000000;
+  }
+  .dark-mode hr,.dark-mode .H-popup-content span{
+    color: #ffffff;   
+}
+
+.dark-mode .C-icon,.dark-mode .I-icon,.dark-mode .H-icon{
+  Filter: invert(1)
+}

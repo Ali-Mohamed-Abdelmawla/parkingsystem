@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // Add useState import
 import styles from './ReportsPage.module.css';
 // import Select from 'react-select';
 
-function ReportsPage() {
-    const [description, setDescription] = useState('');
-    const [urgency, setUrgency] = useState('Low');
-    const [submitted, setSubmitted] = useState(false);
+function ReportsPage({ darkMode }) {
+    const [description, setDescription] = useState(''); 
+    const [urgency, setUrgency] = useState('Low'); 
+    const [submitted, setSubmitted] = useState(false); 
 
     const handleDescriptionChange = (event) => {
         setDescription(event.target.value);
@@ -19,15 +19,14 @@ function ReportsPage() {
         event.preventDefault();
         if (description.trim() !== '') {
             console.log('Form submitted');
-            setSubmitted(true);
-           
+            setSubmitted(true);           
         } else {
             alert('Please provide a description of the issue.');
         }
     };
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${darkMode ? styles['dark-mode'] : ''}`}>
             <h2 className={styles.heading}>System issue reporting</h2>
             {submitted && <p className={styles['confirmation-message']}>Report submitted successfully!</p>}
             <form onSubmit={handleSubmit}>
@@ -44,7 +43,7 @@ function ReportsPage() {
                     ></textarea>
                 </div>
                 <div className={styles['form-group']}>
-                    <label htmlFor="urgency ">Urgency Level</label>
+                    <label htmlFor="urgency">Urgency Level</label>
                     <select
                         id="urgency"
                         name="urgency"

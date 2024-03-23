@@ -41,3 +41,28 @@
     fill: black; 
     margin-left: 1px;
   }
+  
+.topbar.light-mode {
+  background-color: #f2f1f1;
+  color: black;
+}
+
+.topbar.dark-mode {
+  background-color: #231f20;
+  color: white;
+}
+
+.topbar.dark-mode .dark-mode-text,
+.topbar.dark-mode .welcome-text {
+  color: white;
+}
+
+.topbar.dark-mode .moon-icon {
+  fill: white;
+}
+
+.profile-icon {
+  width: 40px;
+  height: 40px;
+}
+

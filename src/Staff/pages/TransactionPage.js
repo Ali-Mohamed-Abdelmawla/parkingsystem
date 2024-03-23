@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styles from './TransactionPage.module.css'; 
 import carIcon from '../assets/light-mode/carIcon.svg'; 
+import darkCarIcon from '../assets/light-mode/carIcon.svg';
 // import Successful from '../assets/Payment/Successful.svg';
 // import Failed from '../assets/Payment/Failed.svg';
 import AddVehiclePopup from './AddVehiclePopup';
 
-function TransactionPage() {
+function TransactionPage({ darkMode }) {
     const [activeTab, setActiveTab] = useState('current');
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
@@ -32,23 +33,28 @@ function TransactionPage() {
     const handleCloseDetailsPopup = () => {
         setShowDetailsPopup(false);
     };
-    // Function to add a new vehicle to the "In Garage" tab
+    
+    const carIconSrc = darkMode ? darkCarIcon : carIcon;
+
+    
     const addVehicleToGarage = (plateNumber) => {
         setInGarageVehicles([...inGarageVehicles, { plateNumber }]);
     };
 
+
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${darkMode ? styles['dark-mode'] : ''}`}>
             <div className={styles['tab-container']}>
-                <div className={`${styles.tab} ${activeTab === 'current' ? styles.active : ''}`} onClick={() => handleTabClick('current')}>
-                    <span className={styles['tab-text']}>Current</span>
-                </div>
-                <div className={`${styles.tab} ${activeTab === 'inGarage' ? styles.active : ''}`} onClick={() => handleTabClick('inGarage')}>
-                    <span className={styles['tab-text']}>In Garage</span>
-                </div>
-                <div className={`${styles.tab} ${activeTab === 'history' ? styles.active : ''}`} onClick={() => handleTabClick('history')}>
-                    <span className={styles['tab-text']}>History</span>
-                </div>
+
+    <div className={`${styles.tab} ${activeTab === 'current' ? styles.active : ''}`} onClick={() => handleTabClick('current')}>
+        <span className={styles['tab-text']}>Current</span>
+    </div>
+    <div className={`${styles.tab} ${activeTab === 'inGarage' ? styles.active : ''}`} onClick={() => handleTabClick('inGarage')}>
+        <span className={styles['tab-text']}>In Garage</span>
+    </div>
+    <div className={`${styles.tab} ${activeTab === 'history' ? styles.active : ''}`} onClick={() => handleTabClick('history')}>
+        <span className={styles['tab-text']}>History</span>
+    </div>
             </div>
             <div className={styles['tab-content']}>
                 {activeTab === 'current' && (
@@ -81,7 +87,7 @@ function TransactionPage() {
                             <p>Exit Time: {selectedTransaction.exitTime}</p>
                             <p>Total Fee: {selectedTransaction.totalFee}</p>
                             <div className={styles['C-payment-options']}>
-                                <button className={styles['C-confirm']} onClick={() => {
+                                <button className={styles['C-popconfirm']} onClick={() => {
                                     setTimeout(() => {
                                         handleCloseConfirmPopup();
                                     }, 100); 
@@ -143,7 +149,8 @@ function TransactionPage() {
                             <p>Name: {selectedTransaction.ownerName}</p>
                             <p>Entry Time: {selectedTransaction.entryTime}</p>
                             <p>Exit Time: {selectedTransaction.exitTime}</p>
-                            <p style={{ color: '#00DE73', fontWeight: 'bold' }}>Total Fee: <span style={{ color: '#00DE73', fontWeight: 'bold' }}>{selectedTransaction.totalFee}</span></p>
+                            <hr></hr>
+                            <p style={{ fontWeight: 'bold' }}>Total Fee : <span style={{ fontWeight: 'bold' }}>{selectedTransaction.totalFee}</span></p>
                             <button className={styles['H-close-popup']} onClick={handleCloseDetailsPopup}>Close</button>
                         </div>
                     </div>

@@ -34,7 +34,7 @@ select {
     border-radius: 5px;
 }
 
-form button { /* كتبت قبل السليكتور ده فورم علشان كان عامل اوفررايد علي البتنز اللي عندى و خارب الدنيا */
+button {
     padding: 10px 20px;
     background-color: #231F20;
     color: #F2F1F1;
@@ -45,7 +45,7 @@ form button { /* كتبت قبل السليكتور ده فورم علشان ك�
     transition: background-color 0.3s ease;
 }
 
-form button:hover {  /* كتبت قبل السليكتور ده فورم علشان كان عامل اوفررايد علي البتنز اللي عندى و خارب الدنيا */
+button:hover {
     background-color: #333;
 }
 .container {
@@ -87,7 +87,7 @@ select {
     border-radius: 5px;
 }
 
-form button {   /* كتبت قبل السليكتور ده فورم علشان كان عامل اوفررايد علي البتنز اللي عندى و خارب الدنيا */
+button {
     padding: 10px 20px;
     background-color: #231F20;
     color: #F2F1F1;
@@ -99,8 +99,38 @@ form button {   /* كتبت قبل السليكتور ده فورم علشان �
     margin-top: 40px;
 }
 
- form button:hover {  /* كتبت قبل السليكتور ده فورم علشان كان عامل اوفررايد علي البتنز اللي عندى و خارب الدنيا */
+button:hover {
     background-color: #333;
+}
+
+.dark-mode.container {
+    background-color: #231F20;
+}
+
+.dark-mode .heading {
+    color: #FFFFFF;
+}
+.dark-mode .form-group{
+    border: #000000;
+}
+.dark-mode .form-group label {
+    color: #FFFFFF;
+}
+
+.dark-mode textarea,
+.dark-mode select {
+    background-color: #231F20;
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.dark-mode button {
+    background-color: #8C8671;
+    color: #FFFFFF;
+}
+
+.dark-mode button:hover {
+    background-color: #000000;
 }
 
 

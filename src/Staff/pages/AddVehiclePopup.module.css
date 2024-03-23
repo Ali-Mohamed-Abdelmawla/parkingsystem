@@ -1,4 +1,4 @@
-.popup-container {
+.popupContainer {
   position: fixed;
   top: 0;
   left: 0;
@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999; 
+  z-index: 1000; 
 }
 
 .popup {
@@ -25,51 +25,58 @@
   margin-bottom: 20px;
 }
 
-.form-group {
-  margin-bottom: 10px;
-}
-
-label {
-  color: #231F20;
-  margin-bottom: 5px;
-}
-
-input {
-  /* border: 1px solid #231F20; */
-  background-color: #F2F1F1;
-  /* color: #231F20; */
-  padding: 5px;
-  /* width: 100%; */
-  box-sizing: border-box;
-  border-radius: 3px;
-}
-
-.plate-number-container {
+.plateNumberContainer {
   display: flex;
 }
-
-.plate-number-container input {
+.input {
+  border: 1px solid #231F20;
+  background-color: #F2F1F1;
+  color: #231F20;
+  padding: 10px; 
   width: 30px;
+  height: 35px; 
+
+
+  box-sizing: border-box;
+  border-radius: 7px;
   margin-right: 5px;
+  margin-top: 10px;
 }
 
-.popup-button {
-  padding: 10px 20px;
+.plateNumberContainer {
+  display: flex;
+  align-items: center; 
+}
+
+.input {
+  text-align: end; 
+}
+
+.addInput {
+  
+}
+
+.errorMsg {
+  color: red;
+  margin-top: 0px;
+}
+
+
+.addButton {
+  padding: 10px 20px; 
   background-color: #231F20; 
   color: #F2F1F1; 
   border: none;
   border-radius: 5px;
-  cursor: pointer;
   margin-right: 10px;
+  margin-left: auto; 
+  margin-top: 20px; 
+  font-size: 17px; 
 }
 
-.popup-button:hover {
-  background-color: #444; 
-}
 
-.error-message {
-  color: red;
-}
-#ownerName{
-  width:53%;
-}
+
+
+
+
+
