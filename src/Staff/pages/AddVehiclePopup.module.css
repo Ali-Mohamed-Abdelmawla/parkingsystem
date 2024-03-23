@@ -29,7 +29,7 @@
   display: flex;
 }
 .input {
-  border: 1px solid #231F20;
+  border: 2px solid #231F20;
   background-color: #F2F1F1;
   color: #231F20;
   padding: 10px; 
@@ -70,11 +70,35 @@
   margin-left: auto; 
   margin-top: 20px; 
   font-size: 17px; 
+  font-weight: bold;
 }
 
 
+.darkMode .popup {
+  background-color: #000000; 
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+  width: 400px;
+}
 
+.darkMode .popup h2 {
+  margin-top: 0;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
 
+.darkMode .input {
+  border: 1px solid #8C8671;
+  background-color: #000000;
+  color: #ffffff;
+}
 
+.darkMode .addButton {
+  background-color: #8C8671; 
+  color: #F2F1F1; 
+}
 
-
+.darkMode .addButton:hover {
+  background-color: #6c6651; 
+}

@@ -1,12 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './AddVehiclePopup.module.css'; 
 
-function AddVehiclePopup({ onClose }) {
+function AddVehiclePopup({ onClose, darkMode }) {
   const [inputs, setInputs] = useState(["", "", "", "", "", ""]);
   const [showAddInput, setShowAddInput] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const arabicRegex = /^[\u0600-\u06FF\s]+$/;
   const inputRefs = useRef([]);
+
+  
+  useEffect(() => {
+    
+    console.log("Dark mode:", darkMode);
+  }, [darkMode]);
 
   const handleInputChange = (index, event) => {
     const newValue = event.target.value;
@@ -53,7 +59,7 @@ function AddVehiclePopup({ onClose }) {
   };
 
   return (
-    <div className={styles.popupContainer}>
+    <div className={`${styles.popupContainer} ${darkMode ? styles.darkMode : ''}`}>
       <div className={styles.popup}>
         <h2>License Plate Number</h2>
         <div className={styles.plateNumberContainer}>
