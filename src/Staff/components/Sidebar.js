@@ -40,11 +40,13 @@ const Sidebar = ({ darkMode, name, toggleDarkMode }) => {
         <MenuItem icon={darkMode ? <DarkReportsIcon /> : <ReportsIcon />} text="Reports" to="/reports" />
         <div className={styles['menu-item']} onClick={handlePopupOpen}>
           {darkMode ? <DarkAddVehicleIcon /> : <AddVehicleIcon />}
+
           <p className={styles.add}>Add Vehicle</p>
         </div>
       </div>
       <div className={styles.logout}>
         {darkMode ? <DarkLogoutIcon className={styles['logout-icon']} /> : <LogoutIcon className={styles['logout-icon']} />}
+
         <span>LOGOUT</span>
       </div>
       {isPopupOpen && <AddVehiclePopup onClose={handlePopupClose} darkMode={darkMode} />}
@@ -54,7 +56,7 @@ const Sidebar = ({ darkMode, name, toggleDarkMode }) => {
 
 const MenuItem = ({ icon, text, to }) => {
   return (
-    <div className={styles['menu-item']}>
+    <div className={styles["menu-item"]}>
       <Link to={to}>
         {icon}
         <p>{text}</p>
