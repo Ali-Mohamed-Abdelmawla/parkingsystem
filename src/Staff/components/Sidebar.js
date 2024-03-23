@@ -16,6 +16,7 @@ import AddVehiclePopup from '../pages/AddVehiclePopup';
 import styles from './Sidebar.module.css';
 
 const Sidebar = ({ darkMode, name }) => {
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handlePopupOpen = () => {
@@ -40,11 +41,13 @@ const Sidebar = ({ darkMode, name }) => {
         <MenuItem icon={darkMode ? <DarkReportsIcon /> : <ReportsIcon />} text="Reports" to="/reports" />
         <div className={styles['menu-item']} onClick={handlePopupOpen}>
           {darkMode ? <DarkAddVehicleIcon /> : <AddVehicleIcon />}
+
           <p className={styles.add}>Add Vehicle</p>
         </div>
       </div>
       <div className={styles.logout}>
         {darkMode ? <DarkLogoutIcon className={styles['logout-icon']} /> : <LogoutIcon className={styles['logout-icon']} />}
+
         <span>LOGOUT</span>
       </div>
       {isPopupOpen && <AddVehiclePopup onClose={handlePopupClose} />}
@@ -54,7 +57,7 @@ const Sidebar = ({ darkMode, name }) => {
 
 const MenuItem = ({ icon, text, to }) => {
   return (
-    <div className={styles['menu-item']}>
+    <div className={styles["menu-item"]}>
       <Link to={to}>
         {icon}
         <p>{text}</p>
