@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styles from './TransactionPage.module.css'; 
-import carIcon from '../assets/light-mode/carIcon.svg'; 
+import styles from './TransactionPage.module.css';
+import carIcon from '../assets/light-mode/carIcon.svg';
 import darkCarIcon from '../assets/light-mode/carIcon.svg';
 // import Successful from '../assets/Payment/Successful.svg';
 // import Failed from '../assets/Payment/Failed.svg';
