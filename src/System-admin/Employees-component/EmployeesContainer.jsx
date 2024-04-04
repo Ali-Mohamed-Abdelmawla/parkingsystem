@@ -3,11 +3,14 @@ import EmployeesTable from "./Employees";
 import EmployeesEditModal from "./EditEmployee";
 import EmployeesDeleteConfirmation from "./DeleteEmployee";
 import EmployeesViewModal from "./ViewEmployee";
+import axios from "axios";
 // import Employeestyle from "../Employees.module.css";
 // import ExpandIcon from "../assets/light-mode/Details-icon.svg";
 // import WarningIcon from "../assets/light-mode/Delete-icon.svg";
 // import viewComponentIcon from "../assets/light-mode/View-component-icon(1).svg";
 
+const baseURL = "https://raknaapi.azurewebsites.net";
+const accessToken = localStorage.getItem("accessToken");
 
 function Employees() {
   const [employees, setEmployees] = useState([]);
@@ -29,46 +32,20 @@ function Employees() {
   });
 
   useEffect(() => {
-    // Load employees from localStorage on component mount
-    const storedEmployees = JSON.parse(localStorage.getItem("employees"));
-    if (storedEmployees) {
-      setEmployees(storedEmployees);
-    }
-  }, []);
+    // Fetch employees from API on component mount
+    axios.get(`${baseURL}/api/GarageAdmin/AllStaff`,{},{
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then(response => {
+        setEmployees(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching employees:", error);
+      });
+ }, []);
 
-  useEffect(() => {
-    const  employees= [
-        {
-          employeeName: "Ali",
-          phoneNumber: "0100438493",
-          Garage_id: "225039",
-          Role: "Staff",
-          Employee_id: 34667,
-          National_id: 95637706799,
-          Salary: 6000,
-        },
-        {
-          employeeName: "Mohamed",
-          phoneNumber: "0107896818",
-          Garage_id: "328840",
-          Role: "Customer Service",
-          Employee_id: 51447,
-          National_id: 15120367989,
-          Salary: 1500,
-        },
-        {
-          employeeName: "Eslam",
-          phoneNumber: "0118262347",
-          Garage_id: "462269",
-          Role: "System Admin",
-          Employee_id: 54495,
-          National_id: 54405702510,
-          Salary: 3000,
-        },
-      ]
-    // Save employees to localStorage whenever it changes
-    localStorage.setItem("employees", JSON.stringify(employees));
-  }, [employees]);
 
   const toggleDropdown = (index) => {
     setExpandedRow((prevExpandedRow) =>
@@ -79,8 +56,22 @@ function Employees() {
   const handleEditClick = (index) => {
     setShowEditPage(true);
     setEditIndex(index);
-    setEditedEmployee({ ...employees[index] });
-  };
+    setEditedEmployee(employees[index]);
+ };
+
+ const handleFormSubmit = (e) => {
+    e.preventDefault();
+    axios.put(`${baseURL}/api/GarageAdmin/EditStaff/${editedEmployee.Employee_id}`, editedEmployee)
+      .then(response => {
+        const updatedEmployees = [...employees];
+        updatedEmployees[editIndex] = response.data;
+        setEmployees(updatedEmployees);
+        setShowEditPage(false);
+      })
+      .catch(error => {
+        console.error("Error updating employee:", error);
+      });
+ };
 
   const handleCloseEditClick = () => {
     setShowEditPage(false);
@@ -89,20 +80,27 @@ function Employees() {
   const handleDeleteClick = (index) => {
     setShowDeleteConfirmation(true);
     setDeletionIndex(index);
-  };
+ };
+
+ const handleConfirmDelete = () => {
+    axios.delete(`${baseURL}/api/GarageAdmin/DeleteStaff/${employees[deletionIndex].Employee_id}`)
+      .then(() => {
+        const updatedEmployees = [...employees];
+        updatedEmployees.splice(deletionIndex, 1);
+        setEmployees(updatedEmployees);
+        setShowDeleteConfirmation(false);
+        setDeletionIndex(null);
+      })
+      .catch(error => {
+        console.error("Error deleting employee:", error);
+      });
+ };
 
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
     setDeletionIndex(null);
   };
 
-  const handleConfirmDelete = () => {
-    const updatedEmployees = [...employees];
-    updatedEmployees.splice(deletionIndex, 1);
-    setEmployees(updatedEmployees);
-    setShowDeleteConfirmation(false);
-    setDeletionIndex(null);
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -112,13 +110,7 @@ function Employees() {
     }));
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const updatedEmployees = [...employees];
-    updatedEmployees[editIndex] = editedEmployee;
-    setEmployees(updatedEmployees);
-    setShowEditPage(false);
-  };
+
 
   const handleViewClick = (index) => {
     setShowViewDetails(true);
