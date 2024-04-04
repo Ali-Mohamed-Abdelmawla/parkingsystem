@@ -9,7 +9,7 @@
     flex-direction: column;
     border-radius: .7rem;
     background-color: var(--secondary-color);
-    height: 50vh;
+    height: 60vh;
     min-width: 420px;
     width: 25vw;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -22,11 +22,18 @@
 
   .addModal .addTitle {
     width: 100%;
-    height: 8%;
+    height: 10%;
     background-color: var(--special-color1);
   }
 
   .addModal .addTitle button {
+    width: 30px;
+    height: 30px;
+    margin:7px;
+    padding: 3px;
+    background-image: url("../assets/light-mode/Close-icon.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
     background-color: transparent;
   }
 

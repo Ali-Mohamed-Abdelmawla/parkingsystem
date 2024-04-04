@@ -1,0 +1,60 @@
+body {
+    background-color: #F2F1F1;
+  }
+  .login-container{
+    display: flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .Logo {
+    text-align: center;
+    width: 33%;
+    margin-left: 110px;
+    margin-top: 50px;
+  } 
+  .Logo img {
+    width: 450px;
+  }
+  .Logo p{
+    font-style: italic;
+    font-size: large;
+    font-weight:500;
+  }
+  .App {
+    text-align: center;
+    margin-right: 90px;
+    margin-top:122px ;
+    background-color: #E2DCC8;
+    width: 38%;
+    height: 420px;
+    border-radius: 10px;
+  }
+  h1 {
+    margin: 40px 0;
+    color: #231F20;
+  }
+  input {
+    margin: 13px;
+    padding: 5px;
+    width:60%;
+    background-color: #F2F1F1;
+    border-radius: 5px;
+    border-color: #000000;
+  }
+  
+  button {
+    margin: 35px;
+    padding: 10px 40px;
+    border-radius: 5px;
+    background-color: #231F20;
+    color: white;
+    font-weight: bolder;
+  }
+  
+  a {
+    margin-left:190px;
+    text-decoration: none;
+    color: #231F20;
+    font-weight: bold;
+  }

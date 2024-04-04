@@ -1,3 +1,9 @@
-// test
-// test2
-// test3
+import App from './App';
+
+export default function CustomerService() {
+  return (
+    <div>
+      <App />
+    </div>
+  );
+}

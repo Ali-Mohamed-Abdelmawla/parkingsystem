@@ -1,30 +1,86 @@
 import React, { useState } from "react";
+import axios from "axios";
 import AddStyles from "./AddEmployee.module.css";
-import Close from "../assets/light-mode/Close-icon.svg";
-import Proptypes from "prop-types";
+import PropTypes from "prop-types";
 
 const AddEmployee = ({ onClose }) => {
-  const [addFormOpen, setAddFormOpen] = useState(true);
+ const [addFormOpen, setAddFormOpen] = useState(true);
+ const [formData, setFormData] = useState({
+    employeeName: "",
+    userName: "",
+    email: "",
+    phoneNumber: "",
+    Garage_id: "",
+    National_id: "",
+    Salary: "",
+ });
 
-  const handleCloseAddBtn = () => {
+ const handleCloseAddBtn = () => {
     setAddFormOpen(false);
     onClose();
-  };
+ };
 
-  AddEmployee.propTypes = {
-    onClose: Proptypes.func.isRequired,
-  };
+ const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  let isValidEmail = false;
+ 
+  // Validate email format if the input name is 'email'
+  if (name === 'email') {
+     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+     isValidEmail = emailRegex.test(value);
+  }
+ 
+  // Update formData state with the new value
+  setFormData({
+     ...formData,
+     [name]: value,
+  });
+ 
+  // Optionally, you can set a state to indicate if the email is valid or not
+  // This can be used to display validation messages or disable the submit button
+  // setEmailValid(isValidEmail);
+ };
 
-  return (
+ const handleFormSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(
+        "https://raknaapi.azurewebsites.net/api/GarageAdmin/AddStaff",
+        formData
+      )
+      .then((response) => {
+        console.log("Employee added successfully:", response.data);
+        // Optionally, clear the form or close the modal here
+        setFormData({
+          employeeName: "",
+          userName: "",
+          email: "",
+          phoneNumber: "",
+          Garage_id: "",
+          National_id: "",
+          Salary: "",
+        });
+        handleCloseAddBtn();
+      })
+      .catch((error) => {
+        console.error("Error adding employee:", error);
+      });
+ };
+
+ AddEmployee.propTypes = {
+    onClose: PropTypes.func.isRequired,
+ };
+
+ return (
     <>
       {addFormOpen && (
         <div className={AddStyles.addModal}>
           <div className={AddStyles.addTitle}>
             <button onClick={handleCloseAddBtn}>
-              <img src={Close} alt="Close" />
+              {/* Add close icon here */}
             </button>
           </div>
-          <form>
+          <form onSubmit={handleFormSubmit}>
             <label>
               <b>Add</b>
             </label>
@@ -32,9 +88,26 @@ const AddEmployee = ({ onClose }) => {
               required
               type="text"
               name="employeeName"
-              placeholder="Name"
+              placeholder="FullName"
+              value={formData.employeeName}
+              onChange={handleInputChange}
             />
-
+            <input
+              required
+              type="text"
+              name="userName"
+              placeholder="UserName"
+              value={formData.userName}
+              onChange={handleInputChange}
+            />
+            <input
+              required
+              type="text"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
             <input
               required
               type="text"
@@ -53,21 +126,12 @@ const AddEmployee = ({ onClose }) => {
               min="0"
               id="number"
               name="Garage_id"
-              placeholder="Garage_id"
+              placeholder="Password"
               maxLength={6}
               onChange={(e) => {
                 e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
               }}
             />
-
-            <select required name="Role">
-              <option value="">What kind of employee ?</option>
-              <option value="Systemadmin">System-admin</option>
-              <option value="Customerservice">Customer-service</option>
-              <option value="Technicalsupport">Technical-support</option>
-              <option value="Staff">Staff</option>
-            </select>
-
             <input
               required
               type="text"
@@ -80,7 +144,6 @@ const AddEmployee = ({ onClose }) => {
                 e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
               }}
             />
-
             <input
               required
               type="text"
@@ -93,7 +156,6 @@ const AddEmployee = ({ onClose }) => {
                 e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
               }}
             />
-
             <div className={AddStyles.addModelButtons}>
               <button type="submit">Add</button>
             </div>
@@ -101,7 +163,7 @@ const AddEmployee = ({ onClose }) => {
         </div>
       )}
     </>
-  );
+ );
 };
 
 export default AddEmployee;
