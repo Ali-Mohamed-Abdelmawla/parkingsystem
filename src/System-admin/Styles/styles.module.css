@@ -173,7 +173,7 @@ aside .sidebar .message-count {
 
 .slider:before { 
   background-color: #fff; 
-  background-image: url(../System-admin/assets/light-mode/darkmode-icon.svg);
+  background-image: url(../assets//light-mode/darkmode-icon.svg);
   bottom: 4px; 
   content: ""; 
   height: 26px; 

@@ -6,13 +6,8 @@
     --high-light:#ED7F16;
     --special-color1:#8C8671;
     --table-color:#ffffff;
-    /* dark-mode colors */
-    --dark-color-background:#231F20;
-    --dark-secondary-color:#000000;
-    --dark-font-color:#F2F1F1;
-    --dark-high-light:#ED7F16;
-    --special-color1:#8C8671;
-    /* padding */
+
+    /* indenting */
     --card-border-radius:0.9rem;
     --card-padding:1.2rem;
     --letter-spacing:-0.00875rem;

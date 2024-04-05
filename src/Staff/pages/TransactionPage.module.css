@@ -444,9 +444,17 @@ hr{
   border: #000000;
 }
 
+.dark-mode .C-card p,
+.dark-mode .I-card p,
+.dark-mode .H-card p{
+  color: #ffffff;
+} 
+
 .dark-mode .C-popup-content,
 .dark-mode .H-popup-content {
   background-color: #231F20;
+  color: #FFFFFF;
+
 }
 
 .dark-mode .tab {

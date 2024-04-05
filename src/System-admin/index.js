@@ -1,23 +1,21 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import styles from "./styles.module.css";
+import styles from "./Styles/styles.module.css"
 
 // importing icons
 import Whitelogo from "./assets/light-mode/White-logo.svg";
-import Darkicon from "./assets/light-mode/darkmode-icon.svg";
 import Dashboardicon from "./assets/light-mode/Dashboard.svg";
 import Empoloyeeicon from "./assets/light-mode/Employee-icon.svg";
 import Complaintsicon from "./assets/light-mode/complaints-icon.svg";
 import Logout from "./assets/light-mode/log-out.svg";
-// import Person from './assets/light-mode/Person.svg';
 import Add from "./assets/light-mode/Add-employee-icon.svg";
 import search from "./assets/light-mode/Search.svg";
-// import Darklogo from './assets/Black-logo.svg';
-import Dashboard from "./Dashboard";
-import Employees from "./Employees";
-import Complaints from "./Complaint";
-import AddEmployee from "./AddEmployee";
+
+// importing components
+import Dashboard from "./Dashboard-component/Dashboard";
+import ComplaintsContainer from "./Complaints-component/ComplaintsContainer";
+import EmployeesContainer from "./Employees-component/EmployeesContainer";
+import AddEmployee from "./AddEmployee-component/AddEmployee";
+
 
 class TheOne extends Component {
   constructor(props) {
@@ -228,8 +226,8 @@ class TheOne extends Component {
               </div>
               <div className={styles.Content}>
                 {showDashboardComponent && <Dashboard />}
-                {showEmployeesComponent && <Employees />}
-                {showComplaintsComponent && <Complaints />}
+                {showEmployeesComponent && <EmployeesContainer />}
+                {showComplaintsComponent && <ComplaintsContainer />}
                 {showAddPage && <AddEmployee onClose={this.handleCloseAddBtn}  />}
               </div>
             </div>

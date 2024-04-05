@@ -1,0 +1,160 @@
+import React, { useState, useEffect } from "react";
+import EmployeesTable from "./Employees";
+import EmployeesEditModal from "./EditEmployee";
+import EmployeesDeleteConfirmation from "./DeleteEmployee";
+import EmployeesViewModal from "./ViewEmployee";
+import axios from "axios";
+// import Employeestyle from "../Employees.module.css";
+// import ExpandIcon from "../assets/light-mode/Details-icon.svg";
+// import WarningIcon from "../assets/light-mode/Delete-icon.svg";
+// import viewComponentIcon from "../assets/light-mode/View-component-icon(1).svg";
+
+const baseURL = "https://raknaapi.azurewebsites.net";
+const accessToken = localStorage.getItem("accessToken");
+
+function Employees() {
+  const [employees, setEmployees] = useState([]);
+  const [expandedRow, setExpandedRow] = useState(-1);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [deletionIndex, setDeletionIndex] = useState(null);
+  const [showEditPage, setShowEditPage] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
+  const [showViewDetails, setShowViewDetails] = useState(false);
+  const [viewIndex, setViewIndex] = useState(null);
+  const [editedEmployee, setEditedEmployee] = useState({
+    employeeName: "",
+    phoneNumber: "",
+    Garage_id: "",
+    Role: "",
+    Employee_id: "",
+    National_id: "",
+    Salary: "",
+  });
+
+  useEffect(() => {
+    // Fetch employees from API on component mount
+    axios.get(`${baseURL}/api/GarageAdmin/AllStaff`,{},{
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then(response => {
+        setEmployees(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching employees:", error);
+      });
+ }, []);
+
+
+  const toggleDropdown = (index) => {
+    setExpandedRow((prevExpandedRow) =>
+      prevExpandedRow === index ? -1 : index
+    );
+  };
+
+  const handleEditClick = (index) => {
+    setShowEditPage(true);
+    setEditIndex(index);
+    setEditedEmployee(employees[index]);
+ };
+
+ const handleFormSubmit = (e) => {
+    e.preventDefault();
+    axios.put(`${baseURL}/api/GarageAdmin/EditStaff/${editedEmployee.Employee_id}`, editedEmployee)
+      .then(response => {
+        const updatedEmployees = [...employees];
+        updatedEmployees[editIndex] = response.data;
+        setEmployees(updatedEmployees);
+        setShowEditPage(false);
+      })
+      .catch(error => {
+        console.error("Error updating employee:", error);
+      });
+ };
+
+  const handleCloseEditClick = () => {
+    setShowEditPage(false);
+  };
+
+  const handleDeleteClick = (index) => {
+    setShowDeleteConfirmation(true);
+    setDeletionIndex(index);
+ };
+
+ const handleConfirmDelete = () => {
+    axios.delete(`${baseURL}/api/GarageAdmin/DeleteStaff/${employees[deletionIndex].Employee_id}`)
+      .then(() => {
+        const updatedEmployees = [...employees];
+        updatedEmployees.splice(deletionIndex, 1);
+        setEmployees(updatedEmployees);
+        setShowDeleteConfirmation(false);
+        setDeletionIndex(null);
+      })
+      .catch(error => {
+        console.error("Error deleting employee:", error);
+      });
+ };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmation(false);
+    setDeletionIndex(null);
+  };
+
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedEmployee((prevEditedEmployee) => ({
+      ...prevEditedEmployee,
+      [name]: value,
+    }));
+  };
+
+
+
+  const handleViewClick = (index) => {
+    setShowViewDetails(true);
+    setViewIndex(index);
+  };
+
+  const handleCloseView = () => {
+    setShowViewDetails(false);
+    setViewIndex(null);
+  };
+
+  return (
+    <>
+      <EmployeesTable
+        employees={employees}
+        expandedRow={expandedRow}
+        toggleDropdown={toggleDropdown}
+        handleEditClick={handleEditClick}
+        handleDeleteClick={handleDeleteClick}
+        handleViewClick={handleViewClick}
+      />
+      {showDeleteConfirmation && (
+        <EmployeesDeleteConfirmation
+          handleCancelDelete={handleCancelDelete}
+          handleConfirmDelete={handleConfirmDelete}
+        />
+      )}
+      {showEditPage && (
+        <EmployeesEditModal
+          title="Edit Employee"
+          onClose={handleCloseEditClick}
+          onSubmit={handleFormSubmit}
+          editedEmployee={editedEmployee}
+          handleInputChange={handleInputChange}
+        />
+      )}
+      {showViewDetails && (
+        <EmployeesViewModal
+          employee={employees[viewIndex]}
+          handleCloseView={handleCloseView}
+        />
+      )}
+    </>
+  );
+}
+
+export default Employees;
