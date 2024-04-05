@@ -1,104 +1,113 @@
 .sidebar {
-    width: 250px;
-    background-color: #f2f1f1;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .logo-container {
-    padding: 10px;
-    text-align: left;
-  }
-  
-  .logo {
-    width: 50%;
-    height: 80px;
-  }
-  
-  .logo-text {
-    font-weight: bold;
-    font-size: large;
-    margin-top: 5px;
-  }
-  
-  .menu-items {
-    flex-grow: 1;
-  }
-  
-  .menu-item {
-    margin-top: 30px;
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-radius: 10px;
-  }
-  
-  .menu-item:hover {
-    background-color: #e2dcc8;
-  }
-  
-  .menu-item:hover p {
-    margin-left: 5px;
-  }
-   
-  .menu-item a {
-    color: #231f20; 
-    text-decoration: none; 
-    font-weight: bold; 
-    display: flex; 
-    align-items: center; 
-  }
-  
+  width: 250px;
+  background-color: #f2f1f1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position:fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
+}
 
-  .logout {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    border-top: 1px solid #ccc;
-  }
-  
-  .logout a {
-    color: #231f20; 
-    text-decoration: none; 
-    font-weight: bold; 
-    display: flex; 
-    align-items: center; 
-  }
-  
+.logo-container {
+  padding: 10px;
+  text-align: left;
+}
 
-  .menu-item svg, .logout svg {
-    width: 24px;
-    height: 24px;
-    fill: black;
-    margin-right: 10px; 
-  }
-  .add{
-    font-weight: bold;
-  }
+.logo {
+  width: 50%;
+  height: 80px;
+}
+
+.logo-text {
+  font-weight: bold;
+  font-size: large;
+  margin-top: 5px;
+}
+
+.menu-items {
+  flex-grow:1;
+}
+
+.menu-item {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  padding: 7px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 10px;
+}
+
+.menu-item:hover {
+  background-color: #e2dcc8;
+}
+
+.menu-item:hover p {
+  margin-left: 5px;
+}
+
+.menu-item a {
+  color: #231f20; 
+  text-decoration: none; 
+  font-weight: bold; 
+  display: flex; 
+  align-items: center; 
+}
+
+
+.logout {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-top: 1px solid #ccc;
+}
+
+
+.logout a {
+  color: #231f20; 
+  text-decoration: none; 
+  font-weight: bold; 
+  display: flex; 
+  align-items: center; 
+}
+
+.logout:hover {
+  font-weight: bolder;
+}
+
+
+.menu-item svg, .logout svg {
+  width: 24px;
+  height: 24px;
+  fill: black;
+  margin-right: 10px; 
+  margin-left: 15px;
+}
+.add{
+  font-weight: bold;
+}
 
 /* Dark mode styles */
 .sidebar.dark-mode {
-  background-color: #231f20;
-  color: white;
+background-color: #231f20;
+color: white;
 }
 
 .sidebar.dark-mode .menu-item:hover {
-  background-color: #000000;
+background-color: #000000;
 }
 
 .sidebar.dark-mode .menu-item a {
-  color: white;
+color: white;
 }
 
 .sidebar.dark-mode .logout {
-  border-top: 1px solid #555;
+border-top: 1px solid #555;
 }
 
 .sidebar.dark-mode .logout span {
-  color: white;
+color: white;
 }
 
-  

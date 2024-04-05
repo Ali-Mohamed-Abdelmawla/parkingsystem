@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './TransactionPage.module.css'; 
 import carIcon from '../assets/light-mode/carIcon.svg'; 
 import darkCarIcon from '../assets/light-mode/carIcon.svg';
 // import Successful from '../assets/Payment/Successful.svg';
 // import Failed from '../assets/Payment/Failed.svg';
 import AddVehiclePopup from './AddVehiclePopup';
+import axios from 'axios'; // Import Axios
 
 function TransactionPage({ darkMode }) {
     const [activeTab, setActiveTab] = useState('current');
@@ -12,10 +13,39 @@ function TransactionPage({ darkMode }) {
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [inGarageVehicles, setInGarageVehicles] = useState([]); 
+    const accessToken = localStorage.getItem('accessToken');
+    
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
 
+    useEffect(() => {
+        if (activeTab === 'inGarage') {
+            const headers = {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            };
+    
+            const getCurrentParkingSessions = axios.get('https://raknaapi.azurewebsites.net/api/GarageStaff/CurrentParkingSessions', { headers: headers });
+    
+            const getAllReservations = axios.get('https://raknaapi.azurewebsites.net/api/GarageStaff/AllReservation', { headers: headers });
+    
+            Promise.all([getCurrentParkingSessions, getAllReservations])
+                .then(responses => {
+                    const currentParkingSessionsData = responses[0].data;
+                    const allReservationsData = responses[1].data;
+    
+                    const mergedData = [...currentParkingSessionsData, ...allReservationsData];
+                    console.log('In garage vehicles and reservations:', mergedData);
+                    setInGarageVehicles(mergedData);
+                })
+                .catch(errors => {
+                    console.error('Error fetching in garage vehicles and reservations:', errors);
+                });
+        }
+    }, [activeTab]);
+    
+    
     const handleConfirmButtonClick = (transaction) => {
         setSelectedTransaction(transaction);
         setShowConfirmPopup(true);
@@ -26,9 +56,36 @@ function TransactionPage({ darkMode }) {
         setShowDetailsPopup(true);
     };
 
-    const handleCloseConfirmPopup = () => {
-        setShowConfirmPopup(false);
-    };
+    const handleCloseConfirmPopup = async () => {
+        try {
+          const requestData = {
+            plateLetters: "your_plate_letters_here",
+            plateNumbers: "your_plate_numbers_here",
+            payment: 0,
+            paymentType: "Cash"
+          };
+      
+          const headers = {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          };
+      
+          const response = await axios.delete(
+            'https://raknaapi.azurewebsites.net/api/GarageStaff/EndParkingSession',
+            {
+              headers: headers,
+              data: requestData
+            }
+          );
+      
+          console.log('Parking session ended successfully');
+          setShowConfirmPopup(false);
+        } catch (error) {
+          console.error('Error ending parking session:', error);
+        }
+      };
+      
+
 
     const handleCloseDetailsPopup = () => {
         setShowDetailsPopup(false);
@@ -37,10 +94,6 @@ function TransactionPage({ darkMode }) {
     const carIconSrc = darkMode ? darkCarIcon : carIcon;
 
     
-    const addVehicleToGarage = (plateNumber) => {
-        setInGarageVehicles([...inGarageVehicles, { plateNumber }]);
-    };
-
 
     return (
         <div className={`${styles.container} ${darkMode ? styles['dark-mode'] : ''}`}>
@@ -64,8 +117,8 @@ function TransactionPage({ darkMode }) {
                                 <div className={styles['C-card-content']}>
                                     <img src={carIcon} alt="Car Icon" className={styles['C-icon']} />
                                     <div className={styles['C-Vehicle-info']}>
-                                        <span>أب ج-١٢٣</span>
-                                        <p>Slsabeel</p>
+                                        <span>أب ج-123</span>
+                                        {/* <p>Slsabeel</p> */}
                                     </div>
                                 </div>
                                 <p>Total Duration: 2 hours</p>
@@ -82,7 +135,7 @@ function TransactionPage({ darkMode }) {
                     <div className={styles['C-popup']}>
                         <div className={styles['C-popup-content']}>
                             <p>Plate Number: {selectedTransaction.plateNumber}</p>
-                            <p>Name: {selectedTransaction.ownerName}</p>
+                            {/* <p>Name: {selectedTransaction.ownerName}</p> */}
                             <p>Entry Time: {selectedTransaction.entryTime}</p>
                             <p>Exit Time: {selectedTransaction.exitTime}</p>
                             <p>Total Fee: {selectedTransaction.totalFee}</p>
@@ -97,28 +150,29 @@ function TransactionPage({ darkMode }) {
                     </div>
                 )}
 
-                {activeTab === 'inGarage' && (
-                    <div className={styles['I-card-grid']}>
-                        {[...Array(9)].map((_, index) => (
-                            <div key={index} className={styles['I-card']}>
-                                <div className={styles['I-card-content']}>
-                                    <img src={carIcon} alt="Car Icon" className={styles['I-icon']} />
-                                    <div className={styles['I-Vehicle-info']}>
-                                        <span>أب ج-١٢٣</span>
-                                        <p>Slsabeel</p>
-                                    </div>
-                                </div>
-                                <p>Total Duration: 1 hours</p>
-                                <div className={styles['I-card-bottom']}>
-                                    <div className={styles['I-accrued-cost']}>
-                                        <h3>Accrued Cost:50 LE</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+{activeTab === 'inGarage' && (
+    <div className={styles['I-card-grid']}>
+        {console.log("inGarageVehicles:", inGarageVehicles)}
+        {inGarageVehicles.map((vehicle, index) => (
+            <div key={index} className={styles['I-card']}>
+                <div className={styles['I-card-content']}>
+                    <img src={carIcon} alt="Car Icon" className={styles['I-icon']} />
+                    <div className={styles['I-Vehicle-info']}>
+                        <span>{vehicle && vehicle.plateNumber}</span>
+                        {/* Add more details here if needed */}
                     </div>
-                )}
-
+                </div>
+                <p>Total Duration: 1 hour</p>
+                <div className={styles['I-card-bottom']}>
+                    <div className={styles['I-accrued-cost']}>
+                        <h3>Accrued Cost: {vehicle && vehicle.accruedCost} LE</h3>
+                    </div>
+                </div>
+            </div>
+        ))}         
+    </div>
+    
+)}
                 {activeTab === 'history' && (
                     <div className={styles['H-card-grid']}>
                         {[...Array(9)].map((_, index) => (
@@ -126,8 +180,8 @@ function TransactionPage({ darkMode }) {
                                 <div className={styles['H-card-content']}>
                                     <img src={carIcon} alt="Car Icon" className={styles['H-icon']} />
                                     <div className={styles['H-Vehicle-info']}>
-                                        <span>أب ج-١٢٣</span>
-                                        <p>Slsabeel</p>
+                                    <span>أب ج-123</span>
+                                        {/* <p>Slsabeel</p> */}
                                     </div>
                                 </div>
                                 <p>Total Duration: 2 hours</p>
@@ -146,7 +200,7 @@ function TransactionPage({ darkMode }) {
                     <div className={styles['H-popup']}>
                         <div className={styles['H-popup-content']}>
                             <p>Plate Number: {selectedTransaction.plateNumber}</p>
-                            <p>Name: {selectedTransaction.ownerName}</p>
+                            {/* <p>Name: {selectedTransaction.ownerName}</p> */}
                             <p>Entry Time: {selectedTransaction.entryTime}</p>
                             <p>Exit Time: {selectedTransaction.exitTime}</p>
                             <hr></hr>

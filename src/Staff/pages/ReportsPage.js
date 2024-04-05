@@ -1,29 +1,51 @@
 import React, { useState } from 'react'; 
 import styles from './ReportsPage.module.css';
-// import Select from 'react-select';
+import axios from 'axios';
 
 function ReportsPage({ darkMode }) {
     const [description, setDescription] = useState(''); 
-    const [urgency, setUrgency] = useState('Low'); 
     const [submitted, setSubmitted] = useState(false); 
-
+    const accessToken = localStorage.getItem('accessToken');
     const handleDescriptionChange = (event) => {
         setDescription(event.target.value);
     };
 
-    const handleUrgencyChange = (event) => {
-        setUrgency(event.target.value);
-    };
-
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+      
         if (description.trim() !== '') {
-            console.log('Form submitted');
-            setSubmitted(true);           
+          try {
+            const response = await axios.post(
+              'https://raknaapi.azurewebsites.net/api/Report/CreateReport',
+              {
+                reportType: "SystemError",
+                reportMessage: description
+              },
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${accessToken}` 
+                }
+              }
+            );
+      
+            console.log('Report submitted:', response.data);
+            setSubmitted(true);
+          } catch (error) {
+            if (error.response) {
+              console.error('Error response:', error.response.data);
+              console.error('Status code:', error.response.status);
+            } else if (error.request) {
+              console.error('No response received:', error.request);
+            } else {
+              console.error('Error:', error.message);
+            }
+          }
         } else {
-            alert('Please provide a description of the issue.');
+          alert('Please provide a description of the issue.');
         }
-    };
+      };
+      
 
     return (
         <div className={`${styles.container} ${darkMode ? styles['dark-mode'] : ''}`}>
@@ -41,20 +63,6 @@ function ReportsPage({ darkMode }) {
                         cols="50"
                         aria-label="Issue Description"
                     ></textarea>
-                </div>
-                <div className={styles['form-group']}>
-                    <label htmlFor="urgency">Urgency Level</label>
-                    <select
-                        id="urgency"
-                        name="urgency"
-                        value={urgency}
-                        onChange={handleUrgencyChange}
-                        aria-label="Urgency"
-                    >
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                    </select>
                 </div>
                 <button type="submit">Submit Report</button>
             </form>
