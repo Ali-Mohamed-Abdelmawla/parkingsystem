@@ -26,7 +26,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
       type="text"
       name="userName"
       placeholder="UserName"
-      defaultValue={editedEmployee.userName}
+      defaultValue={editedEmployee.userName}//Username must be 5 to 20 characters long with no spaces and special characters.
       onChange={handleInputChange}
     />
     <input
@@ -69,7 +69,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
       name="National_id"
       placeholder="National_id"
       maxLength={14}
-      defaultValue={editedEmployee.nationalId}
+      defaultValue={editedEmployee.nationalId} //maxlength should be 14
       onChange={(e) => {
         e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
         handleInputChange(e);
