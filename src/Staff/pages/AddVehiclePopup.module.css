@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000; 
+  direction: rtl;
 }
 
 .popup {
@@ -16,27 +17,26 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
-  width: 400px;
+  /* width: 400px; */
 }
 
 .popup h2 {
   margin-top: 0;
   color: #231F20;
   margin-bottom: 20px;
+  direction: ltr;
 }
 
 .plateNumberContainer {
   display: flex;
 }
 .input {
-  border: 2px solid #231F20;
+  border: 2px solid #E2DCC8;
   background-color: #F2F1F1;
   color: #231F20;
   padding: 10px; 
-  width: 30px;
-  height: 35px; 
-
-
+  width: 35px;
+  height: 40px; 
   box-sizing: border-box;
   border-radius: 7px;
   margin-right: 5px;
@@ -58,7 +58,8 @@
 
 .errorMsg {
   color: red;
-  margin-top: 0px;
+  margin-top: 10px;
+  direction: ltr;
 }
 
 
@@ -68,7 +69,7 @@
   color: #F2F1F1; 
   border: none;
   border-radius: 5px;
-  margin-right: 10px;
+  margin-right: 100px;
   margin-left: auto; 
   margin-top: 20px; 
   font-size: 17px; 
@@ -81,7 +82,6 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
-  width: 400px;
 }
 
 .darkMode .popup h2 {

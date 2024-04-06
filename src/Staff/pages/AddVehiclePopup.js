@@ -1,60 +1,95 @@
-import React, { useState, useRef, useEffect } from 'react';
-import styles from './AddVehiclePopup.module.css'; 
+import React, { useState, useEffect, useRef } from 'react';
+import styles from './AddVehiclePopup.module.css';
+import axios from 'axios';
 
 function AddVehiclePopup({ onClose, darkMode }) {
   const [inputs, setInputs] = useState(["", "", "", "", "", ""]);
-  const [showAddInput, setShowAddInput] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const arabicRegex = /^[\u0600-\u06FF\s]+$/;
+  const numberRegex = /^[0-9]+$/;
   const inputRefs = useRef([]);
 
-  
   useEffect(() => {
-    
-    console.log("Dark mode:", darkMode);
+    if (inputRefs.current[0]) {
+      inputRefs.current[0].focus();
+    }
   }, [darkMode]);
 
-  const handleInputChange = (index, event) => {
-    const newValue = event.target.value;
-    const inputType = index < 3 ? "text" : "numeric";
-    if (
-      (inputType === "numeric" && newValue.length <= 1 && !isNaN(newValue)) ||
-      (inputType === "text" && newValue.length <= 1 && arabicRegex.test(newValue))
-    ) {
-      const newInputs = [...inputs];
-      newInputs[index] = newValue;
-      setInputs(newInputs);
-      if (newValue.length === 1 && index < inputs.length - 1) {
-        inputRefs.current[index + 1].focus();
+  const startParkingSession = async () => {
+    try {
+      const plateLetters = inputs[0] + inputs[1] + inputs[2];
+      const plateNumbers = inputs[3] + inputs[4] + inputs[5];
+
+    
+      if (inputs.length === 7) {
+        plateNumbers += inputs[6];
       }
+
+  
+      const response = await axios.post(
+        'https://raknaapi.azurewebsites.net/api/GarageStaff/StartParkingSession',
+        {
+          plateLetters,
+          plateNumbers
+        }
+      );
+      
+      console.log('Parking session started:', response.data);
+      
+      return response.data;
+    } catch (error) {
+      console.error('Error:', error.message);
+      throw new Error('Failed to start parking session. Please try again.');
+    }
+  };
+  
+  const handleSubmit = async () => {
+    const licensePlateNumber = inputs.join('');
+    if (licensePlateNumber.length === 6 || licensePlateNumber.length === 7) {
+      try {
+        await startParkingSession();
+        onClose(); 
+      } catch (error) {
+        setErrorMessage(error.message);
+      }
+    } else {
+      setErrorMessage("License plate number must be 6 or 7 characters long.");
     }
   };
 
-  const handleClearInput = (index) => {
+  const handleInputChange = (index, event) => {
+    const newValue = event.target.value;
     const newInputs = [...inputs];
-    newInputs[index] = "";
-    setInputs(newInputs);
-    if (index > 0) {
+    const currentLength = inputs[index].length;
+
+    if (event.type === 'change') {
+      if (newValue === '') {
+        newInputs[index] = '';
+        setInputs(newInputs);
+        if (currentLength === 0 && index > 0) {
+          inputRefs.current[index - 1].focus();
+        }
+      } else if (
+        (index < 3 && arabicRegex.test(newValue)) ||
+        (index >= 3 && numberRegex.test(newValue))
+      ) {
+        newInputs[index] = newValue;
+        setInputs(newInputs);
+        if (newValue.length === 1 && index < inputs.length - 1) {
+          inputRefs.current[index + 1].focus();
+        }
+      }
+    } else if (event.type === 'keydown' && event.key === 'Backspace' && currentLength === 0 && index > 0) {
       inputRefs.current[index - 1].focus();
     }
   };
 
   const handleAddInputClick = () => {
-    setShowAddInput(false);
-  };
-
-  const handleNewInputBlur = () => {
-    setShowAddInput(true);
-  };
-
-  const handleSubmit = () => {
-    const licensePlateNumber = inputs.join('');
-    if (licensePlateNumber.length === 6 || licensePlateNumber.length === 7) {
-      // Call API here with licensePlateNumber
-      console.log("Submitting license plate number:", licensePlateNumber);
-      onClose();
-    } else {
-      setErrorMessage("Please fill all fields.");
+    if (inputs.length < 7) {
+      setInputs([...inputs, ""]);
+      setTimeout(() => {
+        inputRefs.current[inputs.length].focus();
+      }, 0);
     }
   };
 
@@ -67,28 +102,19 @@ function AddVehiclePopup({ onClose, darkMode }) {
             <input
               key={index}
               ref={(el) => (inputRefs.current[index] = el)}
-              type={index < 3 ? "text" : "text"}
+              type="text"
               inputMode={index < 3 ? "text" : "numeric"}
               value={input}
               onChange={(e) => handleInputChange(index, e)}
-              maxLength={index < 3 ? 1 : undefined}
+              onKeyDown={(e) => handleInputChange(index, e)}
+              maxLength={1}
               className={styles.input}
             />
           ))}
-          {showAddInput ? (
-            <div
-              onClick={handleAddInputClick}
-              className={styles.input}
-            >
-               <div className={styles.addInput}>+</div>
+          {inputs.length < 7 && (
+            <div className={styles.input} onClick={handleAddInputClick}>
+              <div className={styles.addInput}>+</div>
             </div>
-          ) : (
-            <input
-              ref={inputRefs.current[inputs.length - 1]}
-              type="text"
-              className={styles.input}
-              onBlur={handleNewInputBlur}
-            />
           )}
         </div>
         {errorMessage && <p className={styles.errorMsg}>{errorMessage}</p>}
@@ -99,3 +125,4 @@ function AddVehiclePopup({ onClose, darkMode }) {
 }
 
 export default AddVehiclePopup;
+

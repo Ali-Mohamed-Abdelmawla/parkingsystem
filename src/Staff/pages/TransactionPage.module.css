@@ -60,7 +60,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #e2dcc8;
     display: grid;
-    
+    margin-left: 30px;
     flex-direction: column;
 }
 
@@ -111,7 +111,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #e2dcc8;
     display: grid;
-    
+    margin-left: 30px;
     flex-direction: column;
 }
 
@@ -138,11 +138,23 @@
     font-weight: bold;
 }
 
+.I-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.C-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
 
 .H-card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    gap: 25px;
   }
   
   .H-card {
@@ -152,7 +164,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #e2dcc8;
     display: grid;
-    
+    margin-left: 30px;
     flex-direction: column;
   }
   
@@ -365,6 +377,7 @@ hr{
     border-style:solid; 
     margin: 25px 0;  
 }
+
 .H-popup-content span {
   color: #231F20; 
   font-weight: bold; 
@@ -407,6 +420,7 @@ hr{
 .dark-mode .H-icon {
   fill: #FFFFFF;
 }
+
 
 .dark-mode .C-confirm-button,
 .dark-mode .I-confirm-button,

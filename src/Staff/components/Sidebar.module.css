@@ -4,6 +4,10 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  position:fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
 }
 
 .logo-container {
@@ -23,14 +27,14 @@
 }
 
 .menu-items {
-  flex-grow: 1;
+  flex-grow:1;
 }
 
 .menu-item {
-  margin-top: 30px;
+  margin-top: 40px;
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 7px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 10px;
@@ -45,11 +49,11 @@
 }
 
 .menu-item a {
-  color: #231f20;
-  text-decoration: none;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
+  color: #231f20; 
+  text-decoration: none; 
+  font-weight: bold; 
+  display: flex; 
+  align-items: center; 
 }
 
 
@@ -60,45 +64,50 @@
   border-top: 1px solid #ccc;
 }
 
+
 .logout a {
-  color: #231f20;
-  text-decoration: none;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
+  color: #231f20; 
+  text-decoration: none; 
+  font-weight: bold; 
+  display: flex; 
+  align-items: center; 
+}
+
+.logout:hover {
+  font-weight: bolder;
 }
 
 
-.menu-item svg,
-.logout svg {
+.menu-item svg, .logout svg {
   width: 24px;
   height: 24px;
   fill: black;
-  margin-right: 10px;
+  margin-right: 10px; 
+  margin-left: 15px;
 }
-
-.add {
+.add{
   font-weight: bold;
 }
 
 /* Dark mode styles */
-.dark-mode {
-  background-color: #231f20;
-  color: white;
+.sidebar.dark-mode {
+background-color: #231f20;
+color: white;
 }
 
-.dark-mode .menu-item:hover {
-  background-color: #000000;
+.sidebar.dark-mode .menu-item:hover {
+background-color: #000000;
 }
 
-.dark-mode .menu-item a,.dark-mode p{
-  color: white;
+.sidebar.dark-mode .menu-item a {
+color: white;
 }
 
-.dark-mode .logout {
-  border-top: 1px solid #555;
+.sidebar.dark-mode .logout {
+border-top: 1px solid #555;
 }
 
-.dark-mode .logout span {
-  color: white;
+.sidebar.dark-mode .logout span {
+color: white;
 }
+
