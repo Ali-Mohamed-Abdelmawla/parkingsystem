@@ -127,10 +127,6 @@ const AddEmployee = ({ onClose }) => {
               id="number"
               name="Garage_id"
               placeholder="Password"
-              maxLength={6}
-              onChange={(e) => {
-                e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-              }}
             />
             <input
               required
