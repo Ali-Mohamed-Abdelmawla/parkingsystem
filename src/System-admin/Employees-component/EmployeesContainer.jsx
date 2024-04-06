@@ -10,7 +10,7 @@ import axios from "axios";
 // import viewComponentIcon from "../assets/light-mode/View-component-icon(1).svg";
 
 const baseURL = "https://raknaapi.azurewebsites.net";
-const accessToken = localStorage.getItem("accessToken");
+const accessToken = sessionStorage.getItem("accessToken");
 
 function Employees() {
   const [employees, setEmployees] = useState([]);
@@ -33,19 +33,20 @@ function Employees() {
 
   useEffect(() => {
     // Fetch employees from API on component mount
-    axios.get(`${baseURL}/api/GarageAdmin/AllStaff`,{},{
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then(response => {
+    axios
+      .get(`${baseURL}/api/GarageAdmin/AllStaff`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
         setEmployees(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching employees:", error);
       });
- }, []);
-
+  }, []);
 
   const toggleDropdown = (index) => {
     setExpandedRow((prevExpandedRow) =>
@@ -57,21 +58,31 @@ function Employees() {
     setShowEditPage(true);
     setEditIndex(index);
     setEditedEmployee(employees[index]);
- };
+  };
 
- const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    axios.put(`${baseURL}/api/GarageAdmin/EditStaff/${editedEmployee.Employee_id}`, editedEmployee)
-      .then(response => {
+    axios
+      .put(
+        `${baseURL}/api/GarageAdmin/EditStaff/${editedEmployee.id}`,
+        editedEmployee,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
         const updatedEmployees = [...employees];
         updatedEmployees[editIndex] = response.data;
         setEmployees(updatedEmployees);
         setShowEditPage(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error updating employee:", error);
       });
- };
+  };
 
   const handleCloseEditClick = () => {
     setShowEditPage(false);
@@ -80,10 +91,19 @@ function Employees() {
   const handleDeleteClick = (index) => {
     setShowDeleteConfirmation(true);
     setDeletionIndex(index);
- };
+  };
 
- const handleConfirmDelete = () => {
-    axios.delete(`${baseURL}/api/GarageAdmin/DeleteStaff/${employees[deletionIndex].Employee_id}`)
+  const handleConfirmDelete = () => {
+    axios
+      .delete(
+        `${baseURL}/api/GarageAdmin/DeleteStaff/${employees[deletionIndex].id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then(() => {
         const updatedEmployees = [...employees];
         updatedEmployees.splice(deletionIndex, 1);
@@ -91,16 +111,15 @@ function Employees() {
         setShowDeleteConfirmation(false);
         setDeletionIndex(null);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error deleting employee:", error);
       });
- };
+  };
 
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
     setDeletionIndex(null);
   };
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -109,8 +128,6 @@ function Employees() {
       [name]: value,
     }));
   };
-
-
 
   const handleViewClick = (index) => {
     setShowViewDetails(true);

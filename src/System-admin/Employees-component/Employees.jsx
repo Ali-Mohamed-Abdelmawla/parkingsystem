@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Employeestyle from '../Styles/Employees.module.css'
 
 import ExpandIcon from "../assets/light-mode/Details-icon.svg";
@@ -11,6 +11,7 @@ function EmployeesTable({
   handleDeleteClick,
   handleViewClick,
 }) {
+
   return (
     <table>
       <thead>
@@ -25,10 +26,10 @@ function EmployeesTable({
       <tbody>
         {employees.map((employee, index) => (
           <tr key={index}>
-            <td>{employee.employeeName}</td>
-            <td>{employee.phoneNumber}</td>
-            <td>{employee.Garage_id}</td>
-            <td>{employee.Role}</td>
+            <td>{employee.name}</td>
+            <td>{employee.email}</td>
+            <td>{employee.salary}</td>
+            <td>{employee.nationalId}</td>
             <td>
               <div
                 className={Employeestyle.employeeDetails}
