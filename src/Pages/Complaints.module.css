@@ -1,0 +1,343 @@
+:root {
+    --primary-color: #E2DCC8;
+    --secondary-color: #F2F1F1;
+    --font-color: #231F20;
+    --button-border-radius: 5px;
+    --box-shadow: 0px 4px 4px 0px ;
+    --table-color: #FFFFFF;
+    --high-light: #ED7F16;
+}
+table {
+    margin-top: 8rem;
+    background-color: var(--table-color);
+    width: 60%;
+    padding: 0px;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--card-border-radius);
+    transition: all 0.3s ease;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto; 
+
+}
+table h2 {
+    margin-bottom: 0.8rem;
+    }
+
+table:hover {
+box-shadow: none;
+}
+table thead{
+height: 50px;
+background-color: #E2DCC8;
+}
+table tbody tr {
+border-bottom: 0px solid var(--font-color);
+}
+
+table tbody td {
+height: 2.8rem;
+color: var(--font-color);
+}
+table tbody td:last-child {
+width: 2%;
+}
+table tbody tr:last-child td {
+border: none;
+}
+table a {
+text-align: center;
+display: block;
+margin: 1rem auto;
+color: var(--font-color);
+}
+table tbody tr td {
+    transition: all 0.3s ease;
+}
+table tbody tr {
+    transition: all 0.3s ease; 
+}
+.employee-details:hover {
+    background-color: var(--color-background);
+}
+
+.employee-details {
+    position: relative;
+    border-radius: var(--button-border-radius);
+}
+.expand-icon {
+    cursor: pointer;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: -2vw;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--button-border-radius);
+    border: 1px solid #00000020;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: all 0.3s ease-in-out;
+}
+
+.dropdown-menu button {
+    background-color: var(--primary-color);
+    border-radius: 1px;
+}
+
+.employee-details:hover .dropdown-menu,
+.employee-details.active .dropdown-menu {
+    opacity: 1;
+    transform: scaleY(1);
+}
+.dropdown-menu hr {
+    border: 1px solid #00000020;
+    margin: 0 6.8px;
+}
+.dropdown-button {
+    padding: 8px;
+    text-align: left;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: var(--button-border-radius);
+}
+.dropdown-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.delete-confirmation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary-color);
+    height: 15vh;
+    min-width: 455.25px;
+    width: 25vw;
+}
+
+.delete-confirmation .delete-content {
+    padding: 10px;
+    display: flex;
+    height: 80%;
+    justify-content: space-between;
+    background-color: var(--primary-color);
+}
+.delete-confirmation .delete-border{
+    width: 100%;
+    height: 15%;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    background-color: var(--font-color);
+}
+
+.delete-confirmation p {
+    margin-bottom: 15px;
+    align-self: center;
+}
+
+.delete-confirmation button {
+    margin-right: 1px;
+    padding: 8px 10px;
+    background-color: transparent;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    align-self: flex-end;
+    font-weight: bold;
+}
+
+
+.delete-confirmation .button1 {
+    color: var(--high-light);
+}
+
+.delete-confirmation button:last-child {
+    color: var(--font-color);
+}
+
+.delete-confirmation button:hover {
+    cursor: pointer;
+}
+
+body.delete-modal-active {
+    overflow: hidden;
+}
+
+body.delete-modal-active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    user-select: none;
+}
+
+
+/*view*/
+.view-modal {
+    position: fixed;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    width:27%;
+    height: 30%;
+    border-radius: 20px;
+    box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+}
+.view-modal .modal-content {
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+.view-modal .modal-main {
+display: flex;
+height: 20%;
+}
+.view-modal .modal-content .name{
+    color: #ED7F16;
+}
+.view-modal .name b{
+    color: black;
+}
+.view-modal .modal-content .view-model-buttons {
+    border-color: var(--primary-color);
+    border: none;
+    margin-top: 30px;
+    margin-left:300px;
+}
+.view-modal .modal-content button{
+    background-color: #231F20;
+    color:#F2F1F1;
+    padding: 10px 15px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+
+    /* Dark Mode */
+.dark-mode table {
+    background-color: #000000;
+    color: #F2F1F1;
+}
+
+.dark-mode thead {
+    background-color: #8C8671;
+}
+
+.dark-mode .employee-details .dropdown-menu .dropdown-button {
+    background-color: #000000;
+    color: #F2F1F1;
+}
+
+.dark-mode .delete-confirmation .delete-content {
+    background-color: #000000;
+    color: #F2F1F1;
+}
+
+.dark-mode .delete-confirmation .delete-content p {
+    color: #F2F1F1;
+}
+
+.dark-mode .delete-confirmation .border {
+    background-color: #8C8671;
+}
+
+.dark-mode .delete-confirmation .button1 {
+    color: #ED7F16;
+}
+
+.dark-mode .view-title {
+    background-color:#231F20;
+    
+}
+
+.dark-mode .modal-content {
+    background-color: #000000;
+    color: #F2F1F1;
+    border-radius: 10px;
+}
+
+.dark-mode .modal-content .name b {
+    color: #F2F1F1;
+}
+
+.dark-mode .edit-modal form {
+    background-color: #000000;
+    color: #F2F1F1;
+}
+
+.dark-mode .edit-modal form input {
+    background-color: #231F20;
+}
+
+.dark-mode .edit-modal form button {
+    background-color: #8C8671;
+}
+
+.dark-mode .edit-modal .add-title {
+    background-color: #000000;
+}
+
+.dark-mode .icon-close {
+    background-color: white;
+}
+
+.dark-mode .add-title .but {
+    background-color: #000000;
+}
+
+body {
+    background-color: #F2F1F1;
+}
+
+body.dark-mode {
+    background-color: #231F20;
+}
+
+.dark-mode .name{
+    color: #ED7F16;
+}
+
+.component{
+    position: absolute;
+    top: 50px;
+    left: 240px;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    background-color: #F2F1F1;
+    overflow: auto;
+}
+.dark-mode .component{
+    background-color: #231F20;
+}
+
+.component-body{
+    background-color:#F2F1F1;
+    height: 100vh;
+    width: 100%;
+}
+.dark-mode .component-body{
+    background-color: #231F20;
+}
