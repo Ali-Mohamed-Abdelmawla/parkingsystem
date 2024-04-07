@@ -238,9 +238,10 @@ body.delete-modal-active::before {
     border-radius: 5px;
 }
 .edit-modal form {
-    margin-top: 10px;
+    margin-top: 0px;
     padding: 40px;
     height: 270px;
+    border-radius: 15px;
     background-color: var(--primary-color);
 }
 .edit-modal form input{

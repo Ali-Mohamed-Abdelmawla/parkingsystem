@@ -48,7 +48,7 @@ const Sidebar = ({ darkmode }) => {
                 <MenuItem icon={darkmode ? DashboardDarkIcon : DashboardIcon} text="Dashboard" to="/" />
                 <MenuItem icon={darkmode ? CustomerServicesDarkIcon : CustomerServicesIcon} text="Customer Services" to="/Customer Services" />
                 <MenuItem icon={darkmode ? ComplaintsDarkIcon : ComplaintsIcon} text="Complaints" to="/Complaints" />
-                <MenuItem icon={darkmode ? GarageDark : GarageLight} text="Garage" to="/Garage" />
+                <MenuItem icon={darkmode ? GarageDark : GarageLight} text="Garages" to="Garages" />
                 <div className={styles['menu-item']} onClick={handleAddEmployeeClick}>
                     <img src={darkmode ? DarkAddNewGarage : AddNewGarage} alt="Add Garage" />
                     <p className={styles.add}>Add Garage</p>
