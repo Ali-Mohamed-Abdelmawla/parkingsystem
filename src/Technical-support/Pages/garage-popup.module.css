@@ -1,0 +1,82 @@
+.popup {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-inner {
+    background-color:#E2DCC8; 
+    padding: 8px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); 
+}
+
+.popup h2 {
+    margin-top: 0px;
+    text-align: center;
+    font-weight: normal;
+}
+
+.popup button {
+    padding: 10px 20px;
+    background-color: #231F20; 
+    color: #F2F1F1; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px; 
+    margin-left: 65px;
+}
+
+.close-icon {
+    width: 30px;
+    height: 30px;
+    margin-left: 230px;
+    cursor: pointer;
+}
+
+.popup-inner form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    padding-bottom: 10px;
+}
+
+input {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 3px;
+    margin-bottom: 2px;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: box-shadow 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.dark-mode {
+    background-color: #2b2b2b;
+    color: #e0e0e0;
+}
+
+.dark-mode input {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+}
+
+.dark-mode hr {
+    border-color: #e0e0e0;
+}
+
+.dark-mode button {
+    background-color: #4CAF50;
+    color: #e0e0e0;
+}

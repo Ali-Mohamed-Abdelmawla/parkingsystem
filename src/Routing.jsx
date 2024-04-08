@@ -7,7 +7,7 @@ import Login from "./Login";
 import SystemAdmin from "./System-admin/index";
 import CustomerService from "./Customer-service/index";
 import TechnicalSupport from "./Technical-support/App";
-import { swal } from 'sweetalert2';
+// import  Swal  from 'sweetalert2';
 // import TechnicalSupport from "./Technical-support/App";
 import GarageStaff from "./Staff/App";
 import { jwtDecode } from "jwt-decode";
@@ -22,7 +22,7 @@ const IsAuthenticated = () => {
 
   console.log(decoded.roles)
   const userRole = decoded.roles;
-  if (navigate) { // Ensure navigate is available
+  // if (navigate) { // Ensure navigate is available
     if (userRole === "garageadmin") {
       navigate("/SystemAdmin");
     } else if (userRole === "garageadmin") {
@@ -31,14 +31,16 @@ const IsAuthenticated = () => {
       navigate("/CustomerService");
     } else if (userRole === "technicalsupport") {
       navigate("/TechnicalSupport");
-    } else {
-      navigate("");
-      swal("Error", "login failed", "error");
     }
+    // } else {
+    //   console.log("i came here")
+    //   navigate("");
+    //   Swal.fire("Error", "login failed", "error");
+    // }
   
   return sessionStorage.getItem("accessToken") !== null;
 };
-}
+
 
 
 // Define a higher-order component for protected routes
@@ -46,7 +48,7 @@ const ProtectedRoute = ({ element, path }) => {
   if (!IsAuthenticated()) {
     // Redirect to login if not authenticated
     console.log("you are not logged in")
-    return <Navigate to="/" replace />;
+    return <Navigate to="" replace />;
   }
   return <>{element}</>;
 };
@@ -75,10 +77,10 @@ function App() {
       element: <ProtectedRoute element={<CustomerService />} />,
     },
     // Catch-all route for undefined paths
-    {
-      path: "*",
-      element: <Navigate to="/login" replace />,
-    },
+    // {
+    //   path: "*",
+    //   element: <Navigate to="" replace />,
+    // },
   ]);
   return (
     <>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Login.css";
+import Loginstyles from "./Login.module.css";
 import LoginForm from "./LoginContainer";
 import Logo from "./Login-assets/login-logo.svg";
 import axios from "axios";
@@ -15,47 +15,49 @@ function App() {
   const navigate = useNavigate(); // Hook for navigation
 
   const handleLogin = async (e) => {
-    try {
-      e.preventDefault();
-      const response = await axios.post(
-        "https://raknaapi.azurewebsites.net/api/Auth/Login",
-        {
-          email: username,
-          password: password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+    e.preventDefault();
+    if (username && password) {
+      try {
+        const response = await axios.post(
+          "https://raknaapi.azurewebsites.net/api/Auth/Login",
+          {
+            email: username,
+            password: password,
           },
-        }
-      );
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      if (response.status === 200) {
-        sessionStorage.setItem("accessToken", response.data.token);
-        console.log(response.data.isAuthenticated);
-        // setAuthenticated(response.data.isAuthenticated);
-        // setResponseMessage(response.data.message);
-        if (response.data.token) {
-          handleLoginToken(response.data.token);
-        } else if (
-          response.data.isAuthenticated === false &&
-          response.data.message === "Email is not confirmed yet!"
-        ) {
-          navigate("");
-          swal.fire("Error", "please, verify your account", "error");
-        }else if (
-          response.data.isAuthenticated === false &&
-          response.data.message === "Email or Password is incorrect!"
-        ) {
-          navigate("");
-          swal.fire("Error", "Email or Password is incorrect", "error");
+        if (response.status === 200) {
+          sessionStorage.setItem("accessToken", response.data.token);
+          console.log(response.data.isAuthenticated);
+
+          if (response.data.token) {
+            handleLoginToken(response.data.token);
+          } else if (
+            response.data.isAuthenticated === false &&
+            response.data.message === "Email is not confirmed yet!"
+          ) {
+            navigate("");
+            swal.fire("Error", "please, verify your account", "error");
+          } else if (
+            response.data.isAuthenticated === false &&
+            response.data.message === "Email or Password is incorrect!"
+          ) {
+            navigate("");
+            swal.fire("Error", "Email or Password is incorrect", "error");
+          }
+        } else {
+          setError("Invalid username or password");
         }
-        
-      } else {
-        setError("Invalid username or password");
+      } catch (error) {
+        setError("An error occurred. Please try again later.");
       }
-    } catch (error) {
-      setError("An error occurred. Please try again later.");
+    } else {
+      setError("Please enter your username and password");
     }
   };
 
@@ -69,7 +71,7 @@ function App() {
           // Ensure navigate is available
           if (userRole === "garageadmin") {
             navigate("/SystemAdmin");
-          } else if (userRole === "garageadmin") {
+          } else if (userRole === "garagestaff") {
             navigate("/GarageStaff");
           } else if (userRole === "customerservice") {
             navigate("/CustomerService");
@@ -83,18 +85,17 @@ function App() {
       } catch (error) {
         console.error("Error decoding token:", error);
       }
-    } 
+    }
   };
 
   return (
-    <div className="login-container">
-      <div className="Logo">
+    <div className={Loginstyles.loginContainer}>
+      <div className={Loginstyles.Logo}>
         <img src={Logo} alt="logo" />
         <p>To reshape the future of parking</p>
       </div>
-      <div className="App">
+      <div className={Loginstyles.App}>
         <h1>Login</h1>
-        {error && <div className="error">{error}</div>}
         <LoginForm
           username={username}
           password={password}
@@ -102,6 +103,7 @@ function App() {
           setPassword={setPassword}
           handleLogin={handleLogin}
         />
+        {error && <div className="error">{error}</div>}
       </div>
     </div>
   );

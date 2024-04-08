@@ -1,29 +1,32 @@
+// Dashboard.js
 import React from 'react';
-import './Dashboard.css';
-import TotalEmployee from '../assets/LightMode/total-employee.svg';
-import TotalReports from '../assets/LightMode/total-reports.svg';
+import styles from './Dashboard.module.css';
+import TotalEmployeeLight from '../assets/LightMode/total-employee.svg';
+import TotalReportsLight from '../assets/LightMode/total-reports.svg';
+import TotalEmployeeDark from '../assets/DarkMode/total-employee-dark.svg';
+import TotalReportsDark from '../assets/DarkMode/total-reports-dark.svg';
 
-const Dashboard = () => {
+const Dashboard = ({ darkmode }) => {
     return (
-        <div className="dashboard-container">
-            <div className="card-container">
+        <div className={`${styles['dashboard-container']} ${darkmode ? styles['dark-mode'] : ''}`}>
+            <div className={`${styles['card-container']} ${darkmode ? styles['dark-mode'] : ''}`}>
                 {/* First Card */}
-                <div className="card">
-                    <div className="card-content">
+                <div className={`${styles.card} ${darkmode ? styles['dark-mode'] : ''}`}>
+                    <div className={`${styles['card-content']} ${darkmode ? styles['dark-mode'] : ''}`}>
                         <div>
-                            <span>Total Customer Service</span>
-                            <img src={TotalEmployee} alt="Total Employee Icon" className="icon" />
-                            <p className="number">100</p>
+                            <span className={`${styles.span} ${darkmode ? styles['dark-mode'] : ''}`}>Total Customer Service</span>
+                            <img src={darkmode ? TotalEmployeeDark : TotalEmployeeLight} alt="Total Employee Icon" className={`${styles.icon1} ${darkmode ? styles['dark-mode'] : ''}`} />
+                            <p className={`${styles.number1} ${darkmode ? styles['dark-mode'] : ''}`}>100</p>
                         </div>
                     </div>
                 </div>
                 {/* Second Card */}
-                <div className="card">
-                    <div className="card-content">
+                <div className={`${styles.card} ${darkmode ? styles['dark-mode'] : ''}`}>
+                    <div className={`${styles['card-content']} ${darkmode ? styles['dark-mode'] : ''}`}>
                         <div>
-                            <span>Total Reports</span>
-                            <img src={TotalReports} alt="Total Reports Icon" className="icon" />
-                            <p className="number">20</p>
+                            <span className={`${styles.span} ${darkmode ? styles['dark-mode'] : ''}`}>Total Reports</span>
+                            <img src={darkmode ? TotalReportsDark : TotalReportsLight} alt="Total Reports Icon" className={`${styles.icon} ${darkmode ? styles['dark-mode'] : ''}`} />
+                            <p className={`${styles.number} ${darkmode ? styles['dark-mode'] : ''}`}>20</p>
                         </div>
                     </div>
                 </div>

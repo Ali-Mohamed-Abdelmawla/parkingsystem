@@ -55,7 +55,7 @@ const Sidebar = ({ darkMode, name, toggleDarkMode }) => {
 const MenuItem = ({ icon, text, to }) => {
   return (
     <div className={styles['menu-item']}>
-      <Link to={to}>
+      <Link to={"/transaction"}>
         {icon}
         <p>{text}</p>
       </Link>
