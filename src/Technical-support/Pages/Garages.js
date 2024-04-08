@@ -1,7 +1,9 @@
 import React from "react";
-import "./Customer-Services.css";
+import axios from 'axios'; 
+import styles from "./Customer-Services.module.css";
 import View from "../assets/LightMode/view.svg";
 import Close from "../assets/LightMode/false.svg";
+import CloseDark from "../assets/DarkMode/false-dark.svg";
 
 class Garage extends React.Component {
     constructor(props) {
@@ -13,29 +15,37 @@ class Garage extends React.Component {
             showEditPage: false,
             editIndex: null,
             editedGarages: {
-                ID:"",
+                garageId: "",
+                garageName:"",
                 hourPrice: "",
-                capacity: "",
-                location: "",
+                street: "",
+                city: "",
+                availableSpaces: "",
+                totalSpaces: ""
             },
-            Garages: [
-                { ID:22, hourPrice: 50, capacity: 100, location: "Cairo" },
-                { ID:55,hourPrice: 60, capacity: 200, location: "Alex" },
-                { ID:48,hourPrice: 70, capacity: 250, location: "Luxor" },
-                { ID:70,hourPrice: 50, capacity: 100, location: "Cairo" },
-            ],
+            Garages: [],
+            isDarkMode: false,
         };
     }
 
     componentDidMount() {
-        this.saveToLocalStorage();
+        this.fetchData();
     }
 
-    saveToLocalStorage = () => {
-        const { Garages } = this.state;
-        localStorage.setItem("Garages", JSON.stringify(Garages));
+    fetchData = async () => {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const response = await axios.get("https://raknaapi.azurewebsites.net/TechnicalSupport/GetAllGarages", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            this.setState({ Garages: response.data });
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     };
-
+    
     toggleDropdown = (index) => {
         this.setState((prevState) => ({
             expandedRow: prevState.expandedRow === index ? -1 : index,
@@ -55,7 +65,6 @@ class Garage extends React.Component {
         this.setState({
             showEditPage: false,
         });
-
         document.body.classList.remove("Edit-modal-active");
     };
 
@@ -64,7 +73,6 @@ class Garage extends React.Component {
             showDeleteConfirmation: true,
             deletionIndex: index,
         });
-
         document.body.classList.add("delete-modal-active");
     };
 
@@ -73,27 +81,44 @@ class Garage extends React.Component {
             showDeleteConfirmation: false,
             deletionIndex: null,
         });
-
         document.body.classList.remove("delete-modal-active");
     };
 
-    handleConfirmDelete = () => {
-        const { deletionIndex } = this.state;
-        const updatedGarages = [...this.state.Garages];
-        updatedGarages.splice(deletionIndex, 1);
-
-        this.setState(
+    handleConfirmDelete = async () => {
+        const { deletionIndex, Garages } = this.state;
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const headers = {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            };
+            const params = {
+                id: Garages[deletionIndex].garageId,
+            };
+            const response = await axios.delete(`https://raknaapi.azurewebsites.net/TechnicalSupport/DeleteGarage`, {
+                headers,
+                params,
+            });
+            console.log('Deleted garage:', response.data);
+            const updatedGarages = [...Garages];
+            updatedGarages.splice(deletionIndex, 1);
+            this.setState(
             {
                 showDeleteConfirmation: false,
                 deletionIndex: null,
-                Garages: updatedGarages, 
+                Garages: updatedGarages,
             },
             () => {
+                document.body.classList.remove("delete-modal-active");
                 this.saveToLocalStorage();
             }
-        );
+            );
+        } catch (error) {
+            console.error('Error deleting garage:', error);
+        }
         document.body.classList.remove("delete-modal-active");
     };
+    
 
     handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -105,58 +130,95 @@ class Garage extends React.Component {
         }));
     };
 
-    handleFormSubmit = (e) => {
+    handleFormSubmit = async (e) => {
         e.preventDefault();
-        
-        const { editedGarages } = this.state;
-        const { editIndex } = this.state;
-        const updatedGarages = [...this.state.Garages];
-        updatedGarages[editIndex] = editedGarages;
-
-        this.setState(
+        const accessToken = localStorage.getItem("accessToken");
+        const { editedGarages, editIndex, Garages } = this.state;
+        try {
+                const headers = {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+            };
+            const response = await axios.put(`https://raknaapi.azurewebsites.net/TechnicalSupport/UpdateGarage`,
+            editedGarages,
+            {
+                params: {
+                    id: editedGarages.garageId,
+                }, 
+                headers
+            }
+        );
+        console.log("Updated garage:", response.data.garageId);
+            const updatedGarages = [...Garages];
+            updatedGarages[editIndex] = editedGarages;
+            this.setState(
             {
                 showEditPage: false,
                 editIndex: null,
                 Garages: updatedGarages,
             },
             () => {
-                this.saveToLocalStorage();
+            this.saveToLocalStorage();
             }
         );
-
+        } catch (error) {
+        console.error("Error updating garage:", error);
+        }
         document.body.classList.remove("Edit-modal-active");
     };
 
-    render() {
-        const { expandedRow, showDeleteConfirmation, showEditPage, editedGarages } = this.state;
 
+    saveToLocalStorage = () => {
+        const { Garages } = this.state;
+        localStorage.setItem("Garages", JSON.stringify(Garages));
+    };
+
+    toggleDarkMode = () => {
+        this.setState((prevState) => ({
+            isDarkMode: !prevState.isDarkMode,
+        }));
+    };
+
+    render() {
+        const { expandedRow, showDeleteConfirmation, showEditPage, editedGarages, isDarkMode, Garages } = this.state;
+        const darkModeClass = isDarkMode ? styles["dark-mode"] : '';
         return (
-            <div key="garage">
-                <table>
+            <>
+                <div className={styles["component-body"]}>
+                    <div className={styles["toggle-dark-mode"]} onClick={this.toggleDarkMode}>
+                        {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+                        </div>
+                <table className={`${styles["garage-table"]} ${darkModeClass}`}>
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Garage Name</th>
                             <th>Hour Price</th>
-                            <th>Capacity</th>
-                            <th>Location</th>
+                            <th>Street</th>
+                            <th>City</th>
+                            <th>Available Spaces</th>
+                            <th>Total Spaces</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.Garages.map((Garages, index) => (
+                        {Garages.map((garage, index) => (
                             <tr key={index}>
-                                <td>{Garages.ID}</td>
-                                <td>{Garages.hourPrice}</td>
-                                <td>{Garages.capacity}</td>
-                                <td>{Garages.location}</td>
+                                <td>{garage.garageId}</td>
+                                <td>{garage.garageName}</td>
+                                <td>{garage.hourPrice}</td>
+                                <td>{garage.street}</td>
+                                <td>{garage.city}</td>
+                                <td>{garage.availableSpaces}</td>
+                                <td>{garage.totalSpaces}</td>
                                 <td>
-                                    <div className="employee-details" onClick={() => this.toggleDropdown(index)}>
-                                        <img src={View} alt="Details" className="expand-icon" />
+                                    <div className={`${styles["employee-details"]} ${darkModeClass}`} onClick={() => this.toggleDropdown(index)}>
+                                        <img src={View} alt="Details" className={styles["expand-icon"]} />
                                         {index === expandedRow && (
-                                            <div className="dropdown-menu">
-                                                <button className="dropdown-button" onClick={() => this.handleEditClick(index)}>Edit</button>
+                                            <div className={styles["dropdown-menu"]}>
+                                                <button className={`${styles["dropdown-button"]} ${darkModeClass}`} onClick={() => this.handleEditClick(index)}>Edit</button>
                                                 <hr />
-                                                <button className="dropdown-button" onClick={() => this.handleDeleteClick(index)}>Delete</button>
+                                                <button className={`${styles["dropdown-button"]} ${darkModeClass}`} onClick={() => this.handleDeleteClick(index)}>Delete</button>
                                             </div>
                                         )}
                                     </div>
@@ -165,34 +227,30 @@ class Garage extends React.Component {
                         ))}
                     </tbody>
                 </table>
-
                 {showDeleteConfirmation && (
-                    <div className="delete-confirmation">
-                        <div className="border"></div>
-                        <div className="delete-content">
+                    <div className={`${styles["delete-confirmation"]} ${darkModeClass}`}>
+                        <div className={`${styles["border"]} ${darkModeClass}`}></div>
+                        <div className={`${styles["delete-content"]} ${darkModeClass}`}>
                             <p>Are you sure to delete this Garage?</p>
-                            <button onClick={this.handleConfirmDelete}>Confirm</button>
+                            <button className={`${styles["button1"]} ${darkModeClass}`} onClick={this.handleConfirmDelete}>Confirm</button>
                             <button onClick={this.handleCancelDelete}>No</button>
                         </div>
                     </div>
                 )}
-
                 {showEditPage && (
-                    <div className="edit-modal">
+                    <div className={`${styles["edit-modal"]} ${darkModeClass}`}>
                         <div className="add-title">
-                            <button onClick={this.handleCloseEditClick}>
-                                <img src={Close} alt="Close" />
+                            <button className={`${styles["but"]} ${darkModeClass}`} onClick={this.handleCloseEditClick}>
+                                <img src={isDarkMode ? CloseDark : Close} alt="Close" />
                             </button>
                         </div>
                         <form onSubmit={this.handleFormSubmit}>
-                            <label>
-                                Edit Garage &nbsp;
-                            </label>
+                            <label>Edit Garage &nbsp;</label>
                             <input
-                                type="number"
-                                name="ID"
-                                placeholder="ID"
-                                value={editedGarages.ID}
+                                type="text"
+                                name="garageName"
+                                placeholder="Garage Name"
+                                value={editedGarages.garageName}
                                 onChange={this.handleInputChange}
                             />
                             <input
@@ -203,32 +261,41 @@ class Garage extends React.Component {
                                 onChange={this.handleInputChange}
                             />
                             <input
-                                required
-                                type="number"
-                                id="cap"
-                                name="capacity"
-                                placeholder="Capacity"
-                                value={editedGarages.capacity}
-                                maxLength={11}
+                                type="text"
+                                name="street"
+                                placeholder="Street"
+                                value={editedGarages.street}
                                 onChange={this.handleInputChange}
                             />
                             <input
-                                required
                                 type="text"
-                                id="loc"
-                                name="location"
-                                placeholder="Location"
-                                value={editedGarages.location}
-                                maxLength={20}
+                                name="city"
+                                placeholder="City"
+                                value={editedGarages.city}
                                 onChange={this.handleInputChange}
                             />
-                            <div className="edit-model-buttons">
+                            <input
+                                type="number"
+                                name="availableSpaces"
+                                placeholder="Available Spaces"
+                                value={editedGarages.availableSpaces}
+                                onChange={this.handleInputChange}
+                            />
+                            <input
+                                type="number"
+                                name="totalSpaces"
+                                placeholder="Total Spaces"
+                                value={editedGarages.totalSpaces}
+                                onChange={this.handleInputChange}
+                            />
+                            <div className={`${styles["edit-model-buttons"]} ${darkModeClass}`}>
                                 <button type="submit">Edit</button>
                             </div>
                         </form>
                     </div>
                 )}
             </div>
+            </>
         );
     }
 }

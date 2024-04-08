@@ -73,7 +73,7 @@ function TransactionPage({ darkMode }) {
           const response = await axios.delete(
             'https://raknaapi.azurewebsites.net/api/GarageStaff/EndParkingSession',
             
-                 requestData
+                requestData
             ,
             {
               headers: headers,
