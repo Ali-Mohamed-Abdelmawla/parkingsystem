@@ -33,8 +33,7 @@ function App() {
       if (response.status === 200) {
         sessionStorage.setItem("accessToken", response.data.token);
         console.log(response.data.isAuthenticated);
-        // setAuthenticated(response.data.isAuthenticated);
-        // setResponseMessage(response.data.message);
+
         if (response.data.token) {
           handleLoginToken(response.data.token);
         } else if (
@@ -69,7 +68,7 @@ function App() {
           // Ensure navigate is available
           if (userRole === "garageadmin") {
             navigate("/SystemAdmin");
-          } else if (userRole === "garageadmin") {
+          } else if (userRole === "garagestaff") {
             navigate("/GarageStaff");
           } else if (userRole === "customerservice") {
             navigate("/CustomerService");
