@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './AddVehiclePopup.module.css';
-import axios from 'axios';
+import axios from '../axios'; 
 
 function AddVehiclePopup({ onClose, darkMode }) {
   const [inputs, setInputs] = useState(["", "", "", "", "", ""]);
@@ -8,6 +8,8 @@ function AddVehiclePopup({ onClose, darkMode }) {
   const arabicRegex = /^[\u0600-\u06FF\s]+$/;
   const numberRegex = /^[0-9]+$/;
   const inputRefs = useRef([]);
+  const accessToken = sessionStorage.getItem('accessToken');
+
 
   useEffect(() => {
     if (inputRefs.current[0]) {
@@ -15,27 +17,32 @@ function AddVehiclePopup({ onClose, darkMode }) {
     }
   }, [darkMode]);
 
-  const startParkingSession = async () => {
+  const startParkingSession = async (accessToken) => {
     try {
       const plateLetters = inputs[0] + inputs[1] + inputs[2];
       const plateNumbers = inputs[3] + inputs[4] + inputs[5];
-
+  
     
       if (inputs.length === 7) {
         plateNumbers += inputs[6];
       }
-
   
       const response = await axios.post(
-        'https://raknaapi.azurewebsites.net/api/GarageStaff/StartParkingSession',
+        '/api/GarageStaff/StartParkingSession',
         {
           plateLetters,
           plateNumbers
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          }
         }
       );
-      
+  
       console.log('Parking session started:', response.data);
-      
+  
       return response.data;
     } catch (error) {
       console.error('Error:', error.message);
@@ -47,7 +54,7 @@ function AddVehiclePopup({ onClose, darkMode }) {
     const licensePlateNumber = inputs.join('');
     if (licensePlateNumber.length === 6 || licensePlateNumber.length === 7) {
       try {
-        await startParkingSession();
+        await startParkingSession(accessToken);
         onClose(); 
       } catch (error) {
         setErrorMessage(error.message);
@@ -125,4 +132,3 @@ function AddVehiclePopup({ onClose, darkMode }) {
 }
 
 export default AddVehiclePopup;
-

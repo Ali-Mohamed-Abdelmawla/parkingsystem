@@ -7,6 +7,7 @@
   padding: 20px;
   background-color: #F2F1F1;
   overflow: auto;
+  
 }
 
 .dashboard-title {
@@ -85,10 +86,6 @@
 .dashboard-container.dark-mode .card {
   background-color: #000000;
   color: #FFFFFF;
-}
-.dark-mode p {
-  color: #FFFFFF;
-
 }
 
 

@@ -8,8 +8,7 @@ import SystemAdmin from "./System-admin/index";
 import CustomerService from "./Customer-service/index";
 import TechnicalSupport from "./Technical-support/App";
 import { swal } from 'sweetalert2';
-// import TechnicalSupport from "./Technical-support/App";
-import GarageStaff from "./Staff/App";
+import GarageStaff from './Staff/App';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +24,7 @@ const IsAuthenticated = () => {
   if (navigate) { // Ensure navigate is available
     if (userRole === "garageadmin") {
       navigate("/SystemAdmin");
-    } else if (userRole === "garageadmin") {
+    } else if (userRole === "garagestaff") {
       navigate("/GarageStaff");
     } else if (userRole === "customerservice") {
       navigate("/CustomerService");
@@ -65,6 +64,7 @@ function App() {
     {
       path: "/GarageStaff",
       element: <ProtectedRoute element={<GarageStaff />} />,
+      
     },
     {
       path: "/TechnicalSupport",
@@ -77,7 +77,7 @@ function App() {
     // Catch-all route for undefined paths
     {
       path: "*",
-      element: <Navigate to="/login" replace />,
+      element: <Navigate to="" replace />,
     },
   ]);
   return (
