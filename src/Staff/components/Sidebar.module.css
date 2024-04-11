@@ -48,7 +48,10 @@
   margin-left: 5px;
 }
 
-.menu-item a {
+.menu-items{
+  font-weight: bold;
+}
+.menu-items button {
   color: #231f20; 
   text-decoration: none; 
   font-weight: bold; 
@@ -65,7 +68,7 @@
 }
 
 
-.logout a {
+.logout button {
   color: #231f20; 
   text-decoration: none; 
   font-weight: bold; 
@@ -99,7 +102,7 @@ color: white;
 background-color: #000000;
 }
 
-.sidebar.dark-mode .menu-item a {
+.sidebar.dark-mode .menu-items button {
 color: white;
 }
 
@@ -110,4 +113,3 @@ border-top: 1px solid #555;
 .sidebar.dark-mode .logout span {
 color: white;
 }
-

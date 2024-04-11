@@ -18,6 +18,7 @@ import Dashboard from "./System-admin/Dashboard-component/Dashboard";
 import Complaints from "./System-admin/Complaints-component/ComplaintsContainer";
 
 import Swal from "sweetalert2";
+
 // import TechnicalSupport from "./Technical-support/App";
 import GarageStaff from "./Staff/App";
 import { jwtDecode } from "jwt-decode";
@@ -55,6 +56,7 @@ import { useNavigate } from "react-router-dom";
 
 //   return sessionStorage.getItem("accessToken") !== null;
 // };
+
 
 // // Define a higher-order component for protected routes
 // const ProtectedRoute = ({ element, path }) => {
@@ -127,7 +129,7 @@ function App() {
       children: [
         // Add children routes for GarageStaff
       ],
-    },
+
     {
       path: "/TechnicalSupport/*",
       element: <ProtectedRoute element={<TechnicalSupport />} />,
@@ -142,6 +144,7 @@ function App() {
         // Add children routes for CustomerService
       ],
     },
+
   ]);
   return (
     <>
