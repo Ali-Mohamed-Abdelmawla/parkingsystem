@@ -1,0 +1,111 @@
+.sidebar {
+    background-color: #F2F1F1;
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    padding: 20px;
+    z-index: 500;
+}
+
+.logo {
+    text-align: start;
+}
+
+.menu {
+    margin-top: 20px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 10px;
+}
+
+.menu-item:hover {
+    background-color: #e2dcc8;
+}
+
+.menu-item:hover p {
+    margin-left: 5px;
+}
+
+.menu-item a, p {
+    color: #231f20; 
+    text-decoration: none; 
+    font-weight: bold; 
+    display: flex; 
+    align-items: center; 
+} 
+
+/* Move logout link to the bottom */
+.menu-item:last-child {
+    margin-top: auto;
+}
+
+/* Dark mode styles */
+.dark-mode.sidebar {
+    background-color: #231F20;
+    color: white;
+}
+
+.dark-mode .sidebar .menu-item:hover {
+    background-color: #000000;
+}
+
+.dark-mode .sidebar .menu-item a {
+    color: white;
+}
+
+.dark-mode .sidebar .menu-item a p {
+    color: white;
+}
+
+.dark-mode .sidebar .logout {
+    border-top: 1px solid #555;
+}
+
+.dark-mode .sidebar .logout span {
+    color: white;
+}
+
+.dark-mode .sidebar .menu-item p {
+    color: white;
+}
+
+/* Invert icon colors for dark mode */
+.dark-mode.menu-item svg {
+    filter: invert(1);
+}
+
+.dark-mode .sidebar {
+    background-color: #231F20;
+    color: white;
+    /* Other dark mode styles */
+}
+
+.dark-mode.sidebar .menu-item:hover {
+    background-color: #000000;
+    /* Other dark mode styles */
+}
+
+.dark-mode.sidebar .menu-item a,
+.dark-mode.sidebar .menu-item p {
+    color: white;
+    /* Other dark mode styles */
+}
+
+/* Invert icon colors for dark mode */
+.dark-mode.menu-item img {
+    filter: invert(1);
+    fill: #ffffff;
+}
+/* Dark mode styles for icons */
+

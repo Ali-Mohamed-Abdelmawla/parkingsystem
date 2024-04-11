@@ -1,24 +1,31 @@
 import React from 'react';
-import { ReactComponent as ProfileIcon } from '../assets/LightMode/profilePhotoIcon.svg';  
-import {ReactComponent as MoonIcon} from '../assets/LightMode/moon-icon.svg';
-import '../Component/navbar.css'; 
+import { ReactComponent as ProfileIcon } from '../assets/LightMode/profile-Photo-Icon.svg';  
+import { ReactComponent as MoonIcon } from '../assets/LightMode/moon-icon.svg';
+import { ReactComponent as LightIcon} from '../assets/DarkMode/light-mode.svg';
+import { ReactComponent as ProfileDark} from '../assets/DarkMode/profile-icon.svg';
+import styles from './navbar.module.css';
 
-const NavBar = ({ name }) => {
-return (
-    <div className="navbar">
-    <div className="right-content">
-        <MoonIcon className="moon-icon" />
-        <span className="dark-mode-text">DARK MODE</span>
-        <div/>
-        <div className="spacer" />
-        <ProfileIcon className="profile-icon" />
-        <span className="welcome-text">WELCOME,<br/>{name}</span>
-    </div>
-    </div>
-    
-    
-);
-
+const NavBar = ({ name, isDarkMode, handleDarkModeToggle }) => {
+    return (
+        <div className={`${styles.navbar} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+            <div className={styles['right-content']}>
+                {isDarkMode ? (
+                    <LightIcon className={styles['moon-icon']} onClick={handleDarkModeToggle} />
+                ) : (
+                    <MoonIcon className={styles['moon-icon']} onClick={handleDarkModeToggle} />
+                )}
+                <span className={`${styles['mode-text']} ${isDarkMode ? styles['dark-mode-text'] : ''}`} onClick={handleDarkModeToggle}>
+                    {isDarkMode ? 'LIGHT MODE' : 'DARK MODE'}
+                </span>
+                <div className={styles.welcome}>
+                    <div className={styles['profile-icon']}>
+                        {isDarkMode ? <ProfileDark className={styles['profile-icon']} /> : <ProfileIcon className={styles['profile-icon']} />}
+                    </div>
+                    <span className={`${styles['welcome-text']} ${isDarkMode ? styles['dark-mode-text'] : ''}`}>WELCOME,<br/>{name}</span>
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default NavBar;

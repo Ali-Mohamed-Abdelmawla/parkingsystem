@@ -19,21 +19,21 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
       type="text"
       name="employeeName"
       placeholder="FullName"
-      value={editedEmployee.employeeName}
+      defaultValue={editedEmployee.name}
       onChange={handleInputChange}
     />
     <input
       type="text"
       name="userName"
       placeholder="UserName"
-      value={editedEmployee.userName}
+      defaultValue={editedEmployee.userName}//Username must be 5 to 20 characters long with no spaces and special characters.
       onChange={handleInputChange}
     />
     <input
       type="text"
       name="email"
       placeholder="Email"
-      value={editedEmployee.email}
+      defaultValue={editedEmployee.email}
       onChange={handleInputChange}
     />
     <input
@@ -43,7 +43,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
       name="phoneNumber"
       placeholder="phoneNumber"
       maxLength={11}
-      value={editedEmployee.phoneNumber}
+      defaultValue={editedEmployee.phoneNumber}
       onChange={(e) => {
         e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
         handleInputChange(e);
@@ -56,7 +56,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
       name="Garage_id"
       placeholder="Password"
       maxLength={6}
-      value={editedEmployee.Garage_id}
+      defaultValue={editedEmployee.Garage_id}
       onChange={(e) => {
         e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
         handleInputChange(e);
@@ -69,7 +69,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
       name="National_id"
       placeholder="National_id"
       maxLength={14}
-      value={editedEmployee.National_id}
+      defaultValue={editedEmployee.nationalId} //maxlength should be 14
       onChange={(e) => {
         e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
         handleInputChange(e);
@@ -82,7 +82,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
       name="Salary"
       placeholder="Salary"
       maxLength={11}
-      value={editedEmployee.Salary}
+      defaultValue={editedEmployee.salary}
       onChange={(e) => {
         e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
         handleInputChange(e);

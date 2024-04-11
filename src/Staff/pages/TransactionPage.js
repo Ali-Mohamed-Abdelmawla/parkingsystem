@@ -66,6 +66,7 @@ function TransactionPage({ darkMode }) {
                 plateNumbers = selectedTransaction.plateNumber.substring(3);
             } else {
                 plateLetters = selectedTransaction.plateNumber;
+
             }
     
             
