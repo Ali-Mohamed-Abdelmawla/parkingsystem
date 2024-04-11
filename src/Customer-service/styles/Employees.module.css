@@ -1,12 +1,13 @@
- table {
-   margin-top: 1.3rem;
+.SystemAdminEmployeeTable {
+   margin-top: 1rem;
+   width: 100% !important;
  }
 
- table h2 {
+ .SystemAdminEmployeeTable h2 {
    margin-bottom: 0.8rem;
  }
 
- table {
+ .SystemAdminEmployeeTable {
    background-color: var(--table-color);
    width: 100%;
    padding: var(--card-padding);
@@ -17,41 +18,41 @@
    /* this is a table */
  }
 
- table:hover {
+ .SystemAdminEmployeeTable:hover {
    box-shadow: none;
  }
-table thead{
+.SystemAdminEmployeeTable thead{
   height: 50px;
 }
- table tbody tr {
+ .SystemAdminEmployeeTable tbody tr {
    border-bottom: 1px solid var(--font-color);
  }
 
- table tbody td {
+ .SystemAdminEmployeeTable tbody td {
    height: 2.8rem;
    color: var(--font-color);
  }
 
- table tbody td:last-child {
+ .SystemAdminEmployeeTable tbody td:last-child {
    width: 2%;
  }
 
- table tbody tr:last-child td {
+ .SystemAdminEmployeeTable tbody tr:last-child td {
    border: none;
  }
 
- table a {
+ .SystemAdminEmployeeTable a {
    text-align: center;
    display: block;
    margin: 1rem auto;
    color: var(--font-color);
  }
 
- table tbody tr td {
+ .SystemAdminEmployeeTable tbody tr td {
    transition: all 0.3s ease;
  }
 
- table tbody tr {
+ .SystemAdminEmployeeTable tbody tr {
    transition: all 0.3s ease;
 
  }
@@ -278,7 +279,7 @@ cursor: pointer;
    transition: all 0.5s ease;
  }
  [theme = dark]  .editModal form input {
-  background-color: var(--table-color);
+  background-color: var(--.SystemAdminEmployeeTable-color);
   color: var(--font-color);
 
  }
@@ -300,7 +301,7 @@ cursor: pointer;
 }
 
 [theme = dark]  .editModal form select {
-  background-color: var(--table-color);
+  background-color: var(--.SystemAdminEmployeeTable-color);
   color: var(--font-color);
   color-scheme: dark;
 }
