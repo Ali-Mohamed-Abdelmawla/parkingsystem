@@ -7,6 +7,7 @@ import Login from "./Login";
 import SystemAdmin from "./System-admin/index";
 import CustomerService from "./Customer-service/index";
 import TechnicalSupport from "./Technical-support/App";
+import { swal } from 'sweetalert2';
 // import  Swal  from 'sweetalert2';
 // import TechnicalSupport from "./Technical-support/App";
 import GarageStaff from "./Staff/App";
@@ -25,7 +26,7 @@ const IsAuthenticated = () => {
   // if (navigate) { // Ensure navigate is available
     if (userRole === "garageadmin") {
       navigate("/SystemAdmin");
-    } else if (userRole === "garageadmin") {
+    } else if (userRole === "garagestaff") {
       navigate("/GarageStaff");
     } else if (userRole === "customerservice") {
       navigate("/CustomerService");
@@ -67,6 +68,7 @@ function App() {
     {
       path: "/GarageStaff",
       element: <ProtectedRoute element={<GarageStaff />} />,
+      
     },
     {
       path: "/TechnicalSupport",
@@ -77,10 +79,11 @@ function App() {
       element: <ProtectedRoute element={<CustomerService />} />,
     },
     // Catch-all route for undefined paths
-    // {
-    //   path: "*",
-    //   element: <Navigate to="" replace />,
-    // },
+    {
+      path: "*",
+      element: <Navigate to="" replace />,
+    },
+
   ]);
   return (
     <>

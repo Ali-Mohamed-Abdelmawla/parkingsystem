@@ -1,51 +1,52 @@
 import React, { useState } from 'react'; 
 import styles from './ReportsPage.module.css';
-import axios from 'axios';
+import axios from '../axios'; 
 
 function ReportsPage({ darkMode }) {
     const [description, setDescription] = useState(''); 
     const [submitted, setSubmitted] = useState(false); 
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem('accessToken');
     const handleDescriptionChange = (event) => {
         setDescription(event.target.value);
     };
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-      
-        if (description.trim() !== '') {
-          try {
-            const response = await axios.post(
-              'https://raknaapi.azurewebsites.net/api/Report/CreateReport',
-              {
-                reportType: "SystemError",
-                reportMessage: description
-              },
-              {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${accessToken}` 
-                }
+      event.preventDefault();
+    
+      if (description.trim() !== '') {
+        try {
+          const response = await axios.post(
+            '/api/Report/CreateReport',
+            {
+              reportType: "SystemError",
+              reportMessage: description
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
               }
-            );
-      
-            console.log('Report submitted:', response.data);
-            setSubmitted(true);
-          } catch (error) {
-            if (error.response) {
-              console.error('Error response:', error.response.data);
-              console.error('Status code:', error.response.status);
-            } else if (error.request) {
-              console.error('No response received:', error.request);
-            } else {
-              console.error('Error:', error.message);
+              
             }
+          );
+    
+          console.log('Report submitted:', response.data);
+          setSubmitted(true);
+        } catch (error) {
+          if (error.response) {
+            console.error('Error response:', error.response.data);
+            console.error('Status code:', error.response.status);
+          } else if (error.request) {
+            console.error('No response received:', error.request);
+          } else {
+            console.error('Error:', error.message);
           }
-        } else {
-          alert('Please provide a description of the issue.');
         }
-      };
-      
+      } else {
+        alert('Please provide a description of the issue.');
+      }
+    };
+    
 
     return (
         <div className={`${styles.container} ${darkMode ? styles['dark-mode'] : ''}`}>
