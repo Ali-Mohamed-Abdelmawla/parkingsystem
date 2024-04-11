@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import  { useEffect, useState } from "react";
 import styles from "./Styles/styles.module.css"
 
 // importing icons
@@ -10,137 +10,61 @@ import Logout from "./assets/light-mode/log-out.svg";
 import Add from "./assets/light-mode/Add-employee-icon.svg";
 import search from "./assets/light-mode/Search.svg";
 
-// importing components
-import Dashboard from "./Dashboard-component/Dashboard";
-import ComplaintsContainer from "./Complaints-component/ComplaintsContainer";
-import EmployeesContainer from "./Employees-component/EmployeesContainer";
 import AddEmployee from "./AddEmployee-component/AddEmployee";
+import { useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 
-class TheOne extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      showDashboardComponent: true,
-      showEmployeesComponent: false,
-      showComplaintsComponent: false,
-      showAddPage: false,
-      Employees: [
-        {
-          employeeName: "Ali",
-          phoneNumber: "0100438493",
-          Garage_id: "225039",
-          Role: "Staff",
-          Employee_id: 34667,
-          National_id: 95637706799,
-          Salary: 6000,
-        },
-        {
-          employeeName: "Mohamed",
-          phoneNumber: "0107896818",
-          Garage_id: "328840",
-          Role: "Customer Service",
-          Employee_id: 51447,
-          National_id: 15120367989,
-          Salary: 1500,
-        },
-        {
-          employeeName: "Eslam",
-          phoneNumber: "0118262347",
-          Garage_id: "462269",
-          Role: "System Admin",
-          Employee_id: 54495,
-          National_id: 54405702510,
-          Salary: 3000,
-        },
-      ],
-      addedEmployee: {
-        employeeName: "",
-        phoneNumber: "",
-        Garage_id: "",
-        Role: "",
-        Employee_id: "",
-        National_id: "",
-        Salary: "",
-      },
-    };
-  }
+function TheOne() {
+const navigate = useNavigate();
 
-  componentWillUnmount() {
-    this.saveToLocalStorage();
-  }
 
-  handleAddBtn = () => {
-    this.setState({
-      showAddPage: true,
-    });
+  const [showAddPage, setShowAddPage] = useState(false);
+  // const [addedEmployee, setAddedEmployee] = useState({
+  //   employeeName: "",
+  //   phoneNumber: "",
+  //   Garage_id: "",
+  //   Role: "",
+  //   Employee_id: "",
+  //   National_id: "",
+  //   Salary: "",
+  // });
 
+
+  const handleAddBtn = () => {
+    setShowAddPage(true);
     document.body.classList.add(styles.addModalActive);
   };
 
-  handleCloseAddBtn = () => {
-    this.setState({
-      showAddPage: false,
-    });
-
+  const handleCloseAddBtn = () => {
+    setShowAddPage(false);
     document.body.classList.remove(styles.addModalActive);
   };
 
-  handleDashboardClick = () => {
-    // Handle dashboard button click
-    const Dashboardbtn = document.getElementById("Dashboardbtn");
-    const Employeebtn = document.getElementById("Employeebtn");
-    const Complaintsbtn = document.getElementById("Complaintsbtn");
+  const handleDashboardClick = () => {
+    navigate("SystemAdmin/Dashboard")
 
-    Dashboardbtn.classList.add(styles.sidebarButtonIsActive);
-    Employeebtn.classList.remove(styles.sidebarButtonIsActive);
-    Complaintsbtn.classList.remove(styles.sidebarButtonIsActive);
-
-    this.setState({
-      showDashboardComponent: true,
-      showEmployeesComponent: false,
-      showComplaintsComponent: false,
-    });
   };
 
-  handleEmployeesClick = () => {
-    // Handle employees button click
-    const Dashboardbtn = document.getElementById("Dashboardbtn");
-    const Employeebtn = document.getElementById("Employeebtn");
-    const Complaintsbtn = document.getElementById("Complaintsbtn");
+  const handleEmployeesClick = () => {
+    navigate("SystemAdmin/Employees")
 
-    Dashboardbtn.classList.remove(styles.sidebarButtonIsActive);
-    Employeebtn.classList.add(styles.sidebarButtonIsActive);
-    Complaintsbtn.classList.remove(styles.sidebarButtonIsActive);
-
-    this.setState({
-      showDashboardComponent: false,
-      showEmployeesComponent: true,
-      showComplaintsComponent: false,
-    });
-  };
-
-  handleComplaintsClick = () => {
-    // Handle employees button click
-    const Dashboardbtn = document.getElementById("Dashboardbtn");
-    const Employeebtn = document.getElementById("Employeebtn");
-    const Complaintsbtn = document.getElementById("Complaintsbtn");
-
-    Dashboardbtn.classList.remove(styles.sidebarButtonIsActive);
-    Employeebtn.classList.remove(styles.sidebarButtonIsActive);
-    Complaintsbtn.classList.add(styles.sidebarButtonIsActive);
-
-    this.setState({
-      showDashboardComponent: false,
-      showEmployeesComponent: false,
-      showComplaintsComponent: true,
-    });
   };
 
 
-  /* Function to change theme */
-  switchTheme = (e) => {
+  const handleComplaintsClick = () => {
+    navigate("SystemAdmin/Complaints")
+
+  };
+
+  const handleLogoutBtn = () => {
+    sessionStorage.removeItem("accessToken");
+    navigate("/")
+    // بنمسح التوكن بس و نريدايركت اليوزر لصفحه اللوجن
+  }
+
+  const switchTheme = (e) => {
     if (e.target.checked) {
       document.documentElement.setAttribute("theme", "dark");
     } else {
@@ -148,94 +72,82 @@ class TheOne extends Component {
     }
   };
 
-  render() {
-    const {
-      showDashboardComponent,
-      showEmployeesComponent,
-      showComplaintsComponent,
-      showAddPage,
-      addedEmployee,
-    } = this.state;
 
-    return (
-      <React.StrictMode>
-        <div className={styles.container}>
-          <aside>
-            <div class={styles.toggle}>
-              <div class={styles.logo}>
-                <img src={Whitelogo} alt={"logo"} />
-                <h2>Rakna</h2>
-              </div>
-              {/* <div class="close" id = "close-btn">
-        <span class="material-icons-sharp">
-          close
-          </span>
-        </div>   close icon is to be used for responsive design  */}
-            </div>
-
-            <div class={styles.sidebar}>
-              <button onClick={this.handleDashboardClick} id="Dashboardbtn">
-                <img src={Dashboardicon} alt="Dashboard icon" />
-                <b>Dashboard</b>
-              </button>
-              <button onClick={this.handleEmployeesClick} id="Employeebtn">
-                <img src={Empoloyeeicon} alt="employee icon" />
-                <b>Employees</b>
-              </button>
-              <button onClick={this.handleComplaintsClick} id="Complaintsbtn">
-                <img src={Complaintsicon} alt="complaints icon" />
-                <b>Complaints</b>
-              </button>
-              <button onClick={this.handleAddBtn}>
-                <img src={Add} alt="add icon" />
-                <b>Add Employee</b>
-              </button>
-              <button>
-                <img src={Logout} alt="logout icon" />
-                <h3>Logout</h3>
-              </button>
-            </div>
-          </aside>
-
-          <main>
-            <div className={styles.rightSide}>
-              <div className={styles.Header}>
-                <div className={styles.searchBar}>
-                  <input type="text" placeholder="search" />
-                  <img src={search} alt="icon"></img>
-                </div>
-                <div className={styles.Theme}>
-                  <div class={styles.themeSwitchContainer}>
-                    <label class={styles.themeSlider} for="checkbox">
-                      <input
-                        type="checkbox"
-                        id="checkbox"
-                        onChange={this.switchTheme}
-                      />
-                      <div className={`${styles.round} ${styles.slider}`}></div>
-                    </label>
-                  </div>
-                  {/* <img src={Darkicon} alt="dark icon"></img>
-                  <span>Darkmode</span> */}
-                </div>
-
-                <p className={styles.Welcome}>
-                  <small>Welcome, </small>
-                  <h3> Ali </h3>
-                </p>
-              </div>
-              <div className={styles.Content}>
-                {showDashboardComponent && <Dashboard />}
-                {showEmployeesComponent && <EmployeesContainer />}
-                {showComplaintsComponent && <ComplaintsContainer />}
-                {showAddPage && <AddEmployee onClose={this.handleCloseAddBtn}  />}
-              </div>
-            </div>
-          </main>
+  return (
+    <div className={styles.container}>
+      <aside>
+        <div className={styles.toggle}>
+          <div className={styles.logo}>
+            <img src={Whitelogo} alt="logo" />
+            <h2>Rakna</h2>
+          </div>
+          {/* <div className="close" id="close-btn">
+              <span className="material-icons-sharp">
+                close
+              </span>
+            </div> */}
+          {/* close icon is to be used for responsive design */}
         </div>
-      </React.StrictMode>
-    );
-  }
+
+        <div className={styles.sidebar}>
+          <button onClick={handleDashboardClick} id="Dashboardbtn">
+            <img src={Dashboardicon} alt="Dashboard icon" />
+            <b>Dashboard</b>
+          </button>
+          <button onClick={handleEmployeesClick} id="Employeebtn">
+            <img src={Empoloyeeicon} alt="employee icon" />
+            <b>Employees</b>
+          </button>
+          <button onClick={handleComplaintsClick} id="Complaintsbtn">
+            <img src={Complaintsicon} alt="complaints icon" />
+            <b>Complaints</b>
+          </button>
+          <button onClick={handleAddBtn}>
+            <img src={Add} alt="add icon" />
+            <b>Add Employee</b>
+          </button>
+          <button onClick={handleLogoutBtn}>
+            <img src={Logout} alt="logout icon" />
+            <h3>Logout</h3>
+          </button>
+        </div>
+      </aside>
+
+      <main>
+        <div className={styles.rightSide}>
+          <div className={styles.Header}>
+            <div className={styles.searchBar}>
+              <input type="text" placeholder="search" />
+              <img src={search} alt="icon" />
+            </div>
+            <div className={styles.Theme}>
+              <div className={styles.themeSwitchContainer}>
+                <label className={styles.themeSlider} htmlFor="checkbox">
+                  <input
+                    type="checkbox"
+                    id="checkbox"
+                    onChange={switchTheme}
+                  />
+                  <div className={`${styles.round} ${styles.slider}`}></div>
+                </label>
+              </div>
+            </div>
+
+            <p className={styles.Welcome}>
+              <small>Welcome, </small>
+              <h3> Ali </h3>
+            </p>
+          </div>
+          <div className={styles.Content}>
+
+            {showAddPage && <AddEmployee onClose={handleCloseAddBtn} />}
+            <Outlet /> {/* This will render child routes like Employees */}
+
+          </div>
+        </div>
+      </main>
+    </div>
+  );
 }
 
 export default TheOne;

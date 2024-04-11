@@ -9,7 +9,7 @@
   text-decoration: none;
   box-sizing: border-box;
 }
-body {
+.container {
   width: 100vw;
   height: 100vh;
   font-family: "Poppins", sans-serif;
@@ -20,9 +20,10 @@ body {
   color: var(--font-color);
   background-color: var(--color-background);
 }
+
 .container {
   display: grid;
-  width: 96%;
+  width: 100%;
   margin: 0 auto;
   gap: 1.8rem;
   grid-template-columns: 15rem auto;
@@ -169,7 +170,13 @@ aside .sidebar .message-count {
   right: 0; 
   top: 0; 
   transition: .4s; 
+  box-shadow: inset 0px 0 4px 1px #9e9999;
+
 } 
+[theme = dark] .slider{
+  box-shadow: inset 0px 0 4px 1px   #231f20;
+
+}
 
 .slider:before { 
   background-color: #fff; 
@@ -181,6 +188,7 @@ aside .sidebar .message-count {
   position: absolute; 
   transition: .4s; 
   width: 26px; 
+  
 } 
 
 input:checked+.slider { 

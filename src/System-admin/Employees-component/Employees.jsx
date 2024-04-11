@@ -14,7 +14,8 @@ function EmployeesTable({
 }) {
 
   return (
-    <table>
+  
+    <table className={Employeestyle.SystemAdminEmployeeTable}>
       <thead>
         <tr>
           <th>Name</th>
