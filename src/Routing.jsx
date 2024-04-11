@@ -129,7 +129,7 @@ function App() {
       children: [
         // Add children routes for GarageStaff
       ],
-
+    },
     {
       path: "/TechnicalSupport/*",
       element: <ProtectedRoute element={<TechnicalSupport />} />,
