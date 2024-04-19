@@ -1,34 +1,53 @@
 import React, { useState } from 'react';
 import close from '../assets/LightMode/false.svg';
 import styles from './garage-popup.module.css';
+import axios from 'axios';
 
-const UserPopup = ({ onClose, darkmode }) => { 
-    const [userData, setUsersData] = useState([]);
+const UserPopup = ({ onClose, darkMode }) => { 
+    const [userData, setUserData] = useState([]);
     const [formData, setFormData] = useState({
-        Name: '',
-        Email: '',
-        ID: '',
-        Gender:'',
-        workHours:''
+        fullName: '',
+        nationalId: '',
+        userName: '',
+        email: '',
+        role: '',
+        phoneNumber: '',
+        garageId:'',
+        salary:0
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const newUsers = {
-            Name: formData.Name,
-            Email: formData.Email,
-            ID: formData.ID,
-            Gender:formData.Gender,
-            workHours:formData.workHours
-        };
-        setUsersData([...userData, newUsers]);
-        setFormData({
-            Name: '',
-            Email: '',
-            ID: '',
-            Gender:'',
-            workHours:''
-        });
+        try {
+            const accessToken = sessionStorage.getItem('accessToken');
+            const headers = {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            };
+
+            const response = await axios.post('https://raknaapi.azurewebsites.net/TechnicalSupport/AddUser', formData, {
+                headers: headers
+            });
+
+            if (!response.data) {
+                throw new Error('Failed to add user');
+            }
+
+            console.log('Added newUser:', response.data);
+            setUserData([...userData, response.data]);
+            setFormData({
+                fullName: '',
+                nationalId: '',
+                userName: '',
+                email: '',
+                role: '',
+                phoneNumber: '',
+                garageId:'',
+                salary:0
+            });
+        } catch (error) {
+            console.error('Error adding user:', error.message);
+        }
     };
 
     const handleChange = (e) => {
@@ -37,17 +56,19 @@ const UserPopup = ({ onClose, darkmode }) => {
     };
 
     return (
-        <div className={`${styles.popup} ${darkmode ? styles['dark-mode'] : ''}`}>
-            <div className={`${styles['popup-inner']} ${darkmode ? styles['dark-mode'] : ''}`}>
+        <div className={`${styles.popup} ${darkMode ? styles['dark-mode'] : ''}`}>
+            <div className={styles['popup-inner']}>
                 <img src={close} alt="close" className={styles['close-icon']} onClick={onClose} />
-                <h2 className={darkmode ? styles['dark-mode'] : ''}>Add Employee</h2>
+                <h2>Add User</h2>
                 <form onSubmit={handleSubmit}>
-                    <input placeholder='Name' type="text" name="Name" value={formData.Name} onChange={handleChange} /><hr/>
-                    <input placeholder='Email' type="email" name="Email" value={formData.Email} onChange={handleChange} /><hr/>
-                    <input placeholder='ID' type="id" name="ID" value={formData.ID} onChange={handleChange} /><hr/>
-                    <input placeholder='Gender' type="gender" name="Gender" value={formData.Gender} onChange={handleChange} /><hr/>
-                    <input placeholder='Work Hours' type="number" name="workHours" value={formData.workHours} onChange={handleChange} /><hr/>
-                    <button className={`${styles.submit} ${darkmode ? styles['dark-mode'] : ''}`} type="submit">Add</button>
+                    <input placeholder='Full Name' type="text" name="fullName" value={formData.fullName} onChange={handleChange} />
+                    <input placeholder='National ID' type="text" name="nationalId" value={formData.nationalId} onChange={handleChange}  />
+                    <input placeholder='Username' type="text" name="userName" value={formData.userName} onChange={handleChange}  />
+                    <input placeholder='Email' type="email" name="email" value={formData.email} onChange={handleChange} />
+                    <input placeholder='Role' type="text" name="role" value={formData.role} onChange={handleChange} />
+                    <input placeholder='Phone Number' type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
+                    <input placeholder='GarageId' type="text" name="garageId" value={formData.garageId} onChange={handleChange} />
+                    <button className={styles.submit} type="submit">Add</button>
                 </form>
             </div>
         </div>

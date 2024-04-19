@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './Component/sidebar'; 
 import NavBar from './Component/navbar'; 
 import Dashboard from './Pages/Dashboard'; 
-import Employee from './Pages/Customer-Services';
+import Employee from './Pages/Users';
 import Complaint from './Pages/Complaints';
 import Garages from './Pages/Garages';
 
@@ -21,10 +21,10 @@ function App() {
       <div className="content">
         <Sidebar darkmode={isDarkMode} />
         <Routes>
-          <Route path="/" element={<Dashboard darkmode={isDarkMode} />} />
-          <Route path="/Customer Services" element={<Employee darkmode={isDarkMode} handleDarkModeToggle={handleDarkModeToggle} />} />
-          <Route path="/Complaints" element={<Complaint darkmode={isDarkMode} />} />
-          <Route path="/Garages" element={<Garages darkmode={isDarkMode} />} />
+          <Route path="/Dashboard" element={<Dashboard darkmode={isDarkMode} handleDarkModeToggle={handleDarkModeToggle}/>} />
+          <Route path="/Users" element={<Employee darkmode={isDarkMode} handleDarkModeToggle={handleDarkModeToggle} />} />
+          <Route path="/Complaints" element={<Complaint darkmode={isDarkMode} handleDarkModeToggle={handleDarkModeToggle}/>} />
+          <Route path="/Garages" element={<Garages darkmode={isDarkMode} handleDarkModeToggle={handleDarkModeToggle} />} />
         </Routes>
       </div>
     </div>

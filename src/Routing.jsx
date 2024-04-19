@@ -23,6 +23,7 @@ import Swal from "sweetalert2";
 import GarageStaff from "./Staff/App";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import Garage from "./Technical-support/Pages/Garages";
 
 // ========================= PROTECTED ROUTE =========================
 // const IsAuthenticated = () => {
@@ -134,7 +135,22 @@ function App() {
       path: "/TechnicalSupport/*",
       element: <ProtectedRoute element={<TechnicalSupport />} />,
       children: [
-        // Add children routes for TechnicalSupport
+        {
+          path:"TechnicalSupport/Dashboard",
+          element:<Dashboard/>
+        },
+        {
+          path:"TechnicalSupport/Employee",
+          element:<Employees/>
+        },
+        {
+          path:"TechnicalSupport/Complaint",
+          element:<Complaints/>
+        },
+        {
+          path:"TechnicalSupport/Garages",
+          element:<Garage/>
+        },
       ],
     },
     {
