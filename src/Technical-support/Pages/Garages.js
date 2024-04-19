@@ -1,11 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
 import axios from 'axios'; 
-import styles from "./Customer-Services.module.css";
-import View from "../assets/LightMode/view.svg";
-import Close from "../assets/LightMode/false.svg";
+import styles from "./Users.module.css";
+import ViewLight from "../assets/LightMode/view.svg";
+import ViewDark from "../assets/DarkMode/view-dark.svg";
+import CloseLight from "../assets/LightMode/false.svg";
 import CloseDark from "../assets/DarkMode/false-dark.svg";
 
-class Garage extends React.Component {
+class Garage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,12 +31,13 @@ class Garage extends React.Component {
 
     componentDidMount() {
         this.fetchData();
+        this.saveToLocalStorage();
     }
 
     fetchData = async () => {
         try {
-            const accessToken = localStorage.getItem('accessToken');
-            const response = await axios.get("https://raknaapi.azurewebsites.net/TechnicalSupport/GetAllGarages", {
+            const accessToken = sessionStorage.getItem('accessToken');
+            const response = await axios.get("https://raknaapi.azurewebsites.net/TechnicalSupport/GetAllGarages",{
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -87,7 +89,7 @@ class Garage extends React.Component {
     handleConfirmDelete = async () => {
         const { deletionIndex, Garages } = this.state;
         try {
-            const accessToken = localStorage.getItem('accessToken');
+            const accessToken = sessionStorage.getItem('accessToken');
             const headers = {
                 Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
@@ -130,9 +132,11 @@ class Garage extends React.Component {
         }));
     };
 
+    
+
     handleFormSubmit = async (e) => {
         e.preventDefault();
-        const accessToken = localStorage.getItem("accessToken");
+        const accessToken = sessionStorage.getItem("accessToken");
         const { editedGarages, editIndex, Garages } = this.state;
         try {
                 const headers = {
@@ -179,122 +183,123 @@ class Garage extends React.Component {
         }));
     };
 
+
     render() {
         const { expandedRow, showDeleteConfirmation, showEditPage, editedGarages, isDarkMode, Garages } = this.state;
-        const darkModeClass = isDarkMode ? styles["dark-mode"] : '';
+        const darkModeClass = this.props.darkmode ? styles["dark-mode"] : "";
         return (
             <>
-                <div className={styles["component-body"]}>
-                    <div className={styles["toggle-dark-mode"]} onClick={this.toggleDarkMode}>
-                        {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-                        </div>
-                <table className={`${styles["garage-table"]} ${darkModeClass}`}>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Garage Name</th>
-                            <th>Hour Price</th>
-                            <th>Street</th>
-                            <th>City</th>
-                            <th>Available Spaces</th>
-                            <th>Total Spaces</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {Garages.map((garage, index) => (
-                            <tr key={index}>
-                                <td>{garage.garageId}</td>
-                                <td>{garage.garageName}</td>
-                                <td>{garage.hourPrice}</td>
-                                <td>{garage.street}</td>
-                                <td>{garage.city}</td>
-                                <td>{garage.availableSpaces}</td>
-                                <td>{garage.totalSpaces}</td>
-                                <td>
-                                    <div className={`${styles["employee-details"]} ${darkModeClass}`} onClick={() => this.toggleDropdown(index)}>
-                                        <img src={View} alt="Details" className={styles["expand-icon"]} />
-                                        {index === expandedRow && (
-                                            <div className={styles["dropdown-menu"]}>
-                                                <button className={`${styles["dropdown-button"]} ${darkModeClass}`} onClick={() => this.handleEditClick(index)}>Edit</button>
-                                                <hr />
-                                                <button className={`${styles["dropdown-button"]} ${darkModeClass}`} onClick={() => this.handleDeleteClick(index)}>Delete</button>
-                                            </div>
-                                        )}
-                                    </div>
-                                </td>
+                <div className={`${styles["component-body"]} ${darkModeClass}`}>
+                <div className={styles["toggle-dark-mode"]} onClick={this.props.handleDarkModeToggle}>
+                    {this.props.darkmode ? "Light Mode" : "Dark Mode"}
+                </div>
+                    <table className={`${styles["table-content"]} ${darkModeClass}`}>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Garage Name</th>
+                                <th>Hour Price</th>
+                                <th>Street</th>
+                                <th>City</th>
+                                <th>Available Spaces</th>
+                                <th>Total Spaces</th>
+                                <th></th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                {showDeleteConfirmation && (
-                    <div className={`${styles["delete-confirmation"]} ${darkModeClass}`}>
-                        <div className={`${styles["border"]} ${darkModeClass}`}></div>
-                        <div className={`${styles["delete-content"]} ${darkModeClass}`}>
-                            <p>Are you sure to delete this Garage?</p>
-                            <button className={`${styles["button1"]} ${darkModeClass}`} onClick={this.handleConfirmDelete}>Confirm</button>
-                            <button onClick={this.handleCancelDelete}>No</button>
-                        </div>
-                    </div>
-                )}
-                {showEditPage && (
-                    <div className={`${styles["edit-modal"]} ${darkModeClass}`}>
-                        <div className="add-title">
-                            <button className={`${styles["but"]} ${darkModeClass}`} onClick={this.handleCloseEditClick}>
-                                <img src={isDarkMode ? CloseDark : Close} alt="Close" />
-                            </button>
-                        </div>
-                        <form onSubmit={this.handleFormSubmit}>
-                            <label>Edit Garage &nbsp;</label>
-                            <input
-                                type="text"
-                                name="garageName"
-                                placeholder="Garage Name"
-                                value={editedGarages.garageName}
-                                onChange={this.handleInputChange}
-                            />
-                            <input
-                                type="number"
-                                name="hourPrice"
-                                placeholder="Hour Price"
-                                value={editedGarages.hourPrice}
-                                onChange={this.handleInputChange}
-                            />
-                            <input
-                                type="text"
-                                name="street"
-                                placeholder="Street"
-                                value={editedGarages.street}
-                                onChange={this.handleInputChange}
-                            />
-                            <input
-                                type="text"
-                                name="city"
-                                placeholder="City"
-                                value={editedGarages.city}
-                                onChange={this.handleInputChange}
-                            />
-                            <input
-                                type="number"
-                                name="availableSpaces"
-                                placeholder="Available Spaces"
-                                value={editedGarages.availableSpaces}
-                                onChange={this.handleInputChange}
-                            />
-                            <input
-                                type="number"
-                                name="totalSpaces"
-                                placeholder="Total Spaces"
-                                value={editedGarages.totalSpaces}
-                                onChange={this.handleInputChange}
-                            />
-                            <div className={`${styles["edit-model-buttons"]} ${darkModeClass}`}>
-                                <button type="submit">Edit</button>
+                        </thead>
+                        <tbody>
+                            {Garages.map((garage, index) => (
+                                <tr key={index}>
+                                    <td>{garage.garageId}</td>
+                                    <td>{garage.garageName}</td>
+                                    <td>{garage.hourPrice}</td>
+                                    <td>{garage.street}</td>
+                                    <td>{garage.city}</td>
+                                    <td>{garage.availableSpaces}</td>
+                                    <td>{garage.totalSpaces}</td>
+                                    <td>
+                                        <div className={`${styles["details-dropdown"]} ${darkModeClass}`} onClick={() => this.toggleDropdown(index)}>
+                                        <img src={this.props.darkmode ? ViewDark : ViewLight} alt="Details" className={styles["expand-icon"]} />
+                                            {index === expandedRow && (
+                                                <div className={styles["dropdown-menu"]}>
+                                                    <button className={`${styles["dropdown-button"]} ${darkModeClass}`} onClick={() => this.handleEditClick(index)}>Edit</button>
+                                                    <hr />
+                                                    <button className={`${styles["dropdown-button"]} ${darkModeClass}`} onClick={() => this.handleDeleteClick(index)}>Delete</button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    {showDeleteConfirmation && (
+                        <div className={`${styles["delete-confirmation"]} ${darkModeClass}`}>
+                            <div className={`${styles["border"]} ${darkModeClass}`}></div>
+                            <div className={`${styles["delete-content"]} ${darkModeClass}`}>
+                                <p>Are you sure to delete this Garage?</p>
+                                <button className={`${styles["button1"]} ${darkModeClass}`} onClick={this.handleConfirmDelete}>Confirm</button>
+                                <button className={`${styles["button2"]} ${darkModeClass}`} onClick={this.handleCancelDelete}>No</button>
                             </div>
-                        </form>
-                    </div>
-                )}
-            </div>
+                        </div>
+                    )}
+                    {showEditPage && (
+                        <div className={`${styles["edit-modal"]} ${darkModeClass}`}>
+                            <div className={`${styles["add-title"]} ${darkModeClass}`}>
+                                <button className={`${styles["but"]} ${darkModeClass}`} onClick={this.handleCloseEditClick}>
+                                <img src={this.props.darkmode ? CloseDark : CloseLight} alt="close" className={styles["icon-close"]} />
+                                </button>
+                            </div>
+                            <form onSubmit={this.handleFormSubmit}>
+                                <label>Edit Garage &nbsp;</label>
+                                <input
+                                    type="text"
+                                    name="garageName"
+                                    placeholder="Garage Name"
+                                    value={editedGarages.garageName}
+                                    onChange={this.handleInputChange}
+                                />
+                                <input
+                                    type="number"
+                                    name="hourPrice"
+                                    placeholder="Hour Price"
+                                    value={editedGarages.hourPrice}
+                                    onChange={this.handleInputChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="street"
+                                    placeholder="Street"
+                                    value={editedGarages.street}
+                                    onChange={this.handleInputChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="city"
+                                    placeholder="City"
+                                    value={editedGarages.city}
+                                    onChange={this.handleInputChange}
+                                />
+                                <input
+                                    type="number"
+                                    name="availableSpaces"
+                                    placeholder="Available Spaces"
+                                    value={editedGarages.availableSpaces}
+                                    onChange={this.handleInputChange}
+                                />
+                                <input
+                                    type="number"
+                                    name="totalSpaces"
+                                    placeholder="Total Spaces"
+                                    value={editedGarages.totalSpaces}
+                                    onChange={this.handleInputChange}
+                                />
+                                <div className={`${styles["edit-model-buttons"]} ${darkModeClass}`}>
+                                    <button type="submit">Edit</button>
+                                </div>
+                            </form>
+                        </div>
+                    )}
+                </div>
             </>
         );
     }

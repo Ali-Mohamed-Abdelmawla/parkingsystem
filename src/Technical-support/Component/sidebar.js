@@ -43,11 +43,10 @@ const Sidebar = ({ darkmode }) => {
             <div className={styles.logo}>
                 <img src={darkmode ? DarkModeLogo : LightModeLogo} alt="Logo" />
             </div>
-
             <div className={styles.menu}>
-                <MenuItem icon={darkmode ? DashboardDarkIcon : DashboardIcon} text="Dashboard" to="/" />
-                <MenuItem icon={darkmode ? CustomerServicesDarkIcon : CustomerServicesIcon} text="Customer Services" to="/Customer Services" />
-                <MenuItem icon={darkmode ? ComplaintsDarkIcon : ComplaintsIcon} text="Complaints" to="/Complaints" />
+                <MenuItem icon={darkmode ? DashboardDarkIcon : DashboardIcon} text="Dashboard" to="Dashboard" />
+                <MenuItem icon={darkmode ? CustomerServicesDarkIcon : CustomerServicesIcon} text="Users" to="Users" />
+                <MenuItem icon={darkmode ? ComplaintsDarkIcon : ComplaintsIcon} text="Complaints" to="Complaints" />
                 <MenuItem icon={darkmode ? GarageDark : GarageLight} text="Garages" to="Garages" />
                 <div className={styles['menu-item']} onClick={handleAddEmployeeClick}>
                     <img src={darkmode ? DarkAddNewGarage : AddNewGarage} alt="Add Garage" />
@@ -55,15 +54,15 @@ const Sidebar = ({ darkmode }) => {
                 </div>
                 <div className={styles['menu-item']} onClick={handleAddUserClick}>
                     <img src={darkmode ? DarkAddUser : AddUser} alt="Add Employee" />
-                    <p className={styles.add}>Add Employee</p>
+                    <p className={styles.add}>Add User</p>
                 </div>
             </div>
-
-            {isGaragePopupOpen && <AddNewGaragePopup onClose={handleClosePopup} />}
+            {isGaragePopupOpen && <AddNewGaragePopup onClose={handleClosePopup} darkMode={darkmode} />}
             {isUserPopupOpen && <UserPopup onClose={handleClosePopup} />}
-
             <div className={styles['menu-item']}>
-                <img src={darkmode ? DarkModeLogout : LightModeLogout} alt="Logout" />
+                <Link to={'/'}>
+                    <img src={darkmode ? DarkModeLogout : LightModeLogout} alt="Logout" />
+                </Link>
                 <p>{darkmode ? 'Logout' : 'Logout'}</p>
             </div>
         </div>

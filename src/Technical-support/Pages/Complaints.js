@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
 import styles from "./Complaints.module.css";
-import View from "../assets/LightMode/view.svg";
+import ViewLight from "../assets/LightMode/view.svg";
+import ViewDark from "../assets/DarkMode/view-dark.svg";
 
 class Complaints extends React.Component {
     constructor(props) {
@@ -64,10 +65,11 @@ class Complaints extends React.Component {
         );
     };
 
-    handleViewClick = (index) => {
+    handleViewClick = (index, reportMessage) => {
         this.setState({
             showViewDetails: true,
             viewIndex: index,
+            viewReportMessage: index,
         });
     };
 
@@ -84,10 +86,11 @@ class Complaints extends React.Component {
             isDarkMode: !prevState.isDarkMode,
         }));
     };
+    
     fetchComplaints = async () => {
         try {
-            const accessToken = localStorage.getItem('accessToken');
-            const response = await axios.get("https://raknaapi.azurewebsites.net/TechnicalSupport/GetAllReports", {
+            const accessToken = sessionStorage.getItem('accessToken');
+            const response = await axios.get("https://raknaapi.azurewebsites.net/api/Report/GetReportsBasedOnRole", {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'application/json',
@@ -100,6 +103,47 @@ class Complaints extends React.Component {
         }
     };
     
+    
+    updateReportStatus = async () => {
+        const { deletionIndex, Complaint } = this.state;
+        console.log(Complaint[deletionIndex].reportId)
+        const accessToken = sessionStorage.getItem("accessToken");
+        // const updateStatus = {
+        //     reportId: Complaint[deletionIndex].reportId,
+        // };
+        const reportId = Complaint[deletionIndex].reportId
+        try {
+            const response = await axios.put(
+                `https://raknaapi.azurewebsites.net/api/Report/UpdateReportStatus/${reportId}`,
+                true,
+                {
+                    params:{
+                        reportId: reportId
+                    },
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            console.log("Updated complaint:", response.data.reportId);
+            const updatedComplaints = [...Complaint];
+            updatedComplaints[deletionIndex] = response.data;
+            this.setState(
+                {
+                    showDeleteConfirmation: false,
+                    deletionIndex: null,
+                    Complaint: updatedComplaints,
+                },
+                () => {
+                    this.saveToLocalStorage();
+                }
+            );
+        } catch (error) {
+            console.error("Error updating status:", error);
+        }
+    };
+    
     render() {
         const {
             expandedRow,
@@ -107,109 +151,99 @@ class Complaints extends React.Component {
             showViewDetails,
             Complaint,
             viewIndex,
+            viewReportMessage,
             isDarkMode, // Added isDarkMode state
         } = this.state;
 
-        const darkModeClass = isDarkMode ? styles["dark-mode"] : ''; // Added dark mode class condition
+        const darkModeClass = this.props.darkmode ? styles["dark-mode"] : "";
 
         return (
-            <>
-                <div className={styles["component-body"]}>
-                    <div className={styles["toggle-dark-mode"]} onClick={this.toggleDarkMode}>
-                        {/* Icon for toggling dark mode */}
-                        {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-                    </div>
-                    <table className={`${styles["complaints-table"]} ${darkModeClass}`}>
-                        <thead>
-                            <tr>
-                                <th>Complainant</th>
-                                <th>Email</th>
-                                <th>Phone Number</th>
-                                <th>Complain Number</th>
-                                <th></th>
+            <div className={`${styles["component-body"]} ${darkModeClass}`}>
+                <div className={styles["toggle-dark-mode"]} onClick={this.toggleDarkMode}>
+                    {/* Icon for toggling dark mode */}
+                    {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+                </div>
+                <table className={`${styles["complaint-table"]} ${darkModeClass}`}>
+                    <thead>
+                        <tr>
+                            <th>report Id</th>
+                            <th>report Type</th>
+                            <th>report Message</th>
+                            <th>reporter Id</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Complaint.map((complaint, index) => (
+                            <tr key={index}>
+                                <td>{complaint.reportId}</td>
+                                <td>{complaint.reportType}</td>
+                                <td>{complaint.reportMessage}</td>
+                                <td>{complaint.reporterId}</td>
+                                <td>
+                                    <div className={`${styles["details-dropdown"]} ${darkModeClass}`} onClick={() => this.toggleDropdown(index)} >
+                                    <img src={this.props.darkmode ? ViewDark : ViewLight} alt="Details" className={styles["expand-icon"]} />
+                                        {index === expandedRow && (
+                                            <div className={styles["dropdown-menu"]}>
+                                                <button
+                                                    className={styles["dropdown-button"]}
+                                                    onClick={() => this.handleViewClick(index)}
+                                                >
+                                                    View
+                                                </button>
+                                                <hr />
+                                                <button
+                                                    className={styles["dropdown-button"]}
+                                                    onClick={() => this.handleDeleteClick(index)}
+                                                >
+                                                    Delete
+                                                </button>
+                                                
+                                            </div>
+                                        )}
+                                    </div>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {Complaint.map((complaint, index) => (
-                                <tr key={index}>
-                                    <td>{complaint.Complainant}</td>
-                                    <td>{complaint.Email}</td>
-                                    <td>{complaint.PhoneNumber}</td>
-                                    <td>{complaint.ComplainNumber}</td>
-                                    <td>
-                                        <div
-                                            className={`${styles["employee-details"]} ${darkModeClass}`}
-                                            onClick={() => this.toggleDropdown(index)}
-                                        >
-                                            <img
-                                                src={View}
-                                                alt="Details"
-                                                className={styles["expand-icon"]}
-                                            />
-                                            {index === expandedRow && (
-                                                <div className={styles["dropdown-menu"]}>
-                                                    <button
-                                                        className={styles["dropdown-button"]}
-                                                        onClick={() => this.handleViewClick(index)}
-                                                    >
-                                                        View
-                                                    </button>
-                                                    <hr />
-                                                    <button
-                                                        className={styles["dropdown-button"]}
-                                                        onClick={() => this.handleDeleteClick(index)}
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                        ))}
+                    </tbody>
+                </table>
 
-                    {showDeleteConfirmation && (
+                {showDeleteConfirmation && (
                     <div className={`${styles["delete-confirmation"]} ${darkModeClass}`}>
-                        <div className={`${styles["delete-border"]} ${darkModeClass}`}></div>
+                        <div className={`${styles["border"]} ${darkModeClass}`}></div>
                         <div className={`${styles["delete-content"]} ${darkModeClass}`}>
                             <p>Are you sure to delete this Complaint?</p>
-                            <button className={styles["button1"]} onClick={this.handleConfirmDelete}>Confirm</button>
-                            <button onClick={this.handleCloseDelete}>No</button>
+                            <button className={styles["button1"]} onClick={this.updateReportStatus}>Confirm</button>
+                            <button className={styles["button2"]} onClick={this.handleCloseDelete}>No</button>
                         </div>
                     </div>
                 )}
 
-                    {showViewDetails && (
-                        <div className={`${styles["view-modal"]} ${darkModeClass}`}>
-                            <div className={`${styles["view-title"]} ${darkModeClass}`}></div>
-                            <div className={`${styles["modal-content"]} ${darkModeClass}`}>
-                                <div className={`${styles["modal-main"]} ${darkModeClass}`}>
-                                    <div className={`${styles["name"]} ${darkModeClass}`}>
-                                        <label>
-                                            <b>Complaint Number:</b>{" "}
-                                            {Complaint[viewIndex].ComplainNumber}
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div className={`${styles["modal-details"]} ${darkModeClass}`}>
-                                    <b>
-                                        {" "}
-                                        I have encountered difficulties finding an available parking
-                                        space despite the system indicating availability. This not
-                                        only wastes my time but also adds unnecessary stress to my
-                                        daily routine.{" "}
-                                    </b>
-                                    <button className={`${styles["view-model-buttons"]} ${darkModeClass}`} onClick={this.handleCloseView}>Close</button>
+                {showViewDetails && (
+                    <div className={`${styles["view-modal"]} ${darkModeClass}`}>
+                        <div className={`${styles["view-title"]} ${darkModeClass}`}></div>
+                        <div className={`${styles["modal-content"]} ${darkModeClass}`}>
+                            <div className={`${styles["modal-main"]} ${darkModeClass}`}>
+                                <div className={`${styles["name"]} ${darkModeClass}`}>
+                                    <label>
+                                        <b>Complaint ID:</b>{""}
+                                        {Complaint[viewIndex].reportId}
+                                    </label>
                                 </div>
                             </div>
+
+                            <div className={`${styles["modal-details"]} ${darkModeClass}`}>
+                                <b>
+                                    {" "}
+                                    {Complaint[viewReportMessage].reportMessage}
+                                </b>
+                                
+                                <button className={`${styles["view-close-buttons"]} ${darkModeClass}`} onClick={this.handleCloseView}>Close</button>
+                            </div>
                         </div>
-                    )}
-                </div>
-                
-            </>
+                    </div>
+                )}
+            </div>
         );
     }
 }

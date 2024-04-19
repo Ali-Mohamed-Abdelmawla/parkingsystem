@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import styles from "./Customer-Services.module.css";
-import View from "../assets/LightMode/view.svg";
-import Close from "../assets/LightMode/false.svg";
+import styles from "./Users.module.css";
+import ViewLight from "../assets/LightMode/view.svg";
+import ViewDark from "../assets/DarkMode/view-dark.svg";
+import CloseLight from "../assets/LightMode/false.svg";
 import CloseDark from "../assets/DarkMode/false-dark.svg";
-    //uploading
 
 class Employees extends Component {
-    
     constructor(props) {
         super(props);
         this.state = {
@@ -19,51 +18,60 @@ class Employees extends Component {
             viewIndex: null,
             editedEmployee: {
                 Name: "",
+                NationalId: '',
                 Email: "",
-                ID: "",
-                Gender: "",
-                WorkHours: "",
+                role: "",
+                phoneNumber: "",
+                garageId: "",
             },
             Employees: [
                 {
-                    Name: "Amany Fawzy",
-                    Email: "amanyf070@gmail.com",
-                    ID: "321210213",
-                    Gender: "Female",
-                    WorkHours: "4",
+                    Name: "Ahmed Mahmoud Ali",
+                    NationalId: '12345678901234',
+                    Email: "ahmed.mahmoud@example.com",
+                    role: "customerservices",
+                    phoneNumber: "01123456789",
+                    garageId: "90"
                 },
                 {
-                    Name: "Slsbeel Samir",
-                    Email: "slsabeel2@gmail.com",
-                    ID: "1542310213",
-                    Gender: "Female",
-                    WorkHours: "6",
+                    Name: "Sara Abdullah Mohamed",
+                    NationalId: '98765432109876',
+                    Email: "sara.abdullah@example.com",
+                    role: "customerservices",
+                    phoneNumber: "01098765432",
+                    garageId: "88"
                 },
                 {
-                    Name: "Ahmed Mohamed",
-                    Email: "aahmed44@gmail.com",
-                    ID: "365478953",
-                    Gender: "Male",
-                    WorkHours: "8",
+                    Name: "Mohamed Khaled Ahmed",
+                    NationalId: '56789012345678',
+                    Email: "mohamed.khaled@example.com",
+                    role: "garageadmin",
+                    phoneNumber: "01234567890",
+                    garageId: "35",
                 },
                 {
-                    Name: "Omar Ahmed",
-                    Email: "omaaar@gmail.com",
-                    ID: "89745623",
-                    Gender: "Male",
-                    WorkHours: "9",
+                    Name: "Fatma Ali Hassan",
+                    NationalId: '34567890123456',
+                    Email: "fatma.ali@example.com",
+                    role: "customerservices",
+                    phoneNumber: "01567890123",
+                    garageId: "76"
+                },
+                {
+                    Name: "Ali Ahmed Hassan",
+                    NationalId: '01234567890123',
+                    Email: "ali.ahmed@example.com",
+                    role: "garageadmin",
+                    phoneNumber: "01876543210",
+                    garageId: "37"
                 }
+
             ]
         };
     }
 
-    componentDidMount() {
-        this.saveToLocalStorage();
-    }
-
     saveToLocalStorage = () => {
         const { Employees } = this.state;
-        localStorage.setItem("employees", JSON.stringify(Employees));
     };
 
     toggleDropdown = (index) => {
@@ -81,6 +89,7 @@ class Employees extends Component {
 
         document.body.classList.add("Edit-modal-active");
     };
+
     handleCloseEditClick = () => {
         this.setState({
             showEditPage: false,
@@ -145,9 +154,10 @@ class Employees extends Component {
         if (
             !editedEmployee.Name ||
             !editedEmployee.Email ||
-            !editedEmployee.ID ||
-            !editedEmployee.Gender ||
-            !editedEmployee.WorkHours
+            !editedEmployee.NationalId ||
+            !editedEmployee.role ||
+            !editedEmployee.phoneNumber ||
+            !editedEmployee.garageId
         ) {
             alert("Please fill in all fields before saving.");
             return;
@@ -199,22 +209,22 @@ class Employees extends Component {
             viewIndex,
         } = this.state;
 
-        const darkModeClass = this.props.isDarkMode ? "dark-mode" : "";
+        const darkModeClass = this.props.darkmode ? styles["dark-mode"] : "";
 
         return (
-            <div className={styles["component-body"]}>
+            <div className={`${styles["component-body"]} ${darkModeClass}`}>
                 <div className={styles["toggle-dark-mode"]} onClick={this.props.handleDarkModeToggle}>
-                    {/* Icon for toggling dark mode */}
-                    {darkModeClass ? "Light Mode" : "Dark Mode"}
+                    {this.props.darkmode ? "Light Mode" : "Dark Mode"}
                 </div>
-                <table className={`${styles["employees-table"]} ${darkModeClass}`}>
+                <table className={`${styles["table-content"]} ${darkModeClass}`}>
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>National ID</th>
                             <th>Email</th>
-                            <th>ID</th>
-                            <th>Gender</th>
-                            <th>Work Hours</th>
+                            <th>Role</th>
+                            <th>Phone Number</th>
+                            <th>Garage ID</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -222,16 +232,17 @@ class Employees extends Component {
                         {this.state.Employees.map((employee, index) => (
                             <tr key={index}>
                                 <td>{employee.Name}</td>
+                                <td>{employee.NationalId}</td>
                                 <td>{employee.Email}</td>
-                                <td>{employee.ID}</td>
-                                <td>{employee.Gender}</td>
-                                <td>{employee.WorkHours}</td>
+                                <td>{employee.role}</td>
+                                <td>{employee.phoneNumber}</td>
+                                <td>{employee.garageId}</td>
                                 <td>
                                     <div
-                                        className={`${styles["employee-details"]} ${darkModeClass}`}
+                                        className={`${styles["details-dropdown"]} ${darkModeClass}`}
                                         onClick={() => this.toggleDropdown(index)}
                                     >
-                                        <img src={View} alt="Details" className={styles["expand-icon"]} />
+                                        <img src={this.props.darkmode ? ViewDark : ViewLight} alt="Details" className={styles["expand-icon"]} />
                                         {index === expandedRow && (
                                             <div className={styles["dropdown-menu"]}>
                                                 <button className={styles["dropdown-button"]} onClick={() => this.handleViewClick(index)}>
@@ -258,64 +269,68 @@ class Employees extends Component {
                     <div className={`${styles["delete-confirmation"]} ${darkModeClass}`}>
                         <div className={`${styles["border"]} ${darkModeClass}`}></div>
                         <div className={`${styles["delete-content"]} ${darkModeClass}`}>
-                            <p>Are you sure to delete this employee?</p>
+                            <p>Are you sure to delete this User?</p>
                             <button className={styles["button1"]} onClick={this.handleConfirmDelete}>
                                 Confirm
                             </button>
-                            <button onClick={this.handleCancelDelete}>No</button>
+                            <button className={styles["button2"]} onClick={this.handleCancelDelete}>
+                                No
+                            </button>
                         </div>
                     </div>
                 )}
-
                 {showEditPage && (
                     <div className={`${styles["edit-modal"]} ${darkModeClass}`}>
                         <div className={`${styles["add-title"]} ${darkModeClass}`}>
                             <button className={`${styles["but"]} ${darkModeClass}`} onClick={this.handleCloseEditClick}>
-                                <img src={darkModeClass ? CloseDark : Close} alt="close" className={styles["icon-close"]} />
+                                <img src={this.props.darkmode ? CloseDark : CloseLight} alt="close" className={styles["icon-close"]} />
                             </button>
                         </div>
                         <form onSubmit={this.handleFormSubmit}>
-                            <label>Edit Employee &nbsp;</label>
-                            <div className="aaaa">
-                            <input
-                                type="text"
-                                name="Name"
-                                placeholder="Name"
-                                value={editedEmployee.Name}
-                                onChange={this.handleInputChange}
-                            />
-                            <input
-                                required
-                                type="email"
-                                name="Email"
-                                placeholder="Email"
-                                value={editedEmployee.Email}
-                                onChange={this.handleInputChange}
-                            />
-                            <input
-                                required
-                                type="text"
-                                name="ID"
-                                placeholder="ID"
-                                value={editedEmployee.ID}
-                                onChange={this.handleInputChange}
-                            />
-                            <input
-                                required
-                                type="text"
-                                name="Gender"
-                                placeholder="Gender"
-                                value={editedEmployee.Gender}
-                                onChange={this.handleInputChange}
-                            />
-                            <input
-                                required
-                                type="number"
-                                name="WorkHours"
-                                placeholder="Work Hours"
-                                value={editedEmployee.WorkHours}
-                                onChange={this.handleInputChange}
-                            />
+                            <label>Edit User &nbsp;</label>
+                            <div className="form-content">
+                                <input
+                                    type="text"
+                                    name="Name"
+                                    placeholder="Name"
+                                    value={editedEmployee.Name}
+                                    onChange={this.handleInputChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="NationalId"
+                                    placeholder="National ID"
+                                    value={editedEmployee.NationalId}
+                                    onChange={this.handleInputChange}
+                                />
+                                <input
+                                    type="email"
+                                    name="Email"
+                                    placeholder="Email"
+                                    value={editedEmployee.Email}
+                                    onChange={this.handleInputChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="role"
+                                    placeholder="Role"
+                                    value={editedEmployee.role}
+                                    onChange={this.handleInputChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="phoneNumber"
+                                    placeholder="Phone Number"
+                                    value={editedEmployee.phoneNumber}
+                                    onChange={this.handleInputChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="garageId"
+                                    placeholder="Garage ID"
+                                    value={editedEmployee.garageId}
+                                    onChange={this.handleInputChange}
+                                />
                             </div>
                             <div className={`${styles["edit-model-buttons"]} ${darkModeClass}`}>
                                 <button type="submit">Edit</button>
@@ -333,26 +348,25 @@ class Employees extends Component {
                                     <label>
                                         <b>Name:</b> {this.state.Employees[viewIndex].Name}
                                     </label>
-                                    <br />
                                     <label>
-                                        <b>Email:</b> {this.state.Employees[viewIndex].Email}
+                                        <b>National ID:</b> {this.state.Employees[viewIndex].NationalId}
                                     </label>
                                 </div>
                             </div>
                             <div className={`${styles["modal-details"]} ${darkModeClass}`}>
                                 <label>
-                                    <b>ID:</b> {this.state.Employees[viewIndex].ID}
+                                    <b>Email:</b> {this.state.Employees[viewIndex].Email}
                                 </label>
-                                <br />
                                 <label>
-                                    <b>Gender:</b> {this.state.Employees[viewIndex].Gender}
+                                    <b>Role:</b> {this.state.Employees[viewIndex].role}
                                 </label>
-                                <br />
                                 <label>
-                                    <b>Work Hours:</b> {this.state.Employees[viewIndex].WorkHours}
+                                    <b>Phone Number:</b> {this.state.Employees[viewIndex].phoneNumber}
                                 </label>
-                                <br />
-                                <div className={`${styles["view-model-buttons"]} ${darkModeClass}`}>
+                                <label>
+                                    <b>Garage ID:</b> {this.state.Employees[viewIndex].garageId}
+                                </label>
+                                <div className={`${styles["view-close-buttons"]} ${darkModeClass}`}>
                                     <button onClick={this.handleCloseView}>Close</button>
                                 </div>
                             </div>
