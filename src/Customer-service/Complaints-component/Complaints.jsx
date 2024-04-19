@@ -1,86 +1,127 @@
-// Presentational Component (Dumb Component)
-import React from "react";
-import styles from "../styles/Employees.module.css";
-import ExpandIcon from "../assets/Details-icon.svg";
+//=============================================== New Customer service ====================================
+import React, { useEffect, useState } from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import Employeestyle from "../styles/Employees.module.css";
+// import ExpandIcon from "../assets/Details-icon.svg";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-const ComplaintsTable = ({
+const baseURL = "https://raknaapi.azurewebsites.net";
+const accessToken = sessionStorage.getItem("accessToken");
+
+function ComplaintsTable({
   complaints,
-  expandedRow,
-  toggleDropdown,
-  handleReplyClick,
+  handleViewComplaint,
   handleSolvedClick,
   handleForwardToAdminClick,
   handleForwardToTechnicalClick,
-}) => (
-  <table>
-    <thead>
-      <tr>
-        <th>Report_id</th>
-        <th>Report_type</th>
-        <th>Reporter_type</th>
-        <th>Report_state</th>
-        <th>Settings</th>
-      </tr>
-    </thead>
-    <tbody>
-      {complaints.map((complaint, index) => (
-        <tr key={index}>
-          <td>{complaint.Report_id}</td>
-          <td>{complaint.Report_type}</td>
-          <td>{complaint.Reporter_type}</td>
-          <td>{complaint.Report_state}</td>
-          <td>
-            <div
-              className={styles.employeeDetails}
-              onClick={() => toggleDropdown(index)}
-            >
-              <img
-                src={ExpandIcon}
-                alt="Details"
-                className={styles.expandIcon}
-              />
-              {index === expandedRow && (
-                <div className={styles.dropdownMenu}>
-                  {/*---------------------*/}
-                  <button
-                    className={styles.dropdownButton}
-                    onClick={() => handleReplyClick(index)}
-                  >
-                    Reply
-                  </button>
-                  <hr />
-                  {/*---------------------*/}
-                  <button
-                    className={styles.dropdownButton}
-                    onClick={() => handleSolvedClick(index)}
-                  >
-                    Set Solved
-                  </button>
-                  <hr />
-                  {/*---------------------*/}
-                  <button
-                    className={styles.dropdownButton}
-                    onClick={() => handleForwardToAdminClick(index)}
-                  >
-                    Forward to Admin
-                  </button>
-                  <hr />
-                  {/*---------------------*/}
-                  <button
-                    className={styles.dropdownButton}
-                    onClick={() => handleForwardToTechnicalClick(index)}
-                  >
-                    Forward to TechnicalSupport
-                  </button>
-                  <hr />
-                </div>
-              )}
-            </div>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-);
+}) {
+  const [helpingData, setHelpingData] = useState([]);
+
+  const columns = [
+    { field: "reportId", headerName: "Report_id", flex: 1 },
+    { field: "reportType", headerName: "Report Type", flex: 1 },
+    { field: "reportMessage", headerName: "Report Message", flex: 1 },
+    { field: "reporterId", headerName: "Reporter Id", flex: 1 },
+    {
+      field: "isFixed",
+      headerName: "Report status",
+      flex: 1,
+      renderCell: (params) => (
+        <span>{params.value ? "Fixed" : "Not Fixed"}</span>
+      ),
+    },
+    {
+      field: "actions",
+      headerName: "Settings",
+      sortable: false,
+      filterable: false,
+      flex: 3,
+      renderCell: (params) => (
+        <>
+          <button
+            className={Employeestyle.dropdownButton}
+            onClick={() => handleViewComplaint(params.row.reportId)}
+          >
+            View
+          </button>
+          <button
+            className={Employeestyle.dropdownButton}
+            onClick={() => handleSolvedClick(params.row.reportId)}
+          >
+            Set as Solved
+          </button>
+          <button
+            className={Employeestyle.dropdownButton}
+            onClick={() => handleForwardToAdminClick(params.row.reportId)}
+          >
+            Forward to Admin
+          </button>
+
+          <button
+            className={Employeestyle.dropdownButton}
+            onClick={() => handleForwardToTechnicalClick(params.row.reportId)}
+          >
+            Forward to TechnicalSupport
+          </button>
+        </>
+      ),
+    },
+  ];
+
+  const rows = complaints.map((complaint, index) => {
+    console.log(helpingData);
+    const reporterName =
+      helpingData.find((admin) => admin.adminId === complaint.reporterId)
+        ?.name || "Technical Support";
+
+    return {
+      id: index,
+      reportId: complaint.reportId,
+      reportType: complaint.reportType,
+      reportMessage: complaint.reportMessage,
+      reporterId: reporterName,
+      isFixed: complaint.isFixed,
+    };
+  });
+
+  useEffect(() => {
+    console.log(accessToken);
+    const fetchGarageAdmins = async () => {
+      try {
+        const response = await axios
+          .get(`${baseURL}/api/Report/GetAllGarageAdmins`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            setHelpingData(response.data);
+          });
+      } catch (error) {
+        console.error("Error fetching garage admins:", error);
+        Swal.fire("Error", "Error fetching garage admins", "error");
+      }
+    };
+    fetchGarageAdmins();
+  }, []);
+
+  return (
+    <div style={{ height: 400, width: "100%" }}>
+      <h1 style= {{marginBottom: "20px"}}>Reports</h1>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 5 },
+          },
+        }}
+        pageSizeOptions={[5, 8, 13]}
+      />
+    </div>
+  );
+}
 
 export default ComplaintsTable;

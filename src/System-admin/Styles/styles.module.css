@@ -14,9 +14,10 @@
   height: 100vh;
   font-family: "Poppins", sans-serif;
   font-size: 0.88rem;
-  /* overflow-x: hidden; */
+  
+  overflow-x: hidden !important;
   /* overflow-y: hidden; */
-  overflow: hidden;
+  overflow:scroll;
   color: var(--font-color);
   background-color: var(--color-background);
 }
@@ -97,6 +98,8 @@ aside .sidebar button:hover{
 
 
 aside .sidebar button img {
+  width: 1.5rem;
+  height: 1.5rem;
   font-size: 1.6rem;
   transition: all 0.3s ease;
 }

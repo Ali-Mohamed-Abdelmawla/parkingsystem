@@ -71,7 +71,7 @@ aside .sidebar button {
   margin: var(--card-padding);
   background-color: transparent;
   padding: 0.8rem;
-  align-items: center;
+  align-items: end;
   justify-content: center;
   color: var(--font-color);
   height: 3.7rem;
@@ -95,6 +95,8 @@ aside .sidebar button:hover{
 
 
 aside .sidebar button img {
+  width:24px;
+  height:25px;
   font-size: 1.6rem;
   transition: all 0.3s ease;
 }
