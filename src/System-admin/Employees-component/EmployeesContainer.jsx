@@ -8,13 +8,16 @@ import axios from "axios";
 // import ExpandIcon from "../assets/light-mode/Details-icon.svg";
 // import WarningIcon from "../assets/light-mode/Delete-icon.svg";
 // import viewComponentIcon from "../assets/light-mode/View-component-icon(1).svg";
+import swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
 
 const baseURL = "https://raknaapi.azurewebsites.net";
 const accessToken = sessionStorage.getItem("accessToken");
 
+// لازم نريلود بعد التعديل
+
 function Employees() {
   const [employees, setEmployees] = useState([]);
-  const [expandedRow, setExpandedRow] = useState(-1);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deletionIndex, setDeletionIndex] = useState(null);
   const [showEditPage, setShowEditPage] = useState(false);
@@ -22,14 +25,14 @@ function Employees() {
   const [showViewDetails, setShowViewDetails] = useState(false);
   const [viewIndex, setViewIndex] = useState(null);
   const [editedEmployee, setEditedEmployee] = useState({
-    employeeName: "",
+    FullName: "",
+    userName: "",
+    email: "",
     phoneNumber: "",
-    Garage_id: "",
-    Role: "",
-    Employee_id: "",
-    National_id: "",
+    NationalId: "",
     Salary: "",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch employees from API on component mount
@@ -48,11 +51,10 @@ function Employees() {
       });
   }, []);
 
-  const toggleDropdown = (index) => {
-    setExpandedRow((prevExpandedRow) =>
-      prevExpandedRow === index ? -1 : index
-    );
-  };
+
+
+    //============================= Edit ========================
+
 
   const handleEditClick = (index) => {
     setShowEditPage(true);
@@ -78,15 +80,27 @@ function Employees() {
         updatedEmployees[editIndex] = response.data;
         setEmployees(updatedEmployees);
         setShowEditPage(false);
+        swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Employee updated successfully",
+        });
       })
       .catch((error) => {
         console.error("Error updating employee:", error);
+        swal.fire({
+          icon: "error",
+          title: "Error",
+          text: `Failed to update employee: ${error.response.data.errors.FullName[0]}`,
+        });
       });
   };
 
   const handleCloseEditClick = () => {
     setShowEditPage(false);
   };
+
+  //============================= Delete ========================
 
   const handleDeleteClick = (index) => {
     setShowDeleteConfirmation(true);
@@ -143,8 +157,6 @@ function Employees() {
     <>
       <EmployeesTable
         employees={employees}
-        expandedRow={expandedRow}
-        toggleDropdown={toggleDropdown}
         handleEditClick={handleEditClick}
         handleDeleteClick={handleDeleteClick}
         handleViewClick={handleViewClick}

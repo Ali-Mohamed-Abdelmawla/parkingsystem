@@ -1,13 +1,13 @@
 import React from "react";
 import Employeestyle from '../Styles/Employees.module.css'
-import Close from "../assets/light-mode/Close-icon.svg";
+
 
 function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputChange }) {
+  
   return (
 <div className={Employeestyle.editModal}>
  <div className={Employeestyle.editTitle}>
     <button onClick={onClose}>
-      <img src={Close} alt="Close" />
     </button>
  </div>
  <form onSubmit={onSubmit}>
@@ -16,13 +16,15 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
     </label>
     {/* Input fields for editing employee */}
     <input
+    required
       type="text"
-      name="employeeName"
+      name="name"
       placeholder="FullName"
       defaultValue={editedEmployee.name}
       onChange={handleInputChange}
     />
     <input
+    required
       type="text"
       name="userName"
       placeholder="UserName"
@@ -30,6 +32,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
       onChange={handleInputChange}
     />
     <input
+    required
       type="text"
       name="email"
       placeholder="Email"
@@ -37,6 +40,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
       onChange={handleInputChange}
     />
     <input
+    required
       type="text"
       min="0"
       id="number"
@@ -49,20 +53,9 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
         handleInputChange(e);
       }}
     />
+
     <input
-      type="text"
-      min="0"
-      id="number"
-      name="Garage_id"
-      placeholder="Password"
-      maxLength={6}
-      defaultValue={editedEmployee.Garage_id}
-      onChange={(e) => {
-        e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-        handleInputChange(e);
-      }}
-    />
-    <input
+    required
       type="text"
       min="0"
       id="number"
@@ -76,6 +69,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
       }}
     />
     <input
+    required
       type="text"
       min="0"
       id="number"

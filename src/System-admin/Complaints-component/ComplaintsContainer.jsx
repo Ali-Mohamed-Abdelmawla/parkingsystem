@@ -2,76 +2,84 @@
 import React, { useState, useEffect } from 'react';
 import ComplaintsTable from './Complaints';
 import ViewModal from './ViewComplaints';
-import DeleteConfirmationModal from './DeleteComplaints';
+import DeleteConfirmationModal from './UpdateComplaints';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
+const baseURL = "https://raknaapi.azurewebsites.net";
+const accessToken = sessionStorage.getItem("accessToken");
 const ComplaintsContainer = () => {
   const [complaints, setComplaints] = useState([]);
-  const [expandedRow, setExpandedRow] = useState(-1);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [deletionIndex, setDeletionIndex] = useState(null);
+  const [updateIndex, setUpdateIndex] = useState(null)
+
   const [showViewDetails, setShowViewDetails] = useState(false);
-  const [viewIndex, setViewIndex] = useState(null);
+ const [viewIndex, setViewIndex] = useState(null)
 
-  useEffect(() => {
-    // Load complaints from localStorage on component mount
-    const savedComplaints = JSON.parse(localStorage.getItem('complaints')) || [];
-    setComplaints(savedComplaints);
-    console.log(savedComplaints)
-  }, []);
 
-  useEffect(() => {
-    // Save complaints to localStorage whenever it changes
-    const complaints= [
-        {
-          Report_id:123456,
-          Reporter_id: 9799,
-          Report_type: "Complaint",
-          Report_state: "Solved",
-          Reporter_type: "Customer",
-          Report_message: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, eius."
-        },
-        {
-          Report_id:13909,
-          Reporter_id: 2552,
-          Report_type: "Complaint",
-          Report_state: "Notsolved",
-          Reporter_type: "Employee",
-          Report_message: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, eius."
-        },
-        {
-          Report_id:20502,
-          Reporter_id: 2504,
-          Report_type: "Complaint",
-          Report_state: "Solved",
-          Reporter_type: "Customer",
-          Report_message: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, eius."
-        },
-      ]
-    localStorage.setItem('complaints', JSON.stringify(complaints));
-  }, [complaints]);
 
-  const toggleDropdown = (index) => {
-    setExpandedRow((prevIndex) => (prevIndex === index ? -1 : index));
-  };
+    useEffect(() => {
+      // Fetch employees from API on component mount
+      axios
+        .get(`${baseURL}/api/Report/GetReportsBasedOnRole`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          setComplaints(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching employees:", error);
+        });
+    }, []);
+      
+
+
 
   const handleDeleteClick = (index) => {
     setShowDeleteConfirmation(true);
-    setDeletionIndex(index);
+    setUpdateIndex(index)
     document.body.classList.add('deleteModalActive');
   };
 
-  const handleConfirmDelete = () => {
-    const updatedComplaints = complaints.filter((_, index) => index !== deletionIndex);
-    setComplaints(updatedComplaints);
+  const handleUpdateStatus = async () => {
     setShowDeleteConfirmation(false);
-    setDeletionIndex(null);
-    document.body.classList.remove('deleteModalActive');
+
+    try {
+      const response = await axios.put(
+        `${baseURL}/api/Report/UpdateReportStatus/${updateIndex}`,
+        true, // Assuming you don't need to send any data in the body
+        {
+          params: {
+            reportId: updateIndex,
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Complaint marked as solved:", response.data);
+      setShowDeleteConfirmation(false);
+      document.body.classList.remove("deleteModalActive");
+      Swal.fire("Success", "Complaint marked as solved", "success").then(() => {
+        window.location.reload();
+      })
+    } catch (error) {
+      console.error("Error marking complaint as solved:", error);
+      Swal.fire("Error", "Failed to mark complaint as solved", "error");
+    }
+        document.body.classList.remove('deleteModalActive');
+
   };
 
-  const handleViewClick = (index) => {
-    setShowViewDetails(true);
+  const handleViewClick = async (index) => {
+    console.log(index)
     setViewIndex(index);
     document.body.classList.add('viewModalActive');
+    setShowViewDetails(true);
   };
 
   const handleCloseView = () => {
@@ -84,15 +92,13 @@ const ComplaintsContainer = () => {
     <>
       <ComplaintsTable
         complaints={complaints}
-        expandedRow={expandedRow}
-        toggleDropdown={toggleDropdown}
         handleViewClick={handleViewClick}
         handleDeleteClick={handleDeleteClick}
       />
       {showDeleteConfirmation && (
         <DeleteConfirmationModal
-          onConfirmDelete={handleConfirmDelete}
-          onCancelDelete={() => setShowDeleteConfirmation(false)}
+          onConfirmUpdate={handleUpdateStatus}
+          onCancelUpdate={() => setShowDeleteConfirmation(false)}
         />
       )}
       {showViewDetails && (
