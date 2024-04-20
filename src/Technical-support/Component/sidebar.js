@@ -58,7 +58,7 @@ const Sidebar = ({ darkmode }) => {
                 </div>
             </div>
             {isGaragePopupOpen && <AddNewGaragePopup onClose={handleClosePopup} darkMode={darkmode} />}
-            {isUserPopupOpen && <UserPopup onClose={handleClosePopup} />}
+            {isUserPopupOpen && <UserPopup onClose={handleClosePopup} darkMode={darkmode}/>}
             <div className={styles['menu-item']}>
                 <Link to={'/'}>
                     <img src={darkmode ? DarkModeLogout : LightModeLogout} alt="Logout" />

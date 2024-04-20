@@ -66,7 +66,9 @@
 .complaint-table tbody tr {
     transition: all 0.3s ease;
 }
-
+.dark-mode .view-modal{
+    box-shadow: 0px 4px 10px rgba(69, 62, 62, 0.398); 
+}
 
 
 .details-dropdown {
@@ -264,7 +266,6 @@ background-color: #231F20;
     background-color: #000000;
     color: #F2F1F1;
 }
-
 .dark-mode .delete-confirmation .delete-content {
     background-color: #000000;
 }
@@ -334,6 +335,6 @@ background-color: #231F20;
 .dark-mode .dropdown-menu{
     background-color: #231F20;
 }
-.dark-mode .table-content{
-    box-shadow:none;
+.dark-mode .complaint-table{
+    box-shadow: 5px 10px 10px rgba(85, 77, 77, 0.553); 
 }

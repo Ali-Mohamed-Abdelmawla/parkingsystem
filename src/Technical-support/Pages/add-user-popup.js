@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import close from '../assets/LightMode/false.svg';
-import styles from './garage-popup.module.css';
 import axios from 'axios';
+import React, { useState } from 'react';
+import styles from './garage-popup.module.css';
+import closeDark from '../assets/DarkMode/false-dark.svg';
+import closeLight from '../assets/LightMode/false.svg';
 
 const UserPopup = ({ onClose, darkMode }) => { 
     const [userData, setUserData] = useState([]);
@@ -58,9 +59,9 @@ const UserPopup = ({ onClose, darkMode }) => {
     return (
         <div className={`${styles.popup} ${darkMode ? styles['dark-mode'] : ''}`}>
             <div className={styles['popup-inner']}>
-                <img src={close} alt="close" className={styles['close-icon']} onClick={onClose} />
+            <img src={darkMode ? closeDark : closeLight} alt="close" className={styles['close-icon']} onClick={onClose} />
                 <h2>Add User</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className={styles.form}>
                     <input placeholder='Full Name' type="text" name="fullName" value={formData.fullName} onChange={handleChange} />
                     <input placeholder='National ID' type="text" name="nationalId" value={formData.nationalId} onChange={handleChange}  />
                     <input placeholder='Username' type="text" name="userName" value={formData.userName} onChange={handleChange}  />

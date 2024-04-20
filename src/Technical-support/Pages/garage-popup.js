@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
 import axios from 'axios';
+import React, { useState } from 'react';
+import styles from './garage-popup.module.css';
 import closeDark from '../assets/DarkMode/false-dark.svg';
 import closeLight from '../assets/LightMode/false.svg';
-import styles from './garage-popup.module.css';
 
-const GaragePopup = ({ onClose, darkmode }) => {
+const AddNewGaragePopup = ({ onClose, darkMode }) => {
     const [garageData, setGarageData] = useState([]);
     const [formData, setFormData] = useState({
         garageName: '',
@@ -65,9 +65,9 @@ const GaragePopup = ({ onClose, darkmode }) => {
     };
 
     return (
-        <div className={`${styles.popup} ${darkmode ? styles['dark-mode'] : ''}`}> {/* Apply dark mode class */}
-            <div className={`${styles['popup-inner']} ${darkmode ? styles['dark-mode-inner'] : ''}`}> {/* Apply dark mode class */}
-                <img src={darkmode ? closeDark : closeLight} alt="close" className={styles['close-icon']} onClick={onClose} /> {/* Use dark mode close icon */}
+        <div className={`${styles.popup} ${darkMode ? styles['dark-mode'] : ''}`}> {/* Apply dark mode class */}
+            <div className={`${styles['popup-inner']} ${darkMode ? styles['dark-mode-inner'] : ''}`}> {/* Apply dark mode class */}
+                <img src={darkMode ? closeDark : closeLight} alt="close" className={styles['close-icon']} onClick={onClose} /> {/* Use dark mode close icon */}
                 <h2>Add Garage</h2>
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <input placeholder='Garage Name' type="text" name="garageName" value={formData.garageName} onChange={handleChange} />
@@ -84,4 +84,4 @@ const GaragePopup = ({ onClose, darkmode }) => {
     );
 };
 
-export default GaragePopup;
+export default AddNewGaragePopup;
