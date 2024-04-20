@@ -19,13 +19,8 @@ function AddVehiclePopup({ onClose, darkMode }) {
 
   const startParkingSession = async (accessToken) => {
     try {
-      const plateLetters = inputs[0] + inputs[1] + inputs[2];
-      const plateNumbers = inputs[3] + inputs[4] + inputs[5];
-  
-    
-      if (inputs.length === 7) {
-        plateNumbers += inputs[6];
-      }
+      const plateLetters = inputs.slice(0, 3).join(' '); 
+      const plateNumbers = inputs.slice(3).join(''); 
   
       const response = await axios.post(
         '/api/GarageStaff/StartParkingSession',

@@ -60,7 +60,6 @@ const MenuItem = ({ icon, text, onClick }) => {
     <div className={styles['menu-item']} onClick={onClick}>
       {icon}
       <p>{text}</p>
-
     </div>
   );
 };
