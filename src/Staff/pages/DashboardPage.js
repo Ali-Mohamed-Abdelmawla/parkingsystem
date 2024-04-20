@@ -8,7 +8,7 @@ import axios from '../axios';
 
 const DashboardPage = ({ darkMode }) => {
   const [availableSpaces, setAvailableSpaces] = useState(0);
-  const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
+  const [accessToken, setAccessToken] = useState(sessionStorage.getItem('accessToken'));
 
   useEffect(() => {
     const fetchAvailableSpaces = async () => {
@@ -82,7 +82,7 @@ const DashboardPage = ({ darkMode }) => {
             <div>
               <span>Total Spaces</span>
               <img src={darkMode ? groupiconDark : groupiconLight} alt="Icon" className={styles.icon} />
-              <p className={styles.number}>100</p>
+              <p className={styles.number}>120</p>
             </div>
           </div>
         </div>
@@ -92,7 +92,7 @@ const DashboardPage = ({ darkMode }) => {
             <div>
               <span>Occupied Spaces</span>
               <img src={darkMode ? updateiconDark : updateiconLight} alt="Icon" className={styles.icon} />
-              <p className={styles.number}>70</p>
+              <p className={styles.number}>9</p>
             </div>
           </div>
         </div>

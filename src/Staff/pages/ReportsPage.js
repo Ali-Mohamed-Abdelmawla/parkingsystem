@@ -18,7 +18,7 @@ function ReportsPage({ darkMode }) {
           const response = await axios.post(
             '/api/Report/CreateReport',
             {
-              reportType: "SystemError",
+              // reportType: "SystemError",
               reportMessage: description
             },
             {
