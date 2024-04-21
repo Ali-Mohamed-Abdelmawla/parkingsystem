@@ -20,6 +20,7 @@ import ActiveSessions from './System-admin/ActiveSessions-component/Activesessio
 import Salaries from './System-admin/Salaries-component/Salaries';
 
 // staff commponents
+import DashboardPage from "./Staff/pages/DashboardPage";
 import Transaction from "./Staff/pages/TransactionPage";
 import Reports from "./Staff/pages/ReportsPage";
 // customer service components
@@ -97,6 +98,10 @@ function App() {
       path: "/GarageStaff/*",
       element: <ProtectedRoute element={<GarageStaff />} />,
       children: [
+        {
+          path:"GarageStaff/Dashboard",
+          element:<DashboardPage/>
+        },
         {
           path:"GarageStaff/Report",
           element:<Reports/>

@@ -38,9 +38,9 @@ const Sidebar = ({ darkMode, name, toggleDarkMode }) => {
         <span className={styles['logo-text']}>Rakna</span>
       </div>
       <div className={styles['menu-items']}>
-        <MenuItem icon={darkMode ? <DarkDashboardIcon /> : <DashboardIcon />} text="Dashboard" onClick={() => goToRoute("/")} />
-        <MenuItem icon={darkMode ? <DarkTransactionIcon /> : <TransactionIcon />} text="Transaction" onClick={() => goToRoute("/transaction")} />
-        <MenuItem icon={darkMode ? <DarkReportsIcon /> : <ReportsIcon />} text="Reports" onClick={() => goToRoute("/reports")} />
+        <MenuItem icon={darkMode ? <DarkDashboardIcon /> : <DashboardIcon />} text="Dashboard" onClick={() => goToRoute("GarageStaff/Dashboard")} />
+        <MenuItem icon={darkMode ? <DarkTransactionIcon /> : <TransactionIcon />} text="Transaction" onClick={() => goToRoute("GarageStaff/Transaction")} />
+        <MenuItem icon={darkMode ? <DarkReportsIcon /> : <ReportsIcon />} text="Reports" onClick={() => goToRoute("GarageStaff/Report")} />
         <div className={styles['menu-item']} onClick={handlePopupOpen}>
           {darkMode ? <DarkAddVehicleIcon /> : <AddVehicleIcon />}
           <p className={styles.add}>Add Vehicle</p>

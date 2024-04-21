@@ -30,27 +30,28 @@ function App() {
             },
           }
         );
-
+  
         if (response.status === 200) {
           sessionStorage.setItem("accessToken", response.data.Token);
-
+  
           if (response.data.Token) {
-          console.log(response.data.IsAuthenticated);
-
-          if (response.data.Token) {
-            handleLoginToken(response.data.Token);
-          } else if (
-            response.data.isAuthenticated === false &&
-            response.data.message === "Email is not confirmed yet!"
-          ) {
-            navigate("");
-            swal.fire("Error", "please, verify your account", "error");
-          } else if (
-            response.data.isAuthenticated === false &&
-            response.data.message === "Email or Password is incorrect!"
-          ) {
-            navigate("");
-            swal.fire("Error", "Email or Password is incorrect", "error");
+            console.log(response.data.IsAuthenticated);
+  
+            if (response.data.Token) {
+              handleLoginToken(response.data.Token);
+            } else if (
+              response.data.isAuthenticated === false &&
+              response.data.message === "Email is not confirmed yet!"
+            ) {
+              navigate("");
+              swal.fire("Error", "please, verify your account", "error");
+            } else if (
+              response.data.isAuthenticated === false &&
+              response.data.message === "Email or Password is incorrect!"
+            ) {
+              navigate("");
+              swal.fire("Error", "Email or Password is incorrect", "error");
+            }
           }
         } else {
           setError("Invalid username or password");
@@ -62,6 +63,7 @@ function App() {
       setError("Please enter your username and password");
     }
   };
+  
 
   const handleLoginToken = (Token) => {
     if (sessionStorage.getItem("accessToken") !== "undefined") {

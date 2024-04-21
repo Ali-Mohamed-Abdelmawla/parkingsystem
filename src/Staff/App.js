@@ -31,9 +31,9 @@ const App = () => {
         <div className="content">
           <Sidebar darkMode={darkMode} name={name} toggleAddVehiclePopup={toggleAddVehiclePopup} goToRoute={goToRoute} />
           <Routes>
-          <Route path="/" element={<Dashboard darkMode={darkMode} />} />
-          <Route path="/transaction" element={<Transaction darkMode={darkMode} />} />
-          <Route path="/reports" element={<Reports darkMode={darkMode} />} />
+          <Route path="GarageStaff/Dashboard" element={<Dashboard darkMode={darkMode} />} />
+          <Route path="GarageStaff/Transaction" element={<Transaction darkMode={darkMode} />} />
+          <Route path="GarageStaff/Report" element={<Reports darkMode={darkMode} />} />
           </Routes>
         </div>
         {isAddVehiclePopupOpen && <AddVehiclePopup onClose={toggleAddVehiclePopup} darkMode={darkMode} />}
