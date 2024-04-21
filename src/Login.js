@@ -35,6 +35,9 @@ function App() {
           sessionStorage.setItem("accessToken", response.data.Token);
 
           if (response.data.Token) {
+          console.log(response.data.IsAuthenticated);
+
+          if (response.data.Token) {
             handleLoginToken(response.data.Token);
           } else if (
             response.data.isAuthenticated === false &&
@@ -60,10 +63,10 @@ function App() {
     }
   };
 
-  const handleLoginToken = (token) => {
+  const handleLoginToken = (Token) => {
     if (sessionStorage.getItem("accessToken") !== "undefined") {
       try {
-        const decodedToken = jwtDecode(token);
+        const decodedToken = jwtDecode(Token);
         const userRole = decodedToken.roles;
         console.log(userRole);
         if (navigate) {
