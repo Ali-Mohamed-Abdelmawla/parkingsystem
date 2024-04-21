@@ -41,7 +41,7 @@ function ComplaintsTable({
         <>
           <button
             className={Employeestyle.dropdownButton}
-            onClick={() => handleViewComplaint(params.row.reportId)}
+            onClick={() => handleViewComplaint(params.row.id)}
           >
             View
           </button>

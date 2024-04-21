@@ -9,11 +9,11 @@ import Logout from "./assets/log-out.svg";
 import search from "./assets/Search.svg";
 // import AddReporIcont from "./assets/Add-Report.svg";
 import { useNavigate } from "react-router-dom";
-
+import { jwtDecode } from 'jwt-decode';
 export default function Layout() {
   const showComplaintsComponent = useState(true);
   // const [showAddPage, setShowAddPage] = useState(false);
-
+  const[userName, setUserName] = useState(null)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,7 +25,14 @@ export default function Layout() {
     };
   }, []);
 
-
+  useEffect(() => {
+    const token = sessionStorage.getItem("accessToken");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
+      setUserName(decodedToken.FullName);
+    }
+  }, []);
 
   // const handleCloseAddBtn = () => {
   //   setShowAddPage(false);
@@ -100,7 +107,7 @@ export default function Layout() {
 
             <p className={styles.Welcome}>
               <small>Welcome, </small>
-              <h3> Ali </h3>
+              <h3> {userName} </h3>
             </p>
           </div>
         </div>

@@ -14,9 +14,9 @@ const Dashboard = ({ darkmode }) => {
                 <div className={`${styles.card} ${darkmode ? styles['dark-mode'] : ''}`}>
                     <div className={`${styles['card-content']} ${darkmode ? styles['dark-mode'] : ''}`}>
                         <div>
-                            <span className={`${styles.span} ${darkmode ? styles['dark-mode'] : ''}`}>Total Customer Service</span>
+                            <span className={`${styles.span} ${darkmode ? styles['dark-mode'] : ''}`}>Total Users</span>
                             <img src={darkmode ? TotalEmployeeDark : TotalEmployeeLight} alt="Total Employee Icon" className={`${styles.icon1} ${darkmode ? styles['dark-mode'] : ''}`} />
-                            <p className={`${styles.number1} ${darkmode ? styles['dark-mode'] : ''}`}>100</p>
+                            <p className={`${styles.number1} ${darkmode ? styles['dark-mode'] : ''}`}>_</p>
                         </div>
                     </div>
                 </div>
@@ -26,7 +26,7 @@ const Dashboard = ({ darkmode }) => {
                         <div>
                             <span className={`${styles.span} ${darkmode ? styles['dark-mode'] : ''}`}>Total Reports</span>
                             <img src={darkmode ? TotalReportsDark : TotalReportsLight} alt="Total Reports Icon" className={`${styles.icon} ${darkmode ? styles['dark-mode'] : ''}`} />
-                            <p className={`${styles.number} ${darkmode ? styles['dark-mode'] : ''}`}>20</p>
+                            <p className={`${styles.number} ${darkmode ? styles['dark-mode'] : ''}`}>{sessionStorage.getItem("totalReports")}</p>
                         </div>
                     </div>
                 </div>
