@@ -32,11 +32,11 @@ function App() {
         );
 
         if (response.status === 200) {
-          sessionStorage.setItem("accessToken", response.data.token);
+          sessionStorage.setItem("accessToken", response.data.Token);
           console.log(response.data.isAuthenticated);
 
           if (response.data.token) {
-            handleLoginToken(response.data.token);
+            handleLoginToken(response.data.Token);
           } else if (
             response.data.isAuthenticated === false &&
             response.data.message === "Email is not confirmed yet!"
@@ -61,10 +61,10 @@ function App() {
     }
   };
 
-  const handleLoginToken = (token) => {
+  const handleLoginToken = (Token) => {
     if (sessionStorage.getItem("accessToken") !== "undefined") {
       try {
-        const decodedToken = jwtDecode(token);
+        const decodedToken = jwtDecode(Token);
         const userRole = decodedToken.roles;
         console.log(userRole);
         if (navigate) {
