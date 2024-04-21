@@ -26,6 +26,8 @@ import ComplaintsforCustomerService from "./Customer-service/Complaints-componen
 
 // import TechnicalSupport from "./Technical-support/App";
 import GarageStaff from "./Staff/App";
+import Transaction from "./Staff/pages/TransactionPage";
+import Reports from "./Staff/pages/ReportsPage";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import Garage from "./Technical-support/Pages/Garages";
@@ -95,7 +97,14 @@ function App() {
       path: "/GarageStaff/*",
       element: <ProtectedRoute element={<GarageStaff />} />,
       children: [
-        // Add children routes for GarageStaff
+        {
+          path: "GarageStaff/transaction",
+          element: <Transaction />,
+        },
+        {
+          path: "GarageStaff/reports",
+          element: <Reports/>,
+        },
       ],
     },
     {
