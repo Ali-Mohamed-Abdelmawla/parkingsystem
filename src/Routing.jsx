@@ -16,11 +16,13 @@ import TechnicalSupport from "./Technical-support/App";
 import Employees from "./System-admin/Employees-component/EmployeesContainer";
 import Dashboard from "./System-admin/Dashboard-component/Dashboard";
 import Complaints from "./System-admin/Complaints-component/ComplaintsContainer";
-import ActiveSessions from './System-admin/ActiveSessions-component/Activesessions'
-import Salaries from './System-admin/Salaries-component/Salaries'
+import ActiveSessions from './System-admin/ActiveSessions-component/Activesessions';
+import Salaries from './System-admin/Salaries-component/Salaries';
 
+// staff commponents
+import Transaction from "./Staff/pages/TransactionPage";
+import Reports from "./Staff/pages/ReportsPage";
 // customer service components
-
 import Swal from "sweetalert2";
 import ComplaintsforCustomerService from "./Customer-service/Complaints-component/ComplaintsContainer";
 
@@ -95,7 +97,14 @@ function App() {
       path: "/GarageStaff/*",
       element: <ProtectedRoute element={<GarageStaff />} />,
       children: [
-        // Add children routes for GarageStaff
+        {
+          path:"GarageStaff/Report",
+          element:<Reports/>
+        },
+        {
+          path:"GarageStaff/Transaction",
+          element:<Transaction/>
+        },
       ],
     },
     {

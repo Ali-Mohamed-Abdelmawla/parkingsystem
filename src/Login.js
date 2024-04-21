@@ -32,11 +32,10 @@ function App() {
         );
 
         if (response.status === 200) {
-          sessionStorage.setItem("accessToken", response.data.token);
-          console.log(response.data.isAuthenticated);
+          sessionStorage.setItem("accessToken", response.data.Token);
 
-          if (response.data.token) {
-            handleLoginToken(response.data.token);
+          if (response.data.Token) {
+            handleLoginToken(response.data.Token);
           } else if (
             response.data.isAuthenticated === false &&
             response.data.message === "Email is not confirmed yet!"

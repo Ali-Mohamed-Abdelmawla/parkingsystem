@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import TopBar from './components/TopBar';
 import Dashboard from './pages/DashboardPage';
@@ -10,6 +10,7 @@ import AddVehiclePopup from './pages/AddVehiclePopup';
 
 const App = () => {
   
+  const navigate = useNavigate();
   const [isAddVehiclePopupOpen, setIsAddVehiclePopupOpen] = useState(false);
   const toggleAddVehiclePopup = () => setIsAddVehiclePopupOpen(!isAddVehiclePopupOpen);
 
@@ -21,7 +22,7 @@ const App = () => {
   const name = "Slsabeel";
 
   const goToRoute = (route) => {
-    
+    navigate(route);
   };
 
   return (
