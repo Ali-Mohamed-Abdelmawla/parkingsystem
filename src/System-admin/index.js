@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Styles/styles.module.css";
 
 // importing icons
@@ -20,13 +20,25 @@ import AddReport from "./AddReport-component/AddReport";
 //Routes
 import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
+import { jwtDecode } from 'jwt-decode';
 
 function TheOne() {
   const navigate = useNavigate();
 
   const [showAddPage, setShowAddPage] = useState(false);
   const [showAddReportPage, setShowAddReportPage] = useState(false);
+  const [userName,setUserName]=useState(null)
 
+
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("accessToken");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
+      setUserName(decodedToken.FullName);
+    }
+  }, []);
 
   const handleAddBtn = () => {
     setShowAddPage(true);
@@ -156,7 +168,7 @@ function TheOne() {
 
             <p className={styles.Welcome}>
               <small>Welcome, </small>
-              <h3> Ali </h3>
+              <h3> {userName} </h3>
             </p>
           </div>
           <div className={styles.Content}>

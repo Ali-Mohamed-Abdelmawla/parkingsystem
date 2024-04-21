@@ -10,6 +10,7 @@ import axios from "axios";
 // import viewComponentIcon from "../assets/light-mode/View-component-icon(1).svg";
 import swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
+import Swal from "sweetalert2";
 
 const baseURL = "https://raknaapi.azurewebsites.net";
 const accessToken = sessionStorage.getItem("accessToken");
@@ -84,7 +85,9 @@ function Employees() {
           icon: "success",
           title: "Success",
           text: "Employee updated successfully",
-        });
+        }).then(() => {
+          window.location.reload();
+        })
       })
       .catch((error) => {
         console.error("Error updating employee:", error);
@@ -124,6 +127,9 @@ function Employees() {
         setEmployees(updatedEmployees);
         setShowDeleteConfirmation(false);
         setDeletionIndex(null);
+        Swal.fire("Success", "Employee deleted successfully", "success").then(() => {
+          window.location.reload();
+        })
       })
       .catch((error) => {
         console.error("Error deleting employee:", error);

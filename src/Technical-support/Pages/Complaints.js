@@ -97,6 +97,7 @@ class Complaints extends React.Component {
                 },
             });
             const complaints = response.data; 
+            sessionStorage.setItem("totalReports", response.data.length);//مؤقتا بس عاملها علشان و انا بصور قدام الدكتور دي بترجع عدد الريبورتس علشان اعرضو في الداش بورد
             this.setState({ Complaint: complaints });
         } catch (error) {
             console.error("Error fetching complaints:", error);

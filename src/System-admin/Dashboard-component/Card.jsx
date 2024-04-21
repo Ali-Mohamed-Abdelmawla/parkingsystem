@@ -5,10 +5,10 @@ const Card = ({ title, value, icon }) => {
   return (
     <div className={DashboardStyle.card}>
       <div className={DashboardStyle.cardTitle}>
-        <small>{title}</small>
+        <h5>{title}</h5>
         <img src={icon} alt="icon" />
       </div>
-      <h2>{value}</h2>
+      <h4>{value}</h4>
     </div>
   );
 }

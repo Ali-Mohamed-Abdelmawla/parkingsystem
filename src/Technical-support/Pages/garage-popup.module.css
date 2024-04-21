@@ -72,7 +72,7 @@
     padding: 20px;
 }
 
-input {
+.popup input {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 4px; 
     border: none;
@@ -83,7 +83,7 @@ input {
     margin-bottom: 15px;
 }
 
-input:focus {
+.popup input:focus {
     outline: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
