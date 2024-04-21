@@ -16,11 +16,13 @@ const App = () => {
   const toggleDarkMode = () => setDarkMode(!darkMode);
   
   const navigate = useNavigate();
+
   
   const name = "Slsabeel";
 
   const goToRoute = (route) => {
     navigate(route);
+
   };
 
   return (
