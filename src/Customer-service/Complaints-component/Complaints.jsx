@@ -88,6 +88,9 @@ function ComplaintsTable({
   useEffect(() => {
     console.log(accessToken);
     const fetchGarageAdmins = async () => {
+      if(accessToken == null){
+        fetchGarageAdmins();
+      }
       try {
         const response = await axios
           .get(`${baseURL}/api/Report/GetAllGarageAdmins`, {
