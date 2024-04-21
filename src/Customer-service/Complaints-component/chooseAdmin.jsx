@@ -25,7 +25,9 @@ const ViewModal = ({ reportId, onClose }) => {
         }
       );
       console.log("Complaint is forwarded succesfully:", response.data);
-      Swal.fire("Success", "Complaint is forwarded succesfully", "success");
+      Swal.fire("Success", "Complaint is forwarded succesfully", "success").then(() => {
+        window.location.reload();
+      });
     } catch (error) {
       console.error("Error marking complaint as solved:", error);
       Swal.fire("Error", "Error forwarding the complaint", "error");

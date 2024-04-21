@@ -18,7 +18,7 @@ const ViewModal = ({ complaint, onClose }) => {
                   <b>Report Type:</b> {complaint.reportType}
                 </label>
                 <label>
-                  <b>Reporter Id:</b> {complaint.reporterId}
+                  <b>Reporter name:</b> {complaint.reporterName}
                 </label>
                 <label>
                   <b>Report status:</b>{" "}

@@ -5,6 +5,7 @@ import updateiconLight from '../assets/light-mode/updateIcon.svg';
 import groupiconDark from '../assets/Dark-mode/groupicon.svg';
 import updateiconDark from '../assets/Dark-mode/updateIcon.svg';
 import axios from '../axios'; 
+import CameraSwitcher from '../Camera/App'; 
 
 const DashboardPage = ({ darkMode }) => {
   const [availableSpaces, setAvailableSpaces] = useState(0);
@@ -106,6 +107,10 @@ const DashboardPage = ({ darkMode }) => {
             </div>
           </div>
         </div>
+      </div>
+      {/* Add CameraSwitcher component here */}
+      <div className={`${styles.CameraSwitcherContainer} ${darkMode ? styles['dark-mode'] : ''}`}>
+        <CameraSwitcher darkMode={darkMode} />
       </div>
     </div>
   );

@@ -9,19 +9,19 @@ import AddVehiclePopup from './pages/AddVehiclePopup';
 
 
 const App = () => {
-  // State for Add Vehicle Popup
+  
   const [isAddVehiclePopupOpen, setIsAddVehiclePopupOpen] = useState(false);
   const toggleAddVehiclePopup = () => setIsAddVehiclePopupOpen(!isAddVehiclePopupOpen);
 
-  // State for dark mode
+  
   const [darkMode, setDarkMode] = useState(false);
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
-  // Mock user data
+  
   const name = "Slsabeel";
 
   const goToRoute = (route) => {
-    // Logic to navigate to a specific route
+    
   };
 
   return (
