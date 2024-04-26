@@ -153,9 +153,9 @@ const Dashboard = () => {
       ["Date", "Cash", "Card", "Mobile"],
       [
         `${startDate} - ${endDate}`,
-        parseInt(statistics.totalRevenue.numberOfCashPayments),
-        parseInt(statistics.totalRevenue.numberOfCardPayments),
-        parseInt(statistics.totalRevenue.numberOfMobilePayments),
+        parseInt(statistics.TotalRevenue.NumberOfCashPayments),
+        parseInt(statistics.TotalRevenue.NumberOfCardPayments),
+        parseInt(statistics.TotalRevenue.NumberOfMobilePayments),
       ],
     ];
 
@@ -170,13 +170,13 @@ const Dashboard = () => {
     setRevenueColumnChartData(data);
     setRevenueColumnChartOptions(options);
     //========================kinds of revenue=====================
-    console.log(statistics.totalRevenue.sumRequiredPayments);
+    console.log(statistics.TotalRevenue.SumRequiredPayments);
     const barChartdata = [
       ["Period", "Actual Payments", "Profit From Overpay"],
       [
         `${startDate} - ${endDate}`,
-        parseInt(statistics.totalRevenue.sumActualPayments),
-        parseInt(statistics.totalRevenue.profitFromOverpay),
+        parseInt(statistics.TotalRevenue.SumActualPayments),
+        parseInt(statistics.TotalRevenue.ProfitFromOverpay),
       ],
     ];
 
@@ -203,30 +203,30 @@ const Dashboard = () => {
     // =============================================Complaints=====================================================
     const pieChartdata = [
       ["Complaints", "Types of complaints"],
-      ["Other", statistics.complaintsStatistics.complaintsByType.Other || 0],
+      ["Other", statistics.ComplaintsStatistics.ComplaintsByType.Other || 0],
       [
         "SystemError",
-        statistics.complaintsStatistics.complaintsByType.SystemError,
+        statistics.ComplaintsStatistics.ComplaintsByType.SystemError,
       ],
       [
         "BillingError",
-        statistics.complaintsStatistics.complaintsByType.BillingError,
+        statistics.ComplaintsStatistics.ComplaintsByType.BillingError,
       ],
       [
         "ServiceDelay",
-        statistics.complaintsStatistics.complaintsByType.ServiceDelay,
+        statistics.ComplaintsStatistics.ComplaintsByType.ServiceDelay,
       ],
       [
         "EquipmentIssue",
-        statistics.complaintsStatistics.complaintsByType.EquipmentIssue,
+        statistics.ComplaintsStatistics.ComplaintsByType.EquipmentIssue,
       ],
       [
         "PolicyViolation",
-        statistics.complaintsStatistics.complaintsByType.PolicyViolation,
+        statistics.ComplaintsStatistics.ComplaintsByType.PolicyViolation,
       ],
       [
         "CustomerFeedback",
-        statistics.complaintsStatistics.complaintsByType.CustomerFeedback,
+        statistics.ComplaintsStatistics.ComplaintsByType.CustomerFeedback,
       ],
     ];
     //  Other" or "SystemError" or "BillingError" or "ServiceDelay" or "EquipmentIssue" or "PolicyViolation" or "CustomerFeedback"
@@ -242,33 +242,33 @@ const Dashboard = () => {
       ["Complaints", "Types of complaints"],
       [
         "Other",
-        statistics.complaintsStatistics_nonsolved.complaintsByType.Other || 0,
+        statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.Other || 0,
       ],
       [
         "SystemError",
-        statistics.complaintsStatistics_nonsolved.complaintsByType.SystemError,
+        statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.SystemError,
       ],
       [
         "BillingError",
-        statistics.complaintsStatistics_nonsolved.complaintsByType.BillingError,
+        statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.BillingError,
       ],
       [
         "ServiceDelay",
-        statistics.complaintsStatistics_nonsolved.complaintsByType.ServiceDelay,
+        statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.ServiceDelay,
       ],
       [
         "EquipmentIssue",
-        statistics.complaintsStatistics_nonsolved.complaintsByType
+        statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
           .EquipmentIssue,
       ],
       [
         "PolicyViolation",
-        statistics.complaintsStatistics_nonsolved.complaintsByType
+        statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
           .PolicyViolation,
       ],
       [
         "CustomerFeedback",
-        statistics.complaintsStatistics_nonsolved.complaintsByType
+        statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
           .CustomerFeedback,
       ],
     ];
@@ -285,12 +285,12 @@ const Dashboard = () => {
       ["Element", "Density", { role: "style" }],
       [
         "Reserved-Operations",
-        statistics.reservedVsNonReservedParkingUsage.reservedCount,
+        statistics.ReservedVsNonReservedParkingUsage.ReservedCount,
         "#b87333",
       ],
       [
         "NonReserved-Operations",
-        statistics.reservedVsNonReservedParkingUsage.nonReservedCount,
+        statistics.ReservedVsNonReservedParkingUsage.NonReservedCount,
         "silver",
       ],
     ];
@@ -306,7 +306,7 @@ const Dashboard = () => {
     const peakHoursData = [["Hour", "Peak"]];
 
     for (let hour = 0; hour < 24; hour++) {
-      const isPeak = statistics.peakParkingHours.peakHoursOfTheDay.includes(
+      const isPeak = statistics.PeakParkingHours.PeakHoursOfTheDay.includes(
         hour
       )
         ? 1
@@ -337,7 +337,7 @@ const Dashboard = () => {
     const reservationpeakHoursData = [["Hour", "Peak"]];
 
     for (let hour = 0; hour < 24; hour++) {
-      const isPeak = statistics.totalReservations.peakHoursOfTheDay.includes(
+      const isPeak = statistics.TotalReservations.PeakHoursOfTheDay.includes(
         hour
       )
         ? 1
@@ -365,17 +365,17 @@ const Dashboard = () => {
 
     //
 
-    if (statistics.staffActivityRating.staffActivities) {
+    if (statistics.StaffActivityRating.StaffActivities) {
       const columns = [
-        { field: "staffName", headerName: "Staff Name", flex: 1 },
+        { field: "StaffName", headerName: "Staff Name", flex: 1 },
         {
-          field: "numberOfSessions",
+          field: "NumberOfSessions",
           headerName: "Number of sessions",
           flex: 1,
         },
       ];
 
-      const rows = statistics.staffActivityRating.staffActivities?.map(
+      const rows = statistics.StaffActivityRating.StaffActivities?.map(
         (staffActivity, index) => ({
           id: index,
           ...staffActivity,
@@ -425,13 +425,13 @@ const Dashboard = () => {
             <Card
               title="Average parking time"
               value={formatFriendlyTime(
-                statistics.averageParkingDuration.averageDuration
+                statistics.AverageParkingDuration.AverageDuration
               )}
               icon={operations}
             />
             <Card
               title="Total salary paid"
-              value={formatCurrency(statistics.totalSalaryPaid.totalSalaryPaid)}
+              value={formatCurrency(statistics.TotalSalaryPaid.TotalSalaryPaid)}
               icon={revenue}
             />
             {/* ===========================Reservation============================= */}
@@ -440,14 +440,14 @@ const Dashboard = () => {
 
               <p>
                 Total number of reservations:{" "}
-                <span>{statistics.totalReservations.numberOfReservations}</span>
+                <span>{statistics.TotalReservations.NumberOfReservations}</span>
               </p>
               <p>
                 Total revenue of reservations:{" "}
                 <span>
                   `
                   {formatCurrency(
-                    statistics.totalReservations.sumReservationMoney
+                    statistics.TotalReservations.SumReservationMoney
                   )}
                   `
                 </span>
@@ -471,7 +471,7 @@ const Dashboard = () => {
               <p>
                 Required Payments are :{" "}
                 <span>
-                  {formatCurrency(statistics.totalRevenue.sumRequiredPayments)}
+                  {formatCurrency(statistics.TotalRevenue.SumRequiredPayments)}
                 </span>
               </p>
               <div className={DashboardStyle.StatisticsCardContent}>
@@ -496,17 +496,17 @@ const Dashboard = () => {
                 Average resolution time is :{" "}
                 <span>
                   {formatFriendlyTime(
-                    statistics.complaintsStatistics.averageResolutionTime
+                    statistics.ComplaintsStatistics.AverageResolutionTime
                   )}
                 </span>
               </p>
               <p>
                 Total forawarded complaints:{" "}
                 <span>
-                  {statistics.complaintsStatistics
-                    .numberOfComplaintsForwardedToGarage +
-                    statistics.complaintsStatistics_nonsolved
-                      .numberOfComplaintsForwardedToGarage}
+                  {statistics.ComplaintsStatistics
+                    .NumberOfComplaintsForwardedToGarage +
+                    statistics.ComplaintsStatistics_nonsolved
+                      .NumberOfComplaintsForwardedToGarage}
                 </span>
               </p>
               <div className={DashboardStyle.StatisticsCardContent}>
@@ -530,6 +530,7 @@ const Dashboard = () => {
               <ColumnChart data={peakHoursData} options={peakHoursOptions} />
             </div>
             <div className={DashboardStyle.StatisticsTable}>
+              <h4 style={{ textAlign: "left" }}>Staff activities</h4>
               {/* staff activities */}
               { staffactivityRows&&staffactivityColumns&& (
                 

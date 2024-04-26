@@ -75,16 +75,16 @@ const Salaries = () => {
   }, []);
 
   const columns = [
-    { field: "name", headerName: "Staff name", flex: 1 },
+    { field: "Name", headerName: "Staff name", flex: 1 },
     {
-      field: "lastPayment",
+      field: "LastPayment",
       headerName: "last day this employee was paid",
       valueFormatter: (params) => formatDate(params.value),
       flex: 1,
     },
-    { field: "email", headerName: "Staff Email", flex: 1 },
+    { field: "Email", headerName: "Staff Email", flex: 1 },
     {
-      field: "amount",
+      field: "Amount",
       headerName: "Staff salary",
       valueFormatter: (params) => formatCurrency(params.value),
       flex: 1,
@@ -108,8 +108,8 @@ const Salaries = () => {
 
   // Prepare the rows data for the DataGrid
   const rows =
-    Salaries.staffs?.map((staffSalary, index) => ({
-      id: staffSalary.staffId,
+    Salaries.Staffs?.map((staffSalary, index) => ({
+      id: staffSalary.StaffId,
       ...staffSalary,
     })) ?? [];
 
@@ -119,9 +119,9 @@ const Salaries = () => {
       <h1>Salaries</h1>
       <div>
         Upcoming Payment Schedule:{" "}
-        {displayDateAfterDays(Salaries.daysUntilPayment)}{" "}
+        {displayDateAfterDays(Salaries.DaysUntilPayment)}{" "}
       </div>
-      {Salaries.staffs && (
+      {Salaries.Staffs && (
         <DataGrid
           rows={rows}
           columns={columns}

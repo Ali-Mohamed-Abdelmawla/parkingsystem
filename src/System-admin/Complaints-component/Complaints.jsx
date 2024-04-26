@@ -11,7 +11,7 @@ function ComplaintsTable({
     { field: "reportId", headerName: "Report_id", flex: 1 },
     { field: "reportType", headerName: "Report Type", flex: 1 },
     { field: "reportMessage", headerName: "Report Message", flex: 1 },
-    { field: "reporterId", headerName: "Reporter Id", flex: 1 },
+    { field: "reporterId", headerName: "Reporter Name", flex: 1 },
     {
       field: "isFixed",
       headerName: "Report status",
@@ -46,11 +46,11 @@ function ComplaintsTable({
 
   const rows = complaints.map((complaint, index) => ({
     id: index,
-    reportId: complaint.reportId,
-    reportType: complaint.reportType,
-    reportMessage: complaint.reportMessage,
-    reporterId: complaint.reporterId,
-    isFixed: complaint.isFixed,
+    reportId: complaint.ReportId,
+    reportType: complaint.ReportType,
+    reportMessage: complaint.ReportMessage,
+    reporterId: complaint.ReporterName,
+    isFixed: complaint.IsFixed,
   }));
 
   return (

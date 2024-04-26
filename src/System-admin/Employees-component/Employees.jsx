@@ -204,10 +204,10 @@ function EmployeesTable({
 
   const rows = employees.map((employee, index) => ({
     id: index,
-    name: employee.name,
-    email: employee.email,
+    name: employee.Name,
+    email: employee.Email,
     salary: employee.salary,
-    nationalId: employee.nationalId,
+    nationalId: employee.NationalId,
   }));
 
   const handleRowSelectionModelChange = (newSelectionModel) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './Component/sidebar'; 
 import NavBar from './Component/navbar'; 
@@ -6,9 +6,24 @@ import Dashboard from './Pages/Dashboard';
 import Employee from './Pages/Users';
 import Complaint from './Pages/Complaints';
 import Garages from './Pages/Garages';
+import { jwtDecode } from 'jwt-decode';
 
 function App() {
-  const name = "Amany";
+  const [userName,setUserName] = useState("");
+  const getUserNamefromtoken = () => {
+    const token = sessionStorage.getItem('accessToken');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken)
+      setUserName(decodedToken.FullName);
+    }
+  }
+
+  useEffect(() => {
+    getUserNamefromtoken();
+  }, []);
+
+  const name = userName;
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleDarkModeToggle = () => {

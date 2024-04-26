@@ -22,7 +22,8 @@ const DashboardPage = ({ darkMode }) => {
 
         const response = await axios.get('/api/GarageStaff/AvailableSpaces', { headers });
         console.log('Available spaces:', response.data);
-        setAvailableSpaces(response.data.availableSpaces);
+        setAvailableSpaces(response.data.AvailableSpaces);
+
       } catch (error) {
         if (error.response) {
           console.error('Error status:', error.response.status);
@@ -39,39 +40,25 @@ const DashboardPage = ({ darkMode }) => {
     
     const updateAccessToken = () => {
       try {
-        const newAccessToken = localStorage.getItem('accessToken');
+        const newAccessToken = sessionStorage.getItem('accessToken');
         if (newAccessToken) {
           setAccessToken(newAccessToken);
         } else {
-          console.error('Access token not found in localStorage');
+          console.error('Access token not found in sessionStorage');
         }
       } catch (error) {
-        console.error('Error retrieving access token from localStorage:', error);
+        console.error('Error retrieving access token from sessionStorage:', error);
       }
     };
     
     updateAccessToken();
-
-    const intervalId = setInterval(fetchAvailableSpaces, 60000);
+    fetchAvailableSpaces();
+    const intervalId = setInterval(fetchAvailableSpaces, 50000);
     return () => clearInterval(intervalId);
   }, [accessToken]);
 
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchAvailableSpaces = async () => {
-      setLoading(true);
-      try {
-        
-        setLoading(false); 
-      } catch (error) {
-        setLoading(false); 
-      }
-    };
 
-    const intervalId = setInterval(fetchAvailableSpaces, 60000);
-    return () => clearInterval(intervalId);
-  }, [accessToken]);
 
   return (
     <div className={`${styles['dashboard-container']} ${darkMode ? styles['dark-mode'] : ''}`}>
@@ -83,7 +70,7 @@ const DashboardPage = ({ darkMode }) => {
             <div>
               <span>Total Spaces</span>
               <img src={darkMode ? groupiconDark : groupiconLight} alt="Icon" className={styles.icon} />
-              <p className={styles.number}>120</p>
+              <p className={styles.number}>{parseInt(sessionStorage.getItem('CurrentSessions')) + parseInt(availableSpaces)}</p>
             </div>
           </div>
         </div>
@@ -93,7 +80,7 @@ const DashboardPage = ({ darkMode }) => {
             <div>
               <span>Occupied Spaces</span>
               <img src={darkMode ? updateiconDark : updateiconLight} alt="Icon" className={styles.icon} />
-              <p className={styles.number}>9</p>
+              <p className={styles.number}>{sessionStorage.getItem('CurrentSessions')}</p>
             </div>
           </div>
         </div>

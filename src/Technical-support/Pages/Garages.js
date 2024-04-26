@@ -95,7 +95,7 @@ class Garage extends Component {
                 'Content-Type': 'application/json',
             };
             const params = {
-                id: Garages[deletionIndex].garageId,
+                id: Garages[deletionIndex].GarageId,
             };
             const response = await axios.delete(`https://raknaapi.azurewebsites.net/TechnicalSupport/DeleteGarage`, {
                 headers,
@@ -147,12 +147,12 @@ class Garage extends Component {
             editedGarages,
             {
                 params: {
-                    id: editedGarages.garageId,
+                    id: editedGarages.GarageId,
                 }, 
                 headers
             }
         );
-        console.log("Updated garage:", response.data.garageId);
+        console.log("Updated garage:", response.data.GarageId);
             const updatedGarages = [...Garages];
             updatedGarages[editIndex] = editedGarages;
             this.setState(
@@ -209,13 +209,13 @@ class Garage extends Component {
                         <tbody>
                             {Garages.map((garage, index) => (
                                 <tr key={index}>
-                                    <td>{garage.garageId}</td>
-                                    <td>{garage.garageName}</td>
-                                    <td>{garage.hourPrice}</td>
+                                    <td>{garage.GarageId}</td>
+                                    <td>{garage.GarageName}</td>
+                                    <td>{garage.HourPrice}</td>
                                     <td>{garage.street}</td>
                                     <td>{garage.city}</td>
-                                    <td>{garage.availableSpaces}</td>
-                                    <td>{garage.totalSpaces}</td>
+                                    <td>{garage.AvailableSpaces}</td>
+                                    <td>{garage.TotalSpaces}</td>
                                     <td>
                                         <div className={`${styles["details-dropdown"]} ${darkModeClass}`} onClick={() => this.toggleDropdown(index)}>
                                         <img src={this.props.darkmode ? ViewDark : ViewLight} alt="Details" className={styles["expand-icon"]} />
@@ -255,42 +255,35 @@ class Garage extends Component {
                                     type="text"
                                     name="garageName"
                                     placeholder="Garage Name"
-                                    value={editedGarages.garageName}
+                                    defaultValue={editedGarages.GarageName}
                                     onChange={this.handleInputChange}
                                 />
                                 <input
                                     type="number"
                                     name="hourPrice"
                                     placeholder="Hour Price"
-                                    value={editedGarages.hourPrice}
+                                    defaultValue={editedGarages.HourPrice}
                                     onChange={this.handleInputChange}
                                 />
                                 <input
                                     type="text"
                                     name="street"
                                     placeholder="Street"
-                                    value={editedGarages.street}
+                                    defaultValue={editedGarages.street}
                                     onChange={this.handleInputChange}
                                 />
                                 <input
                                     type="text"
                                     name="city"
                                     placeholder="City"
-                                    value={editedGarages.city}
-                                    onChange={this.handleInputChange}
-                                />
-                                <input
-                                    type="number"
-                                    name="availableSpaces"
-                                    placeholder="Available Spaces"
-                                    value={editedGarages.availableSpaces}
+                                    defaultValue={editedGarages.city}
                                     onChange={this.handleInputChange}
                                 />
                                 <input
                                     type="number"
                                     name="totalSpaces"
                                     placeholder="Total Spaces"
-                                    value={editedGarages.totalSpaces}
+                                    defaultValue={editedGarages.TotalSpaces}
                                     onChange={this.handleInputChange}
                                 />
                                 <div className={`${styles["edit-model-buttons"]} ${darkModeClass}`}>
