@@ -18,9 +18,12 @@ const formatDate = (isoDateString) => {
 };
 
 const formatDuration = (hours) => {
+  const days = Math.floor(hours / 24);
+  const remainingHours = Math.floor(hours % 24);
   const minutes = (hours % 1) * 60;
-  return `${Math.floor(hours)} hours and ${Math.round(minutes)} minutes`;
-};
+  return `${days} days, ${remainingHours} hours, and ${Math.round(minutes)} minutes`;
+ };
+ 
 
 const formatCurrency = (amount) => {
   return `$${amount.toFixed(2)}`; // Assuming the currency is USD and you want to display 2 decimal places
@@ -48,19 +51,19 @@ const ActiveSessionsContainer = () => {
   // Define the columns for the DataGrid
   const columns = [
     {
-      field: "currentBill",
+      field: "CurrentBill",
       headerName: "Current Bill",
       valueFormatter: (params) => formatCurrency(params.value),
       flex: 1,
     },
     {
-      field: "startDate",
+      field: "StartDate",
       headerName: "Start Date",
       valueFormatter: (params) => formatDate(params.value),
       flex: 1,
     },
     {
-      field: "curSessionDuration_Hours",
+      field: "CurSessionDuration_Hours",
       headerName: "Duration",
       valueFormatter: (params) => formatDuration(params.value),
       flex: 1,

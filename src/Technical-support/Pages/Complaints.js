@@ -112,7 +112,7 @@ class Complaints extends React.Component {
         // const updateStatus = {
         //     reportId: Complaint[deletionIndex].reportId,
         // };
-        const reportId = Complaint[deletionIndex].reportId
+        const reportId = Complaint[deletionIndex].ReportId
         try {
             const response = await axios.put(
                 `https://raknaapi.azurewebsites.net/api/Report/UpdateReportStatus/${reportId}`,
@@ -171,16 +171,18 @@ class Complaints extends React.Component {
                             <th>report Type</th>
                             <th>report Message</th>
                             <th>reporter Id</th>
+                            <th>report status</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {Complaint.map((complaint, index) => (
                             <tr key={index}>
-                                <td>{complaint.reportId}</td>
-                                <td>{complaint.reportType}</td>
-                                <td>{complaint.reportMessage}</td>
-                                <td>{complaint.reporterId}</td>
+                                <td>{complaint.ReportId}</td>
+                                <td>{complaint.ReportType}</td>
+                                <td>{complaint.ReportMessage}</td>
+                                <td>{complaint.ReporterName}</td>
+                                <td>{complaint.IsFixed ? "Fixed" : "Not Fixed"}</td>
                                 <td>
                                     <div className={`${styles["details-dropdown"]} ${darkModeClass}`} onClick={() => this.toggleDropdown(index)} >
                                     <img src={this.props.darkmode ? ViewDark : ViewLight} alt="Details" className={styles["expand-icon"]} />
@@ -228,7 +230,7 @@ class Complaints extends React.Component {
                                 <div className={`${styles["name"]} ${darkModeClass}`}>
                                     <label>
                                         <b>Complaint ID:</b>{""}
-                                        {Complaint[viewIndex].reportId}
+                                        {Complaint[viewIndex].ReportId}
                                     </label>
                                 </div>
                             </div>
@@ -236,7 +238,7 @@ class Complaints extends React.Component {
                             <div className={`${styles["modal-details"]} ${darkModeClass}`}>
                                 <b>
                                     {" "}
-                                    {Complaint[viewReportMessage].reportMessage}
+                                    {Complaint[viewReportMessage].ReportMessage}
                                 </b>
                                 
                                 <button className={`${styles["view-close-buttons"]} ${darkModeClass}`} onClick={this.handleCloseView}>Close</button>

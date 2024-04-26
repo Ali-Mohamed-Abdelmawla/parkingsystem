@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import TopBar from './components/TopBar';
@@ -6,20 +6,33 @@ import Dashboard from './pages/DashboardPage';
 import Transaction from './pages/TransactionPage';
 import Reports from './pages/ReportsPage';
 import AddVehiclePopup from './pages/AddVehiclePopup';
-
+import { jwtDecode } from 'jwt-decode';
 
 const App = () => {
   
   const navigate = useNavigate();
   const [isAddVehiclePopupOpen, setIsAddVehiclePopupOpen] = useState(false);
+  const [userName,setUserName] = useState("");
   const toggleAddVehiclePopup = () => setIsAddVehiclePopupOpen(!isAddVehiclePopupOpen);
 
   
   const [darkMode, setDarkMode] = useState(false);
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
-  
-  const name = "Slsabeel";
+  const getUserNamefromtoken = () => {
+    const token = sessionStorage.getItem('accessToken');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken)
+      setUserName(decodedToken.FullName);
+    }
+  }
+
+  useEffect(() => {
+    getUserNamefromtoken();
+  }, []);
+
+  const name = userName;
 
   const goToRoute = (route) => {
     navigate(route);

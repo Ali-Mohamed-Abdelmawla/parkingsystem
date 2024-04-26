@@ -24,11 +24,11 @@ const GarageAdminSelect = ({ onGarageAdminSelect }) => {
           }
         );
         const options = response.data.map((admin) => ({
-          value: admin.adminId, // Set adminId as the value
-          label: `${admin.garageId}`, // Format the label as needed
-          name: admin.name,
-          garageName: admin.garageName,
-          garageId: admin.garageId
+          value: admin.AdminId, // Set adminId as the value
+          label: `${admin.GarageId}`, // Format the label as needed
+          name: admin.Name,
+          garageName: admin.GarageName,
+          garageId: admin.GarageId
         }));
         setGarageAdmins(options);
       } catch (error) {

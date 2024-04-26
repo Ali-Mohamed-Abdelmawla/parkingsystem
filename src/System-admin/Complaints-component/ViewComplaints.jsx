@@ -15,24 +15,24 @@ const ViewModal = ({ complaint, onClose }) => {
             <div className={styles.modalComplaintMain}>
               <div className={styles.name}>
                 <label>
-                  <b>Report_id:</b> {complaint.reportId}
+                  <b>Report_id:</b> {complaint.ReportId}
                 </label>
                 <label>
-                  <b>Report Type:</b> {complaint.reportType}
+                  <b>Report Type:</b> {complaint.ReportType}
                 </label>
                 <label>
-                  <b>Reporter Id:</b> {complaint.reporterId}
+                  <b>Reporter Id:</b> {complaint.ReporterId}
                 </label>
                 <label>
                   <b>Report status:</b>{" "}
-                  {complaint.isFixed ? "Fixed" : "Not Fixed"}
+                  {complaint.IsFixed ? "Fixed" : "Not Fixed"}
                 </label>
               </div>
             </div>
             <hr />
             <div className={styles.modalComplaintsDetails}>
               <label>
-                <b>Report Message:</b> {complaint.reportMessage}
+                <b>Report Message:</b> {complaint.ReportMessage}
               </label>
               <button onClick={onClose}>Close</button>
             </div>

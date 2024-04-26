@@ -77,10 +77,7 @@ export default function Layout() {
             <b>Complaints</b>
           </button>
 
-          {/* <button id="AddComplaintsbtn" onClick={handleAddComplaintsClick}>
-            <img src={AddReporIcont} alt="complaints icon" />
-            <b>Add Report</b>
-          </button> */}
+
 
           <button onClick={handleLogoutBtn}>
             <img src={Logout} alt="logout icon" />
@@ -111,7 +108,6 @@ export default function Layout() {
             </p>
           </div>
         </div>
-        {/* {showAddPage && <AddReport onClose={handleCloseAddBtn} />} */}
         <Outlet />
       </main>
     </div>

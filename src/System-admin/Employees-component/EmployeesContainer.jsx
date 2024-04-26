@@ -67,7 +67,7 @@ function Employees() {
     e.preventDefault();
     axios
       .put(
-        `${baseURL}/api/GarageAdmin/EditStaff/${editedEmployee.id}`,
+        `${baseURL}/api/GarageAdmin/EditStaff/${editedEmployee.Id}`,
         editedEmployee,
         {
           headers: {
@@ -113,7 +113,7 @@ function Employees() {
   const handleConfirmDelete = () => {
     axios
       .delete(
-        `${baseURL}/api/GarageAdmin/DeleteStaff/${employees[deletionIndex].id}`,
+        `${baseURL}/api/GarageAdmin/DeleteStaff/${employees[deletionIndex].Id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

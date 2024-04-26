@@ -18,25 +18,25 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
     <input
     required
       type="text"
-      name="name"
+      name="Name"
       placeholder="FullName"
-      defaultValue={editedEmployee.name}
+      defaultValue={editedEmployee.Name}
       onChange={handleInputChange}
     />
     <input
     required
       type="text"
       name="userName"
-      placeholder="UserName"
+      placeholder="userName"
       defaultValue={editedEmployee.userName}//Username must be 5 to 20 characters long with no spaces and special characters.
       onChange={handleInputChange}
     />
     <input
     required
       type="text"
-      name="email"
+      name="Email"
       placeholder="Email"
-      defaultValue={editedEmployee.email}
+      defaultValue={editedEmployee.Email}
       onChange={handleInputChange}
     />
     <input
@@ -59,10 +59,10 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
       type="text"
       min="0"
       id="number"
-      name="National_id"
+      name="NationalId"
       placeholder="National_id"
       maxLength={14}
-      defaultValue={editedEmployee.nationalId} //maxlength should be 14
+      defaultValue={editedEmployee.NationalId} //maxlength should be 14
       onChange={(e) => {
         e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
         handleInputChange(e);
@@ -73,7 +73,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
       type="text"
       min="0"
       id="number"
-      name="Salary"
+      name="salary"
       placeholder="Salary"
       maxLength={11}
       defaultValue={editedEmployee.salary}

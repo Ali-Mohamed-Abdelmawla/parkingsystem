@@ -10,15 +10,7 @@ import ReportsPage from './../../Staff/pages/ReportsPage';
 
 const baseURL = "https://raknaapi.azurewebsites.net";
 
-const reportTypeOptions = [
-  { value: "Other", label: "Other" },
-  { value: "SystemError", label: "System Error" },
-  { value: "BillingError", label: "Billing Error" },
-  { value: "ServiceDelay", label: "Service Delay" },
-  { value: "EquipmentIssue", label: "Equipment Issue" },
-  { value: "PolicyViolation", label: "Policy Violation" },
-  { value: "CustomerFeedback", label: "Customer Feedback" },
-];
+
 const AddReport = ({ onClose }) => {
  const [addFormOpen, setAddFormOpen] = useState(true);
  const accessToken = sessionStorage.getItem("accessToken");
@@ -46,7 +38,7 @@ console.log(data)
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: "Complaint submitted successfully",
+          text: ` ${response.data.Message}`,
         });
         handleCloseAddBtn();
       })

@@ -21,21 +21,21 @@
     margin-bottom: 20px;
 }
 
-label {
+.form-group label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-textarea,
-select {
+.form-group textarea,
+.form-group select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-button {
+.form-group button {
     padding: 10px 20px;
     background-color: #231F20;
     color: #F2F1F1;
@@ -46,7 +46,7 @@ button {
     transition: background-color 0.3s ease;
 }
 
-button:hover {
+.form-group button:hover {
     background-color: #333;
 }
 .container {
@@ -65,13 +65,13 @@ button:hover {
     margin-top: 20px;
 }
 
-label {
+.form-group label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-textarea {
+.form-group textarea {
     width: 50%;
     height: 250px;
     padding: 10px;
@@ -80,7 +80,7 @@ textarea {
     border-radius: 5px;
 }
 
-select {
+.form-group select {
     width: 15%; 
     padding: 10px;
     background-color: #E2DCC8; 
@@ -88,7 +88,7 @@ select {
     border-radius: 5px;
 }
 
-button {
+.form-group button {
     padding: 10px 20px;
     background-color: #231F20;
     color: #F2F1F1;
@@ -100,7 +100,7 @@ button {
     margin-top: 40px;
 }
 
-button:hover {
+.form-group button:hover {
     background-color: #333;
 }
 

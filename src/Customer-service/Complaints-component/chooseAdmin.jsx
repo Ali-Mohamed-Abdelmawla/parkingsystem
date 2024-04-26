@@ -9,6 +9,7 @@ const accessToken = sessionStorage.getItem("accessToken");
 const ViewModal = ({ reportId, onClose }) => {
   const [selectedValue, setSelectedValue] = useState(null);
   const forwardTheComplaint = async () => {
+    console.log(reportId);
     try {
       const response = await axios.post(
         `${baseURL}/api/Report/ForwardReport/${reportId}/${selectedValue.value}`,

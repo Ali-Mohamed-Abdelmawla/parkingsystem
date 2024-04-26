@@ -35,7 +35,7 @@ const GaragePopup = ({ onClose, darkmode }) => {
                 'Content-Type': 'application/json',
             };
             const params = {
-                id: newGarage.garageId,
+                id: newGarage.GarageId,
             };
     
             const response = await axios.post("https://raknaapi.azurewebsites.net/TechnicalSupport/AddGarage", newGarage, {
@@ -70,7 +70,7 @@ const GaragePopup = ({ onClose, darkmode }) => {
                 <img src={darkmode ? closeDark : closeLight} alt="close" className={styles['close-icon']} onClick={onClose} /> {/* Use dark mode close icon */}
                 <h2>Add Garage</h2>
                 <form onSubmit={handleSubmit} className={styles.form}>
-                    <input placeholder='Garage Name' type="text" name="garageName" value={formData.garageName} onChange={handleChange} />
+                    <input placeholder='Garage Name' type="text" name="garageName" defau={formData.garageName} onChange={handleChange} />
                     <input placeholder='Hour Price' type="number" name="hourPrice" value={formData.hourPrice} onChange={handleChange} />
                     <input placeholder='Street' type="text" name="street" value={formData.street} onChange={handleChange} />
                     <input placeholder='City' type="text" name="city" value={formData.city} onChange={handleChange} />

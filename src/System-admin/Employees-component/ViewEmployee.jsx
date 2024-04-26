@@ -13,7 +13,7 @@ function EmployeesViewModal({ employee, handleCloseView }) {
         <div className={Employeestyle.modalMain}>
           <div className={Employeestyle.name}>
             <label>
-              <b>Name:</b> {employee.name}
+              <b>Name:</b> {employee.Name}
               <br></br>
               <b>User name:</b> {employee.userName}
             </label>
@@ -22,11 +22,11 @@ function EmployeesViewModal({ employee, handleCloseView }) {
         </div>
         <hr />
         <div className={Employeestyle.modalDetails}>
-          <b>Email:</b> {employee.email}
+          <b>Email:</b> {employee.Email}
           <br></br>
           <b>phone number:</b> {employee.phoneNumber}
           <br></br>
-          <b>National ID:</b> {employee.nationalId}
+          <b>National ID:</b> {employee.NationalId}
           <br></br>
           <b>Salary:</b> {employee.salary}
           <br></br>
