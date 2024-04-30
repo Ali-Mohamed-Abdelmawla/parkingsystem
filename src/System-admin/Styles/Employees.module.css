@@ -137,7 +137,7 @@ table thead{
    z-index: 1000;
    display: flex;
    flex-direction: column;
-   background-color: var(--color-background);
+   background-color: var(--secondary-color) ;
    height: 15vh;
    min-width: 455.25px;
    width: 25vw;
@@ -170,6 +170,7 @@ filter:invert(1)
  .deleteConfirmation p {
    margin-bottom: 15px;
    align-self: center;
+   color: var(--font-color);
  }
 
  .deleteConfirmation button {
@@ -181,6 +182,7 @@ filter:invert(1)
    border-radius: 3px;
    cursor: pointer;
    align-self: flex-end;
+   transition: all 0.3s ease;
  }
 
  .deleteConfirmation button:last-child {
@@ -189,6 +191,7 @@ filter:invert(1)
 
  .deleteConfirmation button:hover {
    cursor: pointer;
+   background-color: #424242;
  }
 
  /* Backdrop effect */

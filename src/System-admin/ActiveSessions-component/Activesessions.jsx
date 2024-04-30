@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import DataGrid from "../Styled-Table/CustomDataGrid";
 import axios from "axios";
 
 const baseURL = "https://raknaapi.azurewebsites.net";
-const accessToken = sessionStorage.getItem("accessToken");
 
 const formatDate = (isoDateString) => {
   const date = new Date(isoDateString);
@@ -21,9 +20,10 @@ const formatDuration = (hours) => {
   const days = Math.floor(hours / 24);
   const remainingHours = Math.floor(hours % 24);
   const minutes = (hours % 1) * 60;
-  return `${days} days, ${remainingHours} hours, and ${Math.round(minutes)} minutes`;
- };
- 
+  return `${days} days, ${remainingHours} hours, and ${Math.round(
+    minutes
+  )} minutes`;
+};
 
 const formatCurrency = (amount) => {
   return `$${amount.toFixed(2)}`; // Assuming the currency is USD and you want to display 2 decimal places
@@ -31,6 +31,7 @@ const formatCurrency = (amount) => {
 
 const ActiveSessionsContainer = () => {
   const [activeSessions, setActiveSessions] = useState([]);
+  const accessToken = sessionStorage.getItem("accessToken");
 
   useEffect(() => {
     axios
@@ -77,19 +78,21 @@ const ActiveSessionsContainer = () => {
   }));
 
   return (
-    <div style={{ height: "auto", width: "1588px" }}>
-          <h1 style = {{marginBottom: "20px"}}>Active Sessions</h1>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 8, 13]}
-      />
-    </div>
+    <>
+      <div className="table-wrapper" style={{ flex: 1, overflow: "hidden" }}>
+        <h1 style={{ marginBottom: "20px" }}>Active Sessions</h1>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 8, 13]}
+        />
+      </div>
+    </>
   );
 };
 

@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { DataGrid } from "@mui/x-data-grid";
-import { columnGroupsStateInitializer } from "@mui/x-data-grid/internals";
+import DataGrid from "../Styled-Table/CustomDataGrid";
 
 const baseURL = "https://raknaapi.azurewebsites.net";
-const accessToken = sessionStorage.getItem("accessToken");
 const displayDateAfterDays = (daysUntilPayment) => {
   const currentDate = new Date();
   const futureDate = new Date(
@@ -30,26 +28,28 @@ const formatCurrency = (amount) => {
   return `$${amount.toFixed(2)}`; // Assuming the currency is USD and you want to display 2 decimal places
 };
 
-const handlePayment = (id) => {
-  const response = axios.post(
-    `${baseURL}/api/GarageAdmin/PaySalary/${id}`,
-    {},
-    {
-      params: {
-        id: id,
-      },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  Swal.fire("Success", "Submitted successfully", "success").then(() => {
-    window.location.reload();
-  });
-};
 const Salaries = () => {
   const [Salaries, setSalaries] = useState({ staffs: [] });
+  const accessToken = sessionStorage.getItem("accessToken");
+
+  const handlePayment = (id) => {
+    const response = axios.post(
+      `${baseURL}/api/GarageAdmin/PaySalary/${id}`,
+      {},
+      {
+        params: {
+          id: id,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    Swal.fire("Success", "Submitted successfully", "success").then(() => {
+      window.location.reload();
+    });
+  };
 
   useEffect(() => {
     console.log(accessToken);
@@ -97,7 +97,7 @@ const Salaries = () => {
       renderCell: (params) => (
         <>
           {!params.row.isPaid && (
-            <button onClick={() => handlePayment(params.id)}>
+            <button onClick={() => handlePayment(params.id)} className="tableBtn">
               Submit as paid
             </button>
           )}
@@ -115,26 +115,25 @@ const Salaries = () => {
 
   return (
     <>
-        <div style={{ height: 'auto', width: '1588px' }}>
-      <h1>Salaries</h1>
-      <div>
-        Upcoming Payment Schedule:{" "}
-        {displayDateAfterDays(Salaries.DaysUntilPayment)}{" "}
+      <div className="table-wrapper" style={{ flex: 1, overflow: "hidden" }}>
+        <h1>Salaries</h1>
+        <div>
+          Upcoming Payment Schedule:{" "}
+          {displayDateAfterDays(Salaries.DaysUntilPayment)}{" "}
+        </div>
+        {Salaries.Staffs && (
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 8, 13]}
+          />
+        )}
       </div>
-      {Salaries.Staffs && (
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 8, 13]}
-        />
-      )}
-      </div>
-
     </>
   );
 };

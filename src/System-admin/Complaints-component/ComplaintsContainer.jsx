@@ -5,9 +5,9 @@ import ViewModal from './ViewComplaints';
 import DeleteConfirmationModal from './UpdateComplaints';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Employeestyle from "../Styles/Employees.module.css";
 
 const baseURL = "https://raknaapi.azurewebsites.net";
-const accessToken = sessionStorage.getItem("accessToken");
 const ComplaintsContainer = () => {
   const [complaints, setComplaints] = useState([]);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -15,6 +15,7 @@ const ComplaintsContainer = () => {
 
   const [showViewDetails, setShowViewDetails] = useState(false);
  const [viewIndex, setViewIndex] = useState(null)
+ const accessToken = sessionStorage.getItem("accessToken");
 
 
 
@@ -41,7 +42,13 @@ const ComplaintsContainer = () => {
   const handleDeleteClick = (index) => {
     setShowDeleteConfirmation(true);
     setUpdateIndex(index)
-    document.body.classList.add('deleteModalActive');
+    document.body.classList.add(Employeestyle.deleteModalActive);
+  };
+
+  const handleCloseDelete = () => {
+    setShowDeleteConfirmation(false);
+    setUpdateIndex(null)
+    document.body.classList.remove(Employeestyle.deleteModalActive);
   };
 
   const handleUpdateStatus = async () => {
@@ -71,21 +78,21 @@ const ComplaintsContainer = () => {
       console.error("Error marking complaint as solved:", error);
       Swal.fire("Error", "Failed to mark complaint as solved", "error");
     }
-        document.body.classList.remove('deleteModalActive');
+        document.body.classList.remove(Employeestyle.deleteModalActive);
 
   };
 
   const handleViewClick = async (index) => {
     console.log(index)
     setViewIndex(index);
-    document.body.classList.add('viewModalActive');
+    document.body.classList.add(Employeestyle.viewModalActive)
     setShowViewDetails(true);
   };
 
   const handleCloseView = () => {
     setShowViewDetails(false);
     setViewIndex(null);
-    document.body.classList.remove('viewModalActive');
+    document.body.classList.remove(Employeestyle.viewModalActive);
   };
 
   return (
@@ -98,7 +105,7 @@ const ComplaintsContainer = () => {
       {showDeleteConfirmation && (
         <DeleteConfirmationModal
           onConfirmUpdate={handleUpdateStatus}
-          onCancelUpdate={() => setShowDeleteConfirmation(false)}
+          onCancelUpdate={handleCloseDelete}
         />
       )}
       {showViewDetails && (
