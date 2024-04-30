@@ -41,7 +41,7 @@ function TransactionPage({ darkMode }) {
             ...allReservationsData,
           ];
           console.log("Merged data:", mergedData);
-          sessionStorage.setItem("CurrentSessions", mergedData.length);
+          sessionStorage.setItem("CurrentSessions", mergedData.length-1);  // 123123123123123//
           setInGarageVehicles(mergedData);
         })
         .catch((errors) => {

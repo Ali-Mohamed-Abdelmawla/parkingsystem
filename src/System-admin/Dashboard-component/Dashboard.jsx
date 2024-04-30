@@ -11,7 +11,6 @@ import { PieChart } from "./PieChart";
 import { DataGrid } from "@mui/x-data-grid";
 
 const baseURL = "https://raknaapi.azurewebsites.net";
-const accessToken = sessionStorage.getItem("accessToken");
 
 function formatFriendlyTime(timeString) {
   const [hours, minutes, secondsWithMilliseconds] = timeString
@@ -69,6 +68,7 @@ function formatHourvalue(timeValue) {
 }
 
 const Dashboard = () => {
+  const accessToken = sessionStorage.getItem("accessToken");
   // Initialize state for start and end dates
   const today = new Date();
   const formattedToday = `${

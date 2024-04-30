@@ -13,11 +13,11 @@ import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
 
 const baseURL = "https://raknaapi.azurewebsites.net";
-const accessToken = sessionStorage.getItem("accessToken");
 
 // لازم نريلود بعد التعديل
 
 function Employees() {
+  const accessToken = sessionStorage.getItem("accessToken");
   const [employees, setEmployees] = useState([]);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deletionIndex, setDeletionIndex] = useState(null);

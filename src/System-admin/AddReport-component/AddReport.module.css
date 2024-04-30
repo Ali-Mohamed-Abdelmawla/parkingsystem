@@ -1,4 +1,4 @@
-  .addModal {
+  .addReportModal {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -16,17 +16,17 @@
     transition: all 0.3s ease;
   }
 
-  [theme=dark] .addModal {
+  [theme=dark] .addReportModal {
     background-color: var(--color-background);
   }
 
-  .addModal .addTitle {
+  .addReportModal .addTitle {
     width: 100%;
     height: 10%;
     background-color: var(--special-color1);
   }
 
-  .addModal .addTitle button {
+  .addReportModal .addTitle button {
     width: 30px;
     height: 30px;
     margin:7px;
@@ -37,7 +37,7 @@
     background-color: transparent;
   }
 
-  .addModal .addTitle img {
+  .addReportModal .addTitle img {
     width: 30px;
     height: 30px;
     margin: 4px;
@@ -45,7 +45,7 @@
   }
 
 
-  .addModal form {
+  .addReportModal form {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -55,35 +55,38 @@
 
   }
 
-  .addModal form label {
+  .addReportModal form label {
     display: flex;
     justify-content: center;
   }
 
-  .addModal form input {
-    width: 60%;
+  .addReportModal form textarea {
+    width: 100%;
+    height: 347px ;
+    max-height: 350px;
+    max-width: calc(100% - 20px) !important;
     align-self: center;
     margin-top: 10px;
     height: 20px;
     padding: var(--card-padding);
     border-radius: 5px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    transition: all 0.5s ease;
+    border: 1px solid var(--special-color1);
+    transition: all 0.3s ease-in-out;
   }
 
 
 
-  [theme=dark] .addModal form input {
+  [theme=dark] .addReportModal form textarea {
     background-color: var(--table-color);
     color: var(--font-color);
 
   }
 
-  .addModal form input:hover {
-    box-shadow: none;
-  }
+  .addReportModal form textarea:hover {
+    border: none;
+    }
 
-  .addModal form select {
+  .addReportModal form select {
     width: 60%;
     align-self: center;
     height: 35px;
@@ -95,17 +98,17 @@
     transition: all 0.5s ease;
   }
 
-  [theme=dark] .addModal form select {
+  [theme=dark] .addReportModal form select {
     background-color: var(--table-color);
     color: var(--font-color);
     color-scheme: dark;
   }
 
-  .addModal form select:hover {
+  .addReportModal form select:hover {
     box-shadow: none;
   }
 
-  .addModal form select option {
+  .addReportModal form select option {
     width: 60%;
     align-self: center;
     height: 20px;
@@ -115,11 +118,11 @@
     transition: all 0.5s ease;
   }
 
-  [theme=dark] .addModal form select option:hover {
+  [theme=dark] .addReportModal form select option:hover {
     background-color: var(--color-background);
   }
 
-  .addModal form button {
+  .addReportModal form button {
     min-width: 50px;
     width: 7vw;
     min-height: max-content;
@@ -136,18 +139,18 @@
   }
 
 
-  [theme=dark] .addModal form button {
+  [theme=dark] .addReportModal form button {
     background-color: var(--special-color1);
     color: var(--color-background);
   }
 
-  .addModal form button:hover {
+  .addReportModal form button:hover {
     box-shadow: none;
   }
 
 
 
-  .addModal form .addModelButtons {
+  .addReportModal form .addModelButtons {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -170,3 +173,9 @@
     user-select: none;
   }
 
+  .addReportModal .errorMessage{
+    color: #b32f2f;
+    align-self: center;
+    margin: 2px;
+
+  }
