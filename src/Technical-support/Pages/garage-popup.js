@@ -1,82 +1,74 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import closeDark from '../assets/DarkMode/false-dark.svg';
 import closeLight from '../assets/LightMode/false.svg';
 import styles from './garage-popup.module.css';
+import { useForm } from 'react-hook-form';
 
-const GaragePopup = ({ onClose, darkmode }) => {
-    const [garageData, setGarageData] = useState([]);
-    const [formData, setFormData] = useState({
-        garageName: '',
-        hourPrice: '',
-        street: '',
-        city: '',
-        spaces: '',
-        longitude: '',
-        latitude: ''
-    });
+const GaragePopup = ({ onClose, darkMode }) => {
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const newGarage = {
-            garageName: formData.garageName,
-            hourPrice: formData.hourPrice,
-            street: formData.street,
-            city: formData.city,
-            totalSpaces: formData.spaces,
-            longitude: formData.longitude,
-            latitude: formData.latitude
-        };
-    
+    const onSubmit = async (formData) => {
         try {
             const accessToken = sessionStorage.getItem('accessToken');
             const headers = {
                 Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
             };
-            const params = {
-                id: newGarage.GarageId,
-            };
-    
-            const response = await axios.post("https://raknaapi.azurewebsites.net/TechnicalSupport/AddGarage", newGarage, {
-                headers,
-                params
+
+            const response = await axios.post("https://raknaapi.azurewebsites.net/TechnicalSupport/AddGarage", formData, {
+                headers
             });
-    
+
             console.log('Added new garage:', response.data);
-            setGarageData([...garageData, response.data]);
-            setFormData({
-                garageName: "",
-                hourPrice: "",
-                street: "",
-                city: "",
-                spaces: "",
-                longitude: "",
-                latitude: ""
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Garage added successfully!',
+                confirmButtonColor: '#4caf50'
+            }).then(() => {
+                reset(); // Reset form fields
+                onClose(); // Close popup
             });
         } catch (error) {
             console.error('Error adding garage:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to add garage. Please try again later.',
+                confirmButtonColor: '#f44336'
+            });
         }
-    };
-    
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
     };
 
     return (
-        <div className={`${styles.popup} ${darkmode ? styles['dark-mode'] : ''}`}> {/* Apply dark mode class */}
-            <div className={`${styles['popup-inner']} ${darkmode ? styles['dark-mode-inner'] : ''}`}> {/* Apply dark mode class */}
-                <img src={darkmode ? closeDark : closeLight} alt="close" className={styles['close-icon']} onClick={onClose} /> {/* Use dark mode close icon */}
+        <div className={`${styles.popup} ${darkMode ? styles['dark-mode'] : ''}`}>
+            <div className={`${styles['popup-inner']} ${darkMode ? styles['dark-mode-inner'] : ''}`}>
+                <img src={darkMode ? closeDark : closeLight} alt="close" className={styles['close-icon']} onClick={onClose} />
                 <h2>Add Garage</h2>
-                <form onSubmit={handleSubmit} className={styles.form}>
-                    <input placeholder='Garage Name' type="text" name="garageName" defau={formData.garageName} onChange={handleChange} />
-                    <input placeholder='Hour Price' type="number" name="hourPrice" value={formData.hourPrice} onChange={handleChange} />
-                    <input placeholder='Street' type="text" name="street" value={formData.street} onChange={handleChange} />
-                    <input placeholder='City' type="text" name="city" value={formData.city} onChange={handleChange} />
-                    <input placeholder='Total Spaces' type="number" name="spaces" value={formData.spaces} onChange={handleChange} />
-                    <input placeholder='Longitude' type="number" name="longitude" value={formData.longitude} onChange={handleChange} />
-                    <input placeholder='Latitude' type="number" name="latitude" value={formData.latitude} onChange={handleChange} />
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+                    <input placeholder='Garage Name' type="text" {...register("garageName", { required: true })} />
+                    {errors.garageName && <span className="error">Garage Name is required</span>}
+                    
+                    <input placeholder='Hour Price' type="number" {...register("hourPrice", { required: true })} />
+                    {errors.hourPrice && <span className="error">Hour Price is required</span>}
+                    
+                    <input placeholder='Street' type="text" {...register("street", { required: true })} />
+                    {errors.street && <span className="error">Street is required</span>}
+                    
+                    <input placeholder='City' type="text" {...register("city", { required: true })} />
+                    {errors.city && <span className="error">City is required</span>}
+                    
+                    <input placeholder='Longitude' type="text" {...register("longitude", { required: true })} />
+                    {errors.longitude && <span className="error">Longitude is required</span>}
+                    
+                    <input placeholder='Latitude' type="text" {...register("latitude", { required: true })} />
+                    {errors.latitude && <span className="error">Latitude is required</span>}
+                    
+                    <input placeholder='Total Spaces' type="number" {...register("totalSpaces", { required: true })} />
+                    {errors.totalSpaces && <span className="error">Total Spaces is required</span>}
+                    
                     <button className={styles.submit} type="submit">Add</button>
                 </form>
             </div>
