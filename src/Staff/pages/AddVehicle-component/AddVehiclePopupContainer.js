@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styles from './AddVehiclePopup.module.css';
-import axios from '../axios'; 
+import axios from '../../axios.js';
+import Swal from 'sweetalert2';
+import AddVehiclePopupPresentational from './AddVehiclePopupPresentational.js';
 
-function AddVehiclePopup({ onClose, darkMode }) {
+function AddVehiclePopupContainer({ onClose, darkMode }) {
   const [inputs, setInputs] = useState(["", "", "", "", "", ""]);
-  const [errorMessage, setErrorMessage] = useState("");
   const arabicRegex = /^[\u0600-\u06FF\s]+$/;
   const numberRegex = /^[0-9]+$/;
   const inputRefs = useRef([]);
   const accessToken = sessionStorage.getItem('accessToken');
-
 
   useEffect(() => {
     if (inputRefs.current[0]) {
@@ -19,9 +18,9 @@ function AddVehiclePopup({ onClose, darkMode }) {
 
   const startParkingSession = async (accessToken) => {
     try {
-      const plateLetters = inputs.slice(0, 3).join(' '); 
-      const plateNumbers = inputs.slice(3).join(''); 
-  
+      const plateLetters = inputs.slice(0, 3).join(' ');
+      const plateNumbers = inputs.slice(3).join('');
+
       const response = await axios.post(
         '/api/GarageStaff/StartParkingSession',
         {
@@ -35,30 +34,64 @@ function AddVehiclePopup({ onClose, darkMode }) {
           }
         }
       );
-  
+
       console.log('Parking session started:', response.data);
-  
+
       return response.data;
     } catch (error) {
       console.error('Error:', error.message);
       throw new Error('Failed to start parking session. Please try again.');
     }
   };
-  
+
   const handleSubmit = async () => {
     const licensePlateNumber = inputs.join('');
     if (licensePlateNumber.length === 6 || licensePlateNumber.length === 7) {
       try {
         await startParkingSession(accessToken);
-        onClose(); 
+        Swal.fire({
+          title: "Success!",
+          text: "Parking session started successfully!",
+          icon: "success",
+          customClass: {
+            container: darkMode ? 'custom-swal-container-dark' : 'custom-swal-container-light',
+            popup: 'custom-swal-popup',
+            title: 'custom-swal-title',
+            content: 'custom-swal-content',
+            confirmButton: 'custom-swal-confirm-button'
+          }
+        });
+        onClose();
       } catch (error) {
-        setErrorMessage(error.message);
+        Swal.fire({
+          title: "Error!",
+          text: error.message,
+          icon: "error",
+          customClass: {
+            container: darkMode ? 'custom-swal-container-dark' : 'custom-swal-container-light',
+            popup: 'custom-swal-popup',
+            title: 'custom-swal-title',
+            content: 'custom-swal-content',
+            confirmButton: 'custom-swal-confirm-button'
+          }
+        });
       }
     } else {
-      setErrorMessage("License plate number must be 6 or 7 characters long.");
+      Swal.fire({
+        title: "Error!",
+        text: "License plate number must be 6 or 7 characters long.",
+        icon: "error",
+        customClass: {
+          container: darkMode ? 'custom-swal-container-dark' : 'custom-swal-container-light',
+          popup: 'custom-swal-popup',
+          title: 'custom-swal-title',
+          content: 'custom-swal-content',
+          confirmButton: 'custom-swal-confirm-button'
+        }
+      });
     }
   };
-
+  
   const handleInputChange = (index, event) => {
     const newValue = event.target.value;
     const newInputs = [...inputs];
@@ -95,35 +128,21 @@ function AddVehiclePopup({ onClose, darkMode }) {
     }
   };
 
+  const handleClose = () => {
+    onClose();
+  };
+
   return (
-    <div className={`${styles.popupContainer} ${darkMode ? styles.darkMode : ''}`}>
-      <div className={styles.popup}>
-        <h2>License Plate Number</h2>
-        <div className={styles.plateNumberContainer}>
-          {inputs.map((input, index) => (
-            <input
-              key={index}
-              ref={(el) => (inputRefs.current[index] = el)}
-              type="text"
-              inputMode={index < 3 ? "text" : "numeric"}
-              value={input}
-              onChange={(e) => handleInputChange(index, e)}
-              onKeyDown={(e) => handleInputChange(index, e)}
-              maxLength={1}
-              className={styles.input}
-            />
-          ))}
-          {inputs.length < 7 && (
-            <div className={styles.input} onClick={handleAddInputClick}>
-              <div className={styles.addInput}>+</div>
-            </div>
-          )}
-        </div>
-        {errorMessage && <p className={styles.errorMsg}>{errorMessage}</p>}
-        <button onClick={handleSubmit} className={styles.addButton}>Add</button>
-      </div>
-    </div>
+    <AddVehiclePopupPresentational
+      inputs={inputs}
+      darkMode={darkMode}
+      onClose={handleClose}
+      handleSubmit={handleSubmit}
+      handleInputChange={handleInputChange}
+      handleAddInputClick={handleAddInputClick}
+      inputRefs={inputRefs}
+    />
   );
 }
 
-export default AddVehiclePopup;
+export default AddVehiclePopupContainer;

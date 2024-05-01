@@ -1,11 +1,11 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
-import TopBar from './components/TopBar';
-import Dashboard from './pages/DashboardPage';
-import Transaction from './pages/TransactionPage';
-import Reports from './pages/ReportsPage';
-import AddVehiclePopup from './pages/AddVehiclePopup';
+import Sidebar from './pages/Sidebar-component/Sidebar.js';
+import TopBar from './pages/Topbar-component/TopBar.js';
+import Dashboard from './pages/Dashboard-component/DashboardPage.js';
+import Transaction from './pages/Transaction-component/TransactionPage.js';
+import Reports from './pages/Reports-component/ReportsPage.js';
+import AddVehiclePopup from './pages/AddVehicle-component/AddVehiclePopupContainer.js';
 import { jwtDecode } from 'jwt-decode';
 
 const App = () => {

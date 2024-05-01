@@ -95,6 +95,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 15px;
 }
 
 .C-confirm-button:hover {
@@ -225,12 +226,14 @@
 
 .C-popup-content {
   font-family: '231F20', sans-serif; 
+  position: relative;
 }
 
 .C-popup-content p {
   font-size: 18px; 
   font-weight: bold; 
-  margin-top: 10px;
+  margin-top: 20px;
+  color: #000000;
 }
 
 .C-payment-options {
@@ -269,6 +272,7 @@ background-color: #000000;
 
 .dark-mode .C-popconfirm{
   background-color: #8C8671;
+  font-weight: bold;
   }
   
   .dark-mode .C-popconfirm:hover{
@@ -282,6 +286,9 @@ background-color: #000000;
 
 .dark-mode .C-popup-content {
   background-color: #231F20;
+}
+.dark-mode .C-popup-content p{
+  color: #ffffff;
 }
 
 
@@ -301,6 +308,7 @@ background-color: #000000;
 .dark-mode .C-confirm-button {
   background-color: #8C8671;
   color: #FFFFFF;
+  font-size: 15px;
 }
 .C-card:hover {
   box-shadow: none;
@@ -310,15 +318,38 @@ background-color: #000000;
 }
 .payment-label{
  display: inline-block;
+ font-weight: bold;
+ font-size: 18px;
 }
 .payment-input{
   background-color: #E2DCC8;
   border-radius: 3px;
-  border: 2px solid #231F20
+  border: 2px solid #231F20;
+  font-weight: bold;
+  font-size: 18px;
+  color:#231F20 
+}
+.C-payment-options{
+  margin-top: 20px;
 }
 
 .dark-mode .payment-input{
   background-color: #231F20;
   border-radius: 3px;
-  border: 2px solid #ffffff
+  border: 2px solid #ffffff;
+  color:#ffffff
+}
+
+.cancel-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width:25px;
+  height:25px ;
+}
+
+.C-popconfirm{
+  margin-top: 25px;
+font-size: 15px;
 }

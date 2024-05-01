@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 import axios from "axios";
-import styles from "./App.module.css";
+import styles from "./camera.module.css";
 
 function CameraSwitcher({ darkMode }) {
   const [selectedDevice, setSelectedDevice] = useState(null);
   const webcamRef = useRef(null);
   const [devices, setDevices] = useState([]);
   const [recognizedPlate, setRecognizedPlate] = useState("");
+  const [arabicLetters, setArabicLetters] = useState([]);
+  const [numbers, setNumbers] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   // Function to handle switching cameras
@@ -26,7 +28,6 @@ function CameraSwitcher({ darkMode }) {
     // Create a FormData object
     const formData = new FormData();
     formData.append("image", blob);
-
 
     // Upload the image to ImgBB
     axios
@@ -54,7 +55,12 @@ function CameraSwitcher({ darkMode }) {
             response.data[0]["Characters result"].forEach((element) => {
               plateNumber += element.Character;
             });
+            // Extract Arabic letters and numbers
+            const arabicLetters = plateNumber.match(/[\u0600-\u06FF]/g) || [];
+            const numbers = plateNumber.match(/\d/g) || [];
             setRecognizedPlate(plateNumber);
+            setArabicLetters(arabicLetters);
+            setNumbers(numbers);
             setShowConfirmation(true);
           })
           .catch((error) => {
@@ -66,19 +72,41 @@ function CameraSwitcher({ darkMode }) {
       });
   };
 
-  // Function to handle confirmation of recognized plate
+  // Function to confirm the recognized plate and start parking session
   const confirmPlate = () => {
-    // Here you can start the parking session or perform any other action
-    setShowConfirmation(false);
-    // Example: Start parking session
-    console.log("Parking session started for plate:", recognizedPlate);
-    // You can navigate to the transaction page here or trigger any other action
+    // Check if the recognized plate has 6 or 7 characters
+    if (numbers.length === 6 || numbers.length === 7) {
+      // Start the parking session
+      startParkingSession();
+    } else {
+      // Plate number does not have expected length, display an error message or handle it accordingly
+      console.error("Error: Recognized plate number does not have the expected length.");
+      // You can display an error message to the user or handle the situation in any other way
+    }
   };
 
-  // Function to handle rejecting the recognized plate
-  const rejectPlate = () => {
-    setShowConfirmation(false);
-    setRecognizedPlate(""); // Clear the recognized plate number
+  // Function to start the parking session
+  const startParkingSession = () => {
+    // Send a POST request to start parking session
+    axios
+      .post(
+        'https://raknaapi.azurewebsites.net/api/GarageStaff/StartParkingSession',
+        {
+          PlateLetters: arabicLetters.join(''),
+          PlateNumbers: numbers.join(''),
+        }
+      )
+      .then((response) => {
+        console.log('Parking session started successfully:', response.data);
+        // Additional logic after starting the parking session
+      })
+      .catch((error) => {
+        console.error('Error starting parking session:', error);
+        // Handle error
+      })
+      .finally(() => {
+        setShowConfirmation(false); // Hide the confirmation dialog
+      });
   };
 
   // Function to fetch list of available media devices
@@ -132,10 +160,11 @@ function CameraSwitcher({ darkMode }) {
         />
         {showConfirmation && (
           <div className={styles.RecognizedPlate}>
-            <p>Recognized Plate Number: {recognizedPlate}</p>
+            <p>Recognized Plate Number:</p>
+            <p>Arabic Letters: {arabicLetters.join('')}</p>
+            <p>Numbers: {numbers.join('')}</p>
             <div>
               <button onClick={confirmPlate}>Confirm</button>
-              <button onClick={rejectPlate}>Reject</button>
             </div>
           </div>
         )}
@@ -172,6 +201,9 @@ function dataURItoBlob(dataURI) {
 
   return new Blob([ia], { type: mimeString });
 }
+
+
+
 
 //============================================================================================================
 // chatgpt 4

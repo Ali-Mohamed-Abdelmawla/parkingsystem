@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styles from './DashboardPage.module.css';
-import groupiconLight from '../assets/light-mode/groupicon.svg';
-import updateiconLight from '../assets/light-mode/updateIcon.svg';
-import groupiconDark from '../assets/Dark-mode/groupicon.svg';
-import updateiconDark from '../assets/Dark-mode/updateIcon.svg';
-import axios from '../axios'; 
-import CameraSwitcher from '../Camera/App'; 
+import groupiconLight from '../../assets/light-mode/groupicon.svg';
+import updateiconLight from '../../assets/light-mode/updateIcon.svg';
+import groupiconDark from '../../assets/Dark-mode/groupicon.svg';
+import updateiconDark from '../../assets/Dark-mode/updateIcon.svg';
+import axios from '../../axios.js'; 
+import CameraSwitcher from '../../Camera/camera.js'; 
 
 const DashboardPage = ({ darkMode }) => {
   const [availableSpaces, setAvailableSpaces] = useState(0);
@@ -38,20 +38,6 @@ const DashboardPage = ({ darkMode }) => {
       }
     };
     
-    const updateAccessToken = () => {
-      try {
-        const newAccessToken = sessionStorage.getItem('accessToken');
-        if (newAccessToken) {
-          setAccessToken(newAccessToken);
-        } else {
-          console.error('Access token not found in sessionStorage');
-        }
-      } catch (error) {
-        console.error('Error retrieving access token from sessionStorage:', error);
-      }
-    };
-    
-    updateAccessToken();
     fetchAvailableSpaces();
     const intervalId = setInterval(fetchAvailableSpaces, 50000);
     return () => clearInterval(intervalId);
@@ -68,7 +54,7 @@ const DashboardPage = ({ darkMode }) => {
         <div className={styles.card}>
           <div className={styles['card-content']}>
             <div>
-              <span>Total Spaces</span>
+            <span>Total Spaces</span>
               <img src={darkMode ? groupiconDark : groupiconLight} alt="Icon" className={styles.icon} />
               <p className={styles.number}>{parseInt(sessionStorage.getItem('CurrentSessions')) + parseInt(availableSpaces)}</p>
             </div>

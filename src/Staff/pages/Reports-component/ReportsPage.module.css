@@ -26,16 +26,7 @@
     font-weight: bold;
     margin-bottom: 5px;
 }
-
-.form-group textarea,
-.form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.form-group button {
+.form-group .submitReport {
     padding: 10px 20px;
     background-color: #231F20;
     color: #F2F1F1;
@@ -46,7 +37,7 @@
     transition: background-color 0.3s ease;
 }
 
-.form-group button:hover {
+.form-group .submitReport:hover {
     background-color: #333;
 }
 .container {
@@ -78,6 +69,7 @@
     background-color: #F2F1F1;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 16px;
 }
 
 .form-group select {
@@ -88,7 +80,7 @@
     border-radius: 5px;
 }
 
-.form-group button {
+.submitReport {
     padding: 10px 20px;
     background-color: #231F20;
     color: #F2F1F1;
@@ -100,7 +92,7 @@
     margin-top: 40px;
 }
 
-.form-group button:hover {
+.submitReport:hover {
     background-color: #333;
 }
 
@@ -125,12 +117,12 @@
     border-color: #FFFFFF;
 }
 
-.dark-mode button {
+.dark-mode .submitReport {
     background-color: #8C8671;
     color: #FFFFFF;
 }
 
-.dark-mode button:hover {
+.dark-mode .submitReport:hover {
     background-color: #6c6651; 
 }
 
@@ -155,6 +147,5 @@
     }
 }
 
- .container .heading .confirmation-message{
-    color:green;
-}
+
+

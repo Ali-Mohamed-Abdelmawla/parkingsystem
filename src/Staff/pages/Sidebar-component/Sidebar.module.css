@@ -28,13 +28,14 @@
 
 .menu-items {
   flex-grow:1;
+  font-weight: bold;
 }
 
 .menu-item {
   margin-top: 40px;
   display: flex;
   align-items: center;
-  padding: 7px;
+  padding: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 10px;
@@ -42,15 +43,13 @@
 
 .menu-item:hover {
   background-color: #e2dcc8;
+  padding: 12px;
 }
 
 .menu-item:hover p {
   margin-left: 5px;
 }
 
-.menu-items{
-  font-weight: bold;
-}
 .menu-items button {
   color: #231f20; 
   text-decoration: none; 
@@ -113,3 +112,6 @@ border-top: 1px solid #555;
 .sidebar.dark-mode .logout span {
 color: white;
 }
+.sidebar.dark-mode .menu-items p{
+  color: white;
+  }

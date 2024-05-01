@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ReactComponent as Logo } from '../assets/light-mode/light-logo.svg';
-import { ReactComponent as DarkLogo } from '../assets/Dark-mode/Dark-logo.svg';
-import { ReactComponent as DashboardIcon } from '../assets/light-mode/DashboardIcon.svg';
-import { ReactComponent as DarkDashboardIcon } from '../assets/Dark-mode/DashboardIcon.svg';
-import { ReactComponent as TransactionIcon } from '../assets/light-mode/TransactionIcon.svg';
-import { ReactComponent as DarkTransactionIcon } from '../assets/Dark-mode/TransactionIcon.svg';
-import { ReactComponent as ReportsIcon } from '../assets/light-mode/ReportIcon.svg';
-import { ReactComponent as DarkReportsIcon } from '../assets/Dark-mode/ReportIcon.svg';
-import { ReactComponent as AddVehicleIcon } from '../assets/light-mode/AddVehicleIcon.svg';
-import { ReactComponent as DarkAddVehicleIcon } from '../assets/Dark-mode/AddVehicleIcon.svg';
-import { ReactComponent as LogoutIcon } from '../assets/light-mode/logoutIcon.svg';
-import { ReactComponent as DarkLogoutIcon } from '../assets/Dark-mode/logoutIcon.svg';
-import AddVehiclePopup from '../pages/AddVehiclePopup';
+import { ReactComponent as Logo } from '../../assets/light-mode/light-logo.svg';
+import { ReactComponent as DarkLogo } from '../../assets/Dark-mode/Dark-logo.svg';
+import { ReactComponent as DashboardIcon } from '../../assets/light-mode/DashboardIcon.svg';
+import { ReactComponent as DarkDashboardIcon } from '../../assets/Dark-mode/DashboardIcon.svg';
+import { ReactComponent as TransactionIcon } from '../../assets/light-mode/TransactionIcon.svg';
+import { ReactComponent as DarkTransactionIcon } from '../../assets/Dark-mode/TransactionIcon.svg';
+import { ReactComponent as ReportsIcon } from '../../assets/light-mode/ReportIcon.svg';
+import { ReactComponent as DarkReportsIcon } from '../../assets/Dark-mode/ReportIcon.svg';
+import { ReactComponent as AddVehicleIcon } from '../../assets/light-mode/AddVehicleIcon.svg';
+import { ReactComponent as DarkAddVehicleIcon } from '../../assets/Dark-mode/AddVehicleIcon.svg';
+import { ReactComponent as LogoutIcon } from '../../assets/light-mode/logoutIcon.svg';
+import { ReactComponent as DarkLogoutIcon } from '../../assets/Dark-mode/logoutIcon.svg';
+import AddVehiclePopup from '../AddVehicle-component/AddVehiclePopupContainer.js';
 import styles from './Sidebar.module.css';
 
 const Sidebar = ({ darkMode, name, toggleDarkMode }) => {
@@ -30,7 +30,12 @@ const Sidebar = ({ darkMode, name, toggleDarkMode }) => {
   const goToRoute = (route) => {
     navigate(route);
   };
-
+  const handleLogout = () => {
+    // Clear the token from sessionStorage
+    sessionStorage.removeItem("accessToken");
+    // Redirect to login page
+    navigate("/");
+  };
   return (
     <div className={`${styles.sidebar} ${darkMode ? styles['dark-mode'] : ''}`}>
       <div className={styles['logo-container']}>
@@ -46,7 +51,7 @@ const Sidebar = ({ darkMode, name, toggleDarkMode }) => {
           <p className={styles.add}>Add Vehicle</p>
         </div>
       </div>
-      <div className={styles.logout}>
+      <div className={styles.logout} onClick={handleLogout}>
         {darkMode ? <DarkLogoutIcon className={styles['logout-icon']} /> : <LogoutIcon className={styles['logout-icon']} />}
         <span>LOGOUT</span>
       </div>

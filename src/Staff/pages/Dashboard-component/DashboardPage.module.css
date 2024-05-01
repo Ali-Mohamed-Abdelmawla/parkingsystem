@@ -45,6 +45,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
 }
 
 .number {
@@ -56,21 +57,8 @@
   width: 20px;
   height: 20px;
   margin-left: 220px; 
-  /* margin-top: 10px; */
 }
 
-.icon-1{
-  width: 20px;
-  height: 20px;
-  margin-left: 230px;
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
-  margin-left: 200px;
-  
-}
 .card:hover{
   box-shadow: none;
 }
@@ -87,8 +75,9 @@
   background-color: #000000;
   color: #FFFFFF;
 }
-
-
+.dashboard-container.dark-mode .number {
+  color: #FFFFFF;
+}
 
 
 
