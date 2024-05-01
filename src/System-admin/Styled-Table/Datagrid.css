@@ -227,6 +227,15 @@
 
 /* كل اللي فوق كان تحكم بالباجينيشن */
 
+/* checkbox selection styles */
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+    color: var(--font-color) !important;
+}
+/* checkbox frame styles */
+[theme = dark] .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root{
+    color: rgb(255 255 255 / 85%);
+}
+
 
 /* البتنز اللي جوا التيبل نفسها */
 .tableBtn {

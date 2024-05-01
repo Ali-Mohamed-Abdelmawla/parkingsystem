@@ -34,6 +34,8 @@ const CustomDataGrid = ({
   getRowId,
   initialState,
   pageSizeOptions,
+  checkboxSelection,
+  onRowSelectionModelChange,
 }) => {
   CustomDataGrid.propTypes = {
     rows: PropTypes.array.isRequired,
@@ -51,6 +53,9 @@ const CustomDataGrid = ({
     //   localeText={arSD.components.MuiDataGrid.defaultProps.localeText} // Pass the Arabic locale
       initialState={initialState}
       pageSizeOptions={pageSizeOptions}
+      checkboxSelection={checkboxSelection} // Use the prop to control checkbox selection
+      onRowSelectionModelChange={onRowSelectionModelChange}
+
       // Add other props as needed
     />
   );
