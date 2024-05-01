@@ -1,131 +1,4 @@
-.SystemAdminEmployeeTable {
-   margin-top: 1rem;
-   width: 100% !important;
- }
-
- .SystemAdminEmployeeTable h2 {
-   margin-bottom: 0.8rem;
- }
-
- .SystemAdminEmployeeTable {
-   background-color: var(--table-color);
-   width: 100%;
-   padding: var(--card-padding);
-   text-align: center;
-   box-shadow: var(--box-shadow);
-   border-radius: var(--card-border-radius);
-   transition: all 0.3s ease;
-   /* this is a table */
- }
-
- .SystemAdminEmployeeTable:hover {
-   box-shadow: none;
- }
-.SystemAdminEmployeeTable thead{
-  height: 50px;
-}
- .SystemAdminEmployeeTable tbody tr {
-   border-bottom: 1px solid var(--font-color);
- }
-
- .SystemAdminEmployeeTable tbody td {
-   height: 2.8rem;
-   color: var(--font-color);
- }
-
- .SystemAdminEmployeeTable tbody td:last-child {
-   width: 2%;
- }
-
- .SystemAdminEmployeeTable tbody tr:last-child td {
-   border: none;
- }
-
- .SystemAdminEmployeeTable a {
-   text-align: center;
-   display: block;
-   margin: 1rem auto;
-   color: var(--font-color);
- }
-
- .SystemAdminEmployeeTable tbody tr td {
-   transition: all 0.3s ease;
- }
-
- .SystemAdminEmployeeTable tbody tr {
-   transition: all 0.3s ease;
-
- }
-
-
- .employeeDetails:hover {
-   background-color: var(--color-background);
- }
-
- /* for the dropdownnn */
-
- .employeeDetails {
-   position: relative;
-   border-radius: var(--button-border-radius);
- }
-[theme = dark] .employeeDetails img{
-  filter: invert(1)
-}
- .expandIcon {
-   cursor: pointer;
- }
-
- .dropdownMenu {
-   position: absolute;
-   top: 100%;
-   left: -2vw;
-   display: flex;
-   flex-direction: column;
-   background-color: var(--color-background);
-   border-radius: var(--button-border-radius);
-   border: 1px solid #00000020;
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-   z-index: 1;
-   opacity: 0;
-   transform: scaleY(0);
-   transform-origin: top;
-   transition: all 0.3s ease-in-out;
- }
-
- .employeeDetails:hover .dropdownMenu,
- .employeeDetails.active .dropdownMenu {
-   opacity: 1;
-   transform: scaleY(1);
- }
-
-
- .dropdownMenu hr {
-   border: 1px solid #00000020;
-   margin: 0 6.8px;
- }
-
-
- .dropdownButton {
-   padding: 8px;
-   text-align: left;
-   border: none;
-   background-color: transparent;
-   color: var(--font-color);
-   cursor: pointer;
-   border-radius: var(--button-border-radius);
-   transition: background-color 0.3s ease;
-  }
-
-[theme = dark]  .dropdownButton{
-  color: var(--font-color);
-}
- [theme = dark]  .dropdownButton:hover {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
- .dropdownButton:hover {
-   background-color: rgba(0, 0, 0, 0.1);
- }
+@import "../../System-admin/Styles/main.css";
 
  /* Styles for the delete model */
  .deleteConfirmation {
@@ -142,6 +15,7 @@
    height: 15vh;
    min-width: 455.25px;
    width: 25vw;
+   border: 1px solid var(--special-color1);
  }
 
  .deleteConfirmation .deleteTitle {
@@ -155,7 +29,6 @@
  .deleteConfirmation .deleteContent {
    padding: 20px;
    display: flex;
-   background-color: var(--secondary-color);
    height: 85%;
    justify-content: space-between;
  }
@@ -171,7 +44,10 @@ filter:invert(1)
 }
  .deleteConfirmation p {
    margin-bottom: 15px;
-   align-self: center;
+   align-self: center !important;
+   color: var(--font-color) !important;
+   
+
  }
 
  .deleteConfirmation button {
@@ -183,15 +59,18 @@ filter:invert(1)
    border-radius: 3px;
    cursor: pointer;
    align-self: flex-end;
+   transition: all 0.3s ease;
  }
 
  .deleteConfirmation button:last-child {
    color: var(--font-color);
- }
-
- .deleteConfirmation button:hover {
-   cursor: pointer;
- }
+  }
+  .deleteConfirmation button:hover{
+    background-color: #ddd5b6;
+  }
+  [theme = dark] .deleteConfirmation button:hover {
+     background-color: #424242;
+   }
 
  /* Backdrop effect */
  body.deleteModalActive {
@@ -391,6 +270,7 @@ cursor: pointer;
    width: 25vw;
    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
    transition: all 0.3s ease;
+   border: 1px solid var(--special-color1);
   }
 [theme = dark]  .viewModal {
   background-color: var(--color-background);
@@ -441,11 +321,15 @@ cursor: pointer;
  flex-direction: column;
  justify-content: space-evenly;
 }
+
+.viewModal .modalComplaintMain .name label{
+  margin:7px
+ }
 /*----------------------------------*/
 
  .viewModal hr {
    border: 1px solid #00000080;
-   margin: 0 6.8px;
+   margin: 5px 6.8px;
  }
  .viewModal .modalDetails{
   display: flex;
@@ -453,7 +337,7 @@ cursor: pointer;
   width: 100%;
   height: 70%;
   justify-content: space-evenly;
-  margin-top: .5rem;
+margin:7px;
  }
  .viewModal .modalDetails button{
   min-width: 50px;
@@ -481,6 +365,14 @@ cursor: pointer;
   justify-content: space-evenly;
   margin-top: .5rem;
  }
+ .viewModal .modalComplaintsDetails label{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 40%;
+  justify-content: space-evenly;
+  margin:7px
+}
  .viewModal .modalComplaintsDetails img{
   width:30px;
 height: 30px;
@@ -501,6 +393,7 @@ height: 30px;
   background-color: var(--font-color);
   box-shadow: var(--box-shadow);
   transition:all 0.3s ease;
+  border-radius: 5px;
  }
 
 [theme = dark]  .viewModal .modalComplaintsDetails button{

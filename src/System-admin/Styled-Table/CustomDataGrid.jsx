@@ -7,7 +7,7 @@ import "./Datagrid.css";
 import "../Styles/main.css";
 
 const StyledDataGrid = styled(DataGrid)({
-  width: "auto !important", // Adjust the width
+  width: "100% !important", // Adjust the width
   borderRadius: "var(--card-border-radius)",
   fontSize: "14px",
   color: "var(--font-color)",

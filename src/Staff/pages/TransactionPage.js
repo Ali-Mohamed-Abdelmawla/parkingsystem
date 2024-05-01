@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./TransactionPage.module.css";
+import styles from "./Transaction-component/TransactionPage.module.css";
 import carIcon from "../assets/light-mode/carIcon.svg";
 import darkCarIcon from "../assets/light-mode/carIcon.svg";
 import axios from "../axios";
