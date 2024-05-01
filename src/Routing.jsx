@@ -20,9 +20,9 @@ import ActiveSessions from './System-admin/ActiveSessions-component/Activesessio
 import Salaries from './System-admin/Salaries-component/Salaries';
 
 // staff commponents
-import DashboardPage from "./Staff/pages/DashboardPage";
-import Transaction from "./Staff/pages/TransactionPage";
-import Reports from "./Staff/pages/ReportsPage";
+import DashboardPage from "./Staff/pages/Dashboard-component/DashboardPage";
+import Transaction from "./Staff/pages/Transaction-component/TransactionPage";
+import Reports from "./Staff/pages/Reports-component/ReportsPage";
 // customer service components
 import Swal from "sweetalert2";
 import ComplaintsforCustomerService from "./Customer-service/Complaints-component/ComplaintsContainer";
