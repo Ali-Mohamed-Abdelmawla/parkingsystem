@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import Swal from 'sweetalert2';
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
-import ReportsPage from '../../Staff/pages/Reports-component/ReportsPage';
+
 
 const baseURL = "https://raknaapi.azurewebsites.net";
 
@@ -64,7 +64,7 @@ console.log(data)
  return (
     <>
       {addFormOpen && (
-        <div className={AddStyles.addModal}>
+        <div className={AddStyles.addReportModal}>
           <div className={AddStyles.addTitle}>
             <button onClick={handleCloseAddBtn}>
             </button>
@@ -74,14 +74,12 @@ console.log(data)
               <b>Add a report</b>
             </label>
             <textarea
-              style={{ maxHeight: '347px', maxWidth: '447px', height: '347px', width: '447px' }}
-              required
               type="text"
               name="reportMessage"
               placeholder="reportMessage"
-              {...register("reportMessage", { required: "Report message is required." })}
+              {...register("reportMessage", { required: "Report message should be written." })}
             />
-            {errors.reportMessage && <p>{errors.reportMessage.message}</p>}
+            {errors.reportMessage && <span className={AddStyles.errorMessage}>{errors.reportMessage.message}</span>}
 
             <div className={AddStyles.addModelButtons}>
               <button type="submit">Add</button>

@@ -5,6 +5,8 @@ import ViewLight from "../assets/LightMode/view.svg";
 import ViewDark from "../assets/DarkMode/view-dark.svg";
 import CloseLight from "../assets/LightMode/false.svg";
 import CloseDark from "../assets/DarkMode/false-dark.svg";
+import Swal from 'sweetalert2';
+
 
 class Garage extends Component {
     constructor(props) {
@@ -16,13 +18,15 @@ class Garage extends Component {
             showEditPage: false,
             editIndex: null,
             editedGarages: {
-                garageId: "",
-                garageName:"",
-                hourPrice: "",
+                GarageId: "",
+                GarageName:"",
+                HourPrice: "",
                 street: "",
                 city: "",
-                availableSpaces: "",
-                totalSpaces: ""
+                AvailableSpaces: "",
+                longitude:"",
+                latitude:"",
+                TotalSpaces: ""
             },
             Garages: [],
             isDarkMode: false,
@@ -132,45 +136,53 @@ class Garage extends Component {
         }));
     };
 
-    
-
     handleFormSubmit = async (e) => {
         e.preventDefault();
         const accessToken = sessionStorage.getItem("accessToken");
         const { editedGarages, editIndex, Garages } = this.state;
         try {
-                const headers = {
+            const headers = {
                 Authorization: `Bearer ${accessToken}`,
                 "Content-Type": "application/json",
             };
             const response = await axios.put(`https://raknaapi.azurewebsites.net/TechnicalSupport/UpdateGarage`,
-            editedGarages,
-            {
-                params: {
-                    id: editedGarages.GarageId,
-                }, 
-                headers
-            }
-        );
-        console.log("Updated garage:", response.data.GarageId);
+                editedGarages,
+                {
+                    params: {
+                        id: editedGarages.GarageId,
+                    },
+                    headers
+                }
+            );
+            console.log("Updated garage:", response.data.GarageId);
             const updatedGarages = [...Garages];
             updatedGarages[editIndex] = editedGarages;
             this.setState(
-            {
-                showEditPage: false,
-                editIndex: null,
-                Garages: updatedGarages,
-            },
-            () => {
-            this.saveToLocalStorage();
-            }
-        );
+                {
+                    showEditPage: false,
+                    editIndex: null,
+                    Garages: updatedGarages,
+                },
+                () => {
+                    this.saveToLocalStorage();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Garage updated successfully!',
+                    });
+                }
+            );
         } catch (error) {
-        console.error("Error updating garage:", error);
+            console.error("Error updating garage:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'An error occurred while updating the garage. Please try again later.',
+            });
         }
         document.body.classList.remove("Edit-modal-active");
     };
-
+    
 
     saveToLocalStorage = () => {
         const { Garages } = this.state;
@@ -202,6 +214,8 @@ class Garage extends Component {
                                 <th>Street</th>
                                 <th>City</th>
                                 <th>Available Spaces</th>
+                                <th>Longitude</th>
+                                <th>Latitude</th>
                                 <th>Total Spaces</th>
                                 <th></th>
                             </tr>
@@ -215,6 +229,8 @@ class Garage extends Component {
                                     <td>{garage.street}</td>
                                     <td>{garage.city}</td>
                                     <td>{garage.AvailableSpaces}</td>
+                                    <td>{garage.longitude}</td>
+                                    <td>{garage.latitude}</td>
                                     <td>{garage.TotalSpaces}</td>
                                     <td>
                                         <div className={`${styles["details-dropdown"]} ${darkModeClass}`} onClick={() => this.toggleDropdown(index)}>
@@ -277,6 +293,20 @@ class Garage extends Component {
                                     name="city"
                                     placeholder="City"
                                     defaultValue={editedGarages.city}
+                                    onChange={this.handleInputChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="longitude"
+                                    placeholder="Longitude"
+                                    defaultValue={editedGarages.longitude}
+                                    onChange={this.handleInputChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="latitude"
+                                    placeholder="Latitude"
+                                    defaultValue={editedGarages.latitude}
                                     onChange={this.handleInputChange}
                                 />
                                 <input

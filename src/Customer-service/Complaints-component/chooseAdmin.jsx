@@ -6,6 +6,9 @@ import Swal from "sweetalert2";
 
 const baseURL = "https://raknaapi.azurewebsites.net";
 const accessToken = sessionStorage.getItem("accessToken");
+
+
+
 const ViewModal = ({ reportId, onClose }) => {
   const [selectedValue, setSelectedValue] = useState(null);
   const forwardTheComplaint = async () => {
@@ -45,7 +48,6 @@ const ViewModal = ({ reportId, onClose }) => {
               setSelectedValue(selectedOption);
             }}
           />
-          <hr />
           {selectedValue && (
             <div
               className={styles.modalComplaintsDetails}

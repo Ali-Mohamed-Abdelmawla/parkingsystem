@@ -1,10 +1,9 @@
 //=============================================== New Customer service ====================================
 import React, { useEffect, useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import Employeestyle from "../styles/Employees.module.css";
-// import ExpandIcon from "../assets/Details-icon.svg";
 import axios from "axios";
 import Swal from "sweetalert2";
+import DataGrid from "../../System-admin/Styled-Table/CustomDataGrid";
 
 const baseURL = "https://raknaapi.azurewebsites.net";
 const accessToken = sessionStorage.getItem("accessToken");
@@ -40,26 +39,26 @@ function ComplaintsTable({
       renderCell: (params) => (
         <>
           <button
-            className={Employeestyle.dropdownButton}
+            className="tableBtn"
             onClick={() => handleViewComplaint(params.row.id)}
           >
             View
           </button>
           <button
-            className={Employeestyle.dropdownButton}
+            className="tableBtn"
             onClick={() => handleSolvedClick(params.row.reportId)}
           >
             Set as Solved
           </button>
           <button
-            className={Employeestyle.dropdownButton}
+            className="tableBtn"
             onClick={() => handleForwardToAdminClick(params.row.reportId)}
           >
             Forward to Admin
           </button>
 
           <button
-            className={Employeestyle.dropdownButton}
+            className="tableBtn"
             onClick={() => handleForwardToTechnicalClick(params.row.reportId)}
           >
             Forward to TechnicalSupport
@@ -72,8 +71,8 @@ function ComplaintsTable({
   const rows = complaints.map((complaint, index) => {
     console.log(helpingData);
     const reporterName =
-      helpingData.find((admin) => admin.AdminId === complaint.ReportId)
-        ?.name || "Technical Support";
+      helpingData.find((admin) => admin.AdminId === complaint.ReportId)?.name ||
+      "Technical Support";
 
     return {
       id: index,
@@ -88,7 +87,7 @@ function ComplaintsTable({
   useEffect(() => {
     console.log(accessToken);
     const fetchGarageAdmins = async () => {
-      if(accessToken == null){
+      if (accessToken == null) {
         fetchGarageAdmins();
       }
       try {
@@ -111,8 +110,8 @@ function ComplaintsTable({
   }, []);
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <h1 style= {{marginBottom: "20px"}}>Reports</h1>
+    <div className="table-wrapper" style={{ flex: 1, overflow: "hidden" }}>
+      <h1 style={{ marginBottom: "20px" }}>Reports</h1>
       <DataGrid
         rows={rows}
         columns={columns}

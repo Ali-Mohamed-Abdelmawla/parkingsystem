@@ -348,6 +348,7 @@ class Employees extends Component {
                                     <label>
                                         <b>Name:</b> {this.state.Employees[viewIndex].Name}
                                     </label>
+                                    
                                     <label>
                                         <b>National ID:</b> {this.state.Employees[viewIndex].NationalId}
                                     </label>

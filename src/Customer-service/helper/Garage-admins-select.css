@@ -8,3 +8,6 @@
   .lp-copy-sel__value-container {
     height: 5em; /* Adjust as needed */
   }
+  [theme = dark] .css-1dimb5e-singleValue{
+    color:var(--font-color)
+  }
