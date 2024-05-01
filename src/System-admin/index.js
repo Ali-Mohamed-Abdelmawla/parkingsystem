@@ -81,6 +81,7 @@ function TheOne() {
   };
   const handleLogoutBtn = () => {
     sessionStorage.removeItem("accessToken");
+    document.documentElement.setAttribute("theme", "light");
     navigate("/");
     // بنمسح التوكن بس و نريدايركت اليوزر لصفحه اللوجن
   };
