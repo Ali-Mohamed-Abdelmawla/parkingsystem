@@ -7,6 +7,7 @@
     z-index: 1000;
     display: flex;
     flex-direction: column;
+    justify-content: baseline;
     border-radius: .7rem;
     background-color: var(--secondary-color);
     height: 60vh;
@@ -29,7 +30,7 @@
   .addReportModal .addTitle button {
     width: 30px;
     height: 30px;
-    margin:7px;
+    margin: 7px;
     padding: 3px;
     background-image: url("../assets/light-mode/Close-icon.svg");
     background-size: contain;
@@ -49,7 +50,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content:baseline;
     padding: 10px;
     padding-bottom: 15px;
 
@@ -62,7 +63,7 @@
 
   .addReportModal form textarea {
     width: 100%;
-    height: 347px ;
+    height: 347px;
     max-height: 350px;
     max-width: calc(100% - 20px) !important;
     align-self: center;
@@ -71,7 +72,7 @@
     padding: var(--card-padding);
     border-radius: 5px;
     border: 1px solid var(--special-color1);
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
   }
 
 
@@ -79,12 +80,36 @@
   [theme=dark] .addReportModal form textarea {
     background-color: var(--table-color);
     color: var(--font-color);
-
   }
 
   .addReportModal form textarea:hover {
-    border: none;
-    }
+    border: 1px solid rgba(105, 105, 105, 0.671);
+  }
+
+  .addReportModal form input {
+    width: 60%;
+    align-self: baseline;
+    margin: 10px;
+    height: 20px;
+    border:1px solid rgb(105, 105, 105);
+    padding: var(--card-padding);
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  
+  
+  [theme=dark] .addReportModal form input {
+    background-color: var(--table-color);
+    color: var(--font-color);
+  
+  }
+  
+  .addReportModal form input:hover {
+    box-shadow: none;
+    border:1px solid rgba(105, 105, 105, 0.425);
+  }
+  
 
   .addReportModal form select {
     width: 60%;
@@ -129,13 +154,14 @@
     height: 40px;
     border-radius: var(--button-border-radius);
     background-color: #000;
-    position: relative;
-    bottom: 10px;
+
     color: var(--secondary-color);
     transition: all 0.3s ease;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     cursor: pointer;
     min-width: 113px;
+    margin:5px;
+
   }
 
 
@@ -154,7 +180,8 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content:end;
+    margin-top: 24px;
   }
 
 
@@ -166,14 +193,14 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    -webkit-backdrop-filter:blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
     z-index: 999;
-    -webkit-user-select:none;
+    -webkit-user-select: none;
     user-select: none;
   }
 
-  .addReportModal .errorMessage{
+  .addReportModal .errorMessage {
     color: #b32f2f;
     align-self: center;
     margin: 2px;
