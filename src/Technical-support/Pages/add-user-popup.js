@@ -55,26 +55,30 @@ const UserPopup = ({ onClose, darkMode }) => {
                     <input placeholder='FullName' type="text" {...register("FullName", { required: true })} />
                     {errors.FullName && <span className="error">FullName is required</span>}
                     
-                    <input placeholder='National ID' type="text" {...register("NationalId", { required: true, minLength: 14, maxLength: 14 })} />
+                    <input placeholder='National ID' type="text" {...register("NationalId", { required: true, minLength: 14, maxLength: 14, pattern: {value: /^\d+$/,}, })} />
                     {errors.NationalId && errors.NationalId.type === "required" && <span className="error">National ID is required</span>}
                     {errors.NationalId && errors.NationalId.type === "minLength" && <span className="error">National ID must be exactly 14 digits</span>}
                     {errors.NationalId && errors.NationalId.type === "maxLength" && <span className="error">National ID must be exactly 14 digits</span>}
+                    {errors.NationalId && errors.NationalId.type === "pattern" && <span className="error">The entered value should be a number</span>}
                     
                     <input placeholder='Username' type="text" {...register('UserName', { required: true, pattern: /^[a-zA-Z0-9]{5,20}$/ })} />
                     {errors.UserName && errors.UserName.type === "required" && <span className="error">Username is required</span>}
                     {errors.UserName && errors.UserName.type === "pattern" && <span className="error">Username must be 5 to 20 characters long with no spaces and special characters</span>}
                     
-                    <input placeholder='Email' type="email" {...register("Email", { required: true })} />
-                    {errors.Email && <span className="error">Email is required</span>}
+                    <input placeholder="Email" type="email" {...register("Email", {required: true,pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,},})}/>
+                    {errors.Email &&errors.Email.type === "required" && <span className="error">Email is required</span>}
+                    {errors.Email && errors.Email.type === "pattern" && <span className="error">Please enter a valid email</span>}
                     
                     <select {...register("Role", { required: true })}>
                         <option value="garageadmin">garageadmin</option>
                         <option value="customerservice">customerservice </option>
                     </select>
                     {errors.Role && <span className="error">Role is required</span>}
-
-                    <input placeholder='Phone Number' type="text" {...register("PhoneNumber", { required: true })} />
-                    {errors.PhoneNumber && <span className="error">Phone Number is required</span>}
+                    
+                    <input placeholder='Phone Number' type="text" {...register("PhoneNumber", { required: true, minLength: 11, maxLength: 11 })} />
+                    {errors.PhoneNumber && errors.PhoneNumber.type === "required" && <span className="error">Phone Number is required</span>}
+                    {errors.PhoneNumber && errors.PhoneNumber.type === "minLength" && <span className="error">Phone Number  must be exactly 11 digits</span>}
+                    {errors.PhoneNumber && errors.PhoneNumber.type === "maxLength" && <span className="error">Phone Number must be exactly 11 digits</span>}
                     
                     <input placeholder='Garage Id' type="number" {...register("GarageId", { required: true })} />
                     {errors.GarageId && <span className="error">Garage ID is required</span>}
@@ -90,3 +94,4 @@ const UserPopup = ({ onClose, darkMode }) => {
 };
 
 export default UserPopup;
+

@@ -93,4 +93,8 @@
     margin-left: 8px;
     color:rgba(255, 255, 255, 0.884);
 }
+.dark-mode .menu-item:hover p {
+    margin-left: 8px;
+    color:#ED7F16
+}
 
