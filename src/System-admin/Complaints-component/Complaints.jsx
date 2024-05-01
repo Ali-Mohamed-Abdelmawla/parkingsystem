@@ -1,5 +1,5 @@
 import React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import DataGrid from "../Styled-Table/CustomDataGrid";
 import Employeestyle from "../Styles/Employees.module.css";
 
 function ComplaintsTable({
@@ -27,14 +27,14 @@ function ComplaintsTable({
       renderCell: (params) => (
         <>
           <button
-            className={Employeestyle.dropdownButton}
+            className={'tableBtn'}
             onClick={() => handleViewClick(params.row.id)}
           >
             View
           </button>
           <hr />
           <button
-            className={Employeestyle.dropdownButton}
+            className={'tableBtn'}
             onClick={() => handleDeleteClick(params.row.reportId)}
           >
             Delete
@@ -54,8 +54,8 @@ function ComplaintsTable({
   }));
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-          <h1 style={{ marginBottom: "20px" }}>Complaints</h1>
+    <div className="table-wrapper" style={{ flex: 1, overflow: "hidden" }}>
+    <h1 style={{ marginBottom: "20px" }}>Complaints</h1>
 
       <DataGrid
         rows={rows}

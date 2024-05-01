@@ -1,0 +1,258 @@
+@import "../Styles/main.css";
+
+
+[theme = dark] .css-1aaqut-MuiDataGrid-root .MuiDataGrid-withBorderColor {
+    border-color: rgb(68, 68, 68) !important;
+}
+
+/*Styles for the menu list*/
+
+.css-1xif2b4-MuiPopper-root-MuiDataGrid-menu .MuiDataGrid-menuList {
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--special-color1);
+    background-color: var(--color-background);
+    color: var(--font-color);
+}
+
+.css-1ps6pg7-MuiPaper-root {
+    border-radius: 12px;
+    background-color: var(--special-color1) !important;
+
+}
+
+/* ده بيحدد لون الايكونز في قائمه الفلتر */
+.MuiListItemIcon-root .css-ptiqhd-MuiSvgIcon-root {
+    color: var(--special-color1) !important;
+}
+
+/*Styles for the filter menu*/
+
+/* basic rect behind the filterform */
+.css-1miuj5f-MuiDataGrid-panelWrapper {
+    background-color: var(--color-background) !important;
+    color: var(--font-color);
+    border: 1px solid var(--special-color1) !important;
+
+}
+
+
+
+
+/* ناقص ان احنا نعرف ازاي نغير لون السيليكت */
+/* لون الفونت بتاع السيليكت */
+.css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input.css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input.css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input {
+
+    color: var(--font-color) !important;
+    background-color: var(--color-background) !important;
+}
+/* الاوبشنز اللي جوا السيليكت */
+.css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input.css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input.css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input option {
+    background-color: var(--color-background) !important;
+}
+
+/* عناوين الالمنتس اللي في قائمه الفلتر */
+.css-1c2i806-MuiFormLabel-root-MuiInputLabel-root {
+    color: var(--special-color1) !important
+}
+
+/* علامه ال كلوز اللي موجوده حوا الفلتر منيو */
+.css-rne967-MuiFormControl-root-MuiDataGrid-filterFormDeleteIcon .css-ptiqhd-MuiSvgIcon-root {
+    color: var(--special-color1) !important;
+}
+
+/* لون البوردر اللي من تحت في الانبوت */
+.css-1eed5fa-MuiInputBase-root-MuiInput-root::after {
+    border-bottom-color: var(--special-color1) !important;
+}
+
+/* لون البوردر اللي من تحت في السيليكت */
+.css-n70jm4-MuiInputBase-root-MuiInput-root-MuiSelect-root::after {
+    border-bottom-color: var(--special-color1) !important;
+}
+
+/* البليس هولدر بتاع الانبوت */
+.css-1x51dt5-MuiInputBase-input-MuiInput-input::placeholder {
+    color: var(--font-color) !important;
+}
+
+.css-1t5wrdm-MuiDataGrid-filterForm {
+    padding: 12px;
+    border-radius: 3px;
+    background-color: var(--color-background);
+    color: var(--font-color);
+}
+
+.css-1sjjn1c-MuiDataGrid-panelContent {
+    border-radius: 3px;
+    background-color: var(--color-background) !important;
+}
+
+.css-154sxbz-MuiPaper-root-MuiDataGrid-paper {
+    background-color: black !important;
+}
+
+.css-6hp17o-MuiList-root-MuiMenu-list {
+    background-color: var(--color-background);
+    color: var(--font-color);
+}
+
+/* selected option in the menu list */
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root.Mui-selected {
+    background-color: #b1181847 !important;
+}
+
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root.Mui-selected:hover {
+    background-color: #6926268c !important;
+}
+
+
+
+
+/*Styles for the input tool in columns management menu*/
+.css-nu1e6h-MuiInputBase-root-MuiOutlinedInput-root {
+    background-color: var(--color-background) !important;
+    border-radius: 15px !important;
+}
+.css-953pxc-MuiInputBase-root-MuiInput-root::after{
+        border-bottom-color: #8C8671 !important;
+}
+/* switches inside the column management menu */
+.css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked{
+    color: #8c8671 !important;
+}
+/* switches track inside the column management menu */
+.css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track{
+    background-color: #8c8671 !important;
+}
+/* buttons inside the column management menu */
+
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root{
+    color:var(--special-color1) !important;
+    
+}
+.css-1x51dt5-MuiInputBase-input-MuiInput-input::placeholder  {    
+    color: var(--font-color) !important;
+}
+
+.Mui-focused .css-nu1e6h-MuiInputBase-root-MuiOutlinedInput-root {
+    border: 1px solid #561c24 !important;
+}
+
+.css-2965rv-MuiButtonBase-root-MuiCheckbox-root.Mui-checked,
+.css-2965rv-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+    color: #9e2a3a !important;
+}
+
+
+
+
+/* اللي ناقص هنااني اشوف ازاي اغير لون البوردر بتاع الانبوت بتاع الفلتر لما اعمل فوكس عليها */
+
+/* اتجاه زراير الباجينيشن */
+.css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar .MuiTablePagination-actions {
+    direction: ltr;
+}
+
+/* لما بتختار مجموعه صفوف هو بيكتبلك تحت انت مختار كام واحد دلوقتي هنا هي ملهاش لازمه لان انا مش مستخدمها */
+.css-de9k3v-MuiDataGrid-selectedRowCount {
+    color: transparent;
+}
+
+/* when focusing a cell */
+.css-1yrdh1r-MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
+.css-1yrdh1r-MuiDataGrid-root .MuiDataGrid-cell:focus {
+    outline: 1px solid #561c24 1px !important;
+    border: 1px solid black !important;
+}
+
+
+
+/* الفروقات بين الاعمده */
+.css-1ia7i59-MuiDataGrid-root .MuiDataGrid-columnHeader .css-i4bv87-MuiSvgIcon-root {
+    color: var(--font-color) !important;
+
+}
+
+/* الايكون بتاعت المنيو */
+.css-ptiqhd-MuiSvgIcon-root {
+    color: var(--secondary-color) !important;
+}
+
+/* الديف اللي التيبل محطوطه جواها */
+.table-wrapper {
+    width: 99% !important;
+    padding: 20px;
+}
+
+.css-t89xny-MuiDataGrid-columnHeaderTitle {
+    font-weight: bold;
+}
+
+
+/* بنحاول نتحكم اكتر في زراير الباجنيشن علشان لما تبقي مش متفعله لما ميبقاش فيه صفحات تاني */
+.css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar .css-i4bv87-MuiSvgIcon-root {
+    color: var(--font-color);
+}
+
+.css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar .css-zylse7-MuiButtonBase-root-MuiIconButton-root.Mui-disabled {
+    color: rgba(212, 16, 16, 0.26) !important;
+    opacity: 0.3 !important;
+}
+
+.css-levciy-MuiTablePagination-displayedRows {
+    color: var(--font-color);
+}
+
+.css-rtrcn9-MuiTablePagination-root .MuiTablePagination-selectLabel {
+    color: var(--font-color);
+}
+
+.css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input {
+    color: var(--font-color);
+}
+
+.css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon {
+    color: var(--font-color) !important;
+}
+
+.css-1mf6u8l-MuiSvgIcon-root-MuiSelect-icon {
+    color: var(--font-color) !important;
+}
+
+/* المنيو بتاعت الباجينيشن */
+.css-10by3a5-MuiButtonBase-root-MuiMenuItem-root-MuiTablePagination-menuItem.Mui-selected {
+    background-color: var(--secondary-color) !important;
+}
+
+/* كل اللي فوق كان تحكم بالباجينيشن */
+
+/* checkbox selection styles */
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+    color: var(--font-color) !important;
+}
+/* checkbox frame styles */
+[theme = dark] .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root{
+    color: rgb(255 255 255 / 85%);
+}
+
+
+/* البتنز اللي جوا التيبل نفسها */
+.tableBtn {
+    width: auto;
+    height: 30px;
+    padding: 7px;
+    background-color: var(--color-background);
+    color: var(--font-color);
+    transition: all 0.2s ease-in-out;
+    border-radius: 5px;
+    margin:5px
+}
+
+.tableBtn:hover {
+    background-color: #e2e2e2;
+}
+
+[theme = dark] .tableBtn:hover {
+    background-color: #303030;
+}

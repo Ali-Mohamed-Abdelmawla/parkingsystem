@@ -41,6 +41,16 @@
     border: none;
     cursor: pointer;
 }
+.popup-inner select{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 4px; 
+    border: none;
+    border-radius: 5px;
+    width: calc(100% - 15px); 
+    box-sizing: border-box;
+    transition: box-shadow 0.3s ease;
+    margin-bottom: 15px;
+}
 
 .popup button.close-icon::before,
 .popup button.close-icon::after {
@@ -93,20 +103,17 @@
     background-color: #000000;
     color: #e0e0e0;
 }
-.dark-mode-inner.popup-inner{
-    background-color: #231F20;
+.dark-mode .popup-inner {
+    background-color:#000000;
+    box-shadow: 0px 8px 8px rgba(85, 77, 77, 0.2);
 }
-
 .dark-mode input {
-    background-color: #3a3a3a;
+    background-color: #231F20;
     color: #e0e0e0;
 }
-
-.dark-mode hr {
-    border-color: #e0e0e0;
+.dark-mode .submit{
+    background-color:#8C8671;
 }
-
-.dark-submit button {
-    background-color: #4CAF50;
-    color: #e0e0e0;
+.dark-mode .error{
+    color: #F2F1F1;
 }
