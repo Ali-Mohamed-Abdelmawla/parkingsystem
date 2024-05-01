@@ -51,6 +51,14 @@ const ActiveSessionsContainer = () => {
 
   // Define the columns for the DataGrid
   const columns = [
+    { field: 'PlateNumbers', headerName: 'Plate numbers',flex:0.5 },
+    { field: 'PlateLetters', headerName: 'Plate Letters',flex:0.5 },
+    {
+      field: "CurrentBill",
+      headerName: "Current Bill",
+      valueFormatter: (params) => formatCurrency(params.value),
+      flex: 1,
+    },
     {
       field: "CurrentBill",
       headerName: "Current Bill",
@@ -71,6 +79,7 @@ const ActiveSessionsContainer = () => {
     },
   ];
 
+
   // Prepare the rows data for the DataGrid
   const rows = activeSessions.map((activeSession, index) => ({
     id: index, // Ensure each row has a unique ID
@@ -90,6 +99,7 @@ const ActiveSessionsContainer = () => {
             },
           }}
           pageSizeOptions={[5, 8, 13]}
+
         />
       </div>
     </>
