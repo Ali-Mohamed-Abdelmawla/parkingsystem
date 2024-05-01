@@ -60,11 +60,30 @@ const GaragePopup = ({ onClose, darkMode }) => {
                     <input placeholder='City' type="text" {...register("city", { required: true })} />
                     {errors.city && <span className="error">City is required</span>}
                     
-                    <input placeholder='Longitude' type="text" {...register("longitude", { required: true })} />
-                    {errors.longitude && <span className="error">Longitude is required</span>}
-                    
-                    <input placeholder='Latitude' type="text" {...register("latitude", { required: true })} />
-                    {errors.latitude && <span className="error">Latitude is required</span>}
+                    <input 
+                        placeholder='Longitude' 
+                        type="text" 
+                        {...register("longitude", { 
+                            required: true,
+                            pattern: {
+                            value: /^-?\d*(\.\d+)?$/, // يقبل الأعداد الصحيحة والعشرية السالبة أو الموجبة
+                        }
+                    })} 
+                    />
+                    {errors.longitude && errors.longitude.type === "required" && <span className="error">Longitude is required</span>}
+                    {errors.longitude && errors.longitude.type === "pattern" && <span className="error">Please enter a valid Longitude</span>}
+                    <input 
+                        placeholder='Latitude' 
+                        type="text" 
+                        {...register("latitude", { 
+                            required: true,
+                            pattern: {
+                            value: /^-?\d*(\.\d+)?$/, // يقبل الأعداد الصحيحة والعشرية السالبة أو الموجبة
+                        }
+                    })} 
+                    />
+                    {errors.latitude && errors.latitude.type === "required" && <span className="error">Latitude is required</span>}
+                    {errors.latitude && errors.latitude.type === "pattern" && <span className="error">Please enter a valid Latitude</span>}
                     
                     <input placeholder='Total Spaces' type="number" {...register("totalSpaces", { required: true })} />
                     {errors.totalSpaces && <span className="error">Total Spaces is required</span>}

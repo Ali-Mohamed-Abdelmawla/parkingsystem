@@ -155,9 +155,9 @@ class Complaints extends React.Component {
             viewReportMessage,
             isDarkMode, // Added isDarkMode state
         } = this.state;
-
+        
         const darkModeClass = this.props.darkmode ? styles["dark-mode"] : "";
-
+        
         return (
             <div className={`${styles["component-body"]} ${darkModeClass}`}>
                 <div className={styles["toggle-dark-mode"]} onClick={this.toggleDarkMode}>
@@ -167,11 +167,12 @@ class Complaints extends React.Component {
                 <table className={`${styles["complaint-table"]} ${darkModeClass}`}>
                     <thead>
                         <tr>
-                            <th>report Id</th>
-                            <th>report Type</th>
-                            <th>report Message</th>
-                            <th>reporter Id</th>
-                            <th>report status</th>
+                            <th>Report Id</th>
+                            <th>Report Type</th>
+                            <th>Report Message</th>
+                            <th>Reporter Id</th>
+                            <th>Reporter Name</th>
+                            <th>Report status</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -181,6 +182,7 @@ class Complaints extends React.Component {
                                 <td>{complaint.ReportId}</td>
                                 <td>{complaint.ReportType}</td>
                                 <td>{complaint.ReportMessage}</td>
+                                <td>{complaint.ReporterId}</td>
                                 <td>{complaint.ReporterName}</td>
                                 <td>{complaint.IsFixed ? "Fixed" : "Not Fixed"}</td>
                                 <td>

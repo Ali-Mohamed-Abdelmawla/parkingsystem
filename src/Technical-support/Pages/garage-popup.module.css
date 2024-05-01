@@ -97,6 +97,9 @@
     outline: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
+span{
+    color:red;
+}
 
 /*dark Mode*/
 .dark-mode .popup{
@@ -114,6 +117,4 @@
 .dark-mode .submit{
     background-color:#8C8671;
 }
-.dark-mode .error{
-    color: #F2F1F1;
-}
+
