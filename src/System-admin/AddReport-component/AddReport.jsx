@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import Swal from 'sweetalert2';
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
-import ReportsPage from './../../Staff/pages/ReportsPage';
+import ReportsPage from '../../Staff/pages/Reports-component/ReportsPage';
 
 const baseURL = "https://raknaapi.azurewebsites.net";
 
