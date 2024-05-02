@@ -117,7 +117,9 @@
     font-size: 25px;
     align-self: flex-end;
 }
-
+[theme = dark] .card {
+    background-color: #3f3f3f;
+}
 
 .StatisticsCard {
     text-align: center;
@@ -126,7 +128,6 @@
     justify-content: space-between;
     align-content: space-between;
     align-items:baseline;
-
     background-color: var(--secondary-color);
     overflow: visible;
     padding: var(--card-padding);
@@ -140,6 +141,10 @@
     line-height: 1rem;
     transition: all 0.3s ease-in-out;
 }
+[theme = dark] .StatisticsCard {
+    background-color: #3f3f3f;
+}
+
 
 .StatisticsTable{
     text-align: center;
@@ -160,7 +165,9 @@
     line-height: 1rem;
     transition: all 0.3s ease-in-out;
     border: 1px solid rgb(105, 105, 105);
-
+}
+[theme = dark] .StatisticsTable {
+    background-color: #3f3f3f;
 }
 
 .StatisticsCard:hover {

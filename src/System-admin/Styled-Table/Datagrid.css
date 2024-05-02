@@ -238,6 +238,9 @@
     color: rgb(255 255 255 / 85%);
 }
 
+[theme = dark] .MuiDataGrid-cell{
+    background-color: #231f20 !important;
+}
 
 /* البتنز اللي جوا التيبل نفسها */
 .tableBtn {
@@ -250,7 +253,9 @@
     border-radius: 5px;
     margin:5px
 }
-
+[theme = dark] .tableBtn {
+    background-color: #3f3f3f;
+}
 .tableBtn:hover {
     background-color: #e2e2e2;
 }
