@@ -239,8 +239,8 @@ const Dashboard = () => {
     //  Other" or "SystemError" or "BillingError" or "ServiceDelay" or "EquipmentIssue" or "PolicyViolation" or "CustomerFeedback"
     const pieChartoptions = {
       title: "Complaint Types",
-      pieHole: 0.2, // Optional: Creates a donut chart
-    };
+      pieHole: 0.3,
+     };
 
     setComplaintsPieChartData(pieChartdata);
     setComplaintsPieChartOptions(pieChartoptions);
@@ -282,7 +282,7 @@ const Dashboard = () => {
     //  Other" or "SystemError" or "BillingError" or "ServiceDelay" or "EquipmentIssue" or "PolicyViolation" or "CustomerFeedback"
     const nonResolvedpieChartoptions = {
       title: "Complaint Types",
-      pieHole: 0.2, // Optional: Creates a donut chart
+      pieHole: 0.3, // Optional: Creates a donut chart
     };
 
     setNonresolvedComplaintsPieChartData(nonResolvedpieChartdata);
@@ -304,6 +304,7 @@ const Dashboard = () => {
 
     const reservationOptions = {
       title: "Reservation vs Non-reservation parking operations",
+      pieHole: 0.3,
     };
 
     setReservationData(reservationData);

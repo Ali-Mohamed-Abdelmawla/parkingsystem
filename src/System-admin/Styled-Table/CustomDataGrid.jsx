@@ -8,6 +8,7 @@ import "../Styles/main.css";
 
 const StyledDataGrid = styled(DataGrid)({
   width: "100% !important", // Adjust the width
+  fontFamily: "inherit !important",
   borderRadius: "var(--card-border-radius)",
   fontSize: "14px",
   color: "var(--font-color)",
@@ -15,8 +16,10 @@ const StyledDataGrid = styled(DataGrid)({
   "& .MuiDataGrid-columnHeader": {
     transition: "all 0.3s ease",
     backgroundColor: "var(--special-color1)", // Change the header background color
-    fontWeight: "bolder !important",
     outline: "none !important",
+  },
+  "& .css-t89xny-MuiDataGrid-columnHeaderTitle":{
+    fontWeight: "800 !important",
   },
   "& .MuiDataGrid-sortIcon": {
     color: "var(--secondary-color) !important", // Change the sort icon color

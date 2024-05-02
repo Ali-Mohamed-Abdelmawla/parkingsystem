@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     justify-content: baseline;
+    font-family: inherit;
     border-radius: .7rem;
     background-color: var(--secondary-color);
     height: 60vh;
@@ -67,6 +68,7 @@
     max-height: 350px;
     max-width: calc(100% - 20px) !important;
     align-self: center;
+    font-family: inherit;
     margin-top: 10px;
     height: 20px;
     padding: var(--card-padding);
@@ -86,67 +88,6 @@
     border: 1px solid rgba(105, 105, 105, 0.671);
   }
 
-  .addReportModal form input {
-    width: 60%;
-    align-self: baseline;
-    margin: 10px;
-    height: 20px;
-    border:1px solid rgb(105, 105, 105);
-    padding: var(--card-padding);
-    border-radius: 5px;
-    transition: all 0.3s ease;
-  }
-  
-  
-  
-  [theme=dark] .addReportModal form input {
-    background-color: var(--table-color);
-    color: var(--font-color);
-  
-  }
-  
-  .addReportModal form input:hover {
-    box-shadow: none;
-    border:1px solid rgba(105, 105, 105, 0.425);
-  }
-  
-
-  .addReportModal form select {
-    width: 60%;
-    align-self: center;
-    height: 35px;
-    margin-top: 10px;
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: 1px solid transparent;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    transition: all 0.5s ease;
-  }
-
-  [theme=dark] .addReportModal form select {
-    background-color: var(--table-color);
-    color: var(--font-color);
-    color-scheme: dark;
-  }
-
-  .addReportModal form select:hover {
-    box-shadow: none;
-  }
-
-  .addReportModal form select option {
-    width: 60%;
-    align-self: center;
-    height: 20px;
-    padding: var(--card-padding);
-    border-radius: 5px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    transition: all 0.5s ease;
-  }
-
-  [theme=dark] .addReportModal form select option:hover {
-    background-color: var(--color-background);
-  }
-
   .addReportModal form button {
     min-width: 50px;
     width: 7vw;
@@ -154,6 +95,7 @@
     height: 40px;
     border-radius: var(--button-border-radius);
     background-color: #000;
+    font-family: inherit;
 
     color: var(--secondary-color);
     transition: all 0.3s ease;
