@@ -16,6 +16,14 @@
     /* ------------------------------------------------ */
     --box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 
+    /* statistics colors */
+        /* column-chart */
+        --color1:#aaf0d1;
+        --color2:#ff7f0e;
+        --color3:#2ca02c;
+
+
+
 }
 [theme = dark] {
     --color-background:#231F20;
@@ -25,4 +33,19 @@
     --special-color1:#8C8671;
     --table-color:#000;
     --hover-effect-color:#1a1a1a;
+}
+
+@font-face {
+    font-family: 'Noto Kufi Arabic';
+    src: url('../../Fonts/Noto_Kufi_Arabic/NotoKufiArabic-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    /* src: url('../../Fonts/Noto_Sans/NotoSans-VariableFont_wdth,wght') format('truetype'); */
+    src:url(../../Fonts/Noto_Sans/NotoSans-VariableFont_wdth\,wght.ttf)
+}
+
+body {
+    font-family: 'Noto Sans', sans-serif !important;
 }

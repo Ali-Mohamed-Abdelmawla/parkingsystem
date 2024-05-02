@@ -1,8 +1,10 @@
 @import "../Styles/main.css";
 
 
-[theme = dark] .css-1aaqut-MuiDataGrid-root .MuiDataGrid-withBorderColor {
+
+[theme = dark] .css-4e7y45-MuiDataGrid-root .MuiDataGrid-withBorderColor{
     border-color: rgb(68, 68, 68) !important;
+
 }
 
 /*Styles for the menu list*/

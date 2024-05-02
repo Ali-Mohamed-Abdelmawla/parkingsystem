@@ -14,15 +14,18 @@ function App() {
   // const [loading, setLoading] = useState(false) علشان اعمل انتظار علي التحميل عقبال ما الريسبونس تيجي
   const navigate = useNavigate(); // Hook for navigation
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
+
+    const trimmedUsername = username.trim();
+ const trimmedPassword = password.trim();
+
     if (username && password) {
       try {
         const response = await axios.post(
           "https://raknaapi.azurewebsites.net/api/Auth/Login",
           {
-            email: username,
-            password: password,
+            email: trimmedUsername,
+            password: trimmedPassword,
           },
           {
             headers: {
@@ -107,7 +110,6 @@ function App() {
           setPassword={setPassword}
           handleLogin={handleLogin}
         />
-        {error && <div className="error">{error}</div>}
       </div>
     </div>
   );

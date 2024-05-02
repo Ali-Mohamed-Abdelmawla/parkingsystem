@@ -13,7 +13,6 @@
 .container {
   width: 100vw;
   height: 100vh;
-  font-family: "Poppins", sans-serif;
   font-size: 0.88rem;
 
   overflow-x: hidden !important;
@@ -84,6 +83,8 @@ aside .sidebar button {
   color: var(--font-color);
   height: 3.7rem;
   border-radius: var(--button-border-radius);
+  font-family: inherit;
+  font-size: 15px;
   gap: 1rem;
   position: relative;
   margin-left: 2rem;
@@ -317,3 +318,6 @@ body.addModalActive::before {
   z-index: 999;
   -webkit-user-select: none;
 }
+
+
+

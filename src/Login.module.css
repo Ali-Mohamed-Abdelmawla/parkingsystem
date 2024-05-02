@@ -1,6 +1,8 @@
+@import "./System-admin/Styles/main.css";
 .loginContainer {
-  background-color: #F2F1F1;
+  background-color: var(--color-background);
 }
+
 
 .loginContainer {
   display: flex;
@@ -10,7 +12,6 @@
 }
 
 .loginContainer .Logo {
-  text-align: center;
   width: 33%;
   margin-left: 110px;
   margin-top: 50px;
@@ -18,19 +19,27 @@
 
 .loginContainer .Logo img {
   width: 450px;
+
+}
+[theme = dark] .loginContainer .Logo img {
+  width: 450px;
+  filter: invert(1);
 }
 
 .loginContainer .Logo p {
   font-style: italic;
   font-size: large;
   font-weight: 500;
+  color: var(--font-color);
 }
 
 .loginContainer .App {
   text-align: center;
   margin-right: 90px;
+  border:1px solid rgb(105, 105, 105);
+  transition:all 0.3s ease-in-out;
   margin-top: 122px;
-  background-color: #E2DCC8;
+  background-color: var(--secondary-color);
   width: 38%;
   height: auto;
   border-radius: 10px;
@@ -38,10 +47,16 @@
   flex-direction: column;
   align-items: center;
 }
+.loginContainer .App:hover{
+  border:1px solid rgba(105, 105, 105, 0.425);
 
+}
 .loginContainer h1 {
   margin: 40px 0;
-  color: #231F20;
+  color: var(--font-color);
+}
+.loginContainer form{
+  width:80%
 }
 
 .loginContainer input {
@@ -51,6 +66,27 @@
   background-color: #F2F1F1;
   border-radius: 5px;
   border-color: #000000;
+}
+
+.loginContainer input {
+  width: 100%;
+  align-self: center;
+  margin: 10px;
+  height: 20px;
+  border:1px solid rgb(105, 105, 105);
+  padding: var(--card-padding);
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+[theme=dark] .loginContainer input {
+  background-color: var(--table-color);
+  color: var(--font-color);
+}
+
+.loginContainer input:hover {
+  box-shadow: none;
+  border:1px solid rgba(105, 105, 105, 0.425);
 }
 
 .loginContainer button {
@@ -63,9 +99,41 @@
   display: block; 
 }
 
+.loginContainer button {
+  min-width: 50px;
+  width: 7vw;
+  min-height: max-content;
+  height: 40px;
+  border-radius: var(--button-border-radius);
+  border:2px solid rgb(107, 107, 107);
+  background-color: #000;
+
+  color: var(--secondary-color);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  min-width: 113px;
+}
+
+
+[theme=dark] .loginContainer button {
+  background-color: var(--special-color1);
+  color: var(--color-background);
+}
+
+.loginContainer button:hover {
+  box-shadow: none;
+
+}
+
+
 .loginContainer a {
   margin-left: 190px;
   text-decoration: none;
-  color: #231F20;
+  color: var(--font-color);
   font-weight: bold;
+}
+.loginContainer .error{
+  color: #b32f2f;
+  align-self: center;
+  margin: 2px;
 }
