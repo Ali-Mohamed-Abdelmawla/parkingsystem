@@ -3,7 +3,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import DataGrid from "../Styled-Table/CustomDataGrid";
 
-const baseURL = "https://raknaapi.azurewebsites.net";
 const displayDateAfterDays = (daysUntilPayment) => {
   const currentDate = new Date();
   const futureDate = new Date(
@@ -27,6 +26,7 @@ const formatDate = (isoDateString) => {
 const formatCurrency = (amount) => {
   return `$${amount.toFixed(2)}`; // Assuming the currency is USD and you want to display 2 decimal places
 };
+const baseURL = "https://raknaapi.azurewebsites.net";
 
 const Salaries = () => {
   const [Salaries, setSalaries] = useState({ staffs: [] });
@@ -130,7 +130,7 @@ const Salaries = () => {
                 paginationModel: { page: 0, pageSize: 5 },
               },
             }}
-            pageSizeOptions={[5, 8, 13]}
+            pageSizeOptions={[5, 8, 11]}
           />
         )}
       </div>
