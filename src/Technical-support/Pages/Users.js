@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import styles from "./Users.module.css";
-import ViewLight from "../assets/LightMode/view.svg";
-import ViewDark from "../assets/DarkMode/view-dark.svg";
 import CloseLight from "../assets/LightMode/false.svg";
 import CloseDark from "../assets/DarkMode/false-dark.svg";
+import DataGrid from "../../System-admin/Styled-Table/CustomDataGrid";
 
 class Employees extends Component {
     constructor(props) {
@@ -24,8 +23,9 @@ class Employees extends Component {
                 phoneNumber: "",
                 garageId: "",
             },
-            Employees: [
+            initialEmployees: [
                 {
+                    id: 1,
                     Name: "Ahmed Mahmoud Ali",
                     NationalId: '12345678901234',
                     Email: "ahmed.mahmoud@example.com",
@@ -34,6 +34,7 @@ class Employees extends Component {
                     garageId: "90"
                 },
                 {
+                    id: 2,
                     Name: "Sara Abdullah Mohamed",
                     NationalId: '98765432109876',
                     Email: "sara.abdullah@example.com",
@@ -42,6 +43,7 @@ class Employees extends Component {
                     garageId: "88"
                 },
                 {
+                    id: 3,
                     Name: "Mohamed Khaled Ahmed",
                     NationalId: '56789012345678',
                     Email: "mohamed.khaled@example.com",
@@ -50,6 +52,7 @@ class Employees extends Component {
                     garageId: "35",
                 },
                 {
+                    id: 4,
                     Name: "Fatma Ali Hassan",
                     NationalId: '34567890123456',
                     Email: "fatma.ali@example.com",
@@ -58,20 +61,36 @@ class Employees extends Component {
                     garageId: "76"
                 },
                 {
+                    id: 5,
                     Name: "Ali Ahmed Hassan",
                     NationalId: '01234567890123',
                     Email: "ali.ahmed@example.com",
                     role: "garageadmin",
                     phoneNumber: "01876543210",
                     garageId: "37"
+                },
+                {
+                    id: 6,
+                    Name: "Amany Fawzy Azam",
+                    NationalId: '01234567890333',
+                    Email: "amanyf070@gmail.com",
+                    role: "garageadmin",
+                    phoneNumber: "01283196470",
+                    garageId: "44"
                 }
-
-            ]
+            ],
+            Employees: [],
         };
     }
 
+    componentDidMount() {
+        this.setState({
+            Employees: this.state.initialEmployees
+        });
+    }
+
     saveToLocalStorage = () => {
-        const { Employees } = this.state;
+        // Implement save to local storage logic
     };
 
     toggleDropdown = (index) => {
@@ -80,15 +99,20 @@ class Employees extends Component {
         }));
     };
 
-    handleEditClick = (index) => {
-        this.setState({
-            showEditPage: true,
-            editIndex: index,
-            editedEmployee: { ...this.state.Employees[index] },
-        });
-
-        document.body.classList.add("Edit-modal-active");
+    handleEditClick = (id) => {
+        const index = this.state.Employees.findIndex(employee => employee.id === id);
+        if (index !== -1) {
+            this.setState({
+                showEditPage: true,
+                editIndex: index,
+                editedEmployee: { ...this.state.Employees[index] },
+            });
+            document.body.classList.add("Edit-modal-active");
+        } else {
+            console.error("Row not found with id:", id);
+        }
     };
+    
 
     handleCloseEditClick = () => {
         this.setState({
@@ -98,13 +122,17 @@ class Employees extends Component {
         document.body.classList.remove("Edit-modal-active");
     };
 
-    handleDeleteClick = (index) => {
-        this.setState({
-            showDeleteConfirmation: true,
-            deletionIndex: index,
-        });
-
-        document.body.classList.add("delete-modal-active");
+    handleDeleteClick = (id) => {
+        const index = this.state.Employees.findIndex(employee => employee.id === id);
+        if (index !== -1) {
+            this.setState({
+                showDeleteConfirmation: true,
+                deletionIndex: index,
+            });
+            document.body.classList.add("delete-modal-active");
+        } else {
+            console.error("Row not found with id:", id);
+        }
     };
 
     handleCancelDelete = () => {
@@ -181,14 +209,19 @@ class Employees extends Component {
         document.body.classList.remove("Edit-modal-active");
     };
 
-    handleViewClick = (index) => {
-        this.setState({
-            showViewDetails: true,
-            viewIndex: index,
-        });
-
-        document.body.classList.add("view-modal-active");
+    handleViewClick = (id) => {
+        const index = this.state.Employees.findIndex(employee => employee.id === id);
+        if (index !== -1) {
+            this.setState({
+                showViewDetails: true,
+                viewIndex: index,
+            });
+            document.body.classList.add("view-modal-active");
+        } else {
+            console.error("Row not found with id:", id);
+        }
     };
+    
 
     handleCloseView = () => {
         this.setState({
@@ -201,7 +234,6 @@ class Employees extends Component {
 
     render() {
         const {
-            expandedRow,
             showDeleteConfirmation,
             showEditPage,
             showViewDetails,
@@ -210,60 +242,84 @@ class Employees extends Component {
         } = this.state;
 
         const darkModeClass = this.props.darkmode ? styles["dark-mode"] : "";
+        const columns = [
+            { field: "Name", headerName: "Name", flex: 1 },
+            { field: "NationalId", headerName: "National ID", flex: 1 },
+            { field: "Email", headerName: "Email", flex: 1 },
+            { field: "role", headerName: "Role", flex: 1 },
+            { field: "phoneNumber", headerName: "Phone Number", flex: 1 },
+            { field: "garageId", headerName: "Garage ID", flex: .6 },
+            {
+                field: "actions",
+                headerName: "Settings",
+                flex: 1.1,
+                renderCell: (params) => (
+                    <>
+                        <button className={'tableBtn'} onClick={() => this.handleViewClick(params.row.id)}>View</button>
+                        <hr />
+                        <button className={'tableBtn'} onClick={() => this.handleEditClick(params.row.id)}>Edit</button>
+                        <hr />
+                        <button className={'tableBtn'} onClick={() => this.handleDeleteClick(params.row.id)}>Delete</button>
+                    </>
+                ),
+            },
+        ];
 
         return (
             <div className={`${styles["component-body"]} ${darkModeClass}`}>
                 <div className={styles["toggle-dark-mode"]} onClick={this.props.handleDarkModeToggle}>
                     {this.props.darkmode ? "Light Mode" : "Dark Mode"}
                 </div>
-                <table className={`${styles["table-content"]} ${darkModeClass}`}>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>National ID</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Phone Number</th>
-                            <th>Garage ID</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.Employees.map((employee, index) => (
-                            <tr key={index}>
-                                <td>{employee.Name}</td>
-                                <td>{employee.NationalId}</td>
-                                <td>{employee.Email}</td>
-                                <td>{employee.role}</td>
-                                <td>{employee.phoneNumber}</td>
-                                <td>{employee.garageId}</td>
-                                <td>
-                                    <div
-                                        className={`${styles["details-dropdown"]} ${darkModeClass}`}
-                                        onClick={() => this.toggleDropdown(index)}
-                                    >
-                                        <img src={this.props.darkmode ? ViewDark : ViewLight} alt="Details" className={styles["expand-icon"]} />
-                                        {index === expandedRow && (
-                                            <div className={styles["dropdown-menu"]}>
-                                                <button className={styles["dropdown-button"]} onClick={() => this.handleViewClick(index)}>
-                                                    View
-                                                </button>
-                                                <hr />
-                                                <button className={styles["dropdown-button"]} onClick={() => this.handleEditClick(index)}>
-                                                    Edit
-                                                </button>
-                                                <hr />
-                                                <button className={styles["dropdown-button"]} onClick={() => this.handleDeleteClick(index)}>
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        )}
+                <DataGrid
+                    rows={this.state.Employees} // Fixed variable name
+                    columns={columns}
+                    getRowId={(row) => row.id}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 5 },
+                        },
+                    }}
+                    pageSizeOptions={[5, 8, 13]}
+                />
+                {showViewDetails && (
+                    <div className={`${styles["view-modal"]} ${darkModeClass}`}>
+                        <div className={`${styles["view-title"]} ${darkModeClass}`}></div>
+                        <div className={`${styles["modal-content"]} ${darkModeClass}`}>
+                            <div className={`${styles["modal-main"]} ${darkModeClass}`}>
+                                <div className={`${styles["info"]} ${darkModeClass}`}>
+                                    <label>
+                                        <b>Name:</b> {this.state.Employees[viewIndex].Name}
+                                    </label>
+                                    
+                                    <label>
+                                        <b>National ID:</b> {this.state.Employees[viewIndex].NationalId}
+                                    </label>
+
+                                    <label>
+                                    <b>Email:</b> {this.state.Employees[viewIndex].Email}
+                                    </label>
+
+                                    <label>
+                                        <b>Role:</b> {this.state.Employees[viewIndex].role}
+                                    </label>
+
+                                    <label>
+                                        <b>Phone Number:</b> {this.state.Employees[viewIndex].phoneNumber}
+                                    </label>
+
+                                    <label>
+                                        <b>Garage ID:</b> {this.state.Employees[viewIndex].garageId}
+                                    </label>
+                                    
+                                    <div className={`${styles["view-close-buttons"]} ${darkModeClass}`}>
+                                        <button onClick={this.handleCloseView}>Close</button>
                                     </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                )}
 
                 {showDeleteConfirmation && (
                     <div className={`${styles["delete-confirmation"]} ${darkModeClass}`}>
@@ -336,42 +392,6 @@ class Employees extends Component {
                                 <button type="submit">Edit</button>
                             </div>
                         </form>
-                    </div>
-                )}
-
-                {showViewDetails && (
-                    <div className={`${styles["view-modal"]} ${darkModeClass}`}>
-                        <div className={`${styles["view-title"]} ${darkModeClass}`}></div>
-                        <div className={`${styles["modal-content"]} ${darkModeClass}`}>
-                            <div className={`${styles["modal-main"]} ${darkModeClass}`}>
-                                <div className={`${styles["name"]} ${darkModeClass}`}>
-                                    <label>
-                                        <b>Name:</b> {this.state.Employees[viewIndex].Name}
-                                    </label>
-                                    
-                                    <label>
-                                        <b>National ID:</b> {this.state.Employees[viewIndex].NationalId}
-                                    </label>
-                                </div>
-                            </div>
-                            <div className={`${styles["modal-details"]} ${darkModeClass}`}>
-                                <label>
-                                    <b>Email:</b> {this.state.Employees[viewIndex].Email}
-                                </label>
-                                <label>
-                                    <b>Role:</b> {this.state.Employees[viewIndex].role}
-                                </label>
-                                <label>
-                                    <b>Phone Number:</b> {this.state.Employees[viewIndex].phoneNumber}
-                                </label>
-                                <label>
-                                    <b>Garage ID:</b> {this.state.Employees[viewIndex].garageId}
-                                </label>
-                                <div className={`${styles["view-close-buttons"]} ${darkModeClass}`}>
-                                    <button onClick={this.handleCloseView}>Close</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 )}
             </div>

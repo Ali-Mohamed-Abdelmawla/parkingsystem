@@ -132,6 +132,7 @@ const Salaries = () => {
             }}
             pageSizeOptions={[5, 8, 13]}
           />
+          
         )}
       </div>
     </>
