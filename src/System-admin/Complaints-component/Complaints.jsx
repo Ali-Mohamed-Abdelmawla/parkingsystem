@@ -65,7 +65,7 @@ function ComplaintsTable({
             paginationModel: { page: 0, pageSize: 5 },
           },
         }}
-        pageSizeOptions={[5, 8, 13]}
+        pageSizeOptions={[5, 8, 11]}
       />
     </div>
   );

@@ -5,11 +5,11 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 const baseURL = "https://raknaapi.azurewebsites.net";
-const accessToken = sessionStorage.getItem("accessToken");
 
 
 
 const ViewModal = ({ reportId, onClose }) => {
+  const accessToken = sessionStorage.getItem("accessToken");
   const [selectedValue, setSelectedValue] = useState(null);
   const forwardTheComplaint = async () => {
     console.log(reportId);
