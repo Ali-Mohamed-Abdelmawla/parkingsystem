@@ -200,6 +200,10 @@
     color: var(--font-color);
 }
 
+.css-1deacqj.Mui-disabled{
+    opacity: 0.3 !important;
+}
+
 .css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar .css-zylse7-MuiButtonBase-root-MuiIconButton-root.Mui-disabled {
     color: rgba(212, 16, 16, 0.26) !important;
     opacity: 0.3 !important;
@@ -211,12 +215,18 @@
 
 .css-rtrcn9-MuiTablePagination-root, .MuiTablePagination-selectLabel {
     color: var(--font-color) !important;
+    font-family: inherit !important;
 }
 
 .css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input .css-194a1fa-MuiSelect-select-MuiInputBase-input {
     color: var(--font-color);
 }
 
+.MuiTablePagination-displayedRows{
+    color: var(--font-color) !important;
+    font-family: inherit !important;
+
+}
 .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon {
     color: var(--font-color) !important;
 }
@@ -249,7 +259,11 @@
 
 /* بعد الديبلوي في ستايلات مش شغاله معرفش بتتغير ولا ايه المشكله بظبط */
 .css-vubbuv{
-    
+    color: var(--font-color);
+}
+
+.css-rmmij8{
+    color: var(--font-color) !important;
 }
 
 /* البتنز اللي جوا التيبل نفسها */
