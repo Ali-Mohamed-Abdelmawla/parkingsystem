@@ -6,8 +6,8 @@ import Whitelogo from "./assets/light-mode/White-logo.svg";
 import Dashboardicon from "./assets/light-mode/Dashboard.svg";
 import Empoloyeeicon from "./assets/light-mode/Employee-icon.svg";
 import Complaintsicon from "./assets/light-mode/complaints-icon.svg";
-import Activesessions from './assets/light-mode/Active-sesions-icon.svg'
-import Salaries from './assets/light-mode/Salaries.svg'
+import Activesessions from "./assets/light-mode/Active-sesions-icon.svg";
+import Salaries from "./assets/light-mode/Salaries.svg";
 import Logout from "./assets/light-mode/log-out.svg";
 import Add from "./assets/light-mode/Add-employee-icon.svg";
 import AddReporIcont from "./assets/light-mode/Add-Report.svg";
@@ -20,16 +20,16 @@ import AddReport from "./AddReport-component/AddReport";
 //Routes
 import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
+import axiosInstance from "../auth/axios";
 
 function TheOne() {
   const navigate = useNavigate();
 
   const [showAddPage, setShowAddPage] = useState(false);
   const [showAddReportPage, setShowAddReportPage] = useState(false);
-  const [userName,setUserName]=useState(null)
-
-
+  const [userName, setUserName] = useState(null);
+  const [garageData, setGarageData] = useState(null);
 
   useEffect(() => {
     const token = sessionStorage.getItem("accessToken");
@@ -37,6 +37,15 @@ function TheOne() {
       const decodedToken = jwtDecode(token);
       console.log(decodedToken);
       setUserName(decodedToken.FullName);
+
+      axiosInstance
+        .get("/api/GarageAdmin/GetGarageData", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setGarageData(response.data);
+        });
     }
   }, []);
 
@@ -53,9 +62,9 @@ function TheOne() {
   const handleAddComplaintsClick = () => {
     setShowAddReportPage(true);
     document.body.classList.add(styles.addModalActive);
-   }
+  };
 
-   const handleCloseComplaintsBtn = () => {
+  const handleCloseComplaintsBtn = () => {
     setShowAddReportPage(false);
     document.body.classList.remove(styles.addModalActive);
   };
@@ -85,8 +94,6 @@ function TheOne() {
     navigate("/");
     // بنمسح التوكن بس و نريدايركت اليوزر لصفحه اللوجن
   };
-
-
 
   const switchTheme = (e) => {
     if (e.target.checked) {
@@ -133,7 +140,7 @@ function TheOne() {
             <img src={Salaries} alt="Salaries icon" />
             <b>Salaries</b>
           </button>
-          
+
           <button onClick={handleAddBtn}>
             <img src={Add} alt="add icon" />
             <b>Add Employee</b>
@@ -154,10 +161,24 @@ function TheOne() {
       <main>
         <div className={styles.rightSide}>
           <div className={styles.Header}>
-            <div className={styles.searchBar}>
-              <input type="text" placeholder="search" />
-              <img src={search} alt="icon" />
+            <div className={styles.titleBar}>
+              <p>
+                {/* Need a secure spot for your car?
+                <span className={styles.info}> {garageData?.garageName} </span>
+                offers convenient parking for{" "}
+                <span className={styles.info}>${garageData?.HourPrice} </span>{" "}
+                per hour. */}
+                Garage:{" "}
+                <span className={styles.info}>{garageData?.garageName} </span>
+
+              </p>
+              <br></br>
+              <p>
+              Price: 
+              <span className={styles.info}>{garageData?.HourPrice}</span>$ per hour
+              </p>
             </div>
+            {/* here........................................................ */}
             <div className={styles.Theme}>
               <div className={styles.themeSwitchContainer}>
                 <label className={styles.themeSlider} htmlFor="checkbox">
@@ -174,7 +195,9 @@ function TheOne() {
           </div>
           <div className={styles.Content}>
             {showAddPage && <AddEmployee onClose={handleCloseAddBtn} />}
-            {showAddReportPage && <AddReport onClose={handleCloseComplaintsBtn} />}
+            {showAddReportPage && (
+              <AddReport onClose={handleCloseComplaintsBtn} />
+            )}
             <Outlet /> {/* This will render child routes like Employees */}
           </div>
         </div>

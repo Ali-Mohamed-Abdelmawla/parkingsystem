@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 import axiosInstance from "../../auth/axios";
 import styles from "./camera.module.css";
+import Swal from "sweetalert2";
 
 function CameraSwitcher({ darkMode }) {
+  const accessToken = sessionStorage.getItem("accessToken");
   const [selectedDevice, setSelectedDevice] = useState(null);
   const webcamRef = useRef(null);
   const [devices, setDevices] = useState([]);
@@ -40,7 +42,8 @@ function CameraSwitcher({ darkMode }) {
         // request to the database
         axiosInstance
           .post(
-            "https://mohammed321735-rakna-api-gdkgivmppq-ew.a.run.app/ODLink",
+            // "https://mohammed321735-rakna-api-gdkgivmppq-ew.a.run.app/ODLink"
+            "https://octopus-intent-rapidly.ngrok-free.app/ODLink",
             {
               image_url: response.data.data.url,
             },
@@ -58,6 +61,7 @@ function CameraSwitcher({ darkMode }) {
             // Extract Arabic letters and numbers
             const arabicLetters = plateNumber.match(/[\u0600-\u06FF]/g) || [];
             const numbers = plateNumber.match(/\d/g) || [];
+            console.log("Recognized plate:", plateNumber);
             setRecognizedPlate(plateNumber);
             setArabicLetters(arabicLetters);
             setNumbers(numbers);
@@ -65,6 +69,11 @@ function CameraSwitcher({ darkMode }) {
           })
           .catch((error) => {
             console.error("Error processing the image:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Error processing the image. Please try again.",
+            });
           });
       })
       .catch((error) => {
@@ -74,40 +83,51 @@ function CameraSwitcher({ darkMode }) {
 
   // Function to confirm the recognized plate and start parking session
   const confirmPlate = () => {
-    // Check if the recognized plate has 6 or 7 characters
-    if (numbers.length === 6 || numbers.length === 7) {
-      // Start the parking session
-      startParkingSession();
-    } else {
-      // Plate number does not have expected length, display an error message or handle it accordingly
-      console.error("Error: Recognized plate number does not have the expected length.");
-      // You can display an error message to the user or handle the situation in any other way
-    }
+
+    console.log("Recognized plate before starting session:", recognizedPlate);
+
+
+    const arabicLetters = recognizedPlate.match(/[\u0621-\u064A]/g) || [];
+const arabicNumbers = recognizedPlate.match(/[\u0660-\u0669]/g) || [];
+    // Start the parking session
+      axiosInstance
+        .post(
+          "/api/GarageStaff/StartParkingSession",
+          {
+            PlateLetters: arabicLetters.join(""),
+            PlateNumbers: arabicNumbers.join(""),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Parking session started successfully:", response.data);
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: "Parking session started successfully.",
+          });
+          // Additional logic after starting the parking session
+        })
+        .catch((error) => {
+          console.error("Error starting parking session:", error);
+          // Handle error
+        })
+        .finally(() => {
+          setShowConfirmation(false); // Hide the confirmation dialog
+        });
+
   };
 
   // Function to start the parking session
-  const startParkingSession = () => {
-    // Send a POST request to start parking session
-    axiosInstance
-      .post(
-        '/api/GarageStaff/StartParkingSession',
-        {
-          PlateLetters: arabicLetters.join(''),
-          PlateNumbers: numbers.join(''),
-        }
-      )
-      .then((response) => {
-        console.log('Parking session started successfully:', response.data);
-        // Additional logic after starting the parking session
-      })
-      .catch((error) => {
-        console.error('Error starting parking session:', error);
-        // Handle error
-      })
-      .finally(() => {
-        setShowConfirmation(false); // Hide the confirmation dialog
-      });
-  };
+  // const startParkingSession = () => {
+  //   // Send a POST request to start parking session
+
+  // };
 
   // Function to fetch list of available media devices
   const getMediaDevices = async () => {
@@ -161,8 +181,9 @@ function CameraSwitcher({ darkMode }) {
         {showConfirmation && (
           <div className={styles.RecognizedPlate}>
             <p>Recognized Plate Number:</p>
-            <p>Arabic Letters: {arabicLetters.join('')}</p>
-            <p>Numbers: {numbers.join('')}</p>
+            {/* <p>Arabic Letters: {arabicLetters.join("")}</p>
+            <p>Numbers: {numbers.join("")}</p> */}
+            <input defaultValue={recognizedPlate} onChange={(e) => setRecognizedPlate(e.target.value)} type="text" />
             <div>
               <button onClick={confirmPlate}>Confirm</button>
             </div>

@@ -7,7 +7,7 @@ import Transaction from './pages/Transaction-component/TransactionPage.js';
 import Reports from './pages/Reports-component/ReportsPage.js';
 import AddVehiclePopup from './pages/AddVehicle-component/AddVehiclePopupContainer.js';
 import { jwtDecode } from 'jwt-decode';
-
+import axiosInstance from '../auth/axios.js';
 const App = () => {
   
   const navigate = useNavigate();
@@ -18,15 +18,41 @@ const App = () => {
   
   const [darkMode, setDarkMode] = useState(false);
   const toggleDarkMode = () => setDarkMode(!darkMode);
+  const token = sessionStorage.getItem('accessToken');
 
   const getUserNamefromtoken = () => {
-    const token = sessionStorage.getItem('accessToken');
     if (token) {
       const decodedToken = jwtDecode(token);
       console.log(decodedToken)
       setUserName(decodedToken.FullName);
     }
   }
+  
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+  
+  const getCurrentParkingSessions = axiosInstance.get(
+    "/api/GarageStaff/CurrentParkingSessions",
+    { headers }
+  );
+  const getAllReservations = axiosInstance.get("/api/GarageStaff/AllReservation", {
+    headers,
+  });
+
+  Promise.all([getCurrentParkingSessions, getAllReservations])
+    .then((responses) => {
+      const currentParkingSessionsData = responses[0].data;
+      const allReservationsData = responses[1].data;
+
+      const mergedData = [
+        ...currentParkingSessionsData,
+        ...allReservationsData,
+      ];
+      console.log("Merged data:", mergedData);
+      sessionStorage.setItem("CurrentSessions", mergedData.length);
+    })
 
   useEffect(() => {
     getUserNamefromtoken();

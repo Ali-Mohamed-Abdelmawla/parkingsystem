@@ -4,18 +4,20 @@ import closeLight from "../assets/LightMode/false.svg";
 import styles from "./garage-popup.module.css";
 import axiosInstance from "../../auth/axios";
 import Swal from "sweetalert2";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from "@mui/icons-material/Add";
+import GarageAdminSelect from "../../helper/Garage-admins-select";
 const UserPopup = ({ onClose, darkMode }) => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     reset,
   } = useForm();
 
-  const[loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const onSubmit = async (data) => {
     try {
       const accessToken = sessionStorage.getItem("accessToken");
@@ -23,7 +25,7 @@ const UserPopup = ({ onClose, darkMode }) => {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       };
-      setLoading(true)
+      setLoading(true);
       const response = await axiosInstance.post(
         "/TechnicalSupport/AddUser",
         data,
@@ -46,32 +48,40 @@ const UserPopup = ({ onClose, darkMode }) => {
         reset();
         onClose();
         window.location.reload();
-        setLoading(false)
+        setLoading(false);
       });
     } catch (error) {
       console.error("Error adding user:", error);
       console.log(error.response.data);
-      if(error.response.data.includes("Email is already registered!")) {
+      if (error.response.data.includes("Email is already registered!")) {
         Swal.fire({
           icon: "error",
           title: "Error",
           text: "Email is already registered!",
           confirmButtonColor: "#f44336",
-
         }).then(() => {
-            setLoading(false)
+          setLoading(false);
         });
-    }else{
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Failed to add user. Please try again later.",
-        confirmButtonColor: "#f44336",
-
-      }).then(() => {
-          setLoading(false)
-      });
-    }
+      }else if (error.response.data.includes("Username is already used !")) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Username is already used !",
+          confirmButtonColor: "#f44336",
+        }).then(() => {
+          setLoading(false);
+        });
+      }
+      else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to add user. Please try again later.",
+          confirmButtonColor: "#f44336",
+        }).then(() => {
+          setLoading(false);
+        });
+      }
     }
   };
 
@@ -113,13 +123,19 @@ const UserPopup = ({ onClose, darkMode }) => {
             <span className={styles.error}>National ID is required</span>
           )}
           {errors.NationalId && errors.NationalId.type === "minLength" && (
-            <span className={styles.error}>National ID must be exactly 14 digits</span>
+            <span className={styles.error}>
+              National ID must be exactly 14 digits
+            </span>
           )}
           {errors.NationalId && errors.NationalId.type === "maxLength" && (
-            <span className={styles.error}>National ID must be exactly 14 digits</span>
+            <span className={styles.error}>
+              National ID must be exactly 14 digits
+            </span>
           )}
           {errors.NationalId && errors.NationalId.type === "pattern" && (
-            <span className={styles.error}>The entered value should be a number</span>
+            <span className={styles.error}>
+              The entered value should be a number
+            </span>
           )}
 
           <input
@@ -165,7 +181,9 @@ const UserPopup = ({ onClose, darkMode }) => {
           </select>
           <br />
 
-          {errors.Role && <span className={styles.error}>Role is required</span>}
+          {errors.Role && (
+            <span className={styles.error}>Role is required</span>
+          )}
 
           <input
             placeholder="Phone Number"
@@ -192,11 +210,29 @@ const UserPopup = ({ onClose, darkMode }) => {
             </span>
           )}
 
-          <input
+          {/* <input
             placeholder="Garage Id"
             type="number"
             {...register("GarageId", { required: true })}
+          /> */}
+          <div style={{ width:  "90%" }}>
+          
+          <Controller
+            name="GarageId"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <GarageAdminSelect
+                {...field}
+                onGarageAdminSelect={(selectedOption) => {
+                  console.log(selectedOption);
+                  // setSelectedValue(selectedOption);
+                  field.onChange(selectedOption.garageId);
+                }}
+              />
+            )}
           />
+          </div> 
           <br />
 
           {errors.GarageId && (
@@ -210,20 +246,22 @@ const UserPopup = ({ onClose, darkMode }) => {
           />
           <br />
 
-          {errors.Salary && <span className={styles.error}>Salary is required</span>}
+          {errors.Salary && (
+            <span className={styles.error}>Salary is required</span>
+          )}
           <div>
             {/* <button className={styles.submit} type="submit">
               Add
             </button> */}
             <LoadingButton
-                endIcon={<AddIcon />}
-                loading={loading}
-                loadingPosition="end"
-                variant="contained"
-                onClick={handleSubmit(onSubmit)}
-              >
-                <span>Add</span>
-              </LoadingButton>
+              endIcon={<AddIcon />}
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+              onClick={handleSubmit(onSubmit)}
+            >
+              <span>Add</span>
+            </LoadingButton>
           </div>
         </form>
       </div>

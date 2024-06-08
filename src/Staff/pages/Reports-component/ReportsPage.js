@@ -49,8 +49,10 @@ function ReportsPage() {
             content: "custom-swal-content",
             confirmButton: "custom-swal-confirm-button",
           },
+        }).then(() => {
+          setLoading(false);
+          window.location.reload();
         });
-        setLoading(false);
       } catch (error) {
         if (error.response) {
           console.error("Error response:", error.response.data);

@@ -182,13 +182,15 @@ const Garage = ({ handleDarkModeToggle }) => {
 
 
   if (loading) {
+    
     return (
       <div
         style={{
-          height: "50vh",
+          height: darkmode ? '100vh' : '50vh',
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: darkmode ? '#231f20' : '#f2f1f1'
         }}
       >
         <Loader />
