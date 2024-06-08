@@ -26,20 +26,6 @@
     font-weight: bold;
     margin-bottom: 5px;
 }
-.form-group .submitReport {
-    padding: 10px 20px;
-    background-color: #231F20;
-    color: #F2F1F1;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.form-group .submitReport:hover {
-    background-color: #333;
-}
 .container {
     background-color: #F2F1F1;
     padding: 20px;
@@ -81,19 +67,19 @@
 }
 
 .submitReport {
-    padding: 10px 20px;
-    background-color: #231F20;
-    color: #F2F1F1;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 40px;
+    padding: 10px 20px !important;
+    background-color: #231F20 !important;
+    color: #F2F1F1 !important;
+    border: none !important;
+    border-radius: 5px !important;
+    line-height: 1px !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+    margin-top: 40px !important;
 }
 
 .submitReport:hover {
-    background-color: #333;
+    background-color: #333 !important;
 }
 
 .dark-mode.container {
@@ -118,12 +104,12 @@
 }
 
 .dark-mode .submitReport {
-    background-color: #8C8671;
-    color: #FFFFFF;
+    background-color: #8C8671 !important;
+    color: #FFFFFF !important;
 }
 
 .dark-mode .submitReport:hover {
-    background-color: #6c6651; 
+    background-color: #6c6651 !important; 
 }
 
 @media only screen and (max-width: 768px) {

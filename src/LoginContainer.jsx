@@ -1,15 +1,16 @@
-
+import { useState } from "react";
 import Loginstyles from "./Login.module.css";
-
-import React from "react";
 import { useForm } from "react-hook-form";
-
+import LoadingButton from "@mui/lab/LoadingButton";
+// import SendIcon from "@mui/icons-material/Send";
+import LoginIcon from '@mui/icons-material/Login';
 const LoginForm = ({
   username,
   password,
   setUsername,
   setPassword,
   handleLogin,
+  loading,
 }) => {
   const {
     register,
@@ -26,11 +27,13 @@ const LoginForm = ({
       <input
         {...register("username", { required: "Username is required" })}
         type="text"
-        placeholder="Username"
+        placeholder="ُEmail"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      {errors.username && <div className={Loginstyles.error}>{errors.username.message}</div>}
+      {errors.username && (
+        <div className={Loginstyles.error}>{errors.username.message}</div>
+      )}
 
       <input
         {...register("password", { required: "Password is required" })}
@@ -39,9 +42,21 @@ const LoginForm = ({
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      {errors.password && <div className={Loginstyles.error}>{errors.password.message}</div>}
+      {errors.password && (
+        <div className={Loginstyles.error}>{errors.password.message}</div>
+      )}
 
-      <button type="submit">Login</button>
+      <div className={Loginstyles.loginFormButtons}>
+        <LoadingButton
+          endIcon={<LoginIcon />}
+          loading={loading}
+          loadingPosition="end"
+          variant="contained"
+          onClick={handleSubmit(onSubmit)}
+        >
+          <span>Login</span>
+        </LoadingButton>
+      </div>
     </form>
   );
 };

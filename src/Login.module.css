@@ -1,118 +1,132 @@
 @import "./System-admin/Styles/main.css";
-.loginContainer {
-  background-color: var(--color-background);
-}
 
+.loginPage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+
+}
 
 .loginContainer {
   display: flex;
+  background-color: var(--color-background);
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 20px;
 }
 
 .loginContainer .Logo {
-  width: 33%;
-  margin-left: 110px;
-  margin-top: 50px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .loginContainer .Logo img {
   width: 450px;
-
 }
-[theme = dark] .loginContainer .Logo img {
+
+[theme=dark] .loginContainer .Logo img {
   width: 450px;
-  filter: invert(1);
 }
 
 .loginContainer .Logo p {
-  font-style: italic;
   font-size: large;
   font-weight: 500;
   color: var(--font-color);
+  filter: drop-shadow(1px 2px 6px rgba(0, 0, 0, 0.6));
+  letter-spacing: 1px;
+}
+
+.loginContainer .rightSide {
+  width: 50%;
+  height: 50vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .loginContainer .App {
-  text-align: center;
-  margin-right: 90px;
-  border:1px solid rgb(105, 105, 105);
-  transition:all 0.3s ease-in-out;
-  margin-top: 122px;
+  border: 1px solid rgb(105, 105, 105);
+  transition: all 0.3s ease-in-out;
   background-color: var(--secondary-color);
-  width: 38%;
-  height: auto;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
+  padding: 30px;
+  height: 100%;
+  width: 80%;
+  max-width: 550px;
 }
-.loginContainer .App:hover{
-  border:1px solid rgba(105, 105, 105, 0.425);
 
-}
 .loginContainer h1 {
-  margin: 40px 0;
   color: var(--font-color);
 }
-.loginContainer form{
-  width:80%
-}
 
-.loginContainer input {
-  margin: 13px;
-  padding: 5px;
-  width: 80%;
-  background-color: #F2F1F1;
-  border-radius: 5px;
-  border-color: #000000;
+.loginContainer form {
+  transition: all 0.3s ease-in-out;
+  background-color: var(--secondary-color);
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .loginContainer input {
   width: 100%;
-  align-self: center;
-  margin: 10px;
-  height: 20px;
-  border:1px solid rgb(105, 105, 105);
-  padding: var(--card-padding);
-  border-radius: 5px;
-  transition: all 0.3s ease;
+   height: 347px;
+   max-height: 350px;
+   max-width: calc(100% - 20px) !important;
+   align-self: center;
+   font-family: inherit;
+   margin-top: 10px;
+   height: 20px;
+   padding: var(--card-padding);
+   border-radius: 5px;
+   border: 1px solid var(--special-color1);
+   transition: all 0.2s ease-in-out;
+   background-color: var(--input-background-color);
+   color: var(--font-color);
 }
 
-[theme=dark] .loginContainer input {
-  background-color: var(--table-color);
-  color: var(--font-color);
+.loginContainer .loginFormButtons{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 24px;
 }
-
 .loginContainer input:hover {
   box-shadow: none;
-  border:1px solid rgba(105, 105, 105, 0.425);
+  border: 1px solid rgba(105, 105, 105, 0.425);
 }
 
 .loginContainer button {
-  margin: 35px;
-  padding: 10px 40px;
+  min-width: 100px;
+  padding: 10px;
   border-radius: 5px;
   background-color: #231F20;
   color: white;
   font-weight: bolder;
-  display: block; 
-}
-
-.loginContainer button {
-  min-width: 50px;
-  width: 7vw;
-  min-height: max-content;
-  height: 40px;
-  border-radius: var(--button-border-radius);
-  border:2px solid rgb(107, 107, 107);
-  background-color: #000;
-
+  width: 100px;
+  display: flex;
+  margin: 13px;
+  text-align: center;
   color: var(--secondary-color);
-  transition: all 0.3s ease-in-out;
+  border-radius: var(--button-border-radius);
+  border: 2px solid rgb(107, 107, 107);
   cursor: pointer;
-  min-width: 113px;
 }
+
 
 
 [theme=dark] .loginContainer button {
@@ -122,7 +136,7 @@
 
 .loginContainer button:hover {
   box-shadow: none;
-
+  background-color: #231f20;
 }
 
 
@@ -132,8 +146,11 @@
   color: var(--font-color);
   font-weight: bold;
 }
-.loginContainer .error{
+
+.loginContainer .error {
+  font-size: 14px;
+  margin: 5px;
+  margin-left: 15px;
   color: #b32f2f;
-  align-self: center;
-  margin: 2px;
+  align-self: baseline;
 }

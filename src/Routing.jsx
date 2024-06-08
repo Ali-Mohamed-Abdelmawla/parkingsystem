@@ -23,15 +23,19 @@ import Salaries from './System-admin/Salaries-component/Salaries';
 import DashboardPage from "./Staff/pages/Dashboard-component/DashboardPage";
 import Transaction from "./Staff/pages/Transaction-component/TransactionPage";
 import Reports from "./Staff/pages/Reports-component/ReportsPage";
+
 // customer service components
-import Swal from "sweetalert2";
 import ComplaintsforCustomerService from "./Customer-service/Complaints-component/ComplaintsContainer";
 
-// import TechnicalSupport from "./Technical-support/App";
-import GarageStaff from "./Staff/App";
-import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+// technical support components
+import ComplaintsforTechnicalSupport from "./Technical-support/Pages/Complaints";
+import DashboardforTechnicalSupport from "./Technical-support/Pages/Dashboard";
+import UsersforTechnicalSupport from "./Technical-support/Pages/Users"
 import Garage from "./Technical-support/Pages/Garages";
+
+import GarageStaff from "./Staff/App";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const IsAuthenticated = () => {
   // Check if the JWT token is stored in sessionStorage
@@ -50,10 +54,11 @@ const ProtectedRoute = ({ element, path }) => {
       icon: "error",
       title: "Oops...",
       text: "You are not logged in",
-    });
-    console.log("you are not logged in");
+    }).then(() => {
+      console.log("redirect to login");
+      navigate("/");
+    })
     
-    navigate("/");
     return null;
   }
   return <>{element}</>;
@@ -68,79 +73,79 @@ function App() {
       element: <Login />,
     },
     {
-      path: "/SystemAdmin/*",
+      path: "/SystemAdmin",
       element: <ProtectedRoute element={<SystemAdmin />} />,
       children: [
         {
-          path: "SystemAdmin/Dashboard",
+          path: "/SystemAdmin",
           element: <Dashboard />,
         },
         {
-          path: "SystemAdmin/Employees",
+          path: "/SystemAdmin/Employees",
           element: <Employees />,
         },
         {
-          path: "SystemAdmin/Complaints",
+          path: "/SystemAdmin/Complaints",
           element: <Complaints />,
         },
         {
-          path: "SystemAdmin/ActiveSessions",
+          path: "/SystemAdmin/ActiveSessions",
           element: <ActiveSessions />,
         },
         {
-          path: "SystemAdmin/Salaries",
+          path: "/SystemAdmin/Salaries",
           element: <Salaries />,
         },
         // Add more children routes for SystemAdmin if needed
       ],
     },
     {
-      path: "/GarageStaff/*",
+      path: "/GarageStaff",
       element: <ProtectedRoute element={<GarageStaff />} />,
       children: [
         {
-          path:"GarageStaff/Dashboard",
+          path:"/GarageStaff",
           element:<DashboardPage/>
         },
         {
-          path:"GarageStaff/Report",
+          path:"/GarageStaff/Report",
           element:<Reports/>
         },
         {
-          path:"GarageStaff/Transaction",
+          path:"/GarageStaff/Transaction",
           element:<Transaction/>
         },
       ],
     },
     {
-      path: "/TechnicalSupport/*",
+      path: "/TechnicalSupport",
       element: <ProtectedRoute element={<TechnicalSupport />} />,
       children: [
         {
-          path:"TechnicalSupport/Dashboard",
-          element:<Dashboard/>
+          path:"/TechnicalSupport",
+          element:<DashboardforTechnicalSupport />
         },
         {
-          path:"TechnicalSupport/Employee",
-          element:<Employees/>
+          path:"/TechnicalSupport/Employee",
+          element:<UsersforTechnicalSupport />
         },
         {
-          path:"TechnicalSupport/Complaint",
-          element:<Complaints/>
+          path:"/TechnicalSupport/Complaint",
+          element:<ComplaintsforTechnicalSupport />
         },
         {
-          path:"TechnicalSupport/Garages",
-          element:<Garage/>
+          path:"/TechnicalSupport/Garages",
+          element:<Garage />
         },
       ],
     },
     {
-      path: "/CustomerService/*",
+      path: "/CustomerService",
       element: <ProtectedRoute element={<CustomerService />} />,
       children: [
         // Add children routes for CustomerService
         {
-          path: 'CustomerService/Complaints',
+          path: '/CustomerService',
           element: <ComplaintsforCustomerService />
         }
       ],

@@ -50,8 +50,8 @@
 
 .C-card-grid {
   display: grid;
-    grid-template-columns: repeat(3, minmax(350px, 1fr)); 
-    gap: 25px;
+  grid-template-columns: repeat(3, minmax(350px, 1fr));
+  gap: 25px;
 }
 
 .C-card {
@@ -99,7 +99,7 @@
 }
 
 .C-confirm-button:hover {
-  background-color: #000000; 
+  background-color: #000000;
 }
 
 .C-popup {
@@ -108,8 +108,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); 
-  z-index: 999; 
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -119,20 +119,20 @@
   background-color: #E2DCC8;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .C-popconfirm {
-  background-color: #231f20; 
-  color: #f2f1f1; 
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  background-color: #231f20 !important;
+  color: #f2f1f1 !important;
+  border: none !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  margin-top: 20px !important;
 }
 
 .C-popconfirm:hover {
-  background-color: #000000;
+  background-color: #000000 !important;
 }
 
 .dark-mode.container {
@@ -172,12 +172,12 @@
 }
 
 .dark-mode .C-popconfirm {
-  background-color: #8C8671;
-  color: #FFFFFF;
+  background-color: #8C8671 !important;
+  color: #FFFFFF !important;
 }
 
 .dark-mode .C-popconfirm:hover {
-  background-color: #6c6651;
+  background-color: #6c6651 !important;
 }
 
 .C-popup {
@@ -186,8 +186,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); 
-  z-index: 999; 
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -197,22 +197,24 @@
   background-color: #E2DCC8;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .C-popup-buttons {
   display: flex;
   justify-content: space-between;
 }
+
 .close-popup-button {
   margin-top: 20px;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #E2DCC8; 
+  background-color: #E2DCC8;
   color: #231F20;
   cursor: pointer;
 }
+
 .C-popup {
   position: fixed;
   top: 50%;
@@ -225,13 +227,13 @@
 }
 
 .C-popup-content {
-  font-family: '231F20', sans-serif; 
+  font-family: '231F20', sans-serif;
   position: relative;
 }
 
 .C-popup-content p {
-  font-size: 18px; 
-  font-weight: bold; 
+  font-size: 18px;
+  font-weight: bold;
   margin-top: 20px;
   color: #000000;
 }
@@ -241,24 +243,24 @@
 }
 
 .C-confirm {
-  background-color: #231F20; 
-  color: #F2F1F1; 
+  background-color: #231F20;
+  color: #F2F1F1;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-family: '231F20', sans-serif; 
-  font-size: 16px; 
-  font-weight: bold; 
-  
+  font-family: '231F20', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+
 }
 
 .C-confirm:hover {
-background-color: #000000;
+  background-color: #000000;
 }
 
 .C-card-bottom .C-confirm-button {
-    margin-top: 10px; 
+  margin-top: 10px;
 }
 
 .dark-mode {
@@ -266,20 +268,13 @@ background-color: #000000;
   color: #FFFFFF;
 }
 
-.dark-mode .C-icon{
+.dark-mode .C-icon {
   Filter: invert(1)
 }
 
-.dark-mode .C-popconfirm{
-  background-color: #8C8671;
-  font-weight: bold;
-  }
-  
-  .dark-mode .C-popconfirm:hover{
-    background-color: #6c6651;
-    }
 
-    .dark-mode .C-Vehicle-info {
+
+.dark-mode .C-Vehicle-info {
   font-weight: bold;
   color: #ffffff;
 }
@@ -287,20 +282,22 @@ background-color: #000000;
 .dark-mode .C-popup-content {
   background-color: #231F20;
 }
-.dark-mode .C-popup-content p{
+
+.dark-mode .C-popup-content p {
   color: #ffffff;
 }
 
 
-.dark-mode .C-card p{
+.dark-mode .C-card p {
   color: #FFFFFF;
 }
 
-.dark-mode .C-card{
+.dark-mode .C-card {
   background-color: #000000;
   border: #000000;
   color: #FFFFFF;
 }
+
 .dark-mode .C-confirm-button:hover {
   background-color: #6c6651;
 }
@@ -310,34 +307,39 @@ background-color: #000000;
   color: #FFFFFF;
   font-size: 15px;
 }
+
 .C-card:hover {
   box-shadow: none;
 }
-.dark-mode .C-icon{
+
+.dark-mode .C-icon {
   Filter: invert(1)
 }
-.payment-label{
- display: inline-block;
- font-weight: bold;
- font-size: 18px;
+
+.payment-label {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 18px;
 }
-.payment-input{
+
+.payment-input {
   background-color: #E2DCC8;
   border-radius: 3px;
   border: 2px solid #231F20;
   font-weight: bold;
   font-size: 18px;
-  color:#231F20 
+  color: #231F20
 }
-.C-payment-options{
+
+.C-payment-options {
   margin-top: 20px;
 }
 
-.dark-mode .payment-input{
+.dark-mode .payment-input {
   background-color: #231F20;
   border-radius: 3px;
   border: 2px solid #ffffff;
-  color:#ffffff
+  color: #ffffff
 }
 
 .cancel-icon {
@@ -345,11 +347,6 @@ background-color: #000000;
   top: 10px;
   right: 10px;
   cursor: pointer;
-  width:25px;
-  height:25px ;
-}
-
-.C-popconfirm{
-  margin-top: 25px;
-font-size: 15px;
+  width: 25px;
+  height: 25px;
 }

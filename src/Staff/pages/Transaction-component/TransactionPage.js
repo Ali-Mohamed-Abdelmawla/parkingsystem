@@ -2,14 +2,20 @@ import React, { useState, useEffect } from "react";
 import styles from "./TransactionPage.module.css";
 import carIcon from "../../assets/light-mode/carIcon.svg";
 import darkCarIcon from "../../assets/light-mode/carIcon.svg";
-import axios from "../../axios.js";
+import axiosInstance from "../../../auth/axios.js";
 import searchIconLight from "../../assets/light-mode/search.svg";
 import searchIconDark from "../../assets/Dark-mode/search.svg";
 import cancelIconLight from '../../assets/light-mode/cancel.svg'; 
 import cancelIconDark from '../../assets/Dark-mode/cancel.svg'; 
 import Swal from 'sweetalert2';
+import { useOutletContext } from 'react-router-dom';
+import LoadingButton from "@mui/lab/LoadingButton";
+import CheckIcon from '@mui/icons-material/Check';
+import Loader from "../../../helper/loading-component/loader.jsx";
+function TransactionPage() {
 
-function TransactionPage({ darkMode }) {
+  const [loading, setLoading] = useState(false);
+  const  {darkMode}  = useOutletContext();
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
   const [selectedPlateLetters, setSelectedPlateLetters] = useState("");
   const [selectedPlateNumbers, setSelectedPlateNumbers] = useState("");
@@ -25,12 +31,12 @@ function TransactionPage({ darkMode }) {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       };
-
-      const getCurrentParkingSessions = axios.get(
+      setLoading(true);
+      const getCurrentParkingSessions = axiosInstance.get(
         "/api/GarageStaff/CurrentParkingSessions",
         { headers }
       );
-      const getAllReservations = axios.get("/api/GarageStaff/AllReservation", {
+      const getAllReservations = axiosInstance.get("/api/GarageStaff/AllReservation", {
         headers,
       });
 
@@ -46,6 +52,7 @@ function TransactionPage({ darkMode }) {
           console.log("Merged data:", mergedData);
           sessionStorage.setItem("CurrentSessions", mergedData.length);
           setInGarageVehicles(mergedData);
+          setLoading(false);
         })
         .catch((errors) => {
           console.error(
@@ -81,8 +88,9 @@ function TransactionPage({ darkMode }) {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       };
-  
-      const response = await axios.delete(
+
+      setLoading(true)
+      const response = await axiosInstance.delete(
         "/api/GarageStaff/EndParkingSession",
         {
           data: requestData,
@@ -93,7 +101,7 @@ function TransactionPage({ darkMode }) {
       console.log("Parking session ended successfully");
   
       setShowConfirmPopup(false);
-  
+
       // Display success alert
       Swal.fire({
         title: "Payment Successful!",
@@ -108,7 +116,10 @@ function TransactionPage({ darkMode }) {
         backdrop: false,
         focusConfirm: false,
         allowOutsideClick: false
-      });
+      }).then(() => {
+        setLoading(false)
+        window.location.reload();
+      })
   
     } catch (error) {
       console.error("Error ending parking session:", error);
@@ -128,7 +139,9 @@ function TransactionPage({ darkMode }) {
         backdrop: false,
         focusConfirm: false,
         allowOutsideClick: false
-      });
+      }).then(() => {
+        setLoading(false)
+      })
     }
   };
   const handleSearchInputChange = (event) => {
@@ -139,17 +152,33 @@ function TransactionPage({ darkMode }) {
   const searchIconSrc = darkMode ? searchIconDark : searchIconLight;
   const cancelIconSrc = darkMode ? cancelIconDark : cancelIconLight;
 
+  if (loading) {
+    return (
+      <div
+        style={{
+          height: "50vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Loader />
+      </div>
+    );
+  }
+  
+
   return (
     <div
       className={`${styles.container} ${darkMode ? styles["dark-mode"] : ""}`}
     >
       <div className={styles["search-container"]}>
         <div className={styles["search-bar"]}>
-          <img
+          {/* <img
             src={searchIconSrc}
             alt="Search Icon"
             className={styles["search-icon"]}
-          />
+          /> */}
           <input
             type="text"
             placeholder="Search vehicle"
@@ -254,12 +283,24 @@ function TransactionPage({ darkMode }) {
                 className={styles["payment-input"]}
               />
             </div>
-            <button
+
+            {/* <button
               className={styles["C-popconfirm"]}
               onClick={handleCloseConfirmPopup}
             >
               Confirm
-            </button>
+            </button> */}
+            <LoadingButton
+          endIcon={<CheckIcon />}
+          loading={loading}
+          loadingPosition="end"
+          variant="contained"
+          onClick={handleCloseConfirmPopup}
+          className={styles["C-popconfirm"]} // Added custom class here
+
+        >
+          <span>Submit Report</span>
+        </LoadingButton>
           </div>
         </div>
       )}

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios'; 
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
 import styles from "./Users.module.css";
@@ -7,8 +6,12 @@ import ViewLight from "../assets/LightMode/view.svg";
 import ViewDark from "../assets/DarkMode/view-dark.svg";
 import CloseLight from "../assets/LightMode/false.svg";
 import CloseDark from "../assets/DarkMode/false-dark.svg";
+import axiosInstance from './../../auth/axios';
+import { useOutletContext } from 'react-router-dom';
 
-const Garage = ({ darkmode, handleDarkModeToggle }) => {
+const Garage = ({ handleDarkModeToggle }) => {
+
+    const  {darkmode}  = useOutletContext();
     const [expandedRow, setExpandedRow] = useState(-1);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [deletionIndex, setDeletionIndex] = useState(null);
@@ -36,7 +39,7 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
     const fetchData = async () => {
         try {
             const accessToken = sessionStorage.getItem('accessToken');
-            const response = await axios.get("https://raknaapi.azurewebsites.net/TechnicalSupport/GetAllGarages", {
+            const response = await axiosInstance.get("/TechnicalSupport/GetAllGarages", {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -85,7 +88,7 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
             const params = {
                 id: Garages[deletionIndex].GarageId,
             };
-            await axios.delete(`https://raknaapi.azurewebsites.net/TechnicalSupport/DeleteGarage`, {
+            await axiosInstance.delete(`/TechnicalSupport/DeleteGarage`, {
                 headers,
                 params,
             });
@@ -118,7 +121,7 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
                 Authorization: `Bearer ${accessToken}`,
                 "Content-Type": "application/json",
             };
-            await axios.put(`https://raknaapi.azurewebsites.net/TechnicalSupport/UpdateGarage`,
+            await axiosInstance.put(`/TechnicalSupport/UpdateGarage`,
                 editedGarages,
                 {
                     params: {

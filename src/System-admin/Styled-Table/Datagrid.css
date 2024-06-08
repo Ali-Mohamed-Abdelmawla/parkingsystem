@@ -7,9 +7,22 @@
 
 }
 
+[theme = dark]  .MuiDataGrid-withBorderColor{
+    border-color: rgb(68, 68, 68) !important;
+
+}
+
+
 /*Styles for the menu list*/
 
 .css-1xif2b4-MuiPopper-root-MuiDataGrid-menu .MuiDataGrid-menuList {
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--special-color1);
+    background-color: var(--color-background);
+    color: var(--font-color);
+}
+.MuiDataGrid-menuList{
     padding: 12px;
     border-radius: 12px;
     border: 1px solid var(--special-color1);
@@ -79,6 +92,13 @@
 }
 
 .css-1t5wrdm-MuiDataGrid-filterForm {
+    padding: 12px;
+    border-radius: 3px;
+    background-color: var(--color-background);
+    color: var(--font-color);
+}
+
+.MuiDataGrid-filterForm{
     padding: 12px;
     border-radius: 3px;
     background-color: var(--color-background);
@@ -160,6 +180,9 @@
 .css-de9k3v-MuiDataGrid-selectedRowCount {
     color: transparent;
 }
+.MuiDataGrid-selectedRowCount{
+    color: transparent !important;
+}
 
 /* when focusing a cell */
 .css-1yrdh1r-MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
@@ -191,7 +214,7 @@
     font-weight: bold;
 }
 .MuiDataGrid-columnHeaderTitle{
-    font-weight: bold;
+    font-weight: 700 !important;
 
 }
 
@@ -254,7 +277,7 @@
 
 /* لو ن السيل الواحده في الدارك  */
 [theme = dark] .MuiDataGrid-cell{
-    background-color: #231f20 !important;
+    background-color: #3f3f3f !important;
 }
 
 /* بعد الديبلوي في ستايلات مش شغاله معرفش بتتغير ولا ايه المشكله بظبط */
@@ -278,7 +301,7 @@
     margin:5px
 }
 [theme = dark] .tableBtn {
-    background-color: #3f3f3f;
+    background-color: #231f20;
 }
 .tableBtn:hover {
     background-color: #e2e2e2;

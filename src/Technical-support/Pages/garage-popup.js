@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axiosInstance from '../../auth/axios';
 import Swal from 'sweetalert2';
 import closeDark from '../assets/DarkMode/false-dark.svg';
 import closeLight from '../assets/LightMode/false.svg';
@@ -17,7 +17,7 @@ const GaragePopup = ({ onClose, darkMode }) => {
                 'Content-Type': 'application/json',
             };
 
-            const response = await axios.post("https://raknaapi.azurewebsites.net/TechnicalSupport/AddGarage", formData, {
+            const response = await axiosInstance.post("/TechnicalSupport/AddGarage", formData, {
                 headers
             });
 

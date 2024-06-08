@@ -5,8 +5,11 @@ import TotalEmployeeLight from '../assets/LightMode/total-employee.svg';
 import TotalReportsLight from '../assets/LightMode/total-reports.svg';
 import TotalEmployeeDark from '../assets/DarkMode/total-employee-dark.svg';
 import TotalReportsDark from '../assets/DarkMode/total-reports-dark.svg';
+import { useOutletContext } from 'react-router-dom';
 
-const Dashboard = ({ darkmode }) => {
+const Dashboard = () => {
+    const  {darkmode}  = useOutletContext();
+
     return (
         <div className={`${styles['dashboard-container']} ${darkmode ? styles['dark-mode'] : ''}`}>
             <div className={`${styles['card-container']} ${darkmode ? styles['dark-mode'] : ''}`}>

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
-import axios from "axios";
+import axiosInstance from "../../auth/axios";
 import styles from "./camera.module.css";
 
 function CameraSwitcher({ darkMode }) {
@@ -30,7 +30,7 @@ function CameraSwitcher({ darkMode }) {
     formData.append("image", blob);
 
     // Upload the image to ImgBB
-    axios
+    axiosInstance
       .post(
         "https://api.imgbb.com/1/upload?key=b12524ab4b955c0548dbc0dc9c669d48",
         formData
@@ -38,7 +38,7 @@ function CameraSwitcher({ darkMode }) {
       .then((response) => {
         console.log("Image uploaded successfully:", response.data.data.url);
         // request to the database
-        axios
+        axiosInstance
           .post(
             "https://mohammed321735-rakna-api-gdkgivmppq-ew.a.run.app/ODLink",
             {
@@ -88,9 +88,9 @@ function CameraSwitcher({ darkMode }) {
   // Function to start the parking session
   const startParkingSession = () => {
     // Send a POST request to start parking session
-    axios
+    axiosInstance
       .post(
-        'https://raknaapi.azurewebsites.net/api/GarageStaff/StartParkingSession',
+        '/api/GarageStaff/StartParkingSession',
         {
           PlateLetters: arabicLetters.join(''),
           PlateNumbers: numbers.join(''),
@@ -202,113 +202,4 @@ function dataURItoBlob(dataURI) {
   return new Blob([ia], { type: mimeString });
 }
 
-
-
-
 //============================================================================================================
-// chatgpt 4
-
-// import React, { useState, useRef, useEffect } from "react";
-// import Webcam from "react-webcam";
-// import axios from "axios";
-// import styles from "./App.module.css";
-
-// function CameraSwitcher({ darkMode }) {
-//   const [selectedDevice, setSelectedDevice] = useState(null);
-//   const webcamRef = useRef(null);
-//   const [devices, setDevices] = useState([]);
-//   const [recognizedPlate, setRecognizedPlate] = useState("");
-//   const [showConfirmation, setShowConfirmation] = useState(false);
-
-//   const switchCamera = (deviceId) => {
-//     setSelectedDevice(deviceId);
-//   };
-
-//   const capturePhoto = () => {
-//     const imageSrc = webcamRef.current.getScreenshot();
-//     const blob = dataURItoBlob(imageSrc);
-//     const formData = new FormData();
-//     formData.append("image", blob);
-
-//     axios.post("https://api.imgbb.com/1/upload?key=b12524ab4b955c0548dbc0dc9c669d48", formData)
-//       .then((response) => {
-//         console.log("Image uploaded successfully:", response.data.data.url);
-//         axios.post("https://mohammed321735-rakna-api-gdkgivmppq-ew.a.run.app/ODLink", { image_url: response.data.data.url }, { headers: { "Content-Type": "application/json" } })
-//           .then((response) => {
-//             const plateNumber = response.data[0]["Characters result"].map(element => element.Character).join('');
-//             setRecognizedPlate(plateNumber);
-//             setShowConfirmation(true);
-//           })
-//           .catch((error) => {
-//             console.error("Error processing the image:", error);
-//           });
-//       })
-//       .catch((error) => {
-//         console.error("Error uploading the image:", error);
-//       });
-//   };
-
-//   const getMediaDevices = async () => {
-//     try {
-//       const devices = await navigator.mediaDevices.enumerateDevices();
-//       const videoDevices = devices.filter(device => device.kind === "videoinput");
-//       setDevices(videoDevices);
-//       if (videoDevices.length > 0) {
-//         setSelectedDevice(videoDevices[0].deviceId);
-//       }
-//     } catch (error) {
-//       console.error("Error enumerating media devices:", error);
-//     }
-//   };
-
-//   useEffect(() => {
-//     getMediaDevices();
-//   }, []);
-
-//   return (
-//     <div className={`${styles.Container} ${darkMode ? styles.DarkMode : ""}`}>
-//       <div className={styles.Camera}>
-//         <select className={`${styles.Select} ${darkMode ? styles.DarkModeSelect : ""}`} onChange={(e) => switchCamera(e.target.value)} value={selectedDevice}>
-//           {devices.map((device, index) => (
-//             <option key={device.deviceId} value={device.deviceId}>
-//               {device.label || `Camera ${index + 1}`}
-//             </option>
-//           ))}
-//         </select>
-//         <Webcam
-//           audio={false}
-//           videoConstraints={{ deviceId: selectedDevice, width: 1920, height: 1080 }}
-//           ref={webcamRef}
-//           screenshotFormat="image/jpeg"
-//           screenshotQuality={1}
-//           style={{ width: "100%", height: "auto" }}
-//         />
-//         {showConfirmation && (
-//           <div className={styles.RecognizedPlate}>
-//             <p>Recognized Plate Number: {recognizedPlate}</p>
-//             <div>
-//               <button onClick={confirmPlate}>Confirm</button>
-//               <button onClick={rejectPlate}>Reject</button>
-//             </div>
-//           </div>
-//         )}
-//         <button className={`${styles.Button} ${darkMode ? styles.DarkModeButton : ""}`} onClick={capturePhoto}>
-//           Capture Photo
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default CameraSwitcher;
-
-// function dataURItoBlob(dataURI) {
-//   let byteString = dataURI.split(",")[0].indexOf("base64") >= 0 ? atob(dataURI.split(",")[1]) : unescape(dataURI.split(",")[1]);
-//   let mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-//   let ia = new Uint8Array(byteString.length);
-//   for (let i = 0; i < byteString.length; i++) {
-//     ia[i] = byteString.charCodeAt(i);
-//   }
-//   return new Blob([ia], { type: mimeString });
-// }
-

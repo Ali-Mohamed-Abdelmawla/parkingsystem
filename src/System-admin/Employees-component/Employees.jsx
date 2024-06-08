@@ -1,8 +1,6 @@
 //=================================================================================
-import React, { useState } from "react";
+import { useState } from "react";
 import DataGrid from "../Styled-Table/CustomDataGrid";
-import Employeestyle from "../Styles/Employees.module.css";
-import axios from "axios";
 import Swal from "sweetalert2";
 
 function EmployeesTable({
@@ -86,11 +84,12 @@ function EmployeesTable({
           pageSizeOptions={[5, 8, 11]}
           checkboxSelection={true} // Enable checkbox selection for this instance
           onRowSelectionModelChange={handleRowSelectionModelChange}
+          getRowId={(row) => row.id}
         />
       </div>
       {selectedRows.length > 0 && (
-        <button onClick={handleBulkEmailClick} className="tableBtn">
-          Send Emails to the selected employees
+        <button onClick={handleBulkEmailClick} className="tableBtn" style={{ marginLeft: "20px" }}>
+          Send an Email to the selected employees
         </button>
       )}
     </>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../auth/axios";
 import Swal from "sweetalert2";
 import DataGrid from "../Styled-Table/CustomDataGrid";
-
+import Loader from "../../helper/loading-component/loader";
 const displayDateAfterDays = (daysUntilPayment) => {
   const currentDate = new Date();
   const futureDate = new Date(
@@ -26,36 +26,48 @@ const formatDate = (isoDateString) => {
 const formatCurrency = (amount) => {
   return `$${amount.toFixed(2)}`; // Assuming the currency is USD and you want to display 2 decimal places
 };
-const baseURL = "https://raknaapi.azurewebsites.net";
 
 const Salaries = () => {
+  const [loading, setLoading] = useState(false);
   const [Salaries, setSalaries] = useState({ staffs: [] });
   const accessToken = sessionStorage.getItem("accessToken");
 
   const handlePayment = (id) => {
-    const response = axios.post(
-      `${baseURL}/api/GarageAdmin/PaySalary/${id}`,
-      {},
-      {
-        params: {
-          id: id,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    Swal.fire("Success", "Submitted successfully", "success").then(() => {
-      window.location.reload();
-    });
+    axiosInstance
+      .post(
+        `/api/GarageAdmin/PaySalary/${id}`,
+        {},
+        {
+          params: {
+            id: id,
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        Swal.fire("Success", "Submitted successfully", "success").then(() => {
+          window.location.reload();
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        Swal.fire(
+          "Error",
+          `Failed to submit payment for the employee`,
+          "error"
+        );
+      });
   };
 
   useEffect(() => {
     console.log(accessToken);
-    const respone = axios
+    setLoading(true);
+    axiosInstance
       .get(
-        `${baseURL}/api/GarageAdmin/GetAllStaffSalaries`,
+        `/api/GarageAdmin/GetAllStaffSalaries`,
 
         {
           headers: {
@@ -67,10 +79,12 @@ const Salaries = () => {
       .then((response) => {
         console.log(response.data);
         setSalaries(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
         Swal.fire("Error", `Failed to fetch employees, ${error}`, "error");
+        setLoading(false);
       });
   }, []);
 
@@ -97,7 +111,10 @@ const Salaries = () => {
       renderCell: (params) => (
         <>
           {!params.row.isPaid && (
-            <button onClick={() => handlePayment(params.id)} className="tableBtn">
+            <button
+              onClick={() => handlePayment(params.id)}
+              className="tableBtn"
+            >
               Submit as paid
             </button>
           )}
@@ -112,6 +129,21 @@ const Salaries = () => {
       id: staffSalary.StaffId,
       ...staffSalary,
     })) ?? [];
+
+    if (loading) {
+      return (
+        <div
+          style={{
+            height: "50vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Loader />
+        </div>
+      );
+    }
 
   return (
     <>

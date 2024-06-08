@@ -1,42 +1,42 @@
-import React from "react";
 import Employeestyle from '../Styles/Employees.module.css';
 import { useForm } from "react-hook-form";
 
-function EmployeesModal({ title, onClose, onSubmit, editedEmployee }) {
+function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputChange }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const handleInputChange = (e) => {
-    // Assuming you have a way to update the form values in your state
-    // For example, if you're using a state variable to hold the form values
-    // You would update that state here instead of directly manipulating the DOM
-    // This is just a placeholder to show where you'd handle input changes
-    console.log(e.target.name, e.target.value);
-  };
+  //  handleInputChange = (e) => {
+  //   // Assuming you have a way to update the form values in your state
+  //   // For example, if you're using a state variable to hold the form values
+  //   // You would update that state here instead of directly manipulating the DOM
+  //   // This is just a placeholder to show where you'd handle input changes
+  //   console.log(e.target.name, e.target.value);
+  // };
 
   return (
     <div className={Employeestyle.editModal}>
       <div className={Employeestyle.editTitle}>
         <button onClick={onClose}>X</button>
       </div>
+      <h2>Edit {editedEmployee.Name}</h2>
+      <hr style={{ width: "300px", margin: "0 auto 15px" }}></hr>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label>{title}</label>
         <input
-          {...register("Name", {
+          {...register("name", {
             required: "Full name is required",
           })}
           type="text"
           placeholder="FullName"
           defaultValue={editedEmployee.Name}
-          onChange={handleInputChange}
+
         />
-        {errors.Name && <span className = {Employeestyle.errorMessage}>{errors.Name.message}</span>}
+        {errors.name && <span className = {Employeestyle.errorMessage}>{errors.name.message}</span>}
         
         <input
-          {...register("userName", {
+          {...register("UserName", {
             required: "User name is required",
             minLength: {
               value: 5,
@@ -50,7 +50,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee }) {
           type="text"
           placeholder="userName"
           defaultValue={editedEmployee.userName}
-          onChange={handleInputChange}
+
         />
         {errors.userName && <span className = {Employeestyle.errorMessage}>{errors.userName.message}</span>}
         
@@ -65,12 +65,12 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee }) {
           type="text"
           placeholder="Email"
           defaultValue={editedEmployee.Email}
-          onChange={handleInputChange}
+
         />
         {errors.Email && <span className = {Employeestyle.errorMessage}>{errors.Email.message}</span>}
         
         <input
-          {...register("phoneNumber", {
+          {...register("PhoneNumber", {
             required: "Phone number is required",
             minLength: {
               value: 11,
@@ -88,9 +88,9 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee }) {
           type="text"
           placeholder="phoneNumber"
           defaultValue={editedEmployee.phoneNumber}
-          onChange={handleInputChange}
+
         />
-        {errors.phoneNumber && <span className = {Employeestyle.errorMessage}>{errors.phoneNumber.message}</span>}
+        {errors.PhoneNumber && <span className = {Employeestyle.errorMessage}>{errors.PhoneNumber.message}</span>}
         
         <input
           {...register("NationalId", {
@@ -111,7 +111,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee }) {
           type="text"
           placeholder="National_id"
           defaultValue={editedEmployee.NationalId}
-          onChange={handleInputChange}
+
         />
         {errors.NationalId && <span className = {Employeestyle.errorMessage}>{errors.NationalId.message}</span>}
         
@@ -128,7 +128,7 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee }) {
           type="text"
           placeholder="Salary"
           defaultValue={editedEmployee.salary}
-          onChange={handleInputChange}
+
         />
         {errors.salary && <span className = {Employeestyle.errorMessage}>{errors.salary.message}</span>}
         
