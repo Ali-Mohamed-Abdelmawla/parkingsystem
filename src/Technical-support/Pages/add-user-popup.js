@@ -86,7 +86,7 @@ const UserPopup = ({ onClose, darkMode }) => {
                     <input placeholder='Salary' type="number" {...register("Salary", { required: true })} />
                     {errors.Salary && <span className="error">Salary is required</span>}
                     
-                    <button className={styles.submit} type="submit">Add</button>
+                    <button className={`${styles.submit} ${styles.centeredButton}`} type="submit">Add</button>
                 </form>
             </div>
         </div>
