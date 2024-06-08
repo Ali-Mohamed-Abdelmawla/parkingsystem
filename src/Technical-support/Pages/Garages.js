@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios'; 
-
+import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
 import styles from "./Users.module.css";
+import ViewLight from "../assets/LightMode/view.svg";
+import ViewDark from "../assets/DarkMode/view-dark.svg";
 import CloseLight from "../assets/LightMode/false.svg";
 import CloseDark from "../assets/DarkMode/false-dark.svg";
-import DataGrid from "../../System-admin/Styled-Table/CustomDataGrid";
-import { useForm } from "react-hook-form";
+import axiosInstance from './../../auth/axios';
+import { useOutletContext } from 'react-router-dom';
 
-const Garage = ({ darkmode, handleDarkModeToggle }) => {
+const Garage = ({ handleDarkModeToggle }) => {
 
+    const  {darkmode}  = useOutletContext();
+    const [expandedRow, setExpandedRow] = useState(-1);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [deletionIndex, setDeletionIndex] = useState(null);
     const [showEditPage, setShowEditPage] = useState(false);
     const [editIndex, setEditIndex] = useState(null);
-    const [showViewDetails, setShowViewDetails] = useState(false);
-    const [viewIndex, setViewIndex] = useState(null);
-    const [editedGarage, setEditedGarages] = useState({
+    const [editedGarages, setEditedGarages] = useState({
         GarageId: "",
         GarageName: "",
         HourPrice: "",
@@ -28,9 +29,11 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
         TotalSpaces: ""
     });
     const [Garages, setGarages] = useState([]);
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     useEffect(() => {
         fetchData();
+        saveToLocalStorage();
     }, []);
 
     const fetchData = async () => {
@@ -41,33 +44,22 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            // Add unique id to each garage object
-            const garagesWithIds = response.data.map((garage, index) => ({ ...garage, id: index }));
-            setGarages(garagesWithIds);
+            setGarages(response.data);
         } catch (error) {
             console.error('Error fetching data:', error);
-            Swal.fire("Error", `Failed to fetch garages: ${error.message}`, "error");
         }
     };
-    const handleViewClick = (id) => {
-        const rowIndex = Garages.findIndex(Garages => Garages.id === id);
-        setShowViewDetails(true);
-        setViewIndex(rowIndex);
-    };
-    const handleCloseViewDetails = () => {
-        setShowViewDetails(false);
-        setViewIndex(null);
+    
+    const toggleDropdown = (index) => {
+        setExpandedRow(prevExpandedRow => prevExpandedRow === index ? -1 : index);
     };
 
-    
     const handleEditClick = (index) => {
         setShowEditPage(true);
         setEditIndex(index);
         setEditedGarages({ ...Garages[index] });
         document.body.classList.add("Edit-modal-active");
     };
-    
-
 
     const handleCloseEditClick = () => {
         setShowEditPage(false);
@@ -106,10 +98,9 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
             setShowDeleteConfirmation(false);
             setDeletionIndex(null);
             document.body.classList.remove("delete-modal-active");
-            Swal.fire("Success", "Garage deleted successfully", "success");
+            saveToLocalStorage();
         } catch (error) {
             console.error('Error deleting garage:', error);
-            Swal.fire("Error", `Failed to delete garage: ${error.message}`, "error");
         }
     };
     
@@ -130,72 +121,42 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
                 Authorization: `Bearer ${accessToken}`,
                 "Content-Type": "application/json",
             };
-            await axios.put(
-                `https://raknaapi.azurewebsites.net/TechnicalSupport/UpdateGarage`,
-                editedGarage,
-
+            await axiosInstance.put(`/TechnicalSupport/UpdateGarage`,
+                editedGarages,
                 {
                     params: {
-                        id: editedGarage.GarageId,
+                        id: editedGarages.GarageId,
                     },
-                    headers,
+                    headers
                 }
             );
             const updatedGarages = [...Garages];
-            updatedGarages[editIndex] = editedGarage;
-            setGarages(updatedGarages); // Update the Garages state
-            setEditedGarages({ ...editedGarage }); // Update the editedGarage state
+            updatedGarages[editIndex] = editedGarages;
+            setGarages(updatedGarages);
             setShowEditPage(false);
             setEditIndex(null);
             saveToLocalStorage();
             Swal.fire({
-                icon: "success",
-                title: "Success!",
-                text: "Garage updated successfully!",
+                icon: 'success',
+                title: 'Success!',
+                text: 'Garage updated successfully!',
             });
         } catch (error) {
             console.error("Error updating garage:", error);
             Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "An error occurred while updating the garage. Please try again later.",
+                icon: 'error',
+                title: 'Oops...',
+                text: 'An error occurred while updating the garage. Please try again later.',
             });
         }
         document.body.classList.remove("Edit-modal-active");
     };
-    
 
     const saveToLocalStorage = () => {
         localStorage.setItem("Garages", JSON.stringify(Garages));
     };
 
-
     const darkModeClass = darkmode ? styles["dark-mode"] : "";
-    const columns = [
-        { field: "GarageId", headerName: "Garage ID", flex:1},
-        { field: "GarageName", headerName: "Garage Name", flex: 1 },
-        { field: "HourPrice", headerName: "Hour Price", flex: 1 },
-        { field: "street", headerName: "Street", flex: 1 },
-        { field: "city", headerName: "City", flex: 1 },
-        { field: "AvailableSpaces", headerName: "Available Spaces", flex: 1 },
-        { field: "longitude", headerName: "Longitude", flex: 1 },
-        { field: "latitude", headerName: "Latitude", flex: 1},
-        { field: "TotalSpaces", headerName: "Total Spaces", flex: 1 },
-        {
-            field: "settings",
-            headerName: "Settings",
-            flex: 1.8,
-            renderCell: (params) => (
-                <>  
-                    <button className={'tableBtn'} onClick={() =>handleViewClick(params.row.id)}>View</button>
-                    <hr />
-                    <button className={'tableBtn'} onClick={() => handleEditClick(params.row.id)}>Edit</button>
-                    <hr />
-                    <button className={'tableBtn'} onClick={() => handleDeleteClick(params.row.id)}>Delete</button>
-                </>
-            ),
-        },
-    ];
 
     return (
         <>
@@ -203,41 +164,49 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
                 <div className={styles["toggle-dark-mode"]} onClick={handleDarkModeToggle}>
                     {darkmode ? "Light Mode" : "Dark Mode"}
                 </div>
-                <DataGrid
-                    rows={Garages}
-                    columns={columns}
-                    getRowId={(row) => row.id}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 8, 13]}
-                />
-                
-            {showViewDetails && (
-                <div className={`${styles["view-Content"]} ${darkModeClass}`}>
-                    <div className={`${styles["view-title"]} ${darkModeClass}`}></div>
-                    <div className={`${styles["modal-content"]} ${darkModeClass}`}>
-                        <div className={`${styles["modal-main"]} ${darkModeClass}`}>
-                            <div className={`${styles["info"]} ${darkModeClass}`}>
-                                <label><b>GarageId:</b> {Garages[viewIndex]?.GarageId}</label>
-                                <label><b>GarageName:</b> {Garages[viewIndex]?.GarageName}</label>
-                                <label><b>Hour Price:</b> {Garages[viewIndex]?.HourPrice}</label>
-                                <label><b>Street:</b> {Garages[viewIndex]?.street}</label>
-                                <label><b>City:</b> {Garages[viewIndex]?.city}</label>
-                                <label><b>Available Spaces:</b> {Garages[viewIndex]?.AvailableSpaces}</label>
-                                <label><b>Longitude:</b> {Garages[viewIndex]?.longitude}</label>
-                                <label><b>Latitude:</b> {Garages[viewIndex]?.latitude}</label>
-                                <label><b>Total Spaces:</b> {Garages[viewIndex]?.TotalSpaces}</label>
-                                <div className={`${styles["modal-details"]} ${darkModeClass}`}>
-                                    <button className={`${styles["view-close-buttons"]} ${darkModeClass}`} onClick={handleCloseViewDetails}>Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+                <table className={`${styles["table-content"]} ${darkModeClass}`}>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Garage Name</th>
+                            <th>Hour Price</th>
+                            <th>Street</th>
+                            <th>City</th>
+                            <th>Available Spaces</th>
+                            <th>Longitude</th>
+                            <th>Latitude</th>
+                            <th>Total Spaces</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Garages.map((garage, index) => (
+                            <tr key={index}>
+                                <td>{garage.GarageId}</td>
+                                <td>{garage.GarageName}</td>
+                                <td>{garage.HourPrice}</td>
+                                <td>{garage.street}</td>
+                                <td>{garage.city}</td>
+                                <td>{garage.AvailableSpaces}</td>
+                                <td>{garage.longitude}</td>
+                                <td>{garage.latitude}</td>
+                                <td>{garage.TotalSpaces}</td>
+                                <td>
+                                    <div className={`${styles["details-dropdown"]} ${darkModeClass}`} onClick={() => toggleDropdown(index)}>
+                                        <img src={darkmode ? ViewDark : ViewLight} alt="Details" className={styles["expand-icon"]} />
+                                        {index === expandedRow && (
+                                            <div className={styles["dropdown-menu"]}>
+                                                <button className={`${styles["dropdown-button"]} ${darkModeClass}`} onClick={() => handleEditClick(index)}>Edit</button>
+                                                <hr />
+                                                <button className={`${styles["dropdown-button"]} ${darkModeClass}`} onClick={() => handleDeleteClick(index)}>Delete</button>
+                                            </div>
+                                        )}
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
                 {showDeleteConfirmation && (
                     <div className={`${styles["delete-confirmation"]} ${darkModeClass}`}>
                         <div className={`${styles["border"]} ${darkModeClass}`}></div>
@@ -261,25 +230,27 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
                                 type="text"
                                 name="GarageName"
                                 placeholder="Garage Name"
-                                defaultValue={editedGarage.GarageName}
+                                defaultValue={editedGarages.GarageName}
                                 onChange={handleInputChange}
                                 {...register("GarageName", { required: true })}
                             />
                             {errors.GarageName && <span className="error">Garage Name is required</span>}
+
                             <input
                                 type="number"
                                 name="HourPrice"
                                 placeholder="Hour Price"
-                                defaultValue={editedGarage.HourPrice}
+                                defaultValue={editedGarages.HourPrice}
                                 onChange={handleInputChange}
                                 {...register("HourPrice", { required: true })}
                             />
                             {errors.HourPrice && <span className="error">Hour Price is required</span>}
+
                             <input
                                 type="text"
                                 name="street"
                                 placeholder="Street"
-                                defaultValue={editedGarage.street}
+                                defaultValue={editedGarages.street}
                                 onChange={handleInputChange}
                                 {...register("street", { required: true })}
                             />
@@ -289,7 +260,7 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
                                 type="text"
                                 name="city"
                                 placeholder="City"
-                                defaultValue={editedGarage.city}
+                                defaultValue={editedGarages.city}
                                 onChange={handleInputChange}
                                 {...register("city", { required: true })}
                             />
@@ -299,7 +270,7 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
                                 type="text"
                                 name="longitude"
                                 placeholder="Longitude"
-                                defaultValue={editedGarage.longitude}
+                                defaultValue={editedGarages.longitude}
                                 onChange={handleInputChange}
                                 {...register("longitude", { required: true, pattern: /^-?\d*(\.\d+)?$/ })}
                             />
@@ -310,7 +281,7 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
                                 type="text"
                                 name="latitude"
                                 placeholder="Latitude"
-                                defaultValue={editedGarage.latitude}
+                                defaultValue={editedGarages.latitude}
                                 onChange={handleInputChange}
                                 {...register("latitude", { required: true, pattern: /^-?\d*(\.\d+)?$/ })}
                             />
@@ -321,7 +292,7 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
                                 type="number"
                                 name="TotalSpaces"
                                 placeholder="Total Spaces"
-                                defaultValue={editedGarage.TotalSpaces}
+                                defaultValue={editedGarages.TotalSpaces}
                                 onChange={handleInputChange}
                                 {...register("TotalSpaces", { required: true })}
                             />
