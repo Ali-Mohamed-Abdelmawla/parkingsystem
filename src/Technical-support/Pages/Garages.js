@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'; 
+
 import Swal from 'sweetalert2';
 import styles from "./Users.module.css";
 import CloseLight from "../assets/LightMode/false.svg";
@@ -8,6 +9,7 @@ import DataGrid from "../../System-admin/Styled-Table/CustomDataGrid";
 import { useForm } from "react-hook-form";
 
 const Garage = ({ darkmode, handleDarkModeToggle }) => {
+
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [deletionIndex, setDeletionIndex] = useState(null);
     const [showEditPage, setShowEditPage] = useState(false);
@@ -34,7 +36,7 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
     const fetchData = async () => {
         try {
             const accessToken = sessionStorage.getItem('accessToken');
-            const response = await axios.get("https://raknaapi.azurewebsites.net/TechnicalSupport/GetAllGarages", {
+            const response = await axiosInstance.get("/TechnicalSupport/GetAllGarages", {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -94,7 +96,7 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
             const params = {
                 id: Garages[deletionIndex].GarageId,
             };
-            await axios.delete(`https://raknaapi.azurewebsites.net/TechnicalSupport/DeleteGarage`, {
+            await axiosInstance.delete(`/TechnicalSupport/DeleteGarage`, {
                 headers,
                 params,
             });
@@ -131,6 +133,7 @@ const Garage = ({ darkmode, handleDarkModeToggle }) => {
             await axios.put(
                 `https://raknaapi.azurewebsites.net/TechnicalSupport/UpdateGarage`,
                 editedGarage,
+
                 {
                     params: {
                         id: editedGarage.GarageId,

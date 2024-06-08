@@ -1,38 +1,31 @@
 //======================================= react hook form =================================================
-import React, { useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import AddStyles from "./AddReport.module.css";
 import PropTypes from "prop-types";
-import Swal from 'sweetalert2';
-import { useForm, Controller } from "react-hook-form";
-import Select from "react-select";
-import ReportsPage from './../../Staff/pages/ReportsPage';
-
-const baseURL = "https://raknaapi.azurewebsites.net";
-
-
+import Swal from "sweetalert2";
+import { useForm } from "react-hook-form";
+import axiosInstance from "../../auth/axios";
+import LoadingButton from "@mui/lab/LoadingButton";
+import AddIcon from "@mui/icons-material/Add";
 const AddReport = ({ onClose }) => {
- const [addFormOpen, setAddFormOpen] = useState(true);
- const accessToken = sessionStorage.getItem("accessToken");
- const { register, handleSubmit, formState: { errors } } = useForm();
-
- const onSubmit = (data) => {
-
-//   const modifiedData = {
-//   data
-//  };
-console.log(data)
-    axios
-      .post(
-        `${baseURL}/api/Report/CreateReport`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+  const [addFormOpen, setAddFormOpen] = useState(true);
+  const accessToken = sessionStorage.getItem("accessToken");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [loading, setLoading] = useState(false);
+  const onSubmit = (data) => {
+    console.log(data);
+    setLoading(true);
+    axiosInstance
+      .post(`/api/Report/CreateReport`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      })
       .then((response) => {
         console.log("Complaint submitted successfully:", response.data);
         Swal.fire({
@@ -41,6 +34,7 @@ console.log(data)
           text: ` ${response.data.Message}`,
         });
         handleCloseAddBtn();
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error submitting complaint:", error);
@@ -49,46 +43,59 @@ console.log(data)
           title: "Error",
           text: `Failed to submit the complaint: ${error.response.data}`,
         });
+        setLoading(false);
       });
- };
+  };
 
- const handleCloseAddBtn = () => {
+  const handleCloseAddBtn = () => {
     setAddFormOpen(false);
     onClose();
- };
+  };
 
- AddReport.propTypes = {
+  AddReport.propTypes = {
     onClose: PropTypes.func.isRequired,
- };
+  };
 
- return (
+  return (
     <>
       {addFormOpen && (
         <div className={AddStyles.addReportModal}>
           <div className={AddStyles.addTitle}>
-            <button onClick={handleCloseAddBtn}>
-            </button>
+            <button onClick={handleCloseAddBtn}></button>
           </div>
+          <h2>Add a report</h2>
+          <hr style={{ width: "300px", margin: "0 auto 15px" }}></hr>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <label>
-              <b>Add a report</b>
-            </label>
             <textarea
               type="text"
               name="reportMessage"
               placeholder="reportMessage"
-              {...register("reportMessage", { required: "Report message should be written." })}
+              {...register("reportMessage", {
+                required: "Report message should be written.",
+              })}
             />
-            {errors.reportMessage && <span className={AddStyles.errorMessage}>{errors.reportMessage.message}</span>}
+            {errors.reportMessage && (
+              <span className={AddStyles.errorMessage}>
+                {errors.reportMessage.message}
+              </span>
+            )}
 
             <div className={AddStyles.addModelButtons}>
-              <button type="submit">Add</button>
+              <LoadingButton
+                endIcon={<AddIcon />}
+                loading={loading}
+                loadingPosition="end"
+                variant="contained"
+                onClick={handleSubmit(onSubmit)}
+              >
+                <span>Add</span>
+              </LoadingButton>
             </div>
           </form>
         </div>
       )}
     </>
- );
+  );
 };
 
 export default AddReport;

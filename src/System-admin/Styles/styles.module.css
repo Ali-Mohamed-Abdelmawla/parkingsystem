@@ -13,7 +13,6 @@
 .container {
   width: 100vw;
   height: 100vh;
-  font-family: "Poppins", sans-serif;
   font-size: 0.88rem;
 
   overflow-x: hidden !important;
@@ -24,10 +23,41 @@
   display: grid;
   width: 100%;
   margin: 0 auto;
-  gap: 0rem;
   grid-template-columns: 15rem auto;
 }
 
+
+.container::-webkit-scrollbar {
+  width: 12px;
+  background-color: #dfd4b0;
+  border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: #F2F1F1;
+  border-radius: 10px;
+  border: 3px solid #dfd4b0;
+}
+
+.container::-webkit-scrollbar-button {
+  display: none;
+}
+
+[theme = dark] .container::-webkit-scrollbar {
+  width: 12px;
+  background-color: #231F20;
+  border-radius: 10px;
+}
+
+[theme = dark] .container::-webkit-scrollbar-thumb {
+  background-color: #8C8671;
+  border-radius: 10px;
+  border: 3px solid #231F20;
+}
+
+[theme = dark] .container::-webkit-scrollbar-button {
+  display: none;
+}
 aside {
   height: 100vh;
 }
@@ -84,6 +114,8 @@ aside .sidebar button {
   color: var(--font-color);
   height: 3.7rem;
   border-radius: var(--button-border-radius);
+  font-family: inherit;
+  font-size: 15px;
   gap: 1rem;
   position: relative;
   margin-left: 2rem;
@@ -114,7 +146,7 @@ aside .sidebar button img {
 }
 
 aside .sidebar button:last-child {
-  position: absolute;
+  position: fixed;
   bottom: 2rem;
   margin-bottom: 0;
 }

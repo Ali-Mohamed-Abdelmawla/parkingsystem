@@ -7,7 +7,8 @@ import "./Datagrid.css";
 import "../Styles/main.css";
 
 const StyledDataGrid = styled(DataGrid)({
-  width: "auto !important", // Adjust the width
+  width: "100% !important", // Adjust the width
+  fontFamily: "inherit !important",
   borderRadius: "var(--card-border-radius)",
   fontSize: "14px",
   color: "var(--font-color)",
@@ -15,8 +16,10 @@ const StyledDataGrid = styled(DataGrid)({
   "& .MuiDataGrid-columnHeader": {
     transition: "all 0.3s ease",
     backgroundColor: "var(--special-color1)", // Change the header background color
-    fontWeight: "bolder !important",
     outline: "none !important",
+  },
+  "& .css-t89xny-MuiDataGrid-columnHeaderTitle":{
+    fontWeight: "800 !important",
   },
   "& .MuiDataGrid-sortIcon": {
     color: "var(--secondary-color) !important", // Change the sort icon color
@@ -34,6 +37,8 @@ const CustomDataGrid = ({
   getRowId,
   initialState,
   pageSizeOptions,
+  checkboxSelection,
+  onRowSelectionModelChange,
 }) => {
   CustomDataGrid.propTypes = {
     rows: PropTypes.array.isRequired,
@@ -51,6 +56,9 @@ const CustomDataGrid = ({
     //   localeText={arSD.components.MuiDataGrid.defaultProps.localeText} // Pass the Arabic locale
       initialState={initialState}
       pageSizeOptions={pageSizeOptions}
+      checkboxSelection={checkboxSelection} // Use the prop to control checkbox selection
+      onRowSelectionModelChange={onRowSelectionModelChange}
+
       // Add other props as needed
     />
   );

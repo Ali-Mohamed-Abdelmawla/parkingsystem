@@ -1,13 +1,28 @@
 @import "../Styles/main.css";
 
 
-[theme = dark] .css-1aaqut-MuiDataGrid-root .MuiDataGrid-withBorderColor {
+
+[theme = dark] .css-4e7y45-MuiDataGrid-root .MuiDataGrid-withBorderColor{
     border-color: rgb(68, 68, 68) !important;
+
 }
+
+[theme = dark]  .MuiDataGrid-withBorderColor{
+    border-color: rgb(68, 68, 68) !important;
+
+}
+
 
 /*Styles for the menu list*/
 
 .css-1xif2b4-MuiPopper-root-MuiDataGrid-menu .MuiDataGrid-menuList {
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--special-color1);
+    background-color: var(--color-background);
+    color: var(--font-color);
+}
+.MuiDataGrid-menuList{
     padding: 12px;
     border-radius: 12px;
     border: 1px solid var(--special-color1);
@@ -77,6 +92,13 @@
 }
 
 .css-1t5wrdm-MuiDataGrid-filterForm {
+    padding: 12px;
+    border-radius: 3px;
+    background-color: var(--color-background);
+    color: var(--font-color);
+}
+
+.MuiDataGrid-filterForm{
     padding: 12px;
     border-radius: 3px;
     background-color: var(--color-background);
@@ -158,6 +180,9 @@
 .css-de9k3v-MuiDataGrid-selectedRowCount {
     color: transparent;
 }
+.MuiDataGrid-selectedRowCount{
+    color: transparent !important;
+}
 
 /* when focusing a cell */
 .css-1yrdh1r-MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
@@ -188,11 +213,18 @@
 .css-t89xny-MuiDataGrid-columnHeaderTitle {
     font-weight: bold;
 }
+.MuiDataGrid-columnHeaderTitle{
+    font-weight: 700 !important;
 
+}
 
 /* بنحاول نتحكم اكتر في زراير الباجنيشن علشان لما تبقي مش متفعله لما ميبقاش فيه صفحات تاني */
 .css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar .css-i4bv87-MuiSvgIcon-root {
     color: var(--font-color);
+}
+
+.css-1deacqj.Mui-disabled{
+    opacity: 0.3 !important;
 }
 
 .css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar .css-zylse7-MuiButtonBase-root-MuiIconButton-root.Mui-disabled {
@@ -204,14 +236,20 @@
     color: var(--font-color);
 }
 
-.css-rtrcn9-MuiTablePagination-root .MuiTablePagination-selectLabel {
+.css-rtrcn9-MuiTablePagination-root, .MuiTablePagination-selectLabel {
+    color: var(--font-color) !important;
+    font-family: inherit !important;
+}
+
+.css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input .css-194a1fa-MuiSelect-select-MuiInputBase-input {
     color: var(--font-color);
 }
 
-.css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input {
-    color: var(--font-color);
-}
+.MuiTablePagination-displayedRows{
+    color: var(--font-color) !important;
+    font-family: inherit !important;
 
+}
 .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon {
     color: var(--font-color) !important;
 }
@@ -221,12 +259,35 @@
 }
 
 /* المنيو بتاعت الباجينيشن */
-.css-10by3a5-MuiButtonBase-root-MuiMenuItem-root-MuiTablePagination-menuItem.Mui-selected {
+.css-10by3a5-MuiButtonBase-root-MuiMenuItem-root-MuiTablePagination-menuItem .Mui-selected {
     background-color: var(--secondary-color) !important;
 }
 
 /* كل اللي فوق كان تحكم بالباجينيشن */
 
+/* checkbox selection styles */
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+    color: var(--font-color) !important;
+}
+/* checkbox frame styles */
+[theme = dark] .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root{
+    color: rgb(255 255 255 / 85%);
+}
+
+
+/* لو ن السيل الواحده في الدارك  */
+[theme = dark] .MuiDataGrid-cell{
+    background-color: #3f3f3f !important;
+}
+
+/* بعد الديبلوي في ستايلات مش شغاله معرفش بتتغير ولا ايه المشكله بظبط */
+.css-vubbuv{
+    color: var(--font-color);
+}
+
+.css-rmmij8{
+    color: var(--font-color) !important;
+}
 
 /* البتنز اللي جوا التيبل نفسها */
 .tableBtn {
@@ -239,7 +300,9 @@
     border-radius: 5px;
     margin:5px
 }
-
+[theme = dark] .tableBtn {
+    background-color: #231f20;
+}
 .tableBtn:hover {
     background-color: #e2e2e2;
 }

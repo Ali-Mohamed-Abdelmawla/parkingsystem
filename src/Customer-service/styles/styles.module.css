@@ -1,3 +1,4 @@
+@import "../../System-admin/Styles/main.css";
 
 * {
   margin: 0;
@@ -11,13 +12,13 @@
 body {
   width: 100vw;
   height: 100vh;
-  font-family: "Poppins", sans-serif;
+  font-family: inherit;
   font-size: 0.88rem;
   /* overflow-x: hidden; */
   /* overflow-y: hidden; */
   overflow: hidden;
   color: var(--font-color);
-  background-color: var(--color-background);
+  background-color: var(--color-background) !important;
 }
 .container {
   display: grid;
@@ -74,6 +75,7 @@ aside .sidebar button {
   align-items: end;
   justify-content: center;
   color: var(--font-color);
+  font-family: inherit;
   height: 3.7rem;
   border-radius: var(--button-border-radius);
   gap: 1rem;

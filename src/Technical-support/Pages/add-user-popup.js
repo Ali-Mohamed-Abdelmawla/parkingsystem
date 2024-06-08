@@ -2,7 +2,7 @@ import React from 'react';
 import closeDark from '../assets/DarkMode/false-dark.svg';
 import closeLight from '../assets/LightMode/false.svg';
 import styles from './garage-popup.module.css';
-import axios from 'axios';
+import axiosInstance from '../../auth/axios';
 import Swal from 'sweetalert2'; 
 import { useForm } from 'react-hook-form'; 
 
@@ -17,7 +17,7 @@ const UserPopup = ({ onClose, darkMode }) => {
                 'Content-Type': 'application/json',
             };
 
-            const response = await axios.post('https://raknaapi.azurewebsites.net/TechnicalSupport/AddUser', data, {
+            const response = await axiosInstance.post('/TechnicalSupport/AddUser', data, {
                 headers: headers
             });
 

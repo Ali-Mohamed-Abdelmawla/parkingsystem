@@ -38,25 +38,66 @@ const Complaints = () => {
         const { deletionIndex, Complaint } = this.state;
         const updatedComplaint = [...Complaint];
         updatedComplaint.splice(deletionIndex, 1);
+=======
+import axiosInstance from "../../auth/axios";
+import styles from "./Complaints.module.css";
+import ViewLight from "../assets/LightMode/view.svg";
+import ViewDark from "../assets/DarkMode/view-dark.svg";
+import { useOutletContext } from "react-router-dom";
 
-        this.setState(
-            {
-                showDeleteConfirmation: false,
-                deletionIndex: null,
-                Complaint: updatedComplaint,
-            },
-            () => {
-                this.saveToLocalStorage();
-            }
-        );
-    };
+const Complaints = () => {
+
+  const { darkmode } = useOutletContext();
+  const [expandedRow, setExpandedRow] = useState(-1);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [deletionIndex, setDeletionIndex] = useState(null);
+  const [showViewDetails, setShowViewDetails] = useState(false);
+  const [viewIndex, setViewIndex] = useState(null);
+  const [viewReportMessage, setViewReportMessage] = useState(null);
+  const [Complaint, setComplaint] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    fetchComplaints();
+    saveToLocalStorage();
+  }, [Complaint]);
+
+  const saveToLocalStorage = () => {
+    localStorage.setItem("Complaint", JSON.stringify(Complaint));
+  };
+
+  const toggleDropdown = (index) => {
+    setExpandedRow(expandedRow === index ? -1 : index);
+  };
+
+  const handleDeleteClick = (index) => {
+    setShowDeleteConfirmation(true);
+    setDeletionIndex(index);
+  };
+
+  const handleCloseDelete = () => {
+    setShowDeleteConfirmation(false);
+    setDeletionIndex(null);
+  };
+
+  const handleConfirmDelete = () => {
+    const updatedComplaint = [...Complaint];
+    updatedComplaint.splice(deletionIndex, 1);
+    setComplaint(updatedComplaint);
+    setShowDeleteConfirmation(false);
+    setDeletionIndex(null);
+    saveToLocalStorage();
+  };
 
 
-    const handleViewClick = (id) => {
-        const rowIndex = complaints.findIndex(complaint => complaint.id === id);
-        setShowViewDetails(true);
-        setViewIndex(rowIndex);
-    };
+  const handleViewClick = (index, reportMessage) => {
+    setShowViewDetails(true);
+    setViewIndex(index);
+    setViewReportMessage(index);
+  };
+
+
+
 
     const fetchComplaints = async () => {
         try {
@@ -190,5 +231,6 @@ const Complaints = () => {
         </>
     );
 }
+
 
 export default Complaints;

@@ -1,0 +1,167 @@
+.Container {
+  margin-top: 150px;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh;
+}
+
+.Camera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.Select {
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 2px solid #E2DCC8;
+  background-color: #E2DCC8;
+  font-weight: bold;
+}
+
+.Button {
+  background-color: #231f20;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: 5px;
+}
+
+.Button:hover {
+  background-color: #000000;
+}
+
+
+.DarkModeButton {
+  background-color: #8C8671;
+  color: #ffffff; 
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.DarkModeButton:hover {
+  background-color: #6c6651;
+}
+
+.DarkModeSelect {
+  background-color: #8C8671;
+  color: #ffffff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  border: none;
+}
+
+.DarkModeSelect:hover {
+  background-color: #6c6651; 
+}
+.RecognizedPlate {
+margin-top: 20px;
+background-color: #E2DCC8;
+padding: 10px;
+border-radius: 5px;
+text-align: center;
+}
+
+.RecognizedPlate.DarkMode {
+background-color:  #000000;
+color: #fff;
+}
+
+.RecognizedPlate p {
+margin-bottom: 10px;
+color: #000;
+}
+
+.RecognizedPlate p.DarkMode {
+color: #fff;
+}
+
+.RecognizedPlate button {
+margin: 5px;
+padding: 8px 16px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+background-color: #231f20;
+color: #fff;
+}
+
+.RecognizedPlate button:hover {
+background-color: #000;
+}
+
+.RecognizedPlate button.DarkMode {
+background-color:  #8C8671;
+color: #fff;
+}
+
+.RecognizedPlate button.DarkMode:hover {
+background-color:  #6c6651;
+}
+.RecognizedPlate {
+margin-top: 20px;
+padding: 10px;
+border-radius: 5px;
+text-align: center;
+}
+
+.RecognizedPlate p {
+display: inline-block;
+margin-bottom: 10px;
+}
+
+.RecognizedPlate button {
+margin: 5px;
+padding: 8px 16px;
+border-radius: 5px;
+cursor: pointer;
+font-size: 16px; /* Increase font size */
+}
+
+
+/* Dark mode styles */
+.DarkMode .RecognizedPlate {
+background-color: #000000;
+color: #fff;
+}
+
+.DarkMode .RecognizedPlate p {
+color: #fff;
+}
+
+.DarkMode .RecognizedPlate button {
+background-color: #8C8671;
+color: #fff;
+}
+
+.DarkMode .RecognizedPlate button:hover {
+background-color: #6c6651;
+}
+
+.RecognizedPlate input[type="text"] {
+width: 30%;
+padding: 0.5rem;
+border-radius: 5px;
+border: 1px solid black; /* Adding black border */
+background-color: #E2DCC8; /* Default background color for light mode */
+color: black; /* Default text color for light mode */
+font-size: 16px; /* Increase font size */
+font-weight: bold; /* Set font weight to bold */
+}
+
+.DarkMode .RecognizedPlate input[type="text"] {
+border: 1px solid #8C8671;
+background-color: #000000; /* Dark mode background color */
+color: white; /* Dark mode text color */
+
+}
+

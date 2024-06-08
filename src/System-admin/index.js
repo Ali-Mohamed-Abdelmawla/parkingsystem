@@ -61,26 +61,27 @@ function TheOne() {
   };
 
   const handleDashboardClick = () => {
-    navigate("SystemAdmin/Dashboard");
+    navigate("/SystemAdmin");
   };
 
   const handleEmployeesClick = () => {
-    navigate("SystemAdmin/Employees");
+    navigate("/SystemAdmin/Employees");
   };
 
   const handleComplaintsClick = () => {
-    navigate("SystemAdmin/Complaints");
+    navigate("/SystemAdmin/Complaints");
   };
 
   const handleActiveSessionsClick = () => {
-    navigate("SystemAdmin/ActiveSessions");
+    navigate("/SystemAdmin/ActiveSessions");
   };
 
   const handleSalariesClick = () => {
-    navigate("SystemAdmin/Salaries");
+    navigate("/SystemAdmin/Salaries");
   };
   const handleLogoutBtn = () => {
     sessionStorage.removeItem("accessToken");
+    document.documentElement.setAttribute("theme", "light");
     navigate("/");
     // بنمسح التوكن بس و نريدايركت اليوزر لصفحه اللوجن
   };

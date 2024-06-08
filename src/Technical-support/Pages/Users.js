@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import styles from "./Users.module.css";
 import CloseLight from "../assets/LightMode/false.svg";
 import CloseDark from "../assets/DarkMode/false-dark.svg";
@@ -395,8 +395,51 @@ class Employees extends Component {
                     </div>
                 )}
             </div>
-        );
-    }
-}
+            <div className={`${styles["edit-model-buttons"]} ${darkModeClass}`}>
+              <button type="submit">Edit</button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {showViewDetails && (
+        <div className={`${styles["view-modal"]} ${darkModeClass}`}>
+          <div className={`${styles["view-title"]} ${darkModeClass}`}></div>
+          <div className={`${styles["modal-content"]} ${darkModeClass}`}>
+            <div className={`${styles["modal-main"]} ${darkModeClass}`}>
+              <div className={`${styles["name"]} ${darkModeClass}`}>
+                <label>
+                  <b>Name:</b> {Employees[viewIndex].Name}
+                </label>
+                <label>
+                  <b>National ID:</b> {Employees[viewIndex].NationalId}
+                </label>
+              </div>
+            </div>
+            <div className={`${styles["modal-details"]} ${darkModeClass}`}>
+              <label>
+                <b>Email:</b> {Employees[viewIndex].Email}
+              </label>
+              <label>
+                <b>Role:</b> {Employees[viewIndex].role}
+              </label>
+              <label>
+                <b>Phone Number:</b> {Employees[viewIndex].phoneNumber}
+              </label>
+              <label>
+                <b>Garage ID:</b> {Employees[viewIndex].garageId}
+              </label>
+              <div
+                className={`${styles["view-close-buttons"]} ${darkModeClass}`}
+              >
+                <button onClick={handleCloseView}>Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default Employees;

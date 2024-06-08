@@ -106,7 +106,7 @@
 .centeredButton {
     margin: 0 auto; /* This will center the button horizontally */
     display: block; /* This will make the button a block element, allowing margin: auto to center it horizontally */
-}
+
 
 /*dark Mode*/
 .dark-mode .popup{

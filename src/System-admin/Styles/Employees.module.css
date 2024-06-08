@@ -1,131 +1,3 @@
- table {
-   margin-top: 1.3rem;
- }
-
- table h2 {
-   margin-bottom: 0.8rem;
- }
-
- table {
-   background-color: var(--table-color);
-   width: 100%;
-   padding: var(--card-padding);
-   text-align: center;
-   box-shadow: var(--box-shadow);
-   border-radius: var(--card-border-radius);
-   transition: all 0.3s ease;
-   /* this is a table */
- }
-
- table:hover {
-   box-shadow: none;
- }
-table thead{
-  height: 50px;
-}
- table tbody tr {
-   border-bottom: 1px solid var(--font-color);
- }
-
- table tbody td {
-   height: 2.8rem;
-   color: var(--font-color);
- }
-
- table tbody td:last-child {
-   width: 2%;
- }
-
- table tbody tr:last-child td {
-   border: none;
- }
-
- table a {
-   text-align: center;
-   display: block;
-   margin: 1rem auto;
-   color: var(--font-color);
- }
-
- table tbody tr td {
-   transition: all 0.3s ease;
- }
-
- table tbody tr {
-   transition: all 0.3s ease;
-
- }
-
-
- .employeeDetails:hover {
-   background-color: var(--color-background);
- }
-
- /* for the dropdownnn */
-
- .employeeDetails {
-   position: relative;
-   border-radius: var(--button-border-radius);
- }
-[theme = dark] .employeeDetails img{
-  filter: invert(1)
-}
- .expandIcon {
-   cursor: pointer;
- }
-
- .dropdownMenu {
-   position: absolute;
-   top: 100%;
-   left: -2vw;
-   display: flex;
-   flex-direction: column;
-   background-color: var(--color-background);
-   border-radius: var(--button-border-radius);
-   border: 1px solid #00000020;
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-   z-index: 1;
-   opacity: 0;
-   transform: scaleY(0);
-   transform-origin: top;
-   transition: all 0.3s ease-in-out;
- }
-
- .employeeDetails:hover .dropdownMenu,
- .employeeDetails.active .dropdownMenu {
-   opacity: 1;
-   transform: scaleY(1);
- }
-
-
- .dropdownMenu hr {
-   border: 1px solid #00000020;
-   margin: 0 6.8px;
- }
-
-
- .dropdownButton {
-   padding: 8px;
-   text-align: left;
-   border: none;
-   background-color: transparent;
-   color: var(--font-color);
-   cursor: pointer;
-   border-radius: var(--button-border-radius);
-   transition: background-color 0.3s ease;
-  }
-
-[theme = dark]  .dropdownButton{
-  color: var(--font-color);
-}
- [theme = dark]  .dropdownButton:hover {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
- .dropdownButton:hover {
-   background-color: rgba(0, 0, 0, 0.1);
- }
-
  /* Styles for the delete model */
  .deleteConfirmation {
    position: fixed;
@@ -137,40 +9,59 @@ table thead{
    z-index: 1000;
    display: flex;
    flex-direction: column;
-   background-color: var(--secondary-color) ;
-   height: 15vh;
+   background-color: var(--secondary-color);
+   height: auto;
    min-width: 455.25px;
    width: 25vw;
  }
 
+ [theme=dark] .deleteConfirmation {
+   background-color: var(--color-background);
+ }
+
  .deleteConfirmation .deleteTitle {
    width: 100%;
-   height: 15%;
-   border-top-right-radius: 5px;
-   border-top-left-radius: 5px;
+   height: 30px;
+   min-height: 30px;
    background-color: var(--special-color1);
  }
 
  .deleteConfirmation .deleteContent {
    padding: 20px;
    display: flex;
+   flex-direction: column;
    height: 85%;
    justify-content: space-between;
  }
 
- .deleteConfirmation img {
-   align-self: center;
-   height: 50%;
-   width: 10%;
-   transform: translateY(-16px);
+ .deleteConfirmation .deleteMessage {
+   display: flex;
+   flex-direction: row;
+   height: auto;
+   justify-content:baseline;
  }
-[theme = dark] .deleteConfirmation img {
-filter:invert(1)
-}
+
+ .deleteConfirmation .deleteMessage img {
+   align-self: center;
+   width: 45px;
+ }
+
+ [theme=dark] .deleteConfirmation img {
+   filter: invert(1)
+ }
+
  .deleteConfirmation p {
-   margin-bottom: 15px;
+   margin-left: 25px;
    align-self: center;
    color: var(--font-color);
+ }
+
+ .deleteConfirmation .deleteModelButtons {
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   justify-content: end;
+   margin-top: 24px;
  }
 
  .deleteConfirmation button {
@@ -190,6 +81,11 @@ filter:invert(1)
  }
 
  .deleteConfirmation button:hover {
+   cursor: pointer;
+   background-color: #ddd5b6;
+ }
+
+ [theme=dark] .deleteConfirmation button:hover {
    cursor: pointer;
    background-color: #424242;
  }
@@ -233,33 +129,51 @@ filter:invert(1)
    transition: all 0.3s ease;
  }
 
- [theme = dark]  .editModal {
-  background-color: var(--color-background);
+ [theme=dark] .editModal {
+   background-color: var(--color-background);
  }
 
- .editModal .editTitle{
-  width: 100%;
-  height: 8%;
-  background-color: var(--special-color1);
-}
+ .editModal .editTitle {
+   width: 100%;
+   height: 40px;
+   min-height: 40px;
+   background-color: var(--special-color1);
+ }
 
-.editModal .editTitle button{
-  width: 30px;
-  height: 30px;
-  margin:7px;
-  padding: 3px;
-  background-image: url("../assets/light-mode/Close-icon.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-color: transparent;}
+ .editModal .editTitle button {
+   width: 30px;
+   height: 30px;
+   margin: 7px;
+   padding: 3px;
+   background-image: url("../assets/light-mode/Close-icon.svg");
+   background-size: contain;
+   background-repeat: no-repeat;
+   background-color: transparent;
+   cursor: pointer;
+ }
 
-.editModal .editTitle img{
-width:30px;
-height: 30px;
-margin: 4px;
-cursor: pointer;
-}
+ .editModal .editTitle img {
+   width: 30px;
+   height: 30px;
+   margin: 4px;
+   cursor: pointer;
+ }
 
+
+ .editModal h2 {
+   text-align: center;
+   margin: 10px auto;
+ }
+
+ .editModal hr {
+   width: 300px;
+   border: 1px solid black;
+   margin: 0px auto 15px;
+ }
+
+ [theme=dark] .editModal hr {
+   border: 1px solid #8c8671;
+ }
 
  .editModal form {
    height: 100%;
@@ -276,94 +190,113 @@ cursor: pointer;
    justify-content: center;
  }
 
+ /* .editModal form input {
+  width: 60%;
+  align-self: center;
+  margin: 10px;
+  height: 20px;
+  border:1px solid rgb(105, 105, 105);
+  padding: var(--card-padding);
+  border-radius: 5px;
+  transition: all 0.3s ease;
+} */
+
  .editModal form input {
+   width: 70%;
+   height: 347px;
+   max-height: 350px;
+   max-width: calc(100% - 20px) !important;
+   align-self: center;
+   font-family: inherit;
+   margin-top: 10px;
+   height: 20px;
+   padding: var(--card-padding);
+   border-radius: 5px;
+   border: 1px solid var(--special-color1);
+   transition: all 0.2s ease-in-out;
+   background-color: var(--input-background-color);
+   color: var(--font-color);
+ }
+
+ .editModal form input:hover {
+   box-shadow: none;
+   border: 1px solid rgba(105, 105, 105, 0.425);
+ }
+
+ .editModal .errorMessage {
+   color: #b32f2f;
+   align-self: center;
+   margin: 2px;
+
+ }
+
+ .editModal form select {
    width: 60%;
    align-self: center;
+   height: 35px;
    margin-top: 10px;
+   padding: 0.5rem;
+   border-radius: 5px;
+   border: 1px solid transparent;
+   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+   transition: all 0.5s ease;
+ }
+
+ [theme=dark] .editModal form select {
+   background-color: var(--table-color);
+   color: var(--font-color);
+   color-scheme: dark;
+ }
+
+ .editModal form select:hover {
+   box-shadow: none;
+ }
+
+ .editModal form select option {
+   width: 60%;
+   align-self: center;
    height: 20px;
    padding: var(--card-padding);
    border-radius: 5px;
    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
    transition: all 0.5s ease;
  }
- [theme = dark]  .editModal form input {
-  background-color: var(--table-color);
-  color: var(--font-color);
 
+ [theme=dark] .editModal form select option:hover {
+   background-color: var(--color-background);
  }
-
- .editModal form input:hover {
-   box-shadow: none;
- }
-
- .editModal form select {
-  width: 60%;
-  align-self: center;
-  height: 35px;
-  margin-top: 10px;
-  padding: 0.5rem;
-  border-radius: 5px;
-  border:1px solid transparent;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  transition: all 0.5s ease;
-}
-
-[theme = dark]  .editModal form select {
-  background-color: var(--table-color);
-  color: var(--font-color);
-  color-scheme: dark;
-}
-
-.editModal form select:hover {
-  box-shadow: none;
-}
-
-.editModal form select option {
-  width: 60%;
-  align-self: center;
-  height: 20px;
-  padding: var(--card-padding);
-  border-radius: 5px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  transition: all 0.5s ease;
-}
-
-[theme = dark] .editModal form select option:hover {
-  background-color: var(--color-background);
-}
 
  .editModal form button {
    min-width: 50px;
-   width: 7vw;
+   width: 90px;
    min-height: max-content;
    height: 40px;
    border-radius: var(--button-border-radius);
    background-color: #000;
-   position: relative;
-   bottom:10px;
+   font-family: inherit;
    color: var(--secondary-color);
    transition: all 0.3s ease;
-   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+   box-shadow: 2px 3px 3px 1px rgba(0, 0, 0, 0.25);
    cursor: pointer;
-   min-width: 113px;
+   margin: 5px;
  }
 
- 
-[theme = dark]  .editModal form button{
-  background-color: var(--special-color1);
-  color: var(--color-background);
-}
+
+ [theme=dark] .editModal form button {
+   background-color: var(--special-color1);
+   color: var(--color-background);
+ }
+
  .editModal form button:hover {
    box-shadow: none;
  }
-
-
 
  .editModal form .editModelButtons {
    width: 100%;
    display: flex;
    flex-direction: row;
    justify-content: center;
+   margin-top: 24px;
  }
 
 
@@ -393,131 +326,163 @@ cursor: pointer;
    border-radius: .5rem;
    flex-direction: column;
    background-color: var(--secondary-color);
-   height: 40vh;
-   min-width:404px;
+   height: auto;
+   min-width: 404px;
    width: 25vw;
    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
    transition: all 0.3s ease;
-  }
-[theme = dark]  .viewModal {
-  background-color: var(--color-background);
-}
+ }
+
+ [theme=dark] .viewModal {
+   background-color: var(--color-background);
+ }
+
  .viewModal .viewTitle {
    width: 100%;
-   height: 8%;
+   height: 40px;
+   min-height: 40px;
    background-color: var(--special-color1);
+ }
+
+ /* the style uner is for when we are forwarding to an admin */
+ .viewModal .viewTitle button {
+  width: 30px;
+  height: 30px;
+  margin:7px;
+  padding: 3px;
+  background-image: url("../assets/light-mode/Close-icon.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+ .viewModal h2 {
+   text-align: center;
+   margin: 10px auto;
+ }
+
+ .viewModal hr {
+   width: 300px;
+   border: 1px solid black;
+   margin: 0px auto 15px;
+ }
+
+ [theme=dark] .viewModal hr {
+   border: 1px solid #8c8671;
  }
 
  .viewModal .modalContent {
    padding: var(--card-padding);
    height: 92%;
-
  }
 
- .viewModal .modalMain {
+ .viewModal .name {
    display: flex;
-   height: 20%;
- }
- .viewModal .modalMain img{
-  margin-right: .6rem;
-  margin-bottom: .6rem;
- }
- [theme = dark] .viewModal .modalMain img{
-  filter: invert(1);
+   flex-direction: column;
+   justify-content: space-evenly;
  }
 
- .viewModal .modalMain .name{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
+ .viewModal .name b {
+   font-size: 15px;
+ }
+
+ .viewModal .name .data {
+   font-size: 14px;
  }
 
  /* For complaints */
 
  .viewModal .modalComplaintMain {
-  display: flex;
-  height: 60%;
-}
-
-[theme = dark] .viewModal .modalComplaintMain img{
- filter: invert(1);
-}
-
-.viewModal .modalComplaintMain .name{
- display: flex;
- flex-direction: column;
- justify-content: space-evenly;
-}
-/*----------------------------------*/
-
- .viewModal hr {
-   border: 1px solid #00000080;
-   margin: 0 6.8px;
- }
- .viewModal .modalDetails{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 70%;
-  justify-content: space-evenly;
-  margin-top: .5rem;
- }
- .viewModal .modalDetails button{
-  min-width: 50px;
-  min-width: 80px;
-  width: 5vw;
-  min-height: max-content;
-  justify-self: end;
-  align-self: flex-end;
-  cursor: pointer;
-  color: var(--secondary-color);
-  background-color: var(--font-color);
-  box-shadow: var(--box-shadow);
-  transition:all 0.3s ease;
- }
- .viewModal .modalDetails button:hover{
-  box-shadow: none;
- }
-/* for Complaints */
- .viewModal .modalComplaintsDetails{
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 40%;
-  justify-content: space-evenly;
-  margin-top: .5rem;
- }
- .viewModal .modalComplaintsDetails img{
-  width:30px;
-height: 30px;
-  margin-right: .6rem;
-  margin-bottom: .6rem;
- }
- .viewModal .modalComplaintsDetails button{
-  min-width: 50px;
-  min-width: 80px;
-  width: 5vw;
-  min-height: max-content;
-  height: 30px;
-  justify-self: end;
-  align-self: flex-end;
-  cursor: pointer;
-  color: var(--secondary-color);
-  background-color: var(--font-color);
-  box-shadow: var(--box-shadow);
-  transition:all 0.3s ease;
+   display: flex;
+   height: 60%;
  }
 
-[theme = dark]  .viewModal .modalComplaintsDetails button{
- background-color: var(--secondary-color);
- color: white;
+ [theme=dark] .viewModal .modalComplaintMain img {
+   filter: invert(1);
  }
 
- .viewModal .modalComplaintsDetails button:hover{
-  box-shadow: none;
+ .viewModal .modalComplaintMain .name {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-evenly;
  }
 
-/*---------------------------------*/
+ /*----------------------------------*/
+
+ .viewModal .editModelButtons {
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   justify-content: end;
+   margin-top: 24px;
+ }
+
+ .viewModal .editModelButtons button {
+   width: 80px;
+   min-height: max-content;
+   height: 35px;
+   border-radius: var(--button-border-radius);
+   background-color: #000;
+   font-family: inherit;
+   color: var(--secondary-color);
+   transition: all 0.3s ease;
+   box-shadow: 2px 3px 3px 1px rgba(0, 0, 0, 0.25);
+   cursor: pointer;
+   margin: 5px;
+ }
+
+ [theme=dark] .viewModal button {
+   background-color: var(--special-color1);
+   color: var(--color-background);
+ }
+
+ .viewModal button:hover {
+   box-shadow: none;
+ }
+
+ /* for Complaints */
+ .viewModal .modalComplaintsDetails {
+   display: flex;
+   flex-direction: row;
+   width: 100%;
+   height: 40%;
+   justify-content: space-evenly;
+   margin-top: .5rem;
+ }
+
+ .viewModal .modalComplaintsDetails img {
+   width: 30px;
+   height: 30px;
+   margin-right: .6rem;
+   margin-bottom: .6rem;
+ }
+
+ .viewModal .modalComplaintsDetails button {
+   min-width: 50px;
+   min-width: 80px;
+   width: 5vw;
+   min-height: max-content;
+   height: 30px;
+   justify-self: end;
+   align-self: flex-end;
+   cursor: pointer;
+   color: var(--secondary-color);
+   background-color: var(--font-color);
+   box-shadow: var(--box-shadow);
+   transition: all 0.3s ease;
+ }
+
+ [theme=dark] .viewModal .modalComplaintsDetails button {
+   background-color: var(--secondary-color);
+   color: white;
+ }
+
+ .viewModal .modalComplaintsDetails button:hover {
+   box-shadow: none;
+ }
+
+ /*---------------------------------*/
  body.viewModalActive::before {
    content: '';
    position: fixed;
@@ -530,4 +495,3 @@ height: 30px;
    z-index: 999;
    user-select: none;
  }
- 

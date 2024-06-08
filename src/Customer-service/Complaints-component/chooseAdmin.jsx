@@ -1,34 +1,44 @@
-import React, { useState } from "react";
-import styles from "../styles/Employees.module.css";
-import GarageAdminSelect from "../helper/Garage-admins-select";
-import axios from "axios";
+import { useState } from "react";
+import styles from "../../System-admin/Styles/Employees.module.css";
+import GarageAdminSelect from "../../helper/Garage-admins-select";
+import axiosInstance from "../../auth/axios";
 import Swal from "sweetalert2";
 
-const baseURL = "https://raknaapi.azurewebsites.net";
-const accessToken = sessionStorage.getItem("accessToken");
 const ViewModal = ({ reportId, onClose }) => {
+  const accessToken = sessionStorage.getItem("accessToken");
   const [selectedValue, setSelectedValue] = useState(null);
   const forwardTheComplaint = async () => {
     console.log(reportId);
     try {
-      const response = await axios.post(
-        `${baseURL}/api/Report/ForwardReport/${reportId}/${selectedValue.value}`,
-        {},
-        {
-          params: {
-            reportId: reportId,
-            reportReceiverId: selectedValue.value,
-          },
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("Complaint is forwarded succesfully:", response.data);
-      Swal.fire("Success", "Complaint is forwarded succesfully", "success").then(() => {
-        window.location.reload();
-      });
+      axiosInstance
+        .post(
+          `/api/Report/ForwardReport/${reportId}/${selectedValue.value}`,
+          {},
+          {
+            params: {
+              reportId: reportId,
+              reportReceiverId: selectedValue.value,
+            },
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Complaint is forwarded successfully:", response.data);
+          Swal.fire(
+            "Success",
+            "Complaint is forwarded successfully",
+            "success"
+          ).then(() => {
+            window.location.reload();
+          });
+        })
+        .catch((error) => {
+          console.error("Error forwarding complaint:", error);
+          Swal.fire("Error", "Failed to forward complaint", "error");
+        });
     } catch (error) {
       console.error("Error marking complaint as solved:", error);
       Swal.fire("Error", "Error forwarding the complaint", "error");
@@ -37,36 +47,39 @@ const ViewModal = ({ reportId, onClose }) => {
   return (
     <>
       <div className={styles.viewModal}>
-        <div className={styles.viewTitle}></div>
+        <div className={styles.viewTitle}>
+          <button onClick={onClose}>{/* Add close icon here */}</button>
+        </div>
         <div className={styles.modalContent}>
+          <h2>Choose Garage</h2>
           <GarageAdminSelect
             onGarageAdminSelect={(selectedOption) => {
               console.log(selectedOption);
               setSelectedValue(selectedOption);
             }}
           />
-          <hr />
           {selectedValue && (
-            <div
-              className={styles.modalComplaintsDetails}
-            //   style={{ display: "flex", flexDirection: "column" }}
-            >
-              <>
-                <label>
-                  <b>Chosen admin: </b> {selectedValue.name}
-                </label>
+              <div className={styles.name} style={{ marginTop: "20px" }}>
+                {" "}
+                <span className={styles.block}>
+                  <b>Chosen admin: </b>{" "}
+                  <span className={styles.data}>{selectedValue.name}</span>
+                </span>
                 <br></br>
-                <label>
-                  <b>garage name:</b> {selectedValue.garageName}
-                </label>
+                <span className={styles.block}>
+                  <b>garage name: </b>{" "}
+                  <span className={styles.data}>{selectedValue.garageName}</span>
+                </span>
                 <br></br>
-                <label>
-                  <b>garage number:</b> {selectedValue.garageId}
-                </label>
+                <span className={styles.block}>
+                  <b>garage number:</b>{" "}
+                  <span className={styles.data}>{selectedValue.garageId}</span>
+                </span>
+                <div className={styles.editModelButtons}>
 
                 <button onClick={forwardTheComplaint}>Forward</button>
-              </>
-              <button onClick={onClose}>Close</button>
+                </div>
+
             </div>
           )}
         </div>

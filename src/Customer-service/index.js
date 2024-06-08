@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import styles from "./styles/styles.module.css";
+import styles from "../System-admin/Styles/styles.module.css";
+
 // import AddReport from "./AddReport-component/AddReport";
 import { useState, useEffect } from "react";
 import Whitelogo from "./assets/White-logo.svg";
@@ -15,39 +16,26 @@ export default function Layout() {
   // const [showAddPage, setShowAddPage] = useState(false);
   const[userName, setUserName] = useState(null)
   const navigate = useNavigate();
+  const token = sessionStorage.getItem("accessToken");
+
+
 
   useEffect(() => {
-    const Complaintsbtn = document.getElementById("Complaintsbtn");
-    if (showComplaintsComponent) {
-      Complaintsbtn.classList.add(styles.sidebarButtonIsActive);
-    }
-    return () => {
-    };
-  }, []);
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("accessToken");
     if (token) {
       const decodedToken = jwtDecode(token);
       console.log(decodedToken);
       setUserName(decodedToken.FullName);
     }
-  }, []);
+  }, [token]);
 
-  // const handleCloseAddBtn = () => {
-  //   setShowAddPage(false);
-  //   document.body.classList.remove(styles.addModalActive);
-  // };
+
      const handleComplaintsClick = () => {
-      navigate("CustomerService/Complaints")
+      navigate("/CustomerService")
      }
 
-    //  const handleAddComplaintsClick = () => {
-    //   setShowAddPage(true);
-    //   document.body.classList.add(styles.addModalActive);
-    //  }
      const handleLogoutBtn = () => {
       sessionStorage.removeItem("accessToken");
+      document.documentElement.setAttribute("theme", "light");
       navigate("/");
       // بنمسح التوكن بس و نريدايركت اليوزر لصفحه اللوجن
     };
@@ -60,8 +48,7 @@ export default function Layout() {
     }
   };
   return (
-    //  const [showComplaintsComponent, setShowComplaintsComponent] = useState(true);
-
+token && (
     <div className={styles.container}>
       <aside>
         <div className={styles.toggle}>
@@ -111,5 +98,7 @@ export default function Layout() {
         <Outlet />
       </main>
     </div>
+    )
+
   );
 }

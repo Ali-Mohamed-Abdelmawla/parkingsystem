@@ -1,7 +1,7 @@
 :root {
     --primary-color: #E2DCC8;
     --second-color: #F2F1F1;
-    --font-color: #231F20;
+    --font-colour: #231F20;
     --button-border-radius: 5px;
     --technical-box-shadow: 0px 4px 4px 0px ;
     --table-color: #FFFFFF;
@@ -65,13 +65,13 @@ html {
 }
 
 .table-content tbody tr {
-    border-bottom: 0px solid var(--font-color);
+    border-bottom: 0px solid var(--font-colour);
 }
 
 .table-content tbody td {
     height: 2.8rem;
-    color: var(--font-color);
-    border: 0px solid var(--font-color); 
+    color: var(--font-colour);
+    border: 0px solid var(--font-colour); 
 }
 
 .table-content tbody td:last-child {
@@ -86,7 +86,7 @@ html {
     text-align: center;
     display: block;
     margin: 1rem auto;
-    color: var(--font-color);
+    color: var(--font-colour);
 }
 
 .table-content tbody tr td {
@@ -196,7 +196,7 @@ html {
     height: 15%;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
-    background-color: var(--font-color);
+    background-color: var(--font-colour);
 }
 .button1:hover{
     background-color:#E2DCC8;
@@ -208,7 +208,7 @@ html {
     color: var(--high-light);
 }
 .delete-confirmation button:last-child {
-    color: var(--font-color);
+    color: var(--font-colour);
 }
 body.delete-modal-active {
     overflow:hidden;

@@ -1,18 +1,18 @@
 // Container Component (Smart Component)
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ComplaintsTable from "./Complaints";
 import ViewModal from "./ViewComplaints";
-import ChooseAdmin from './chooseAdmin';
+import ChooseAdmin from "./chooseAdmin";
 import DeleteConfirmationModal from "./DeleteComplaints";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
+import axiosInstance from "../../auth/axios";
 import Swal from "sweetalert2";
+import style from "../styles/Employees.module.css";
+import Loader from "../../helper/loading-component/loader";
 
-
-const baseURL = "https://raknaapi.azurewebsites.net";
-const accessToken = sessionStorage.getItem("accessToken");
 const ComplaintsContainer = () => {
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const accessToken = sessionStorage.getItem("accessToken");
   const [complaints, setComplaints] = useState([]);
   const [showSolvedConfirmation, setShowSolvedConfirmation] = useState(false);
   const [solvedIndex, setSolvedIndex] = useState(0);
@@ -25,8 +25,9 @@ const ComplaintsContainer = () => {
 
   useEffect(() => {
     // Fetch employees from API on component mount
-    axios
-      .get(`${baseURL}/api/Report/GetAllReports`, {
+    setLoading(true);
+    axiosInstance
+      .get(`/api/Report/GetAllReports`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
@@ -34,9 +35,11 @@ const ComplaintsContainer = () => {
       })
       .then((response) => {
         setComplaints(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching employees:", error);
+        setLoading(false);
       });
   }, []); //gets the complaints
 
@@ -48,55 +51,33 @@ const ComplaintsContainer = () => {
   const handleOpenView = async (index) => {
     setShowViewDetails(true);
     setViewIndex(index);
-    document.body.classList.add("viewModalActive");
+    document.body.classList.add(style.viewModalActive);
   };
 
   const handleCloseView = () => {
     setShowViewDetails(false);
     setViewIndex(null);
-    document.body.classList.remove("viewModalActive");
+    document.body.classList.remove(style.viewModalActive);
   };
 
-  // const handleForwardToAdminClick = async (reportId, garageAdminId) => {
-  //   try {
-  //     const response = await axios.post(
-  //       `${baseURL}/api/Report/ForwardReport/${reportId}/${garageAdminId}`,
-  //       {},
-  //       {
-  //         params: {
-  //           reportId: reportId,
-  //           reportReceiverId: garageAdminId,
-  //         },
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     console.log("Complaint is forwarded succesfully:", response.data);
-  //     Swal.fire("Success", "Complaint is forwarded succesfully", "success");
-  //   } catch (error) {
-  //     console.error("Error marking complaint as solved:", error);
-  //     Swal.fire("Error", "Error forwarding the complaint", "error");
-  //   }
-  // };
-
   const handleForwardToAdminClick = async (reportId) => {
-    setForwardAdminOpen(true)
-    console.log(reportId)
-    setForwardedReport(reportId)
-  }
+    setForwardAdminOpen(true);
+    console.log(reportId);
+    setForwardedReport(reportId);
+    document.body.classList.add(style.viewModalActive);
+  };
 
   const handleCloseForwardToAdmin = () => {
-    setForwardAdminOpen(false)
-    setForwardedReport(null)
-  }
+    setForwardAdminOpen(false);
+    setForwardedReport(null);
+    document.body.classList.remove(style.viewModalActive);
+  };
   const handleForwardToTechnicalClick = async (reportId) => {
     const technicalSupportId = "af47b4b7-9e91-46a3-80f5-86f4167e2d08";
     // كده كده مش هيكون عندنا غير واحد بس تكنكال
     try {
-      const response = await axios.post(
-        `${baseURL}/api/Report/ForwardReport/${reportId}/${technicalSupportId}`,
+      const response = await axiosInstance.post(
+        `/api/Report/ForwardReport/${reportId}/${technicalSupportId}`,
         {},
         {
           params: {
@@ -110,7 +91,11 @@ const ComplaintsContainer = () => {
         }
       );
       console.log("Complaint is forwarded succesfully:", response.data);
-      Swal.fire("Success", "Complaint is forwarded succesfully", "success").then(() => {
+      Swal.fire(
+        "Success",
+        "Complaint is forwarded succesfully",
+        "success"
+      ).then(() => {
         window.location.reload();
       });
     } catch (error) {
@@ -124,16 +109,18 @@ const ComplaintsContainer = () => {
     console.log("Solved");
     setShowSolvedConfirmation(true);
     setSolvedIndex(index);
+    document.body.classList.add(style.viewModalActive);
   };
 
   const handlecloseSolved = () => {
     setShowSolvedConfirmation(false);
+    document.body.classList.remove(style.viewModalActive);
   };
 
   const handleConfirmSolve = async () => {
     try {
-      const response = await axios.put(
-        `${baseURL}/api/Report/UpdateReportStatus/${solvedIndex}`,
+      const response = await axiosInstance.put(
+        `/api/Report/UpdateReportStatus/${solvedIndex}`,
         true, // Assuming you don't need to send any data in the body
         {
           params: {
@@ -150,14 +137,30 @@ const ComplaintsContainer = () => {
       setShowSolvedConfirmation(false);
       document.body.classList.remove("deleteModalActive");
       Swal.fire("Success", "Complaint marked as solved", "success").then(() => {
-        window.location.reload(); 
-      })
+        window.location.reload();
+      });
     } catch (error) {
       console.error("Error marking complaint as solved:", error);
       Swal.fire("Error", "Error marking complaint as solved", "error");
       // Handle the error appropriately, e.g., show an error message to the user
     }
   };
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          height: "50vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Loader />
+      </div>
+    );
+  }
+  
   return (
     <>
       <ComplaintsTable
@@ -174,12 +177,7 @@ const ComplaintsContainer = () => {
           onCancelDelete={handlecloseSolved}
         />
       )}
-      {/* {showViewDetails && complaints.length > 0 && viewIndex !== null && (
-        <ViewModal
-          complaint={complaints[viewIndex]}
-          onClose={handleCloseView}
-        />
-      )} */}
+
       {showViewDetails && (
         <ViewModal
           complaint={complaints[viewIndex]}
@@ -189,9 +187,9 @@ const ComplaintsContainer = () => {
       {forwardAdminOpen && (
         <ChooseAdmin
           // forwardToAdmin = {handleForwardToAdminClick}
-          reportId = {forwardedReport}
+          reportId={forwardedReport}
           onClose={handleCloseForwardToAdmin}
-          />
+        />
       )}
     </>
   );

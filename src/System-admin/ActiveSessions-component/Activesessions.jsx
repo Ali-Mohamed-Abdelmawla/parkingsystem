@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DataGrid from "../Styled-Table/CustomDataGrid";
-import axios from "axios";
-
-const baseURL = "https://raknaapi.azurewebsites.net";
-
+import axiosInstance from "../../auth/axios";
+import Loader from "../../helper/loading-component/loader";
 const formatDate = (isoDateString) => {
   const date = new Date(isoDateString);
   const options = {
@@ -30,12 +28,14 @@ const formatCurrency = (amount) => {
 };
 
 const ActiveSessionsContainer = () => {
+  const [loading, setLoading] = useState(false);
   const [activeSessions, setActiveSessions] = useState([]);
   const accessToken = sessionStorage.getItem("accessToken");
 
   useEffect(() => {
-    axios
-      .get(`${baseURL}/api/GarageAdmin/ActiveSessions`, {
+    setLoading(true);
+    axiosInstance
+      .get(`/api/GarageAdmin/ActiveSessions`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
@@ -43,14 +43,24 @@ const ActiveSessionsContainer = () => {
       })
       .then((response) => {
         setActiveSessions(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching employees:", error);
+        setLoading(false);
       });
   }, []);
 
   // Define the columns for the DataGrid
   const columns = [
+    { field: "PlateNumbers", headerName: "Plate numbers", flex: 0.5 },
+    { field: "PlateLetters", headerName: "Plate Letters", flex: 0.5 },
+    {
+      field: "CurrentBill",
+      headerName: "Current Bill",
+      valueFormatter: (params) => formatCurrency(params.value),
+      flex: 1,
+    },
     {
       field: "CurrentBill",
       headerName: "Current Bill",
@@ -77,6 +87,21 @@ const ActiveSessionsContainer = () => {
     ...activeSession,
   }));
 
+  if (loading) {
+    return (
+      <div
+        style={{
+          height: "50vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="table-wrapper" style={{ flex: 1, overflow: "hidden" }}>
@@ -89,7 +114,7 @@ const ActiveSessionsContainer = () => {
               paginationModel: { page: 0, pageSize: 5 },
             },
           }}
-          pageSizeOptions={[5, 8, 13]}
+          pageSizeOptions={[5, 8, 11]}
         />
       </div>
     </>

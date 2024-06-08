@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import styles from "./TransactionPage.module.css";
+import styles from "./Transaction-component/TransactionPage.module.css";
 import carIcon from "../assets/light-mode/carIcon.svg";
 import darkCarIcon from "../assets/light-mode/carIcon.svg";
-import axios from "../axios";
+import axiosInstance from "../../auth/axios";
 import searchIconLight from "../assets/light-mode/search.svg";
 import searchIconDark from "../assets/Dark-mode/search.svg";
 
@@ -23,11 +23,11 @@ function TransactionPage({ darkMode }) {
         "Content-Type": "application/json",
       };
 
-      const getCurrentParkingSessions = axios.get(
+      const getCurrentParkingSessions = axiosInstance.get(
         "/api/GarageStaff/CurrentParkingSessions",
         { headers }
       );
-      const getAllReservations = axios.get("/api/GarageStaff/AllReservation", {
+      const getAllReservations = axiosInstance.get("/api/GarageStaff/AllReservation", {
         headers,
       });
 
@@ -83,7 +83,7 @@ function TransactionPage({ darkMode }) {
         "Content-Type": "application/json",
       };
 
-      const response = await axios.delete(
+      const response = await axiosInstance.delete(
         "/api/GarageStaff/EndParkingSession",
         {
           data: requestData,

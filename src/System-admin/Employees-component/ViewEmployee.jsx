@@ -1,4 +1,3 @@
-import React from "react";
 import Employeestyle from "../Styles/Employees.module.css";
 
 function EmployeesViewModal({ employee, handleCloseView }) {
@@ -9,29 +8,48 @@ function EmployeesViewModal({ employee, handleCloseView }) {
   return (
     <div className={Employeestyle.viewModal}>
       <div className={Employeestyle.viewTitle}></div>
+      <h2>{employee.Name}'s Details</h2>
+      <hr style={{ width: "300px", margin: "0 auto 15px" }}></hr>
       <div className={Employeestyle.modalContent}>
-        <div className={Employeestyle.modalMain}>
-          <div className={Employeestyle.name}>
-            <label>
-              <b>Name:</b> {employee.Name}
-              <br></br>
-              <b>User name:</b> {employee.userName}
-            </label>
-            {/* More details */}
-          </div>
-        </div>
-        <hr />
-        <div className={Employeestyle.modalDetails}>
-          <b>Email:</b> {employee.Email}
-          <br></br>
-          <b>phone number:</b> {employee.phoneNumber}
-          <br></br>
-          <b>National ID:</b> {employee.NationalId}
-          <br></br>
-          <b>Salary:</b> {employee.salary}
-          <br></br>
+        <div className={Employeestyle.name}>
+          <span className={Employeestyle.block}>
+            <b>Full Name: </b>{" "}
+            <span className={Employeestyle.data}>{employee.Name}</span>
+          </span>
+          <br />
+          <span className={Employeestyle.block}>
+            <b>Username: </b>{" "}
+            <span className={Employeestyle.data}>{employee.userName}</span>
+          </span>
+          <br />
+          <span className={Employeestyle.block}>
+            <b>Email Address: </b>{" "}
+            <span className={Employeestyle.data}>{employee.Email}</span>
+          </span>
+          <br />
+          <span className={Employeestyle.block}>
+            <b>Phone Number: </b>{" "}
+            <span className={Employeestyle.data}>{employee.phoneNumber}</span>
+          </span>
+          <br />
+          <span className={Employeestyle.block}>
+            <b>National Id: </b>{" "}
+            <span className={Employeestyle.data}>{employee.NationalId}</span>
+          </span>
+          <br />
+          <span className={Employeestyle.block}>
+            <b>Salary (per pay period): </b>{" "}
+            <span className={Employeestyle.data}>{employee.salary}</span>
+          </span>
           {/* Details */}
-          <button className={Employeestyle.viewButton} onClick={handleCloseView}>Close</button>
+          <div className={Employeestyle.editModelButtons}>
+            <button
+              className={Employeestyle.viewButton}
+              onClick={handleCloseView}
+            >
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </div>
