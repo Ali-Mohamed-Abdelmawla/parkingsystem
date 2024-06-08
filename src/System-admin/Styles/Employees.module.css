@@ -208,7 +208,6 @@
    max-width: calc(100% - 20px) !important;
    align-self: center;
    font-family: inherit;
-   margin-top: 10px;
    height: 20px;
    padding: var(--card-padding);
    border-radius: 5px;

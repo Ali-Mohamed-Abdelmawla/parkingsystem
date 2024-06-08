@@ -13,12 +13,13 @@
     width: 77%;
     padding: 0px;
     text-align: center;
-    box-shadow: var(--technical-box-shadow);
+    border: 1px solid #8c8671;
+    /* box-shadow: var(--technical-box-shadow); */
     border-radius: var(--button-border-radius);
     transition: all 0.3s ease;
     margin-left: 275px;
     margin-right: auto;
-    border-collapse: collapse; 
+    border-collapse: collapse;
 }
 
 .complaint-table h2 {
@@ -40,6 +41,7 @@
 
 .complaint-table tbody td {
     height: 2.8rem;
+    padding: 15px;
     color: var(--font-colour);
     border: 0px solid var(--font-colour); 
 }
@@ -185,7 +187,7 @@ body.delete-modal-active {
     overflow:hidden;
 }
 
-body.delete-modal-active::before {
+body.deleteModalActive::before {
     content: '';
     position: fixed;
     top: 0;
@@ -207,17 +209,35 @@ body.delete-modal-active::before {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     width:27%;
-    height: 28%;
+    height: auto;
     border-radius: 20px;
     box-shadow: var(--technical-box-shadow);
     transition: all 0.3s ease;
 }
+
+.view-modal .view-title{
+    width: 100%;
+    height: 40px;
+    min-height: 40px;
+    background-color: var(--special-color1);
+}
+
+.view-modal h2 {
+    text-align: center;
+    margin: 10px auto;
+  }
+ 
+  .view-modal hr {
+    width: 300px;
+    border: 1px solid black;
+    margin: 0px auto 15px;
+  }
+
 .view-modal .modal-content {
     background-color: var(--primary-color);
     border-radius: 20px;
     width: 100%;
     height: 100%;
-    padding: 10px;
 }
 .view-modal .modal-main {
 display: flex;
@@ -225,6 +245,7 @@ height: 20%;
 }
 .view-modal .modal-content .name{
     color: #ED7F16;
+    padding: 10px;
 }
 .view-modal .name b{
     color: black;
@@ -232,16 +253,18 @@ height: 20%;
 .view-modal .modal-content .view-close-buttons {
     border-color: var(--primary-color);
     border: none;
-    margin-top: 55px;
-    margin-left:270px;
-    
+    margin-top: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: end;
 }
 .view-modal .modal-content button{
-    background-color: #231F20;
+    background-color: #8C8671;
     color:#F2F1F1;
     padding: 5px 15px;
     font-weight: bold;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 
@@ -250,7 +273,7 @@ height: 20%;
 background-color: #231F20;
 }
 .dark-mode .complaint-table {
-    background-color: #000000;
+    background-color: #3f3f3f;
     color: #F2F1F1;
 }
 .dark-mode thead {
@@ -261,7 +284,7 @@ background-color: #231F20;
 }
 
 .dark-mode .employee-details .dropdown-menu .dropdown-button {
-    background-color: #000000;
+    background-color: #231F20;
     color: #F2F1F1;
 }
 
@@ -285,10 +308,10 @@ background-color: #231F20;
     background-color: #000000;
 }
 .dark-mode .view-title {
-    background-color: #231F20;
+    background-color: #3f3f3f;
 }
 .dark-mode .modal-content {
-    background-color: #000000;
+    background-color: #231F20;
     color: #F2F1F1;
     border-radius: 10px;
 }

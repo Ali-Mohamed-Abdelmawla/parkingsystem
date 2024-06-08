@@ -7,9 +7,11 @@ import NavBar from "./Component/navbar";
 // import Garages from "./Pages/Garages";
 import { jwtDecode } from "jwt-decode";
 import { Outlet } from "react-router-dom";
-
+import axiosInstance from "../auth/axios";
+import Loader from "../helper/loading-component/loader";
 function App() {
   const [userName, setUserName] = useState("");
+  const [loading,setLoading] = useState(false);
   const getUserNamefromtoken = () => {
     const token = sessionStorage.getItem("accessToken");
     if (token) {
@@ -19,8 +21,32 @@ function App() {
     }
   };
 
+  
+  const fetchComplaints = async () => {
+    try {
+      const accessToken = sessionStorage.getItem("accessToken");
+      setLoading(true);
+      const response = await axiosInstance.get(
+        "/api/Report/GetReportsBasedOnRole",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const complaints = response.data;
+      sessionStorage.setItem("totalReports", response.data.length);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching complaints:", error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     getUserNamefromtoken();
+    fetchComplaints();
   }, []);
 
   const name = userName;
@@ -29,6 +55,21 @@ function App() {
   const handleDarkModeToggle = () => {
     setIsDarkMode(!isDarkMode);
   };
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          height: "50vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className={`app ${isDarkMode ? "dark-mode" : ""}`}>

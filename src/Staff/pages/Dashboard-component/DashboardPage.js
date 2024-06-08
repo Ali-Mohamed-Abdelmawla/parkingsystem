@@ -58,13 +58,15 @@ const DashboardPage = () => {
   }, [accessToken]);
 
   if (loading) {
+    
     return (
       <div
         style={{
-          height: "50vh",
+          height: darkMode ? '100vh' : '50vh',
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: darkMode ? '#231f20' : '#f2f1f1'
         }}
       >
         <Loader />

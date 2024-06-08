@@ -100,23 +100,17 @@ function TransactionPage() {
   
       console.log("Parking session ended successfully");
   
-      setShowConfirmPopup(false);
 
       // Display success alert
       Swal.fire({
         title: "Payment Successful!",
         text: "Payment has been processed successfully.",
         icon: "success",
-        customClass: {
-          container: 'custom-swal-container', // Add custom class for positioning
-          title: 'custom-swal-title',
-          content: 'custom-swal-content',
-          confirmButton: 'custom-swal-confirm-button'
-        },
         backdrop: false,
         focusConfirm: false,
         allowOutsideClick: false
       }).then(() => {
+        setShowConfirmPopup(false);
         setLoading(false)
         window.location.reload();
       })
@@ -124,18 +118,11 @@ function TransactionPage() {
     } catch (error) {
       console.error("Error ending parking session:", error);
       setShowConfirmPopup(false);
-  
       // Display error alert
       Swal.fire({
         title: "Payment Failed!",
         text: "Failed to process payment. Please try again.",
         icon: "error",
-        customClass: {
-          container: 'custom-swal-container', // Add custom class for positioning
-          title: 'custom-swal-title',
-          content: 'custom-swal-content',
-          confirmButton: 'custom-swal-confirm-button'
-        },
         backdrop: false,
         focusConfirm: false,
         allowOutsideClick: false
@@ -149,17 +136,20 @@ function TransactionPage() {
   };
 
   const carIconSrc = darkMode ? darkCarIcon : carIcon;
-  const searchIconSrc = darkMode ? searchIconDark : searchIconLight;
+  // const searchIconSrc = darkMode ? searchIconDark : searchIconLight;
   const cancelIconSrc = darkMode ? cancelIconDark : cancelIconLight;
 
+
   if (loading) {
+    
     return (
       <div
         style={{
-          height: "50vh",
+          height: darkMode ? '100vh' : '50vh',
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: darkMode ? '#231f20' : '#f2f1f1'
         }}
       >
         <Loader />
