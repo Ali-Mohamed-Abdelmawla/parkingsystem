@@ -4,10 +4,6 @@ import GarageAdminSelect from "../../helper/Garage-admins-select";
 import axiosInstance from "../../auth/axios";
 import Swal from "sweetalert2";
 
-
-
-
-
 const ViewModal = ({ reportId, onClose }) => {
   const accessToken = sessionStorage.getItem("accessToken");
   const [selectedValue, setSelectedValue] = useState(null);

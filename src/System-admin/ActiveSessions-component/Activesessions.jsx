@@ -115,7 +115,6 @@ const ActiveSessionsContainer = () => {
             },
           }}
           pageSizeOptions={[5, 8, 11]}
-
         />
       </div>
     </>
