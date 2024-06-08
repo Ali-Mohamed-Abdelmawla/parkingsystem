@@ -4,7 +4,6 @@ import ComplaintsTable from "./Complaints";
 import ViewModal from "./ViewComplaints";
 import ChooseAdmin from "./chooseAdmin";
 import DeleteConfirmationModal from "./DeleteComplaints";
-
 import axiosInstance from "../../auth/axios";
 import Swal from "sweetalert2";
 import style from "../styles/Employees.module.css";

@@ -55,11 +55,11 @@ const Sidebar = ({ darkmode }) => {
           text="Dashboard"
           onClick={() => navigate("/TechnicalSupport")}
         />
-        <MenuItem
+        {/* <MenuItem
           icon={darkmode ? CustomerServicesDarkIcon : CustomerServicesIcon}
           text="Users"
           onClick={() => navigate("/TechnicalSupport/Employee")}
-        />
+        /> */}
         <MenuItem
           icon={darkmode ? ComplaintsDarkIcon : ComplaintsIcon}
           text="Complaints"

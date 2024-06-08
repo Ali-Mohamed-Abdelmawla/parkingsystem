@@ -1,9 +1,9 @@
 // Dashboard.js
 import React from 'react';
 import styles from './Dashboard.module.css';
-import TotalEmployeeLight from '../assets/LightMode/total-employee.svg';
+// import TotalEmployeeLight from '../assets/LightMode/total-employee.svg';
 import TotalReportsLight from '../assets/LightMode/total-reports.svg';
-import TotalEmployeeDark from '../assets/DarkMode/total-employee-dark.svg';
+// import TotalEmployeeDark from '../assets/DarkMode/total-employee-dark.svg';
 import TotalReportsDark from '../assets/DarkMode/total-reports-dark.svg';
 import { useOutletContext } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ const Dashboard = () => {
         <div className={`${styles['dashboard-container']} ${darkmode ? styles['dark-mode'] : ''}`}>
             <div className={`${styles['card-container']} ${darkmode ? styles['dark-mode'] : ''}`}>
                 {/* First Card */}
-                <div className={`${styles.card} ${darkmode ? styles['dark-mode'] : ''}`}>
+                {/* <div className={`${styles.card} ${darkmode ? styles['dark-mode'] : ''}`}>
                     <div className={`${styles['card-content']} ${darkmode ? styles['dark-mode'] : ''}`}>
                         <div>
                             <span className={`${styles.span} ${darkmode ? styles['dark-mode'] : ''}`}>Total Users</span>
@@ -22,7 +22,7 @@ const Dashboard = () => {
                             <p className={`${styles.number1} ${darkmode ? styles['dark-mode'] : ''}`}>_</p>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 {/* Second Card */}
                 <div className={`${styles.card} ${darkmode ? styles['dark-mode'] : ''}`}>
                     <div className={`${styles['card-content']} ${darkmode ? styles['dark-mode'] : ''}`}>

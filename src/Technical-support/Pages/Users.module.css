@@ -34,17 +34,18 @@ html {
 }
 
 .table-content {
-    margin-top: 4rem;
+    margin-top: 8rem;
     background-color: var(--table-color);
-    width: 79%;
+    width: 77%;
     padding: 0px;
     text-align: center;
-    box-shadow: var(--technical-box-shadow);
+    border: 1px solid #8c8671;
+    /* box-shadow: var(--technical-box-shadow); */
     border-radius: var(--button-border-radius);
     transition: all 0.3s ease;
-    margin-left: 220px;
+    margin-left: 275px;
     margin-right: auto;
-    border-collapse: collapse; 
+    border-collapse: collapse;
 }
 
 .table-content h2 {
@@ -65,13 +66,14 @@ html {
 }
 
 .table-content tbody td {
+    padding: 15px;
     height: 2.8rem;
     color: var(--font-colour);
     border: 0px solid var(--font-colour); 
 }
 
 .table-content tbody td:last-child {
-    width: 2%;
+    width: 4%;
 }
 
 .table-content tbody tr:last-child td {
@@ -210,7 +212,7 @@ body.delete-modal-active {
     overflow:hidden;
 }
 
-body.delete-modal-active::before {
+body.deleteModalActive::before {
     content: '';
     position: fixed;
     top: 0;
@@ -262,6 +264,17 @@ body.delete-modal-active::before {
     margin-top: 15px;
     border-radius: 5px;
 }
+.edit-modal h2 {
+    text-align: center;
+    margin: 10px auto;
+  }
+ 
+  .edit-modal hr {
+    width: 300px;
+    border: 1px solid black;
+    margin: 0px auto 15px;
+  }
+
 
 .edit-modal form {
     margin-top: 0px;
@@ -271,8 +284,32 @@ body.delete-modal-active::before {
     background-color: var(--primary-color);
 }
 .edit-modal form input{
-    margin-bottom:3px;
-    margin-top: 15px;
+    width: 70%;
+    height: 347px;
+    max-height: 350px;
+    max-width: calc(100% - 20px) !important;
+    align-self: center;
+    font-family: inherit;
+    margin-top: 10px;
+    height: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid var(--special-color1);
+    transition: all 0.2s ease-in-out;
+    background-color: white;
+    color: var(--font-color);
+}
+
+.dark-mode .edit-modal form input{
+    background-color: #3f3f3f;
+    color: #F2F1F1;
+}
+
+.edit-modal span{
+    color: #b32f2f;
+    align-self: center;
+    margin: 2px;
+ 
 }
 
 
@@ -369,12 +406,12 @@ body.delete-modal-active::before {
 }
 
 .dark-mode .edit-modal form {
-    background-color: #000000;
+    background-color: #231F20;
     color: #F2F1F1;
 }
 
 .dark-mode .edit-modal form input {
-    background-color: #231F20;
+    background-color: #3f3f3f;
 }
 
 .dark-mode .edit-modal form button {
@@ -382,7 +419,7 @@ body.delete-modal-active::before {
 }
 
 .dark-mode .edit-modal .add-title {
-    background-color: #000000;
+    background-color: #231F20;
 }
 
 .dark-mode .icon-close {
@@ -390,7 +427,7 @@ body.delete-modal-active::before {
 }
 
 .dark-mode .add-title .but {
-    background-color: #000000;
+    background-color: #231F20;
 }
 
 .dark-mode body {
@@ -416,7 +453,7 @@ body.delete-modal-active::before {
 .dark-mode .but img{
     width: 30px;
     height: 40px;
-    background-color:#000000;
+    background-color:#231F20;
     color:white;
 }
 .dark-mode .delete-content .button2{
@@ -427,6 +464,7 @@ body.delete-modal-active::before {
     color: #FFFFFF;
 }
 .dark-mode .table-content tbody td{
+
     color: #FFFFFF;
 }
 .dark-mode .dropdown-menu  button{

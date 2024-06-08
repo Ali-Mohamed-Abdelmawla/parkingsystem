@@ -4,9 +4,10 @@ import styles from "./Complaints.module.css";
 import ViewLight from "../assets/LightMode/view.svg";
 import ViewDark from "../assets/DarkMode/view-dark.svg";
 import { useOutletContext } from "react-router-dom";
+import Loader from "../../helper/loading-component/loader";
 
 const Complaints = () => {
-
+  const [loading, setLoading] = useState(false);
   const { darkmode } = useOutletContext();
   const [expandedRow, setExpandedRow] = useState(-1);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -20,7 +21,7 @@ const Complaints = () => {
   useEffect(() => {
     fetchComplaints();
     saveToLocalStorage();
-  }, [Complaint]);
+  }, []);
 
   const saveToLocalStorage = () => {
     localStorage.setItem("Complaint", JSON.stringify(Complaint));
@@ -32,10 +33,12 @@ const Complaints = () => {
 
   const handleDeleteClick = (index) => {
     setShowDeleteConfirmation(true);
+    document.body.classList.add(styles.deleteModalActive);
     setDeletionIndex(index);
   };
 
   const handleCloseDelete = () => {
+    document.body.classList.remove(styles.deleteModalActive);
     setShowDeleteConfirmation(false);
     setDeletionIndex(null);
   };
@@ -52,12 +55,14 @@ const Complaints = () => {
   const handleViewClick = (index, reportMessage) => {
     setShowViewDetails(true);
     setViewIndex(index);
+    document.body.classList.add(styles.deleteModalActive);
     setViewReportMessage(index);
   };
 
   const handleCloseView = () => {
     setShowViewDetails(false);
     setViewIndex(null);
+    document.body.classList.remove(styles.deleteModalActive);
   };
 
   const toggleDarkMode = () => {
@@ -67,6 +72,7 @@ const Complaints = () => {
   const fetchComplaints = async () => {
     try {
       const accessToken = sessionStorage.getItem("accessToken");
+      setLoading(true);
       const response = await axiosInstance.get(
         "/api/Report/GetReportsBasedOnRole",
         {
@@ -79,8 +85,10 @@ const Complaints = () => {
       const complaints = response.data;
       sessionStorage.setItem("totalReports", response.data.length);
       setComplaint(complaints);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching complaints:", error);
+      setLoading(false);
     }
   };
 
@@ -104,6 +112,7 @@ const Complaints = () => {
       setComplaint(updatedComplaints);
       setShowDeleteConfirmation(false);
       setDeletionIndex(null);
+      window.location.reload();
       saveToLocalStorage();
     } catch (error) {
       console.error("Error updating status:", error);
@@ -111,6 +120,21 @@ const Complaints = () => {
   };
 
   const darkModeClass = darkmode ? styles["dark-mode"] : "";
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          height: "50vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className={`${styles["component-body"]} ${darkModeClass}`}>
@@ -189,26 +213,49 @@ const Complaints = () => {
 
       {showViewDetails && (
         <div className={`${styles["view-modal"]} ${darkModeClass}`}>
-          <div className={`${styles["view-title"]} ${darkModeClass}`}></div>
-          <div className={`${styles["modal-content"]} ${darkModeClass}`}>
-            <div className={`${styles["modal-main"]} ${darkModeClass}`}>
-              <div className={`${styles["name"]} ${darkModeClass}`}>
-                <label>
-                  <b>Complaint ID:</b> {Complaint[viewIndex].ReportId}
-                </label>
-              </div>
-            </div>
-            <div className={`${styles["modal-details"]} ${darkModeClass}`}>
-              <b>{Complaint[viewReportMessage].ReportMessage}</b>
-              <button
-                className={`${styles["view-close-buttons"]} ${darkModeClass}`}
-                onClick={handleCloseView}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
+ 
+  <div className={`${styles["modal-content"]} ${darkModeClass}`}>
+  <div className={`${styles["view-title"]} ${darkModeClass}`}></div>
+  <h2>Complaint #{Complaint[viewIndex].ReportId} Details</h2>
+  <hr style={{ width: "300px", margin: "0 auto 15px" }}></hr>
+    <div className={`${styles["name"]} ${darkModeClass}`}>
+      <span className={`${styles.block} ${darkModeClass}`}>
+        <b>Complaint ID:</b>{" "}
+        <span className={styles.data}>{Complaint[viewIndex].ReportId}</span>
+      </span>
+      <br />
+      <span className={`${styles.block} ${darkModeClass}`}>
+        <b>Complaint Type:</b>{" "}
+        <span className={styles.data}>{Complaint[viewIndex].ReportType}</span>
+      </span>
+      <br />
+      <span className={`${styles.block} ${darkModeClass}`}>
+        <b>Reported By:</b>{" "}
+        <span className={styles.data}>{Complaint[viewIndex].ReporterName}</span>
+      </span>
+      <br />
+      <span className={`${styles.block} ${darkModeClass}`}>
+        <b>Status:</b>{" "}
+        <span className={styles.data}>
+          {Complaint[viewIndex].IsFixed? "Fixed" : "Not Fixed"}
+        </span>
+      </span>
+      <br />
+      <span className={`${styles.block} ${darkModeClass}`}>
+        <b>Complaint Details:</b>{" "}
+        <span className={styles.data}>{Complaint[viewIndex].ReportMessage}</span>
+      </span>
+      <br />
+    </div>
+    <div className={` ${styles["view-close-buttons"]} ${darkModeClass}`}>
+      <button className={`${styles.viewButton} ${darkModeClass}`} onClick={handleCloseView}>
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+
       )}
     </div>
   );
