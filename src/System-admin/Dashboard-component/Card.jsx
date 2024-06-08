@@ -1,4 +1,3 @@
-import React from "react";
 import DashboardStyle from '../Styles/Dashboard.module.css'
 
 const Card = ({ title, value, icon }) => {

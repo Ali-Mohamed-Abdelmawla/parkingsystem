@@ -1,6 +1,4 @@
-import React from "react";
 import DataGrid from "../Styled-Table/CustomDataGrid";
-import Employeestyle from "../Styles/Employees.module.css";
 
 function ComplaintsTable({
   complaints,
@@ -37,7 +35,7 @@ function ComplaintsTable({
             className={'tableBtn'}
             onClick={() => handleDeleteClick(params.row.reportId)}
           >
-            Delete
+            Update status
           </button>
         </>
       ),
@@ -65,7 +63,7 @@ function ComplaintsTable({
             paginationModel: { page: 0, pageSize: 5 },
           },
         }}
-        pageSizeOptions={[5, 8, 13]}
+        pageSizeOptions={[5, 8, 11]}
       />
     </div>
   );

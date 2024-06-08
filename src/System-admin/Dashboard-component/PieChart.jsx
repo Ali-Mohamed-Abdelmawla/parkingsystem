@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 
 export function PieChart({ data, options,colors }) {

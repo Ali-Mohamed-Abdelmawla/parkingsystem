@@ -1,0 +1,55 @@
+.Select-value-label, .Select-option {
+    white-space: pre-wrap;
+  }
+
+  .lp-copy-sel__option, .lp-copy-sel__single-value {
+    white-space: pre-wrap !important;
+  }
+  .lp-copy-sel__value-container {
+    height: 5em; /* Adjust as needed */
+  }
+  [theme = dark] .css-1dimb5e-singleValue{
+    color:var(--font-color)
+  }
+
+
+  .mySelect__menu-list::-webkit-scrollbar {
+    width: 12px;
+    background-color: #dfd4b0;
+    border-radius: 10px;
+  }
+
+  .mySelect__menu-list::-webkit-scrollbar-thumb {
+    background-color: #F2F1F1;
+    border-radius: 10px;
+    border: 3px solid #dfd4b0;
+  }
+
+  .mySelect__menu-list::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  [theme = dark] .mySelect__menu-list::-webkit-scrollbar {
+    width: 12px;
+    background-color: #231F20;
+    border-radius: 10px;
+  }
+
+ [theme = dark] .mySelect__menu-list::-webkit-scrollbar-thumb {
+    background-color: #8C8671;
+    border-radius: 10px;
+    border: 3px solid #231F20;
+  }
+
+  [theme = dark] .mySelect__menu-list::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  .select-option span{
+    color: #770000;
+    margin-left: 10px;
+  }
+
+  [theme = dark] .select-option span{
+    color: #8c8671;
+  }

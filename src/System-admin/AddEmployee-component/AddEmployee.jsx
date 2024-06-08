@@ -1,13 +1,13 @@
- // takes time IDK whyyy ??
+// takes time IDK whyyy ??
 
-
-
-import React from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import AddStyles from "./AddEmployee.module.css";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
+import axiosInstance from "../../auth/axios";
+import LoadingButton from "@mui/lab/LoadingButton";
+import AddIcon from "@mui/icons-material/Add";
 
 const AddEmployee = ({ onClose }) => {
   const {
@@ -15,20 +15,18 @@ const AddEmployee = ({ onClose }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const accessToken = sessionStorage.getItem("accessToken");
+  const [loading, setLoading] = useState(false);
 
+  const accessToken = sessionStorage.getItem("accessToken");
   const onSubmit = (data) => {
-    axios
-      .post(
-        "https://raknaapi.azurewebsites.net/api/GarageAdmin/AddStaff",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+    setLoading(true);
+    axiosInstance
+      .post("/api/GarageAdmin/AddStaff", data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      })
       .then((response) => {
         console.log("Employee added successfully:", response.data);
         Swal.fire({
@@ -37,6 +35,7 @@ const AddEmployee = ({ onClose }) => {
           text: "Employee added successfully",
         });
         onClose();
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error adding employee:", error);
@@ -45,6 +44,7 @@ const AddEmployee = ({ onClose }) => {
           title: "Error",
           text: `Failed to add employee: ${error.response.data}`,
         });
+        setLoading(false);
       });
   };
 
@@ -54,10 +54,9 @@ const AddEmployee = ({ onClose }) => {
         <div className={AddStyles.addTitle}>
           <button onClick={onClose}>{/* Add close icon here */}</button>
         </div>
+        <h2>Add an Employee</h2>
+        <hr style={{ width: "300px", margin: "0 auto 15px" }}></hr>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label>
-            <b>Add an Employee</b>
-          </label>
           <input
             {...register("name", {
               required: {
@@ -109,11 +108,11 @@ const AddEmployee = ({ onClose }) => {
               },
               minLength: {
                 value: 11,
-                message: "The entered value should be 11 digits",
+                message: "Your entry needs to be 11 digits long.",
               },
               maxLength: {
                 value: 11,
-                message: "The entered value should be 11 digits",
+                message: "Please limit your entry to 11 digits.",
               },
               pattern: {
                 value: /^\d+$/, // Regular expression to match only digits
@@ -136,11 +135,11 @@ const AddEmployee = ({ onClose }) => {
               },
               minLength: {
                 value: 14,
-                message: "The entered value should be 14 digits",
+                message: "Your entry needs to be 14 digits long.",
               },
               maxLength: {
                 value: 14,
-                message: "The entered value should be 14 digits",
+                message: "Please limit your entry to 14 digits.",
               },
               pattern: {
                 value: /^\d+$/, // Regular expression to match only digits
@@ -177,7 +176,15 @@ const AddEmployee = ({ onClose }) => {
             </span>
           )}
           <div className={AddStyles.addModelButtons}>
-            <button type="submit">Add</button>
+            <LoadingButton
+              endIcon={<AddIcon />}
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+              onClick={handleSubmit(onSubmit)}
+            >
+              <span>Add</span>
+            </LoadingButton>
           </div>
         </form>
       </div>

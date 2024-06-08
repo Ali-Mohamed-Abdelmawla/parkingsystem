@@ -1,5 +1,4 @@
 // ChartComponent.js
-import React from "react";
 import { Chart } from "react-google-charts";
  import '../Styles/main.css'
 export function ColumnChart({ data, options, colors }) {

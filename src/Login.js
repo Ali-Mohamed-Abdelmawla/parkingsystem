@@ -1,72 +1,86 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Loginstyles from "./Login.module.css";
 import LoginForm from "./LoginContainer";
 import Logo from "./Login-assets/login-logo.svg";
-import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // Import jwt-decode
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import swal from "sweetalert2";
-
+import axiosInstance from "./auth/axios";
 function App() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  // const [loading, setLoading] = useState(false) علشان اعمل انتظار علي التحميل عقبال ما الريسبونس تيجي
+  const [Loading, setLoading] = useState(false);
   const navigate = useNavigate(); // Hook for navigation
 
   const handleLogin = async () => {
-
     const trimmedUsername = username.trim();
- const trimmedPassword = password.trim();
+    const trimmedPassword = password.trim();
 
     if (username && password) {
       try {
-        const response = await axios.post(
-          "https://raknaapi.azurewebsites.net/api/Auth/Login",
-          {
-            email: trimmedUsername,
-            password: trimmedPassword,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
+        setLoading(true);
+        const response = await axiosInstance
+          .post(
+            "/api/Auth/Login",
+            {
+              email: trimmedUsername,
+              password: trimmedPassword,
             },
-          }
-        );
-  
-        if (response.status === 200) {
-          sessionStorage.setItem("accessToken", response.data.Token);
-  
-          if (response.data.Token) {
-            console.log(response.data.IsAuthenticated);
-  
-            if (response.data.Token) {
-              handleLoginToken(response.data.Token);
-            } else if (
-              response.data.isAuthenticated === false &&
-              response.data.message === "Email is not confirmed yet!"
-            ) {
-              navigate("");
-              swal.fire("Error", "please, verify your account", "error");
-            } else if (
-              response.data.isAuthenticated === false &&
-              response.data.message === "Email or Password is incorrect!"
-            ) {
-              navigate("");
-              swal.fire("Error", "Email or Password is incorrect", "error");
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
             }
-          }
-        } else {
-          setError("Invalid username or password");
-        }
+          )
+          .then((response) => {
+            console.log(response);
+            if (response.status === 200) {
+              sessionStorage.setItem("accessToken", response.data.Token);
+
+              console.log(response.data.IsAuthenticated);
+              if (response.data.Token) {
+                handleLoginToken(response.data.Token);
+              } else {
+                console.log("no token");
+                if (
+                  response.data.IsAuthenticated === false &&
+                  response.data.Message === "Email is not confirmed yet!"
+                ) {
+                  swal
+                    .fire("Error", "please, verify your account", "error")
+                    .then(() => {
+                      setLoading(false);
+                      navigate("");
+                    });
+                } else if (
+                  response.data.IsAuthenticated === false &&
+                  response.data.Message === "Email or Password is incorrect!"
+                ) {
+                  swal
+                    .fire("Error", "Email or Password is incorrect", "error")
+                    .then(() => {
+                      navigate("");
+                      setLoading(false);
+                    });
+                } else if (response.data.IsAuthenticated === false) {
+                  swal
+                    .fire("Error", "Something wrong happened !", "error")
+                    .then(() => {
+                      navigate("");
+                      setLoading(false);
+                    });
+                }
+              }
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       } catch (error) {
-        setError("An error occurred. Please try again later.");
+        console.error(error);
       }
-    } else {
-      setError("Please enter your username and password");
     }
   };
-  
 
   const handleLoginToken = (Token) => {
     if (sessionStorage.getItem("accessToken") !== "undefined") {
@@ -96,20 +110,25 @@ function App() {
   };
 
   return (
-    <div className={Loginstyles.loginContainer}>
-      <div className={Loginstyles.Logo}>
-        <img src={Logo} alt="logo" />
-        <p>To reshape the future of parking</p>
-      </div>
-      <div className={Loginstyles.App}>
-        <h1>Login</h1>
-        <LoginForm
-          username={username}
-          password={password}
-          setUsername={setUsername}
-          setPassword={setPassword}
-          handleLogin={handleLogin}
-        />
+    <div className={Loginstyles.loginPage}>
+      <div className={Loginstyles.loginContainer}>
+        <div className={Loginstyles.Logo}>
+          <img src={Logo} alt="logo" />
+          <p>To reshape the future of parking</p>
+        </div>
+        <div className={Loginstyles.rightSide}>
+          <div className={Loginstyles.App}>
+            <h1>Login</h1>
+            <LoginForm
+              username={username}
+              password={password}
+              setUsername={setUsername}
+              setPassword={setPassword}
+              handleLogin={handleLogin}
+              loading={Loading}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

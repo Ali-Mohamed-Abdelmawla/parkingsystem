@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import EmployeesTable from "./Employees";
 import EmployeesEditModal from "./EditEmployee";
 import EmployeesDeleteConfirmation from "./DeleteEmployee";
 import EmployeesViewModal from "./ViewEmployee";
 import BulkEmails from "./BulkEmails";
-import axios from "axios";
+import axiosInstance from "../../auth/axios";
 import Employeestyle from "../Styles/Employees.module.css";
 import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
-const baseURL = "https://raknaapi.azurewebsites.net";
+import Loader from "../../helper/loading-component/loader";
 
 // لازم نريلود بعد التعديل
 
 function Employees() {
+  const [loading, setLoading] = useState(false);
   const accessToken = sessionStorage.getItem("accessToken");
   const [employees, setEmployees] = useState([]);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -26,19 +26,20 @@ function Employees() {
   const [showBulkEmails, setShowBulkEmails] = useState(false);
   const [selectedEmployeeEmails, setSelectedEmployeeEmails] = useState([]);
   const [editedEmployee, setEditedEmployee] = useState({
-    FullName: "",
-    userName: "",
-    email: "",
-    phoneNumber: "",
+    Name: "",
+    UserName: "",
+    Email: "",
+    PhoneNumber: "",
     NationalId: "",
-    Salary: "",
+    salary: "",
   });
   const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch employees from API on component mount
-    axios
-      .get(`${baseURL}/api/GarageAdmin/AllStaff`, {
+    setLoading(true);
+    axiosInstance
+      .get(`/api/GarageAdmin/AllStaff`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
@@ -46,9 +47,11 @@ function Employees() {
       })
       .then((response) => {
         setEmployees(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching employees:", error);
+        setLoading(false);
       });
   }, []);
 
@@ -58,21 +61,19 @@ function Employees() {
     setShowEditPage(true);
     setEditIndex(index);
     document.body.classList.add(Employeestyle.EditModalActive);
+    console.log(employees[index]);
     setEditedEmployee(employees[index]);
   };
 
-  const handleFormSubmit = () => {
-    axios
-      .put(
-        `${baseURL}/api/GarageAdmin/EditStaff/${editedEmployee.Id}`,
-        editedEmployee,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+  const handleFormSubmit = (data) => {
+    console.log(data);
+    axiosInstance
+      .put(`/api/GarageAdmin/EditStaff/${editedEmployee.Id}`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      })
       .then((response) => {
         const updatedEmployees = [...employees];
         updatedEmployees[editIndex] = response.data;
@@ -112,16 +113,13 @@ function Employees() {
   };
 
   const handleConfirmDelete = () => {
-    axios
-      .delete(
-        `${baseURL}/api/GarageAdmin/DeleteStaff/${employees[deletionIndex].Id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+    axiosInstance
+      .delete(`/api/GarageAdmin/DeleteStaff/${employees[deletionIndex].Id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      })
       .then(() => {
         const updatedEmployees = [...employees];
         updatedEmployees.splice(deletionIndex, 1);
@@ -146,6 +144,7 @@ function Employees() {
   };
 
   const handleInputChange = (e) => {
+    console.log(e.target);
     const { name, value } = e.target;
     setEditedEmployee((prevEditedEmployee) => ({
       ...prevEditedEmployee,
@@ -173,14 +172,13 @@ function Employees() {
     setSelectedEmployeeEmails(selectedRows.map((row) => row.email));
     setShowBulkEmails(true);
     document.body.classList.add(Employeestyle.viewModalActive);
-
   };
 
   const handleBulkEmailSend = (title, message) => {
     // Perform bulk email sending logic using selectedEmployeeEmails
-    axios
+    axiosInstance
       .post(
-        `https://raknaapi.azurewebsites.net/api/GarageAdmin/SendBulkEmails`,
+        `/api/GarageAdmin/SendBulkEmails`,
         {
           emails: selectedEmployeeEmails,
           message: message,
@@ -195,8 +193,10 @@ function Employees() {
       )
       .then((response) => {
         console.log(response);
-        Swal.fire("Success", "Emails sent successfully", "success");
-        setShowBulkEmails(false); // Close the pop-up after sending emails
+        Swal.fire("Success", "Emails sent successfully", "success").then(() => {
+          setShowBulkEmails(false); // Close the pop-up after sending emails
+          document.body.classList.remove(Employeestyle.viewModalActive);
+        });
       })
       .catch((error) => {
         console.error("Error sending emails:", error);
@@ -206,10 +206,24 @@ function Employees() {
   const handleBulkEmailClose = () => {
     setShowBulkEmails(false);
     document.body.classList.remove(Employeestyle.viewModalActive);
-
   };
 
   //============================= End ========================
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          height: "50vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <>

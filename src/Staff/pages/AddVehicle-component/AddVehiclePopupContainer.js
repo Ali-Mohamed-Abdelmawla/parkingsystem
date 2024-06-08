@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from '../../axios.js';
+import axiosInstance from '../../../auth/axios.js';
 import Swal from 'sweetalert2';
 import AddVehiclePopupPresentational from './AddVehiclePopupPresentational.js';
 
 function AddVehiclePopupContainer({ onClose, darkMode }) {
+  const [loading, setLoading] = useState(false);
   const [inputs, setInputs] = useState(["", "", "", "", "", ""]);
   const arabicRegex = /^[\u0600-\u06FF\s]+$/;
   const numberRegex = /^[0-9]+$/;
@@ -20,8 +21,9 @@ function AddVehiclePopupContainer({ onClose, darkMode }) {
     try {
       const plateLetters = inputs.slice(0, 3).join(' ');
       const plateNumbers = inputs.slice(3).join('');
+      setLoading(true);
 
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         '/api/GarageStaff/StartParkingSession',
         {
           plateLetters,
@@ -36,10 +38,11 @@ function AddVehiclePopupContainer({ onClose, darkMode }) {
       );
 
       console.log('Parking session started:', response.data);
-
+      setLoading(false)
       return response.data;
     } catch (error) {
       console.error('Error:', error.message);
+      setLoading(false)
       throw new Error('Failed to start parking session. Please try again.');
     }
   };
@@ -141,6 +144,7 @@ function AddVehiclePopupContainer({ onClose, darkMode }) {
       handleInputChange={handleInputChange}
       handleAddInputClick={handleAddInputClick}
       inputRefs={inputRefs}
+      loading = {loading}
     />
   );
 }

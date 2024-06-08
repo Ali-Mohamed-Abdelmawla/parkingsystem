@@ -59,12 +59,8 @@
     gap: 10px;
     flex-wrap: wrap;
     align-items: baseline;
-    height: 100vh;
+    height: auto;
 }
-/*       display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    height: 30vh;   */
 
 .card {
     text-align: left;

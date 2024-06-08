@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Styles/styles.module.css";
 
-// update for khaled
 // importing icons
 import Whitelogo from "./assets/light-mode/White-logo.svg";
 import Dashboardicon from "./assets/light-mode/Dashboard.svg";
@@ -62,27 +61,27 @@ function TheOne() {
   };
 
   const handleDashboardClick = () => {
-    navigate("SystemAdmin/Dashboard");
+    navigate("/SystemAdmin");
   };
 
   const handleEmployeesClick = () => {
-    navigate("SystemAdmin/Employees");
+    navigate("/SystemAdmin/Employees");
   };
 
   const handleComplaintsClick = () => {
-    navigate("SystemAdmin/Complaints");
+    navigate("/SystemAdmin/Complaints");
   };
 
   const handleActiveSessionsClick = () => {
-    navigate("SystemAdmin/ActiveSessions");
+    navigate("/SystemAdmin/ActiveSessions");
   };
 
   const handleSalariesClick = () => {
-    navigate("SystemAdmin/Salaries");
+    navigate("/SystemAdmin/Salaries");
   };
   const handleLogoutBtn = () => {
     sessionStorage.removeItem("accessToken");
-    // document.documentElement.setAttribute("theme", "light");
+    document.documentElement.setAttribute("theme", "light");
     navigate("/");
     // بنمسح التوكن بس و نريدايركت اليوزر لصفحه اللوجن
   };

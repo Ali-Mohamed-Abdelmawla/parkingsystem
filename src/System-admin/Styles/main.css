@@ -7,7 +7,8 @@
     --special-color1:#8C8671;
     --table-color:#ffffff;
     --hover-effect-color:rgb(235, 232, 232);
-
+    --input-background-color:#F2F1F1;
+    
     /* indenting */
     --card-border-radius:0.3rem;
     --card-padding:1.2rem;
@@ -32,7 +33,9 @@
     --high-light:#ED7F16;
     --special-color1:#8C8671;
     --table-color:#000;
-    --hover-effect-color:#1a1a1a;
+    --hover-effect-color:#474747;
+    --input-background-color:#3f3f3f;
+
 }
 
 @font-face {

@@ -1,12 +1,9 @@
 //=============================================== New Customer service ====================================
-import React, { useEffect, useState } from "react";
-import Employeestyle from "../styles/Employees.module.css";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../auth/axios";
 import Swal from "sweetalert2";
 import DataGrid from "../../System-admin/Styled-Table/CustomDataGrid";
 
-const baseURL = "https://raknaapi.azurewebsites.net";
-const accessToken = sessionStorage.getItem("accessToken");
 
 function ComplaintsTable({
   complaints,
@@ -15,6 +12,7 @@ function ComplaintsTable({
   handleForwardToAdminClick,
   handleForwardToTechnicalClick,
 }) {
+  const accessToken = sessionStorage.getItem("accessToken");
   const [helpingData, setHelpingData] = useState([]);
 
   const columns = [
@@ -84,30 +82,30 @@ function ComplaintsTable({
     };
   });
 
-  useEffect(() => {
-    console.log(accessToken);
-    const fetchGarageAdmins = async () => {
-      if (accessToken == null) {
-        fetchGarageAdmins();
-      }
-      try {
-        const response = await axios
-          .get(`${baseURL}/api/Report/GetAllGarageAdmins`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              "Content-Type": "application/json",
-            },
-          })
-          .then((response) => {
-            setHelpingData(response.data);
-          });
-      } catch (error) {
-        console.error("Error fetching garage admins:", error);
-        Swal.fire("Error", "Error fetching garage admins", "error");
-      }
-    };
-    fetchGarageAdmins();
-  }, []);
+  // useEffect(() => {
+  //   console.log(accessToken);
+  //   const fetchGarageAdmins = async () => {
+  //     if (accessToken == null) {
+  //       fetchGarageAdmins();
+  //     }
+  //     try {
+  //       await axiosInstance
+  //         .get(`/api/Report/GetAllGarageAdmins`, {
+  //           headers: {
+  //             Authorization: `Bearer ${accessToken}`,
+  //             "Content-Type": "application/json",
+  //           },
+  //         })
+  //         .then((response) => {
+  //           setHelpingData(response.data);
+  //         });
+  //     } catch (error) {
+  //       console.error("Error fetching garage admins:", error);
+  //       Swal.fire("Error", "Error fetching garage admins", "error");
+  //     }
+  //   };
+  //   fetchGarageAdmins();
+  // }, []);
 
   return (
     <div className="table-wrapper" style={{ flex: 1, overflow: "hidden" }}>
@@ -120,7 +118,7 @@ function ComplaintsTable({
             paginationModel: { page: 0, pageSize: 5 },
           },
         }}
-        pageSizeOptions={[5, 8, 13]}
+        pageSizeOptions={[5, 8, 11]}
       />
     </div>
   );

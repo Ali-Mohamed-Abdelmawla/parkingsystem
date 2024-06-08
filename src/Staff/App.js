@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import  {  useState,  useEffect } from 'react';
+import { Routes, Route,  useNavigate, Outlet } from 'react-router-dom';
 import Sidebar from './pages/Sidebar-component/Sidebar.js';
 import TopBar from './pages/Topbar-component/TopBar.js';
 import Dashboard from './pages/Dashboard-component/DashboardPage.js';
@@ -43,11 +43,7 @@ const App = () => {
         <TopBar name={name} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
         <div className="content">
           <Sidebar darkMode={darkMode} name={name} toggleAddVehiclePopup={toggleAddVehiclePopup} goToRoute={goToRoute} />
-          <Routes>
-          <Route path="GarageStaff/Dashboard" element={<Dashboard darkMode={darkMode} />} />
-          <Route path="GarageStaff/Transaction" element={<Transaction darkMode={darkMode} />} />
-          <Route path="GarageStaff/Report" element={<Reports darkMode={darkMode} />} />
-          </Routes>
+          <DarkModeWrapper darkMode={darkMode} />
         </div>
         {isAddVehiclePopupOpen && <AddVehiclePopup onClose={toggleAddVehiclePopup} darkMode={darkMode} />}
       </div>
@@ -55,3 +51,7 @@ const App = () => {
 };
 
 export default App;
+
+const DarkModeWrapper = ({ darkMode }) => {
+  return <Outlet context={{ darkMode }} />;
+};
