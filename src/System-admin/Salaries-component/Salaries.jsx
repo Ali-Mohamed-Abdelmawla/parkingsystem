@@ -3,7 +3,6 @@ import axiosInstance from "../../auth/axios";
 import Swal from "sweetalert2";
 import DataGrid from "../Styled-Table/CustomDataGrid";
 import Loader from "../../helper/loading-component/loader";
-
 const displayDateAfterDays = (daysUntilPayment) => {
   const currentDate = new Date();
   const futureDate = new Date(
@@ -27,7 +26,6 @@ const formatDate = (isoDateString) => {
 const formatCurrency = (amount) => {
   return `$${amount.toFixed(2)}`; // Assuming the currency is USD and you want to display 2 decimal places
 };
-const baseURL = "https://raknaapi.azurewebsites.net";
 
 const Salaries = () => {
   const [loading, setLoading] = useState(false);

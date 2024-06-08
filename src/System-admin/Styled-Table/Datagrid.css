@@ -215,12 +215,6 @@
 }
 .MuiDataGrid-columnHeaderTitle{
     font-weight: 700 !important;
-.MuiDataGrid-columnHeaderTitle{
-    font-weight: bold;
-
-.MuiDataGrid-columnHeaderTitle{
-    font-weight: bold;
-
 
 }
 
@@ -242,8 +236,9 @@
     color: var(--font-color);
 }
 
-.css-rtrcn9-MuiTablePagination-root .MuiTablePagination-selectLabel {
-    color: var(--font-color);
+.css-rtrcn9-MuiTablePagination-root, .MuiTablePagination-selectLabel {
+    color: var(--font-color) !important;
+    font-family: inherit !important;
 }
 
 .css-194a1fa-MuiSelect-select-MuiInputBase-input.css-194a1fa-MuiSelect-select-MuiInputBase-input .css-194a1fa-MuiSelect-select-MuiInputBase-input {
@@ -292,11 +287,6 @@
 
 .css-rmmij8{
     color: var(--font-color) !important;
-}
-
-/* بعد الديبلوي في ستايلات مش شغاله معرفش بتتغير ولا ايه المشكله بظبط */
-.css-vubbuv{
-    
 }
 
 /* البتنز اللي جوا التيبل نفسها */
