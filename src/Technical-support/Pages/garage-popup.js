@@ -88,7 +88,7 @@ const GaragePopup = ({ onClose, darkMode }) => {
                     <input placeholder='Total Spaces' type="number" {...register("totalSpaces", { required: true })} />
                     {errors.totalSpaces && <span className="error">Total Spaces is required</span>}
                     
-                    <button className={`${styles.submit} ${styles.centeredButton}`} type="submit">Add</button>
+                    <button className={styles.submit} type="submit">Add</button>
                 </form>
             </div>
         </div>

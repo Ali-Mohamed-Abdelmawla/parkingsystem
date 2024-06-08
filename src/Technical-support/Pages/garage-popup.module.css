@@ -98,15 +98,8 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 .popup span{
-    color: #b32f2f;
-    font-size: 14px;
-    position: relative;
-    bottom:12px;
+    color:red;
 }
-.centeredButton {
-    margin: 0 auto; /* This will center the button horizontally */
-    display: block; /* This will make the button a block element, allowing margin: auto to center it horizontally */
-
 
 /*dark Mode*/
 .dark-mode .popup{
