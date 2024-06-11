@@ -1,5 +1,18 @@
 @import "./main.css";
 
+.GarageStatistics select {
+    background-color: #fff;
+    font-weight: bold;
+    width: 125px;
+    height: 30px;
+    border: 1px solid var(--special-color1);
+    border-radius: var(--card-border-radius);
+    color: var(--font-color);
+    margin: 5px;
+}
+[theme = dark] .GarageStatistics select {
+    background-color: var(--input-background-color);
+}
 .GarageStatistics{
     width:99% !important;
 }

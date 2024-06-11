@@ -207,6 +207,8 @@ const Garage = ({ handleDarkModeToggle }) => {
         >
           {darkmode ? "Light Mode" : "Dark Mode"}
         </div>
+        <h2>Garages</h2>
+
         <table className={`${styles["table-content"]} ${darkModeClass}`}>
           <thead>
             <tr>

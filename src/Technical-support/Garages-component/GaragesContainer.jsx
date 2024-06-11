@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import EmployeesTable from "./Employees";
-import EmployeesEditModal from "./EditEmployee";
-import EmployeesDeleteConfirmation from "./DeleteEmployee";
-import EmployeesViewModal from "./ViewEmployee";
-import BulkEmails from "./BulkEmails";
+import EmployeesTable from "./Garages";
+import EmployeesEditModal from "./EditGarage";
+import EmployeesDeleteConfirmation from "./DeleteGarage";
+import EmployeesViewModal from "./ViewGarage";
 import axiosInstance from "../../auth/axios";
-import Employeestyle from "../Styles/Employees.module.css";
+import Employeestyle from "../../System-admin/Styles/Employees.module.css";
 import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -13,7 +12,7 @@ import Loader from "../../helper/loading-component/loader";
 
 // لازم نريلود بعد التعديل
 
-function Employees() {
+function Garages() {
   const [loading, setLoading] = useState(false);
   const accessToken = sessionStorage.getItem("accessToken");
   const [employees, setEmployees] = useState([]);
@@ -23,8 +22,6 @@ function Employees() {
   const [editIndex, setEditIndex] = useState(null);
   const [showViewDetails, setShowViewDetails] = useState(false);
   const [viewIndex, setViewIndex] = useState(null);
-  const [showBulkEmails, setShowBulkEmails] = useState(false);
-  const [selectedEmployeeEmails, setSelectedEmployeeEmails] = useState([]);
   const [editedEmployee, setEditedEmployee] = useState({
     Name: "",
     UserName: "",
@@ -39,7 +36,7 @@ function Employees() {
     // Fetch employees from API on component mount
     setLoading(true);
     axiosInstance
-      .get(`/TechnicalSupport/GetAllUsers`, {
+      .get(`/TechnicalSupport/GetAllGarages`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
@@ -66,12 +63,16 @@ function Employees() {
   };
 
   const handleFormSubmit = (data) => {
+    console.log(editedEmployee);
     console.log(data);
     axiosInstance
-      .put(`/TechnicalSupport/EditUser/${editedEmployee.Id}`, data, {
+      .put(`/TechnicalSupport/UpdateGarage`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
+        },
+        params: {
+          id: editedEmployee.GarageId,
         },
       })
       .then((response) => {
@@ -83,7 +84,7 @@ function Employees() {
           .fire({
             icon: "success",
             title: "Success",
-            text: "Employee updated successfully",
+            text: "Garage updated successfully",
           })
           .then(() => {
             window.location.reload();
@@ -114,10 +115,13 @@ function Employees() {
 
   const handleConfirmDelete = () => {
     axiosInstance
-      .delete(`/TechnicalSupport/DeleteUser/${employees[deletionIndex].Id}`, {
+      .delete(`/TechnicalSupport/DeleteGarage`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
+        },
+        params: {
+          id: employees[deletionIndex].GarageId,
         },
       })
       .then(() => {
@@ -126,7 +130,7 @@ function Employees() {
         setEmployees(updatedEmployees);
         setShowDeleteConfirmation(false);
         setDeletionIndex(null);
-        Swal.fire("Success", "Employee deleted successfully", "success").then(
+        Swal.fire("Success", "Garage deleted successfully", "success").then(
           () => {
             window.location.reload();
           }
@@ -165,48 +169,6 @@ function Employees() {
     document.body.classList.remove(Employeestyle.viewModalActive);
   };
 
-  //============================= Bulk Email ========================
-  const handleBulkEmailClick = (selectedRows) => {
-    console.log(selectedRows);
-
-    setSelectedEmployeeEmails(selectedRows.map((row) => row.email));
-    setShowBulkEmails(true);
-    document.body.classList.add(Employeestyle.viewModalActive);
-  };
-
-  const handleBulkEmailSend = (title, message) => {
-    // Perform bulk email sending logic using selectedEmployeeEmails
-    axiosInstance
-      .post(
-        `/TechnicalSupport/SendBulkEmails`,
-        {
-          emails: selectedEmployeeEmails,
-          message: message,
-          title: title,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-        Swal.fire("Success", "Emails sent successfully", "success").then(() => {
-          setShowBulkEmails(false); // Close the pop-up after sending emails
-          document.body.classList.remove(Employeestyle.viewModalActive);
-        });
-      })
-      .catch((error) => {
-        console.error("Error sending emails:", error);
-        Swal.fire("Error", `Failed to send emails, ${error}`, "error");
-      });
-  };
-  const handleBulkEmailClose = () => {
-    setShowBulkEmails(false);
-    document.body.classList.remove(Employeestyle.viewModalActive);
-  };
 
   //============================= End ========================
 
@@ -232,7 +194,6 @@ function Employees() {
         handleEditClick={handleEditClick}
         handleDeleteClick={handleDeleteClick}
         handleViewClick={handleViewClick}
-        onBulkEmailClick={handleBulkEmailClick} // Pass the function to handle bulk email click
       />
       {showDeleteConfirmation && (
         <EmployeesDeleteConfirmation
@@ -255,14 +216,8 @@ function Employees() {
           handleCloseView={handleCloseView}
         />
       )}
-      {showBulkEmails && (
-        <BulkEmails
-          onClose={handleBulkEmailClose}
-          onSend={handleBulkEmailSend}
-        />
-      )}
     </>
   );
 }
 
-export default Employees;
+export default Garages;

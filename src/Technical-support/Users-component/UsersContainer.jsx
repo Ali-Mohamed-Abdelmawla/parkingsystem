@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
-import EmployeesTable from "./Employees";
-import EmployeesEditModal from "./EditEmployee";
-import EmployeesDeleteConfirmation from "./DeleteEmployee";
-import EmployeesViewModal from "./ViewEmployee";
+// import EmployeesTable from "./Employees";
+import UsersTable from "./Users";
+// import EmployeesEditModal from "./EditEmployee";
+// import EmployeesDeleteConfirmation from "./DeleteEmployee";
+// import EmployeesViewModal from "./ViewEmployee";
+import UsersDeleteConfirmation from "./DeleteUser";
+import UsersViewModal from "./ViewUser";
+import UsersModal from "./EditUser";
 import BulkEmails from "./BulkEmails";
 import axiosInstance from "../../auth/axios";
-import Employeestyle from "../Styles/Employees.module.css";
+import Employeestyle from "../../System-admin/Styles/Employees.module.css";
 import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -13,7 +17,7 @@ import Loader from "../../helper/loading-component/loader";
 
 // لازم نريلود بعد التعديل
 
-function Employees() {
+function SystemUsers() {
   const [loading, setLoading] = useState(false);
   const accessToken = sessionStorage.getItem("accessToken");
   const [employees, setEmployees] = useState([]);
@@ -67,6 +71,7 @@ function Employees() {
 
   const handleFormSubmit = (data) => {
     console.log(data);
+    data.Password = ""
     axiosInstance
       .put(`/TechnicalSupport/EditUser/${editedEmployee.Id}`, data, {
         headers: {
@@ -227,7 +232,7 @@ function Employees() {
 
   return (
     <>
-      <EmployeesTable
+      <UsersTable
         employees={employees}
         handleEditClick={handleEditClick}
         handleDeleteClick={handleDeleteClick}
@@ -235,13 +240,13 @@ function Employees() {
         onBulkEmailClick={handleBulkEmailClick} // Pass the function to handle bulk email click
       />
       {showDeleteConfirmation && (
-        <EmployeesDeleteConfirmation
+        <UsersDeleteConfirmation
           handleCancelDelete={handleCancelDelete}
           handleConfirmDelete={handleConfirmDelete}
         />
       )}
       {showEditPage && (
-        <EmployeesEditModal
+        <UsersModal
           title="Edit Employee"
           onClose={handleCloseEditClick}
           onSubmit={handleFormSubmit}
@@ -250,7 +255,7 @@ function Employees() {
         />
       )}
       {showViewDetails && (
-        <EmployeesViewModal
+        <UsersViewModal
           employee={employees[viewIndex]}
           handleCloseView={handleCloseView}
         />
@@ -265,4 +270,4 @@ function Employees() {
   );
 }
 
-export default Employees;
+export default SystemUsers;

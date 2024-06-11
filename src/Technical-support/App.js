@@ -1,93 +1,176 @@
-import { useState, useEffect } from "react";
-import Sidebar from "./Component/sidebar";
-import NavBar from "./Component/navbar";
-// import Dashboard from "./Pages/Dashboard";
-// import Employee from "./Pages/Users";
-// import Complaint from "./Pages/Complaints";
-// import Garages from "./Pages/Garages";
-import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
+import styles from "../System-admin/Styles/styles.module.css";
+// importing icons
+import Whitelogo from "./assets/LightMode/White-logo.svg";
+import DashboardIcon from "./assets/LightMode/dashboard-icon.svg";
+import UsersIcon from "./assets/LightMode/customer-services-icon.svg";
+import ComplaintsIcon from "./assets/LightMode/complaints-icon.svg";
+import GaragesIcon from "./assets/LightMode/add-garage.svg";
+import bulkEmailsIcon from "./assets/LightMode/bulkEmails.svg";
+
+
+import AddNewGarage from "./assets/LightMode/new-garage.svg";
+import AddUserIcon from "./assets/LightMode/add-employee-icon.svg";
+
+import Logout from "./assets/LightMode/log-out.svg";
+
+//pop-ups
+import AddGarage from "./pop-ups/addGarage";
+import AddUser from "./pop-ups/addUser";
+
+//Routes
+import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import axiosInstance from "../auth/axios";
-import Loader from "../helper/loading-component/loader";
-function App() {
-  const [userName, setUserName] = useState("");
-  const [loading,setLoading] = useState(false);
-  const getUserNamefromtoken = () => {
+import { jwtDecode } from "jwt-decode";
+
+function TheOne() {
+  const navigate = useNavigate();
+
+  const [showAddPage, setShowAddPage] = useState(false);
+  const [showAddGaragePage, setShowAddGaragePage] = useState(false);
+  const [userName, setUserName] = useState(null);
+
+  useEffect(() => {
     const token = sessionStorage.getItem("accessToken");
     if (token) {
       const decodedToken = jwtDecode(token);
       console.log(decodedToken);
       setUserName(decodedToken.FullName);
     }
+  }, []);
+
+  const handleAddBtn = () => {
+    setShowAddPage(true);
+    document.body.classList.add(styles.addModalActive);
   };
 
-  
-  const fetchComplaints = async () => {
-    try {
-      const accessToken = sessionStorage.getItem("accessToken");
-      setLoading(true);
-      const response = await axiosInstance.get(
-        "/api/Report/GetReportsBasedOnRole",
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const complaints = response.data;
-      sessionStorage.setItem("totalReports", response.data.length);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching complaints:", error);
-      setLoading(false);
+  const handleCloseAddBtn = () => {
+    setShowAddPage(false);
+    document.body.classList.remove(styles.addModalActive);
+  };
+
+  const handleAddGarageClick = () => {
+    setShowAddGaragePage(true);
+    document.body.classList.add(styles.addModalActive);
+  };
+
+  const handleCloseAddGarage = () => {
+    setShowAddGaragePage(false);
+    document.body.classList.remove(styles.addModalActive);
+  };
+
+  const handleDashboardClick = () => {
+    navigate("/TechnicalSupport");
+  };
+
+  const handleEmployeesClick = () => {
+    navigate("/TechnicalSupport/Users");
+  };
+
+  const handleComplaintsClick = () => {
+    navigate("/TechnicalSupport/Complaint");
+  };
+
+  const handleActiveSessionsClick = () => {
+    navigate("/TechnicalSupport/Garages");
+  };
+
+  const handleBulkEmailsClick = () => {
+    navigate("/TechnicalSupport/BulkEmails");
+  };
+
+  const handleLogoutBtn = () => {
+    sessionStorage.removeItem("accessToken");
+    document.documentElement.setAttribute("theme", "light");
+    navigate("/");
+    // بنمسح التوكن بس و نريدايركت اليوزر لصفحه اللوجن
+  };
+
+  const switchTheme = (e) => {
+    if (e.target.checked) {
+      document.documentElement.setAttribute("theme", "dark");
+    } else {
+      document.documentElement.setAttribute("theme", "light");
     }
   };
 
-  useEffect(() => {
-    getUserNamefromtoken();
-    fetchComplaints();
-  }, []);
-
-  const name = userName;
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const handleDarkModeToggle = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
-  if (loading) {
-    return (
-      <div
-        style={{
-          height: "50vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Loader />
-      </div>
-    );
-  }
-
   return (
-    <div className={`app ${isDarkMode ? "dark-mode" : ""}`}>
-      <NavBar
-        name={name}
-        isDarkMode={isDarkMode}
-        handleDarkModeToggle={handleDarkModeToggle}
-      />
-      <div className="content">
-        <Sidebar darkmode={isDarkMode} />
-        <DarkModeWrapper darkmode={isDarkMode} />
+    <div className={styles.container}>
+      <aside>
+        <div className={styles.toggle}>
+          <div className={styles.logo}>
+            <img src={Whitelogo} alt="logo" />
+            <h2>Rakna</h2>
+          </div>
         </div>
+
+        <div className={styles.sidebar}>
+          <button onClick={handleDashboardClick} id="Dashboardbtn">
+            <img src={DashboardIcon} alt="Dashboard icon" />
+            <b>Dashboard</b>
+          </button>
+          <button onClick={handleEmployeesClick} id="Employeebtn">
+            <img src={UsersIcon} alt="employee icon" />
+            <b>Users</b>
+          </button>
+          <button onClick={handleComplaintsClick} id="Complaintsbtn">
+            <img src={ComplaintsIcon} alt="complaints icon" />
+            <b>Complaints</b>
+          </button>
+          <button onClick={handleActiveSessionsClick}>
+            <img src={GaragesIcon} alt="activeSessions icon" />
+            <b>Garages</b>
+          </button>
+          <button onClick={handleBulkEmailsClick}>
+            <img src={bulkEmailsIcon} alt="activeSessions icon" />
+            <b>AllBulk Emails</b>
+          </button>
+
+          <button onClick={handleAddBtn}>
+            <img src={AddUserIcon} alt="add icon" />
+            <b>Add User</b>
+          </button>
+
+          <button id="AddComplaintsbtn" onClick={handleAddGarageClick}>
+            <img src={AddNewGarage} alt="complaints icon" />
+            <b>Add Garage</b>
+          </button>
+
+          <button onClick={handleLogoutBtn}>
+            <img src={Logout} alt="logout icon" />
+            <h3>Logout</h3>
+          </button>
+        </div>
+      </aside>
+
+      <main>
+        <div className={styles.rightSide}>
+          <div className={styles.Header}>
+            <div className={styles.titleBar}></div>
+            {/* here........................................................ */}
+            <div className={styles.Theme}>
+              <div className={styles.themeSwitchContainer}>
+                <label className={styles.themeSlider} htmlFor="checkbox">
+                  <input type="checkbox" id="checkbox" onChange={switchTheme} />
+                  <div className={`${styles.round} ${styles.slider}`}></div>
+                </label>
+              </div>
+            </div>
+
+            <p className={styles.Welcome}>
+              <small>Welcome, </small>
+              <h3> {userName} </h3>
+            </p>
+          </div>
+          <div className={styles.Content}>
+            {showAddPage && <AddUser onClose={handleCloseAddBtn} />}
+            {showAddGaragePage && <AddGarage onClose={handleCloseAddGarage} />}
+            <Outlet /> {/* This will render child routes like Employees */}
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
 
-export default App;
-
-const DarkModeWrapper = ({ darkmode }) => {
-  return <Outlet context={{ darkmode }} />;
-};
+export default TheOne;

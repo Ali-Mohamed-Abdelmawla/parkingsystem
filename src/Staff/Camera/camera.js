@@ -123,12 +123,6 @@ const arabicNumbers = recognizedPlate.match(/[\u0660-\u0669]/g) || [];
 
   };
 
-  // Function to start the parking session
-  // const startParkingSession = () => {
-  //   // Send a POST request to start parking session
-
-  // };
-
   // Function to fetch list of available media devices
   const getMediaDevices = async () => {
     try {

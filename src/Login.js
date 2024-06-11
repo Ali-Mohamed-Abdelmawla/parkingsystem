@@ -10,6 +10,7 @@ function App() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [Loading, setLoading] = useState(false);
+  const [showResetPassword,setShowResetPassword] = useState(false);
   const navigate = useNavigate(); // Hook for navigation
 
   const handleLogin = async () => {
@@ -61,6 +62,7 @@ function App() {
                     .then(() => {
                       navigate("");
                       setLoading(false);
+                      setShowResetPassword(true);
                     });
                 } else if (response.data.IsAuthenticated === false) {
                   swal
@@ -126,6 +128,7 @@ function App() {
               setPassword={setPassword}
               handleLogin={handleLogin}
               loading={Loading}
+              showResetPassword = {showResetPassword}
             />
           </div>
         </div>

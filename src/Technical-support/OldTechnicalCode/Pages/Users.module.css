@@ -3,38 +3,46 @@
     --second-color: #F2F1F1;
     --font-colour: #231F20;
     --button-border-radius: 5px;
-    --technical-box-shadow: 0px 4px 4px 0px ;
+    --technical-box-shadow: 0px 4px 4px 0px;
     --table-color: #FFFFFF;
     --high-light: #ED7F16;
 }
+
 body {
     background-color: var(--second-color);
     height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
-    font-size:16px;
-    
+    font-size: 16px;
+
 }
+
 html {
     height: 100%;
 }
+
 .component-body {
     overflow: auto;
-    padding: 50px; 
     margin-top: 0px;
 }
 
 .component-body::-webkit-scrollbar {
     width: 8px;
 }
+
 .component-body::-webkit-scrollbar-track {
-    background-color:var(--primary-color);
-    border-radius: 15px; 
-    margin: 5px 0; 
+    background-color: var(--primary-color);
+    border-radius: 15px;
+    margin: 5px 0;
+}
+
+.component-body h2 {
+    margin-top: 8rem;
+    margin-left: 275px;
 }
 
 .table-content {
-    margin-top: 8rem;
+    margin-top: 1rem;
     background-color: var(--table-color);
     width: 77%;
     padding: 0px;
@@ -69,7 +77,7 @@ html {
     padding: 15px;
     height: 2.8rem;
     color: var(--font-colour);
-    border: 0px solid var(--font-colour); 
+    border: 0px solid var(--font-colour);
 }
 
 .table-content tbody td:last-child {
@@ -119,14 +127,15 @@ html {
     transform: scaleY(0);
     transform-origin: top;
     transition: all 0.3s ease-in-out;
-    background-color:var(--second-color);
-    height:110px;
+    background-color: var(--second-color);
+    height: 110px;
 }
-.dropdown-menu button{
-    background-color:var(--primary-color);
+
+.dropdown-menu button {
+    background-color: var(--primary-color);
     border-radius: 1px;
-    height:100%;
-    margin-top: 0px;    
+    height: 100%;
+    margin-top: 0px;
     color: #000000;
 }
 
@@ -135,21 +144,25 @@ html {
     opacity: 1;
     transform: scaleY(1);
 }
+
 .dropdown-menu hr {
     border: 1px solid #0000002a;
     margin: 0 1px;
 }
+
 .dropdown-button {
     padding: 5px;
-    text-align:left;
+    text-align: left;
     border: none;
     background-color: transparent;
     cursor: pointer;
     border-radius: var(--button-border-radius);
 }
+
 .dropdown-button:hover {
     background-color: rgba(0, 0, 0, 0.205);
 }
+
 /*delete*/
 .delete-confirmation {
     position: fixed;
@@ -166,6 +179,7 @@ html {
     min-width: 454.25px;
     width: 25vw;
 }
+
 .delete-confirmation .delete-content {
     padding: 20px;
     display: flex;
@@ -173,12 +187,13 @@ html {
     justify-content: space-between;
     background-color: var(--primary-color);
 }
+
 .delete-confirmation p {
     margin-bottom: 20px;
     align-self: flex-start;
 }
 
-.delete-confirmation button{
+.delete-confirmation button {
     margin-left: 2px;
     padding: 0px 1px;
     background-color: transparent;
@@ -187,8 +202,9 @@ html {
     cursor: pointer;
     align-self: flex-end;
     font-weight: bolder;
-    
+
 }
+
 .delete-confirmation .border {
     width: 100%;
     height: 15%;
@@ -196,20 +212,25 @@ html {
     border-top-left-radius: 5px;
     background-color: var(--font-colour);
 }
-.button1:hover{
-    background-color:#E2DCC8;
+
+.button1:hover {
+    background-color: #E2DCC8;
 }
-.button2:hover{
-    background-color:#E2DCC8;
+
+.button2:hover {
+    background-color: #E2DCC8;
 }
+
 .delete-confirmation .button1 {
     color: var(--high-light);
 }
+
 .delete-confirmation button:last-child {
     color: var(--font-colour);
 }
+
 body.delete-modal-active {
-    overflow:hidden;
+    overflow: hidden;
 }
 
 body.deleteModalActive::before {
@@ -241,10 +262,12 @@ body.deleteModalActive::before {
     text-align: center;
     font-weight: bold;
 }
-.edit-modal label{
+
+.edit-modal label {
     font-size: 20px;
 }
-.edit-modal .but{
+
+.edit-modal .but {
     float: right;
     padding: 8px;
     margin-top: 0px;
@@ -253,27 +276,30 @@ body.deleteModalActive::before {
     background-color: var(--primary-color);
     cursor: pointer;
 }
-.edit-modal .add-title .edit-model-buttons{
+
+.edit-modal .add-title .edit-model-buttons {
     position: absolute;
 }
-.edit-modal .edit-model-buttons button{
-    background-color:#231F20;
+
+.edit-modal .edit-model-buttons button {
+    background-color: #231F20;
     color: #F2F1F1;
     padding: 10px 25px;
     font-weight: bold;
     margin-top: 15px;
     border-radius: 5px;
 }
+
 .edit-modal h2 {
     text-align: center;
     margin: 10px auto;
-  }
- 
-  .edit-modal hr {
+}
+
+.edit-modal hr {
     width: 300px;
     border: 1px solid black;
     margin: 0px auto 15px;
-  }
+}
 
 
 .edit-modal form {
@@ -283,7 +309,8 @@ body.deleteModalActive::before {
     border-radius: 15px;
     background-color: var(--primary-color);
 }
-.edit-modal form input{
+
+.edit-modal form input {
     width: 70%;
     height: 347px;
     max-height: 350px;
@@ -300,33 +327,34 @@ body.deleteModalActive::before {
     color: var(--font-color);
 }
 
-.dark-mode .edit-modal form input{
+.dark-mode .edit-modal form input {
     background-color: #3f3f3f;
     color: #F2F1F1;
 }
 
-.edit-modal span{
+.edit-modal span {
     color: #b32f2f;
     align-self: center;
     margin: 2px;
- 
+
 }
 
 
 /*view*/
-.view-modal{
+.view-modal {
     position: fixed;
     top: 50%;
     left: 55%;
     transform: translate(-50%, -50%);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     z-index: 1000;
-    width:26%;
-    height:34%;
+    width: 26%;
+    height: 34%;
     border-radius: 20px;
     box-shadow: var(--technical-box-shadow);
     transition: all 0.3s ease;
 }
+
 .view-modal .modal-content {
     background-color: var(--primary-color);
     border-radius: 20px;
@@ -334,28 +362,34 @@ body.deleteModalActive::before {
     height: 100%;
     padding: 9px;
 }
-.modal-details label,.name label{
+
+.modal-details label,
+.name label {
     margin-top: 2px;
     display: block;
 }
+
 .view-modal .modal-content .view-close-buttons {
     border-color: var(--primary-color);
     border: none;
     margin-top: 60px;
-    margin-left:260px;
+    margin-left: 260px;
 }
-.view-modal .modal-content button{
+
+.view-modal .modal-content button {
     background-color: #231F20;
-    color:#F2F1F1;
+    color: #F2F1F1;
     padding: 5px 15px;
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
 }
-.name label{
+
+.name label {
     color: #ED7F16;
 }
-.name b{
+
+.name b {
     color: #000;
 }
 
@@ -364,6 +398,7 @@ body.deleteModalActive::before {
     background-color: #000000;
     color: #F2F1F1;
 }
+
 .dark-mode thead {
     background-color: #8C8671;
 }
@@ -443,46 +478,52 @@ body.deleteModalActive::before {
     height: 100vh;
     width: 100%;
 }
-.dark-mode.component-body{
+
+.dark-mode.component-body {
     background-color: #231F20;
 }
-.but img{
+
+.but img {
     width: 30px;
     height: 40px;
 }
-.dark-mode .but img{
+
+.dark-mode .but img {
     width: 30px;
     height: 40px;
-    background-color:#231F20;
-    color:white;
+    background-color: #231F20;
+    color: white;
 }
-.dark-mode .delete-content .button2{
+
+.dark-mode .delete-content .button2 {
     color: #FFFFFF;
     background-color: #000000;
 }
-.dark-mode input{
+
+.dark-mode input {
     color: #FFFFFF;
 }
-.dark-mode .table-content tbody td{
+
+.dark-mode .table-content tbody td {
 
     color: #FFFFFF;
 }
-.dark-mode .dropdown-menu  button{
+
+.dark-mode .dropdown-menu button {
     background-color: #000000;
     color: #FFFFFF;
 }
-.dark-mode .dropdown-menu hr{
+
+.dark-mode .dropdown-menu hr {
     background-color: #231F20;
 }
-.dark-mode .dropdown-menu{
+
+.dark-mode .dropdown-menu {
     background-color: #231F20;
 }
+
 .dark-mode.component-body::-webkit-scrollbar-track {
-    background-color:#000000;
-    border-radius: 15px; 
-    margin: 5px 0; 
+    background-color: #000000;
+    border-radius: 15px;
+    margin: 5px 0;
 }
-
-
-
-

@@ -1,18 +1,23 @@
 //===============================chartJS===========================================================
 
 import { useEffect, useState } from "react";
-import DashboardStyle from "../Styles/Dashboard.module.css";
-import operations from "../assets/light-mode/parking-op.svg";
-import revenue from "../assets/light-mode/revenue.svg";
-import expenses from "../assets/light-mode/expenses.svg";
+import DashboardStyle from "../../System-admin/Styles/Dashboard.module.css";
+import operations from "../assets/LightMode/parking-op.svg";
+import revenue from "../assets/LightMode/revenue.svg";
 import Card from "./Card";
 import ColumnChart from "./chartJS components/ColumnChart";
 import PieChart from "./chartJS components/PieChart";
-import DataGrid from "../Styled-Table/CustomDataGrid";
+import DataGrid from "../../System-admin/Styled-Table/CustomDataGrid";
 import axiosInstance from "./../../auth/axios";
 import Swal from "sweetalert2";
 import Loader from "../../helper/loading-component/loader";
 function formatFriendlyTime(timeString) {
+  // Check if the time string is undefined
+  if (typeof timeString === "undefined" || timeString === null) {
+    return "Invalid time";
+  }
+
+  console.log(timeString);
   const [hours, minutes, secondsWithMilliseconds] = timeString
     .split(":")
     .map(Number);
@@ -60,21 +65,44 @@ function formatHourvalue(timeValue) {
   return formattedTime;
 }
 
-const Dashboard = () => {
-  const [loading, setLoading] = useState(false);
+const formatDate = (date) => {
+  const month = date.getMonth() + 1; // months are 0-based
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
+};
+
+const DashboardforTechnicalSupport = () => {
   const accessToken = sessionStorage.getItem("accessToken");
   const today = new Date();
-  const formattedToday = `${
-    today.getMonth() + 1
-  }-${today.getDate()}-${today.getFullYear()}`;
-  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-  const formattedStartOfMonth = `${
-    startOfMonth.getMonth() + 1
-  }-${startOfMonth.getDate()}-${startOfMonth.getFullYear()}`;
+  const startOfCurrentMonth = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    1
+  );
+  const startOfPreviousMonth = new Date(
+    today.getFullYear(),
+    today.getMonth() - 1,
+    1
+  );
+  if (today.getMonth() === 0) {
+    // if current month is January
+    startOfPreviousMonth.setFullYear(today.getFullYear() - 1);
+  }
+  const startOfCurrentMonthLastYear = new Date(
+    today.getFullYear() - 1,
+    today.getMonth(),
+    1
+  );
 
-  const [startDate, setStartDate] = useState(formattedStartOfMonth);
-  const [endDate, setEndDate] = useState(formattedToday);
+  const [loading, setLoading] = useState(false);
+  const [startDate, setStartDate] = useState(
+    formatDate(startOfCurrentMonthLastYear)
+  );
+  const [endDate, setEndDate] = useState(formatDate(startOfCurrentMonth));
   const [statistics, setStatistics] = useState(null);
+  const [garagesIds, setGaragesIds] = useState(null);
+  const [specificGarageData, setSpecificGarageData] = useState(null);
   const [revenueColumnChartData, setRevenueColumnChartData] = useState(null);
   const [revenueColumnChartOptions, setRevenueColumnChartOptions] =
     useState(null);
@@ -117,7 +145,7 @@ const Dashboard = () => {
   useEffect(() => {
     setLoading(true);
     axiosInstance
-      .get(`/api/GarageAdmin/GetAllStatsFast`, {
+      .get(`/TechnicalSupport/GetAllGarageStatistics`, {
         params: { StartDate: startDate, EndDate: endDate },
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -127,6 +155,12 @@ const Dashboard = () => {
       .then((response) => {
         setStatistics(response.data);
         console.log(response.data);
+
+        const garageIds = [];
+        for (let i = 0; i < response.data.length; i++) {
+          garageIds.push(response.data[i].GarageId);
+        }
+        setGaragesIds(garageIds);
         setLoading(false);
       })
       .catch((error) => {
@@ -144,24 +178,19 @@ const Dashboard = () => {
     if (!statistics) {
       return;
     }
+
     // Payment options
     const data = {
-      labels: ["Payment options"],
+      labels: ["Cash", "Card", "Mobile"],
       datasets: [
         {
-          label: "Cash",
-          data: [parseInt(statistics.TotalRevenue.NumberOfCashPayments)],
-          backgroundColor: ["#e0440e"],
-        },
-        {
-          label: "Card",
-          data: [parseInt(statistics.TotalRevenue.NumberOfCardPayments)],
-          backgroundColor: ["#e6693e"],
-        },
-        {
-          label: "MobilePayments",
-          data: [parseInt(statistics.TotalRevenue.NumberOfMobilePayments)],
-          backgroundColor: ["#ec8f6e"],
+          label: "Number of Payments",
+          data: [
+            parseInt(specificGarageData?.TotalRevenue?.NumberOfCashPayments),
+            parseInt(specificGarageData?.TotalRevenue?.NumberOfCardPayments),
+            parseInt(specificGarageData?.TotalRevenue?.NumberOfMobilePayments),
+          ],
+          backgroundColor: ["#e0440e", "#e6693e", "#ec8f6e"],
         },
       ],
     };
@@ -183,12 +212,12 @@ const Dashboard = () => {
       datasets: [
         {
           label: "Actual Payments",
-          data: [parseInt(statistics.TotalRevenue.SumActualPayments)],
+          data: [parseInt(specificGarageData?.TotalRevenue?.SumActualPayments)],
           backgroundColor: "#e0440e",
         },
         {
           label: "Profit From Overpay",
-          data: [parseInt(statistics.TotalRevenue.ProfitFromOverpay)],
+          data: [parseInt(specificGarageData?.TotalRevenue?.ProfitFromOverpay)],
           backgroundColor: "#e6693e",
         },
       ],
@@ -220,13 +249,20 @@ const Dashboard = () => {
         {
           label: "Types of complaints",
           data: [
-            statistics.ComplaintsStatistics.ComplaintsByType.Other || 0,
-            statistics.ComplaintsStatistics.ComplaintsByType.SystemError,
-            statistics.ComplaintsStatistics.ComplaintsByType.BillingError,
-            statistics.ComplaintsStatistics.ComplaintsByType.ServiceDelay,
-            statistics.ComplaintsStatistics.ComplaintsByType.EquipmentIssue,
-            statistics.ComplaintsStatistics.ComplaintsByType.PolicyViolation,
-            statistics.ComplaintsStatistics.ComplaintsByType.CustomerFeedback,
+            specificGarageData?.ComplaintsStatistics?.ComplaintsByType?.Other ||
+              0,
+            specificGarageData?.ComplaintsStatistics?.ComplaintsByType
+              ?.SystemError,
+            specificGarageData?.ComplaintsStatistics?.ComplaintsByType
+              ?.BillingError,
+            specificGarageData?.ComplaintsStatistics?.ComplaintsByType
+              ?.ServiceDelay,
+            specificGarageData?.ComplaintsStatistics?.ComplaintsByType
+              ?.EquipmentIssue,
+            specificGarageData?.ComplaintsStatistics?.ComplaintsByType
+              ?.PolicyViolation,
+            specificGarageData?.ComplaintsStatistics?.ComplaintsByType
+              ?.CustomerFeedback,
           ],
           backgroundColor: [
             "#FF6384",
@@ -267,20 +303,20 @@ const Dashboard = () => {
         {
           label: "Types of complaints",
           data: [
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.Other ||
-              0,
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
-              .SystemError,
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
-              .BillingError,
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
-              .ServiceDelay,
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
-              .EquipmentIssue,
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
-              .PolicyViolation,
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
-              .CustomerFeedback,
+            specificGarageData?.ComplaintsStatistics_nonsolved?.ComplaintsByType
+              ?.Other || 0,
+            specificGarageData?.ComplaintsStatistics_nonsolved?.ComplaintsByType
+              ?.SystemError,
+            specificGarageData?.ComplaintsStatistics_nonsolved?.ComplaintsByType
+              ?.BillingError,
+            specificGarageData?.ComplaintsStatistics_nonsolved?.ComplaintsByType
+              ?.ServiceDelay,
+            specificGarageData?.ComplaintsStatistics_nonsolved?.ComplaintsByType
+              ?.EquipmentIssue,
+            specificGarageData?.ComplaintsStatistics_nonsolved?.ComplaintsByType
+              ?.PolicyViolation,
+            specificGarageData?.ComplaintsStatistics_nonsolved?.ComplaintsByType
+              ?.CustomerFeedback,
           ],
           backgroundColor: [
             "#FF6384",
@@ -313,8 +349,10 @@ const Dashboard = () => {
         {
           label: "Density",
           data: [
-            statistics.ReservedVsNonReservedParkingUsage.ReservedCount,
-            statistics.ReservedVsNonReservedParkingUsage.NonReservedCount,
+            specificGarageData?.ReservedVsNonReservedParkingUsage
+              ?.ReservedCount,
+            specificGarageData?.ReservedVsNonReservedParkingUsage
+              ?.NonReservedCount,
           ],
           backgroundColor: ["#b87333", "silver"],
         },
@@ -342,7 +380,9 @@ const Dashboard = () => {
         {
           label: "Peak",
           data: Array.from({ length: 24 }, (_, i) =>
-            statistics.PeakParkingHours.PeakHoursOfTheDay.includes(i) ? 1 : 0
+            specificGarageData?.PeakParkingHours?.PeakHoursOfTheDay?.includes(i)
+              ? 1
+              : 0
           ),
           backgroundColor: "#FF6384",
         },
@@ -378,7 +418,11 @@ const Dashboard = () => {
         {
           label: "Peak",
           data: Array.from({ length: 24 }, (_, i) =>
-            statistics.TotalReservations.PeakHoursOfTheDay.includes(i) ? 1 : 0
+            specificGarageData?.TotalReservations?.PeakHoursOfTheDay?.includes(
+              i
+            )
+              ? 1
+              : 0
           ),
           backgroundColor: "#FF6384",
         },
@@ -408,17 +452,18 @@ const Dashboard = () => {
     setReservationPeakHoursOptions(reservationPeakHoursOptions);
 
     // Staff activities
-    if (statistics.StaffActivityRating.StaffActivities?.length > 0) {
-      const rows = statistics.StaffActivityRating.StaffActivities?.map(
-        (staffActivity, index) => ({
-          id: index,
-          ...staffActivity,
-        })
-      );
+    if (specificGarageData?.StaffActivityRating?.StaffActivities?.length > 0) {
+      const rows =
+        specificGarageData?.StaffActivityRating?.StaffActivities?.map(
+          (staffActivity, index) => ({
+            id: index,
+            ...staffActivity,
+          })
+        );
 
       setStaffactivityRows(rows);
     }
-  }, [statistics]);
+  }, [specificGarageData]);
 
   if (loading) {
     return (
@@ -434,6 +479,14 @@ const Dashboard = () => {
       </div>
     );
   }
+
+  const handleGarageChange = (event) => {
+    const selectedGarageId = event.target.value;
+    const garageData = statistics.find(
+      (stat) => stat.GarageId === selectedGarageId
+    );
+    setSpecificGarageData(garageData);
+  };
 
   return (
     <>
@@ -463,19 +516,30 @@ const Dashboard = () => {
                 required
               />
             </div>
+            <label htmlFor="garage">Garage:</label>
+            <select id="garage" name="garage" onChange={handleGarageChange}>
+              <option value="">Select a garage</option>
+              {garagesIds.map((id) => (
+                <option key={id} value={id}>
+                  {id}
+                </option>
+              ))}
+            </select>
           </div>
           <div className={DashboardStyle.statisticsContents}>
             <div className={DashboardStyle.StatisticsCard}>
               <h4 style={{ textAlign: "left" }}>Reservations</h4>
               <p>
                 Total number of reservations:{" "}
-                <span>{statistics.TotalReservations.NumberOfReservations}</span>
+                <span>
+                  {specificGarageData?.TotalReservations?.NumberOfReservations}
+                </span>
               </p>
               <p>
                 Total revenue of reservations:{" "}
                 <span>
                   {formatCurrency(
-                    statistics.TotalReservations.SumReservationMoney
+                    specificGarageData?.TotalReservations?.SumReservationMoney
                   )}
                 </span>
               </p>
@@ -504,7 +568,9 @@ const Dashboard = () => {
               <p>
                 Required Payments are :{" "}
                 <span>
-                  {formatCurrency(statistics.TotalRevenue.SumRequiredPayments)}
+                  {formatCurrency(
+                    specificGarageData?.TotalRevenue?.SumRequiredPayments
+                  )}
                 </span>
               </p>
               <div className={DashboardStyle.StatisticsCardContent}>
@@ -533,17 +599,18 @@ const Dashboard = () => {
                 Average resolution time is :{" "}
                 <span>
                   {formatFriendlyTime(
-                    statistics.ComplaintsStatistics.AverageResolutionTime
+                    specificGarageData?.ComplaintsStatistics
+                      ?.AverageResolutionTime
                   )}
                 </span>
               </p>
               <p>
                 Total forwarded complaints:{" "}
                 <span>
-                  {statistics.ComplaintsStatistics
-                    .NumberOfComplaintsForwardedToGarage +
-                    statistics.ComplaintsStatistics_nonsolved
-                      .NumberOfComplaintsForwardedToGarage}
+                  {specificGarageData?.ComplaintsStatistics
+                    ?.NumberOfComplaintsForwardedToGarage +
+                    specificGarageData?.ComplaintsStatistics_nonsolved
+                      ?.NumberOfComplaintsForwardedToGarage}
                 </span>
               </p>
               <div className={DashboardStyle.StatisticsCardContent}>
@@ -582,13 +649,15 @@ const Dashboard = () => {
             <Card
               title="Average parking time"
               value={formatFriendlyTime(
-                statistics.AverageParkingDuration.AverageDuration
+                specificGarageData?.AverageParkingDuration?.AverageDuration
               )}
               icon={operations}
             />
             <Card
               title="Total salary paid"
-              value={formatCurrency(statistics.TotalSalaryPaid.TotalSalaryPaid)}
+              value={formatCurrency(
+                specificGarageData?.TotalSalaryPaid?.TotalSalaryPaid
+              )}
               icon={revenue}
             />
 
@@ -603,7 +672,7 @@ const Dashboard = () => {
                       paginationModel: { page: 0, pageSize: 5 },
                     },
                   }}
-                  pageSizeOptions={[5, 8, 13]}
+                  pageSizeOptions={[5, 8, 11]}
                 />
               )}
             </div>
@@ -614,4 +683,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardforTechnicalSupport;

@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 
 import Login from "./Login";
+import ResetPassword from "./ResetPassword";
 import SystemAdmin from "./System-admin/index";
 import CustomerService from "./Customer-service/index";
 import TechnicalSupport from "./Technical-support/App";
@@ -28,11 +29,11 @@ import Reports from "./Staff/pages/Reports-component/ReportsPage";
 import ComplaintsforCustomerService from "./Customer-service/Complaints-component/ComplaintsContainer";
 
 // technical support components
-import ComplaintsforTechnicalSupport from "./Technical-support/Pages/Complaints";
-import DashboardforTechnicalSupport from "./Technical-support/Pages/Dashboard";
-import UsersforTechnicalSupport from "./Technical-support/Pages/Users"
-import Garage from "./Technical-support/Pages/Garages";
-
+import DashboardforTechnicalSupport from './Technical-support/Dashboard-component/Dashboard';
+import SystemUsers from "./Technical-support/Users-component/UsersContainer";
+import ComplaintsforTechnicalSupport from "./Technical-support/Complaints-component/ComplaintsContainer";
+import Garages from "./Technical-support/Garages-component/GaragesContainer";
+import BulkEmails from "./Technical-support/BulkEmails-component/BulkEmails";
 import GarageStaff from "./Staff/App";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -70,6 +71,10 @@ function App() {
   let router = createBrowserRouter([
     {
       path: "/",
+      element: <Login />,
+    },
+    {
+      path: "/resetpassword",
       element: <Login />,
     },
     {
@@ -126,8 +131,8 @@ function App() {
           element:<DashboardforTechnicalSupport />
         },
         {
-          path:"/TechnicalSupport/Employee",
-          element:<UsersforTechnicalSupport />
+          path:"/TechnicalSupport/Users",
+          element:<SystemUsers />
         },
         {
           path:"/TechnicalSupport/Complaint",
@@ -135,7 +140,11 @@ function App() {
         },
         {
           path:"/TechnicalSupport/Garages",
-          element:<Garage />
+          element:<Garages />
+        },
+        {
+          path:"/TechnicalSupport/BulkEmails",
+          element:<BulkEmails />
         },
       ],
     },

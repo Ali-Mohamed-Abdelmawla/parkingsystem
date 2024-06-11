@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import LoadingButton from "@mui/lab/LoadingButton";
 // import SendIcon from "@mui/icons-material/Send";
 import LoginIcon from '@mui/icons-material/Login';
+import { useNavigate } from "react-router-dom";
 const LoginForm = ({
   username,
   password,
@@ -11,13 +12,14 @@ const LoginForm = ({
   setPassword,
   handleLogin,
   loading,
+  showResetPassword,
 }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const navigate = useNavigate();
   const onSubmit = (data) => {
     handleLogin(data);
   };
@@ -42,6 +44,7 @@ const LoginForm = ({
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      {/* <div onClick={() => navigate("/resetpassword")} className={Loginstyles.forgotPassword}>forgot your password?</div> */}
       {errors.password && (
         <div className={Loginstyles.error}>{errors.password.message}</div>
       )}
