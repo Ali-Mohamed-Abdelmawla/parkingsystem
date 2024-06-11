@@ -272,6 +272,9 @@
   Filter: invert(1)
 }
 
+.container .error-message{
+  color: #b32f2f;
+}
 
 
 .dark-mode .C-Vehicle-info {
@@ -325,7 +328,8 @@
 .payment-input {
   background-color: #E2DCC8;
   border-radius: 3px;
-  border: 2px solid #231F20;
+  border: 1px solid #231F20;
+  padding: 5px;
   font-weight: bold;
   font-size: 18px;
   color: #231F20

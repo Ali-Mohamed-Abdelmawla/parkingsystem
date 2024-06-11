@@ -8,13 +8,6 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
     formState: { errors },
   } = useForm();
 
-  //  handleInputChange = (e) => {
-  //   // Assuming you have a way to update the form values in your state
-  //   // For example, if you're using a state variable to hold the form values
-  //   // You would update that state here instead of directly manipulating the DOM
-  //   // This is just a placeholder to show where you'd handle input changes
-  //   console.log(e.target.name, e.target.value);
-  // };
 
   return (
     <div className={Employeestyle.editModal}>
@@ -40,12 +33,16 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
             required: "User name is required",
             minLength: {
               value: 5,
-              message: "Username must be 5 to 20 characters long",
+              message: "Username must be at least 5 characters long"
             },
             maxLength: {
               value: 20,
-              message: "Username must be 5 to 20 characters long",
+              message: "Username must be at most 20 characters long"
             },
+            pattern: {
+              value: /^[a-zA-Z0-9]+$/,
+              message: "Username must contain only letters and numbers"
+            }
           })}
           type="text"
           placeholder="userName"
@@ -121,8 +118,8 @@ function EmployeesModal({ title, onClose, onSubmit, editedEmployee, handleInputC
             minLength: 1,
             maxLength: 11,
             pattern: {
-              value: /^\d+$/,
-              message: "The entered value should be a number",
+              value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
+              message: "The entered value should be a valid salary",
             },
           })}
           type="text"

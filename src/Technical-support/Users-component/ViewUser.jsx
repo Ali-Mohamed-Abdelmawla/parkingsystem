@@ -23,6 +23,11 @@ function UsersViewModal({ employee, handleCloseView }) {
           </span>
           <br />
           <span className={Employeestyle.block}>
+            <b>NationalId: </b>{" "}
+            <span className={Employeestyle.data}>{employee.NationalId}</span>
+          </span>
+          <br />
+          <span className={Employeestyle.block}>
             <b>Email Address: </b>{" "}
             <span className={Employeestyle.data}>{employee.Email}</span>
           </span>

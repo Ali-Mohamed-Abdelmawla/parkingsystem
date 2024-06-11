@@ -205,10 +205,17 @@ const AddUser = ({ onClose, darkMode }) => {
             type="text"
             {...register("UserName", {
               required: "Username is required",
+              minLength: {
+                value: 5,
+                message: "Username must be at least 5 characters long",
+              },
+              maxLength: {
+                value: 20,
+                message: "Username must be at most 20 characters long",
+              },
               pattern: {
-                value: /^[a-zA-Z0-9]{5,20}$/,
-                message:
-                  "Username must be 5 to 20 characters long with no spaces and special characters",
+                value: /^[a-zA-Z0-9]+$/,
+                message: "Username must contain only letters and numbers",
               },
             })}
           />
@@ -238,11 +245,15 @@ const AddUser = ({ onClose, darkMode }) => {
               required: "Phone Number is required",
               minLength: {
                 value: 11,
-                message: "Phone Number must be exactly 11 digits",
+                message: "Your entry needs to be 11 digits long.",
               },
               maxLength: {
                 value: 11,
-                message: "Phone Number must be exactly 11 digits",
+                message: "Please limit your entry to 11 digits.",
+              },
+              pattern: {
+                value: /^\d+$/, // Regular expression to match only digits
+                message: "The entered value should be a number",
               },
             })}
           />
@@ -253,13 +264,19 @@ const AddUser = ({ onClose, darkMode }) => {
           <input
             placeholder="Salary"
             type="number"
-            {...register("Salary", { required: "Salary is required" })}
+            {...register("Salary", {
+              required: "Salary is required",
+              pattern: {
+                value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
+                message: "The entered value should be a number",
+              },
+            })}
           />
           {errors.Salary && (
             <span className={styles.error}>{errors.Salary.message}</span>
           )}
 
-          <div style={{ width: "80%", margin: "8px" }}>
+          <div style={{ width: "80%", margin: "8px",textAlign: "left" }}>
             <Controller
               name="GarageId"
               control={control}
@@ -280,7 +297,7 @@ const AddUser = ({ onClose, darkMode }) => {
             <span className={styles.error}>{errors.GarageId.message}</span>
           )}
 
-          <div style={{ width: "80%", margin: "8px" }}>
+          <div style={{ width: "80%", margin: "8px",textAlign: "left" }}>
             <Controller
               name="Role"
               control={control}

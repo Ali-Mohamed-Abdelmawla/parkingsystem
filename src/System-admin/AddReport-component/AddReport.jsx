@@ -31,7 +31,9 @@ const AddReport = ({ onClose }) => {
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: ` ${response.data.Message}`,
+          // text: ` ${response.data.Message}`,
+          text: `Report submitted successfully`,
+
         });
         handleCloseAddBtn();
         setLoading(false);

@@ -33,9 +33,11 @@ const AddEmployee = ({ onClose }) => {
           icon: "success",
           title: "Success",
           text: "Employee added successfully",
+        }).then(() => {
+          onClose();
+          setLoading(false);
+          window.location.reload();
         });
-        onClose();
-        setLoading(false);
       })
       .catch((error) => {
         console.error("Error adding employee:", error);
@@ -74,7 +76,18 @@ const AddEmployee = ({ onClose }) => {
           )}
           <input
             {...register("userName", {
-              required: { value: true, message: "User name is required" },
+              minLength: {
+                value: 5,
+                message: "Username must be at least 5 characters long",
+              },
+              maxLength: {
+                value: 20,
+                message: "Username must be at most 20 characters long",
+              },
+              pattern: {
+                value: /^[a-zA-Z0-9]+$/,
+                message: "Username must contain only letters and numbers",
+              },
             })}
             type="text"
             placeholder="UserName"
@@ -163,7 +176,7 @@ const AddEmployee = ({ onClose }) => {
               minLength: 1,
               maxLength: 11,
               pattern: {
-                value: /^\d+$/, // Regular expression to match only digits
+                value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
                 message: "The entered value should be a number",
               },
             })}

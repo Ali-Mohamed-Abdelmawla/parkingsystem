@@ -3,8 +3,10 @@ import Loginstyles from "./Login.module.css";
 import { useForm } from "react-hook-form";
 import LoadingButton from "@mui/lab/LoadingButton";
 // import SendIcon from "@mui/icons-material/Send";
-import LoginIcon from '@mui/icons-material/Login';
+import LoginIcon from "@mui/icons-material/Login";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "./auth/axios";
+import Swal from "sweetalert2";
 const LoginForm = ({
   username,
   password,
@@ -13,6 +15,8 @@ const LoginForm = ({
   handleLogin,
   loading,
   showResetPassword,
+  resetPasswordLoading,
+  setResetPasswordLoading
 }) => {
   const {
     register,
@@ -22,6 +26,34 @@ const LoginForm = ({
   const navigate = useNavigate();
   const onSubmit = (data) => {
     handleLogin(data);
+  };
+
+  const handleForgotPassword = () => {
+    console.log(username);
+    setResetPasswordLoading(true);
+    axiosInstance.post(
+      "/api/Auth/RequestPasswordReset",
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        params: {
+          email: username,
+        },
+      }
+    ).then((response) => {
+      console.log(response);
+      setResetPasswordLoading(false);
+      navigate("/resetpassword");
+
+    }).catch((error) => {
+      console.log(error);
+      setResetPasswordLoading(false);
+      if(error.response.data.includes("User not found.")){
+        Swal.fire("Error", "Email is not found", "error");
+      }
+    })
   };
 
   return (
@@ -47,6 +79,11 @@ const LoginForm = ({
       {/* <div onClick={() => navigate("/resetpassword")} className={Loginstyles.forgotPassword}>forgot your password?</div> */}
       {errors.password && (
         <div className={Loginstyles.error}>{errors.password.message}</div>
+      )}
+      {showResetPassword && (
+        <div className={Loginstyles.error} onClick={handleForgotPassword}>
+          forgot your password?
+        </div>
       )}
 
       <div className={Loginstyles.loginFormButtons}>

@@ -1,13 +1,12 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import axiosInstance from "../../auth/axios";
 import Swal from "sweetalert2";
-import closeDark from "../assets/DarkMode/false-dark.svg";
 import closeLight from "../assets/LightMode/false.svg";
 import styles from "./garage-popup.module.css";
 import { useForm } from "react-hook-form";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from "@mui/icons-material/Add";
-const AddGarage = ({ onClose, darkMode }) => {
+const AddGarage = ({ onClose }) => {
   const {
     register,
     handleSubmit,
@@ -23,7 +22,7 @@ const AddGarage = ({ onClose, darkMode }) => {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       };
-      setLoading(true)
+      setLoading(true);
       const response = await axiosInstance.post(
         "/TechnicalSupport/AddGarage",
         formData,
@@ -42,7 +41,7 @@ const AddGarage = ({ onClose, darkMode }) => {
         reset(); // Reset form fields
         onClose(); // Close popup
         window.location.reload();
-        setLoading(false)
+        setLoading(false);
       });
     } catch (error) {
       console.error("Error adding garage:", error);
@@ -53,20 +52,18 @@ const AddGarage = ({ onClose, darkMode }) => {
         text: "Failed to add garage. Please try again later.",
         confirmButtonColor: "#f44336",
       }).then(() => {
-        setLoading(false)
-      })
+        setLoading(false);
+      });
     }
   };
 
   return (
-    <div className={`${styles.popup} ${darkMode ? styles["dark-mode"] : ""}`}>
+    <div className={`${styles.popup}`}>
       <div
-        className={`${styles["popup-inner"]} ${
-          darkMode ? styles["dark-mode-inner"] : ""
-        }`}
+        className={`${styles["popup-inner"]}`}
       >
         <img
-          src={darkMode ? closeDark : closeLight}
+          src={closeLight}
           alt="close"
           className={styles["close-icon"]}
           onClick={onClose}
@@ -76,104 +73,110 @@ const AddGarage = ({ onClose, darkMode }) => {
           <input
             placeholder="Garage Name"
             type="text"
-            {...register("garageName", { required: true })}
+            {...register("garageName", {
+              required: "Garage name is required",
+            })}
           />
-          
           {errors.garageName && (
-            <span className={styles.error}>Garage Name is required</span>
+            <span className={styles.error}>{errors.garageName.message}</span>
           )}
 
           <input
             placeholder="Hour Price"
             type="number"
-            {...register("hourPrice", { required: true })}
+            {...register("hourPrice", {
+              required: "hour price is required",
+              pattern: {
+                value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
+                message: "The entered value should be a valid price",
+              },
+            })}
           />
-          
-
           {errors.hourPrice && (
-            <span className={styles.error}>Hour Price is required</span>
+            <span className={styles.error}>{errors.hourPrice.message}</span>
           )}
-
-          <input
-            placeholder="Street"
-            type="text"
-            {...register("street", { required: true })}
-          />
-          
-
-          {errors.street && <span className={styles.error}>Street is required</span>}
-
-          <input
-            placeholder="City"
-            type="text"
-            {...register("city", { required: true })}
-          />
-          
-
-          {errors.city && <span className={styles.error}>City is required</span>}
 
           <input
             placeholder="Longitude"
             type="text"
             {...register("longitude", {
-              required: true,
+              required: "Longitude is required",
               pattern: {
-                value: /^-?\d*(\.\d+)?$/, // يقبل الأعداد الصحيحة والعشرية السالبة أو الموجبة
+                value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
+                message: "The entered value should be a number",
               },
             })}
           />
-          
-
-          {errors.longitude && errors.longitude.type === "required" && (
-            <span className={styles.error}>Longitude is required</span>
-          )}
-
-          {errors.longitude && errors.longitude.type === "pattern" && (
-            <span className={styles.error}>Please enter a valid Longitude</span>
+          {errors.longitude && (
+            <span className={styles.error}>{errors.longitude.message}</span>
           )}
 
           <input
             placeholder="Latitude"
             type="text"
             {...register("latitude", {
-              required: true,
+              required: "Latitude is required",
               pattern: {
-                value: /^-?\d*(\.\d+)?$/, // يقبل الأعداد الصحيحة والعشرية السالبة أو الموجبة
+                value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
+                message: "The entered value should be a number",
               },
             })}
           />
-          
-
-          {errors.latitude && errors.latitude.type === "required" && (
-            <span className={styles.error}>Latitude is required</span>
+          {errors.latitude && (
+            <span className={styles.error}>{errors.latitude.message}</span>
           )}
 
-          {errors.latitude && errors.latitude.type === "pattern" && (
-            <span className={styles.error}>Please enter a valid Latitude</span>
+          <input
+            placeholder="Street"
+            type="text"
+            {...register("street", {
+              required: "street name is required",
+            })}
+          />
+          {errors.street && (
+            <span className={styles.error}>{errors.street.message}</span>
+          )}
+
+          <input
+            placeholder="City"
+            type="text"
+            {...register("city", {
+              required: "city name is required",
+            })}
+          />
+
+          {errors.city && (
+            <span className={styles.error}>{errors.city.message}</span>
           )}
 
           <input
             placeholder="Total Spaces"
             type="number"
-            {...register("totalSpaces", { required: true })}
+            {...register("totalSpaces", {
+              required: "TotalSpaces is required",
+              minLength: 1,
+              maxLength: 11,
+              pattern: {
+                value: /^\d+$/,
+                message: "The entered value should be a number",
+              },
+            })}
           />
-          
 
           {errors.totalSpaces && (
-            <span className={styles.error}>Total Spaces is required</span>
+            <span className={styles.error}>{errors.totalSpaces.message}</span>
           )}
 
-          <div className={`${styles["edit-model-buttons"]} ${darkMode}`}>
- 
+          <div className={`${styles["edit-model-buttons"]}`}>
             <LoadingButton
-                endIcon={<AddIcon />}
-                loading={loading}
-                loadingPosition="end"
-                variant="contained"
-                onClick={handleSubmit(onSubmit)}
-              >
-                <span>Add</span>
-              </LoadingButton>
+              endIcon={<AddIcon />}
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+              onClick={handleSubmit(onSubmit)}
+            >
+              <span>Add</span>
+            </LoadingButton>
           </div>
         </form>
       </div>

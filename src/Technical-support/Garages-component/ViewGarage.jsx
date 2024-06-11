@@ -43,6 +43,11 @@ function EmployeesViewModal({ employee, handleCloseView }) {
           </span>
           <br />
           <span className={Garagestyle.block}>
+            <b>Hour Price: </b>{" "}
+            <span className={Garagestyle.data}>{employee.HourPrice}</span>
+          </span>
+          <br />
+          <span className={Garagestyle.block}>
             <b>AvailableSpaces: </b>{" "}
             <span className={Garagestyle.data}>
               {employee.AvailableSpaces}

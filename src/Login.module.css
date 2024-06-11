@@ -16,6 +16,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+  height: 100vh;
 }
 
 .loginContainer .Logo {
@@ -83,28 +84,29 @@
 
 .loginContainer input {
   width: 100%;
-   height: 347px;
-   max-height: 350px;
-   max-width: calc(100% - 20px) !important;
-   align-self: center;
-   font-family: inherit;
-   margin-top: 10px;
-   height: 20px;
-   padding: var(--card-padding);
-   border-radius: 5px;
-   border: 1px solid var(--special-color1);
-   transition: all 0.2s ease-in-out;
-   background-color: var(--input-background-color);
-   color: var(--font-color);
+  height: 347px;
+  max-height: 350px;
+  max-width: calc(100% - 20px) !important;
+  align-self: center;
+  font-family: inherit;
+  margin-top: 10px;
+  height: 20px;
+  padding: var(--card-padding);
+  border-radius: 5px;
+  border: 1px solid var(--special-color1);
+  transition: all 0.2s ease-in-out;
+  background-color: var(--input-background-color);
+  color: var(--font-color);
 }
 
-.loginContainer .loginFormButtons{
+.loginContainer .loginFormButtons {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin-top: 24px;
 }
+
 .loginContainer input:hover {
   box-shadow: none;
   border: 1px solid rgba(105, 105, 105, 0.425);
@@ -153,4 +155,83 @@
   margin-left: 15px;
   color: #b32f2f;
   align-self: baseline;
+  cursor: pointer;
+}
+
+.resetContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.resetContainer .resetContent {
+  width: 50%;
+  height: 50%;
+  background-color: #f2f2f1;
+  border: 1px solid #8C8671;
+  padding: 5px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border-radius: 5px;
+
+}
+
+.resetContainer .resetContent form {
+  width: 50%;
+  height: 50%;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.resetContainer .resetContent input {
+  width: 70%;
+  margin: 10px;
+  align-self: center;
+  font-family: inherit;
+  height: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #8C8671;
+  transition: all 0.2s ease-in-out;
+  background-color: #fff;
+  color: #000;
+}
+
+.resetContainer .resetContent input:hover {
+  border: 1px solid rgba(105, 105, 105, 0.425);
+
+}
+
+.resetContainer .resetContent button {
+  margin: 5px;
+  width: 100px;
+  border-radius: 5px;
+  align-self: center;
+  padding: 10px;
+  border: 1px solid #8C8671;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.3s ease;
+  background-color: #231F20
+}
+
+.resetContainer .resetContent button:hover {
+  border: 1px solid rgba(105, 105, 105, 0.425);
+
+}
+
+.resetContainer .error {
+  font-size: 14px;
+  margin: 5px;
+  margin-left: 15px;
+  color: #b32f2f;
+  align-self: baseline;
+  cursor: pointer;
 }

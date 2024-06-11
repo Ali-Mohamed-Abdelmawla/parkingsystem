@@ -51,7 +51,7 @@ const ComplaintsforTechnicalSupport = () => {
   };
 
   const handleUpdateStatus = async () => {
-    setShowDeleteConfirmation(false);
+    setLoading(true);
     try {
       axiosInstance
         .put(`/api/Report/UpdateReportStatus/${updateIndex}`, true, {
@@ -64,17 +64,20 @@ const ComplaintsforTechnicalSupport = () => {
           },
         })
         .then((response) => {
-          console.log("Complaint marked as solved:", response.data);
-          setShowDeleteConfirmation(false);
           document.body.classList.remove(Employeestyle.deleteModalActive);
+          console.log("Complaint marked as solved:", response.data);
+          setLoading(false);
+          setShowDeleteConfirmation(false);
           Swal.fire("Success", "Complaint marked as solved", "success").then(
             () => {
+              setShowDeleteConfirmation(false);
               window.location.reload();
             }
           );
         })
         .catch((error) => {
           console.error("Error marking complaint as solved:", error);
+          setLoading(false);
           Swal.fire("Error", "Failed to mark complaint as solved", "error");
           document.body.classList.remove(Employeestyle.deleteModalActive);
         });
@@ -124,12 +127,14 @@ const ComplaintsforTechnicalSupport = () => {
         <DeleteConfirmationModal
           onConfirmUpdate={handleUpdateStatus}
           onCancelUpdate={handleCloseDelete}
+          loading={loading}
         />
       )}
       {showViewDetails && (
         <ViewModal
           complaint={complaints[viewIndex]}
           onClose={handleCloseView}
+          
         />
       )}
     </>

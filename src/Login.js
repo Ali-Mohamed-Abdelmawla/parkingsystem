@@ -6,11 +6,13 @@ import { jwtDecode } from "jwt-decode"; // Import jwt-decode
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import swal from "sweetalert2";
 import axiosInstance from "./auth/axios";
+import Loader from "./helper/loading-component/loader";
 function App() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [Loading, setLoading] = useState(false);
-  const [showResetPassword,setShowResetPassword] = useState(false);
+  const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
+  const [showResetPassword, setShowResetPassword] = useState(false);
   const navigate = useNavigate(); // Hook for navigation
 
   const handleLogin = async () => {
@@ -20,7 +22,7 @@ function App() {
     if (username && password) {
       try {
         setLoading(true);
-        const response = await axiosInstance
+        await axiosInstance
           .post(
             "/api/Auth/Login",
             {
@@ -111,6 +113,22 @@ function App() {
     }
   };
 
+  if (resetPasswordLoading) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div className={Loginstyles.loginPage}>
       <div className={Loginstyles.loginContainer}>
@@ -128,7 +146,9 @@ function App() {
               setPassword={setPassword}
               handleLogin={handleLogin}
               loading={Loading}
-              showResetPassword = {showResetPassword}
+              showResetPassword={showResetPassword}
+              setResetPasswordLoading={setResetPasswordLoading}
+              resetPasswordLoading={resetPasswordLoading}
             />
           </div>
         </div>

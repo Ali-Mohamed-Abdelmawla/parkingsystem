@@ -1,12 +1,15 @@
 import Garagestyle from "../../System-admin/Styles/Employees.module.css";
 import { useForm } from "react-hook-form";
-
+import LoadingButton from "@mui/lab/LoadingButton";
+import EditIcon from "@mui/icons-material/Edit";
+import { useEffect } from "react";
 function EmployeesModal({
   title,
   onClose,
   onSubmit,
   editedEmployee,
   handleInputChange,
+  loading,
 }) {
   const {
     register,
@@ -14,13 +17,9 @@ function EmployeesModal({
     formState: { errors },
   } = useForm();
 
-  //  handleInputChange = (e) => {
-  //   // Assuming you have a way to update the form values in your state
-  //   // For example, if you're using a state variable to hold the form values
-  //   // You would update that state here instead of directly manipulating the DOM
-  //   // This is just a placeholder to show where you'd handle input changes
-  //   console.log(e.target.name, e.target.value);
-  // };
+  useEffect(() => {
+    console.log(loading);
+  }, [loading]);
 
   return (
     <div className={Garagestyle.editModal}>
@@ -45,10 +44,28 @@ function EmployeesModal({
         )}
 
         <input
+          {...register("HourPrice", {
+            required: "hour price is required",
+            pattern: {
+              value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
+              message: "The entered value should be a number",
+            },
+          })}
+          type="text"
+          placeholder="HourPrice"
+          defaultValue={editedEmployee.HourPrice}
+        />
+        {errors.HourPrice && (
+          <span className={Garagestyle.errorMessage}>
+            {errors.HourPrice.message}
+          </span>
+        )}
+
+        <input
           {...register("Longitude", {
             required: "Longitude is required",
             pattern: {
-              value: /^\d+$/,
+              value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
               message: "The entered value should be a number",
             },
           })}
@@ -66,7 +83,7 @@ function EmployeesModal({
           {...register("Latitude", {
             required: "Latitude is required",
             pattern: {
-              value: /^\d+$/,
+              value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
               message: "The entered value should be a number",
             },
           })}
@@ -129,7 +146,15 @@ function EmployeesModal({
         )}
 
         <div className={Garagestyle.editModelButtons}>
-          <button type="submit">Edit</button>
+          <LoadingButton
+            endIcon={<EditIcon />}
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+            onClick={handleSubmit(onSubmit)}
+          >
+            <span>Edit</span>
+          </LoadingButton>
         </div>
       </form>
     </div>
