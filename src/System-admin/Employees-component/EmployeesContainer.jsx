@@ -39,7 +39,7 @@ function Employees() {
     // Fetch employees from API on component mount
     setLoading(true);
     axiosInstance
-      .get(`/TechnicalSupport/GetAllUsers`, {
+      .get(`/api/GarageAdmin/AllStaff`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
@@ -68,7 +68,7 @@ function Employees() {
   const handleFormSubmit = (data) => {
     console.log(data);
     axiosInstance
-      .put(`/TechnicalSupport/EditUser/${editedEmployee.Id}`, data, {
+      .put(`/api/GarageAdmin/EditStaff/${editedEmployee.Id}`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
@@ -114,7 +114,7 @@ function Employees() {
 
   const handleConfirmDelete = () => {
     axiosInstance
-      .delete(`/TechnicalSupport/DeleteUser/${employees[deletionIndex].Id}`, {
+      .delete(`/api/GarageAdmin/DeleteStaff/${employees[deletionIndex].Id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
@@ -178,7 +178,7 @@ function Employees() {
     // Perform bulk email sending logic using selectedEmployeeEmails
     axiosInstance
       .post(
-        `/TechnicalSupport/SendBulkEmails`,
+        `/api/GarageAdmin/SendBulkEmails`,
         {
           emails: selectedEmployeeEmails,
           message: message,

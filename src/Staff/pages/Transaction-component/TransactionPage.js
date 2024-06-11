@@ -3,19 +3,16 @@ import styles from "./TransactionPage.module.css";
 import carIcon from "../../assets/light-mode/carIcon.svg";
 import darkCarIcon from "../../assets/light-mode/carIcon.svg";
 import axiosInstance from "../../../auth/axios.js";
-import searchIconLight from "../../assets/light-mode/search.svg";
-import searchIconDark from "../../assets/Dark-mode/search.svg";
-import cancelIconLight from '../../assets/light-mode/cancel.svg'; 
-import cancelIconDark from '../../assets/Dark-mode/cancel.svg'; 
-import Swal from 'sweetalert2';
-import { useOutletContext } from 'react-router-dom';
+import cancelIconLight from "../../assets/light-mode/cancel.svg";
+import cancelIconDark from "../../assets/Dark-mode/cancel.svg";
+import Swal from "sweetalert2";
+import { useOutletContext } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
-import CheckIcon from '@mui/icons-material/Check';
+import CheckIcon from "@mui/icons-material/Check";
 import Loader from "../../../helper/loading-component/loader.jsx";
 function TransactionPage() {
-
   const [loading, setLoading] = useState(false);
-  const  {darkMode}  = useOutletContext();
+  const { darkMode } = useOutletContext();
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
   const [selectedPlateLetters, setSelectedPlateLetters] = useState("");
   const [selectedPlateNumbers, setSelectedPlateNumbers] = useState("");
@@ -23,6 +20,8 @@ function TransactionPage() {
   const [inGarageVehicles, setInGarageVehicles] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [paymentAmount, setPaymentAmount] = useState("");
+  const [paymentError, setPaymentError] = useState("");
+
   const accessToken = sessionStorage.getItem("accessToken");
 
   useEffect(() => {
@@ -36,9 +35,12 @@ function TransactionPage() {
         "/api/GarageStaff/CurrentParkingSessions",
         { headers }
       );
-      const getAllReservations = axiosInstance.get("/api/GarageStaff/AllReservation", {
-        headers,
-      });
+      const getAllReservations = axiosInstance.get(
+        "/api/GarageStaff/AllReservation",
+        {
+          headers,
+        }
+      );
 
       Promise.all([getCurrentParkingSessions, getAllReservations])
         .then((responses) => {
@@ -76,6 +78,17 @@ function TransactionPage() {
   };
 
   const handleCloseConfirmPopup = async () => {
+    if (paymentError) {
+      const initialMessage = paymentError;
+      setPaymentError("Payment amount needs to at least equal the total fee");
+
+      setTimeout(() => {
+        setPaymentError(initialMessage);
+
+      }, 3000)
+
+      return;
+    }
     try {
       const requestData = {
         plateLetters: selectedPlateLetters,
@@ -83,13 +96,13 @@ function TransactionPage() {
         payment: parseFloat(paymentAmount),
         paymentType: "Cash",
       };
-  
+
       const headers = {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       };
 
-      setLoading(true)
+      setLoading(true);
       const response = await axiosInstance.delete(
         "/api/GarageStaff/EndParkingSession",
         {
@@ -97,9 +110,8 @@ function TransactionPage() {
           headers,
         }
       );
-  
+
       console.log("Parking session ended successfully");
-  
 
       // Display success alert
       Swal.fire({
@@ -108,13 +120,12 @@ function TransactionPage() {
         icon: "success",
         backdrop: false,
         focusConfirm: false,
-        allowOutsideClick: false
+        allowOutsideClick: false,
       }).then(() => {
         setShowConfirmPopup(false);
-        setLoading(false)
+        setLoading(false);
         window.location.reload();
-      })
-  
+      });
     } catch (error) {
       console.error("Error ending parking session:", error);
       setShowConfirmPopup(false);
@@ -125,38 +136,49 @@ function TransactionPage() {
         icon: "error",
         backdrop: false,
         focusConfirm: false,
-        allowOutsideClick: false
+        allowOutsideClick: false,
       }).then(() => {
-        setLoading(false)
-      })
+        setLoading(false);
+      });
     }
   };
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
+  const handlePaymentAmountChange = (event) => {
+    const value = event.target.value;
+    setPaymentAmount(value);
+    if (parseFloat(value) < selectedTransaction.CurrentBill) {
+      setPaymentError(
+        `Payment amount must be at least ${selectedTransaction.CurrentBill.toFixed(
+          2
+        )} LE`
+      );
+    } else {
+      setPaymentError("");
+    }
+  };
+
   const carIconSrc = darkMode ? darkCarIcon : carIcon;
   // const searchIconSrc = darkMode ? searchIconDark : searchIconLight;
   const cancelIconSrc = darkMode ? cancelIconDark : cancelIconLight;
 
-
   if (loading) {
-    
     return (
       <div
         style={{
-          height: darkMode ? '100vh' : '50vh',
+          height: "100vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: darkMode ? '#231f20' : '#f2f1f1'
+          backgroundColor: darkMode ? "#231f20" : "#f2f1f1",
         }}
       >
         <Loader />
       </div>
     );
   }
-  
 
   return (
     <div
@@ -182,7 +204,9 @@ function TransactionPage() {
         {inGarageVehicles
           .filter((vehicle) => {
             const plateNumber = `${vehicle.PlateLetters} ${vehicle.PlateNumbers}`;
-            return plateNumber.toLowerCase().includes(searchQuery.toLowerCase());
+            return plateNumber
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase());
           })
           .map((vehicle, index) => {
             if (!vehicle.PlateLetters) {
@@ -196,7 +220,8 @@ function TransactionPage() {
             const hours = Math.floor(durationInHours);
             const minutes = Math.round((durationInHours - hours) * 60);
 
-            const duration = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+            const duration =
+              hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
 
             return (
               <div key={index} className={styles["C-card"]}>
@@ -210,13 +235,13 @@ function TransactionPage() {
                     <span>{plateNumber}</span>
                   </div>
                 </div>
-                <p>
-                  Duration: {duration}
-                </p>
+                <p>Duration: {duration}</p>
                 <div className={styles["C-card-bottom"]}>
                   <h3>
                     Total cost:{" "}
-                    {vehicle.CurrentBill ? vehicle.CurrentBill.toFixed(2) : "N/A"}{" "}
+                    {vehicle.CurrentBill
+                      ? vehicle.CurrentBill.toFixed(2)
+                      : "N/A"}{" "}
                     LE
                   </h3>
                   <button
@@ -246,10 +271,8 @@ function TransactionPage() {
               onClick={() => setShowConfirmPopup(false)}
             />
             <p>
-              Plate Number:{" "}
-              {selectedPlateLetters
-                .split("")
-                .join(" ")} {selectedPlateNumbers}
+              Plate Number: {selectedPlateLetters.split("").join(" ")}{" "}
+              {selectedPlateNumbers}
             </p>
 
             <p>
@@ -265,32 +288,31 @@ function TransactionPage() {
               >
                 Payment Amount:
               </label>
+              <br></br>
               <input
                 type="number"
                 id="paymentAmount"
                 value={paymentAmount}
-                onChange={(e) => setPaymentAmount(e.target.value)}
+                onChange={handlePaymentAmountChange}
                 className={styles["payment-input"]}
+                style={{ margin: "5px" }}
               />
+              <br></br>
+              {paymentError && (
+                <span className={styles["error-message"]}>{paymentError}</span>
+              )}
             </div>
 
-            {/* <button
-              className={styles["C-popconfirm"]}
-              onClick={handleCloseConfirmPopup}
-            >
-              Confirm
-            </button> */}
             <LoadingButton
-          endIcon={<CheckIcon />}
-          loading={loading}
-          loadingPosition="end"
-          variant="contained"
-          onClick={handleCloseConfirmPopup}
-          className={styles["C-popconfirm"]} // Added custom class here
-
-        >
-          <span>Submit Report</span>
-        </LoadingButton>
+              endIcon={<CheckIcon />}
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+              onClick={handleCloseConfirmPopup}
+              className={styles["C-popconfirm"]} // Added custom class here
+            >
+              <span>Submit Report</span>
+            </LoadingButton>
           </div>
         </div>
       )}

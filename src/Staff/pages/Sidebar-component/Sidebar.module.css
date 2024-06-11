@@ -4,7 +4,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  position:fixed;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 900;
@@ -27,7 +27,7 @@
 }
 
 .menu-items {
-  flex-grow:1;
+  flex-grow: 1;
   font-weight: bold;
 }
 
@@ -51,11 +51,11 @@
 }
 
 .menu-items button {
-  color: #231f20; 
-  text-decoration: none; 
-  font-weight: bold; 
-  display: flex; 
-  align-items: center; 
+  color: #231f20;
+  text-decoration: none;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 
@@ -64,15 +64,21 @@
   align-items: center;
   padding: 20px;
   border-top: 1px solid #ccc;
+  cursor: pointer;
+
 }
 
+.logout span {
+  cursor: pointer;
+
+}
 
 .logout button {
-  color: #231f20; 
-  text-decoration: none; 
-  font-weight: bold; 
-  display: flex; 
-  align-items: center; 
+  color: #231f20;
+  text-decoration: none;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 .logout:hover {
@@ -80,38 +86,41 @@
 }
 
 
-.menu-item svg, .logout svg {
+.menu-item svg,
+.logout svg {
   width: 24px;
   height: 24px;
   fill: black;
-  margin-right: 10px; 
+  margin-right: 10px;
   margin-left: 15px;
 }
-.add{
+
+.add {
   font-weight: bold;
 }
 
 /* Dark mode styles */
 .sidebar.dark-mode {
-background-color: #231f20;
-color: white;
+  background-color: #231f20;
+  color: white;
 }
 
 .sidebar.dark-mode .menu-item:hover {
-background-color: #000000;
+  background-color: #000000;
 }
 
 .sidebar.dark-mode .menu-items button {
-color: white;
+  color: white;
 }
 
 .sidebar.dark-mode .logout {
-border-top: 1px solid #555;
+  border-top: 1px solid #555;
 }
 
 .sidebar.dark-mode .logout span {
-color: white;
-}
-.sidebar.dark-mode .menu-items p{
   color: white;
-  }
+}
+
+.sidebar.dark-mode .menu-items p {
+  color: white;
+}

@@ -71,13 +71,15 @@ function SystemUsers() {
 
   const handleFormSubmit = (data) => {
     console.log(data);
-    data.Password = ""
     axiosInstance
       .put(`/TechnicalSupport/EditUser/${editedEmployee.Id}`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
+        // params: {
+        //   id: editedEmployee.Id,
+        // },
       })
       .then((response) => {
         const updatedEmployees = [...employees];

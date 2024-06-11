@@ -11,21 +11,15 @@ function EmployeesTable({
   const columns = [
     { field: "GarageId", headerName: "GarageId", flex: 1 },
     { field: "GarageName", headerName: "GarageName", flex: 1 },
-    { field: "longitude", headerName: "longitude", flex: 1 },
-    { field: "latitude", headerName: "latitude", flex: 1 },
+    {
+      field: "HourPrice",
+      headerName: "HourPrice",
+      flex: 0.75,
+    },
     { field: "street", headerName: "street", flex: 0.75 },
     { field: "city", headerName: "city", flex: 0.75 },
     { field: "AvailableSpaces", headerName: "AvailableSpaces", flex: 1 },
     { field: "TotalSpaces", headerName: "TotalSpaces", flex: 0.75 },
-    {
-      field: "HasAdmin",
-      headerName: "HasAdmin",
-      flex: 0.75,
-      renderCell: (params) =>
-        params.value
-          ? "has an admin"
-          : "has no admin",
-    },
 
     {
       field: "actions",
@@ -62,17 +56,15 @@ function EmployeesTable({
     GarageName: employee.GarageName,
     street: employee.street,
     city: employee.city,
-    longitude: employee.longitude,
-    latitude: employee.latitude,
     AvailableSpaces: employee.AvailableSpaces,
     TotalSpaces: employee.TotalSpaces,
-    HasAdmin: employee.HasAdmin,
+    HourPrice: employee.HourPrice,
   }));
 
   return (
     <>
       <div className="table-wrapper" style={{ flex: 1, overflow: "hidden" }}>
-        <h1 style={{ marginBottom: "20px" }}>Employees</h1>
+        <h1 style={{ marginBottom: "20px" }}>Garages</h1>
 
         <DataGrid
           rows={rows}

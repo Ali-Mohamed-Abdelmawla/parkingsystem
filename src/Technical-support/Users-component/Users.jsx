@@ -14,6 +14,7 @@ function UsersTable({
   const columns = [
     { field: "FullName", headerName: "FullName", flex: 1 },
     { field: "UserName", headerName: "UserName", flex: 1 },
+    { field: "NationalId", headerName: "National Id", flex: 1 },
     { field: "email", headerName: "Email", flex: 1 },
     { field: "Role", headerName: "Role", flex: 1 },
     { field: "PhoneNumber", headerName: "PhoneNumber", flex: 1 },
@@ -51,6 +52,7 @@ function UsersTable({
     id: index,
     FullName: employee.FullName,
     UserName: employee.UserName,
+    NationalId: employee.NationalId,
     email: employee.Email,
     Role: employee.Role,
     PhoneNumber: employee.PhoneNumber,
@@ -74,7 +76,7 @@ function UsersTable({
   return (
     <>
       <div className="table-wrapper" style={{ flex: 1, overflow: "hidden" }}>
-        <h1 style={{ marginBottom: "20px" }}>Employees</h1>
+        <h1 style={{ marginBottom: "20px" }}>Users</h1>
 
         <DataGrid
           rows={rows}

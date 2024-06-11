@@ -65,6 +65,8 @@ function Garages() {
   const handleFormSubmit = (data) => {
     console.log(editedEmployee);
     console.log(data);
+    data.HourPrice = (parseFloat(data.HourPrice)).toFixed(2);
+    setLoading(true);
     axiosInstance
       .put(`/TechnicalSupport/UpdateGarage`, data, {
         headers: {
@@ -79,7 +81,7 @@ function Garages() {
         const updatedEmployees = [...employees];
         updatedEmployees[editIndex] = response.data;
         setEmployees(updatedEmployees);
-        setShowEditPage(false);
+        document.body.classList.remove(Employeestyle.deleteModalActive);
         swal
           .fire({
             icon: "success",
@@ -87,7 +89,9 @@ function Garages() {
             text: "Garage updated successfully",
           })
           .then(() => {
+            setLoading(false);
             window.location.reload();
+            setShowEditPage(false);
           });
       })
       .catch((error) => {
@@ -96,7 +100,9 @@ function Garages() {
           icon: "error",
           title: "Error",
           text: `Failed to update employee: ${error.response.data.errors.FullName[0]}`,
-        });
+        }).then(() => {
+          setLoading(false);
+        })
       });
   };
 
@@ -114,6 +120,7 @@ function Garages() {
   };
 
   const handleConfirmDelete = () => {
+    setLoading(true);
     axiosInstance
       .delete(`/TechnicalSupport/DeleteGarage`, {
         headers: {
@@ -128,16 +135,20 @@ function Garages() {
         const updatedEmployees = [...employees];
         updatedEmployees.splice(deletionIndex, 1);
         setEmployees(updatedEmployees);
-        setShowDeleteConfirmation(false);
-        setDeletionIndex(null);
+        document.body.classList.remove(Employeestyle.deleteModalActive);
         Swal.fire("Success", "Garage deleted successfully", "success").then(
           () => {
+            setLoading(false);
             window.location.reload();
+            setShowDeleteConfirmation(false);
+            setDeletionIndex(null);
+
           }
         );
       })
       .catch((error) => {
         console.error("Error deleting employee:", error);
+        setLoading(false);
       });
   };
 
@@ -199,6 +210,7 @@ function Garages() {
         <EmployeesDeleteConfirmation
           handleCancelDelete={handleCancelDelete}
           handleConfirmDelete={handleConfirmDelete}
+          loading = {loading}
         />
       )}
       {showEditPage && (
@@ -208,6 +220,7 @@ function Garages() {
           onSubmit={handleFormSubmit}
           editedEmployee={editedEmployee}
           handleInputChange={handleInputChange}
+          loading = {loading}
         />
       )}
       {showViewDetails && (

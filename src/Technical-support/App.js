@@ -6,7 +6,7 @@ import DashboardIcon from "./assets/LightMode/dashboard-icon.svg";
 import UsersIcon from "./assets/LightMode/customer-services-icon.svg";
 import ComplaintsIcon from "./assets/LightMode/complaints-icon.svg";
 import GaragesIcon from "./assets/LightMode/add-garage.svg";
-import bulkEmailsIcon from "./assets/LightMode/bulkEmails.svg";
+// import bulkEmailsIcon from "./assets/LightMode/bulkEmails.svg";
 
 
 import AddNewGarage from "./assets/LightMode/new-garage.svg";
@@ -75,9 +75,9 @@ function TheOne() {
     navigate("/TechnicalSupport/Garages");
   };
 
-  const handleBulkEmailsClick = () => {
-    navigate("/TechnicalSupport/BulkEmails");
-  };
+  // const handleBulkEmailsClick = () => {
+  //   navigate("/TechnicalSupport/BulkEmails");
+  // };
 
   const handleLogoutBtn = () => {
     sessionStorage.removeItem("accessToken");
@@ -121,10 +121,10 @@ function TheOne() {
             <img src={GaragesIcon} alt="activeSessions icon" />
             <b>Garages</b>
           </button>
-          <button onClick={handleBulkEmailsClick}>
+          {/* <button onClick={handleBulkEmailsClick}>
             <img src={bulkEmailsIcon} alt="activeSessions icon" />
             <b>AllBulk Emails</b>
-          </button>
+          </button> */}
 
           <button onClick={handleAddBtn}>
             <img src={AddUserIcon} alt="add icon" />

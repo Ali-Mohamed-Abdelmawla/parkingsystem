@@ -66,7 +66,7 @@
 
  .deleteConfirmation button {
    margin-right: 10px;
-   padding: 8px 12px;
+   padding: 12px;
    background-color: transparent;
    color: var(--high-light);
    border: none;

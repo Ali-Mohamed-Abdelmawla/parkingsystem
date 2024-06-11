@@ -16,7 +16,18 @@ function UsersModal({
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      FullName: editedEmployee?.FullName || "",
+      UserName: editedEmployee?.UserName || "",
+      NationalId: editedEmployee?.NationalId || "",
+      Email: editedEmployee?.Email || "",
+      PhoneNumber: editedEmployee?.PhoneNumber || "",
+      GarageId: editedEmployee?.GarageId || "",
+      Role: editedEmployee?.Role || "",
+    },
+  });
+  
 
   const customStyles = {
     control: (styles, { isFocused }) => ({
@@ -95,13 +106,6 @@ function UsersModal({
     setRole(selectedOption.value);
     field.onChange(selectedOption.value);
   };
-  //  handleInputChange = (e) => {
-  //   // Assuming you have a way to update the form values in your state
-  //   // For example, if you're using a state variable to hold the form values
-  //   // You would update that state here instead of directly manipulating the DOM
-  //   // This is just a placeholder to show where you'd handle input changes
-  //   console.log(e.target.name, e.target.value);
-  // };
 
   return (
     <div className={Employeestyle.editModal}>
@@ -148,6 +152,31 @@ function UsersModal({
         )}
 
         <input
+        defaultValue={editedEmployee.NationalId}
+            placeholder="National ID"
+            type="text"
+            {...register("NationalId", {
+              required: "National ID is required",
+              minLength: {
+                value: 14,
+                message: "National ID must be exactly 14 digits",
+              },
+              maxLength: {
+                value: 14,
+                message: "National ID must be exactly 14 digits",
+              },
+              pattern: {
+                value: /^\d+$/,
+                message: "The entered value should be a number",
+              },
+            })}
+          />
+          {errors.NationalId && (
+            <span className={Employeestyle.error}>{errors.NationalId.message}</span>
+          )}
+
+
+        <input
           {...register("Email", {
             required: "Email is required",
             pattern: {
@@ -191,18 +220,7 @@ function UsersModal({
           </span>
         )}
 
-        {/* <input
-          {...register("GarageId", {
-            required: "GarageId is required",
-            pattern: {
-              value: /^\d+$/,
-              message: "The entered value should be a number",
-            },
-          })}
-          type="text"
-          placeholder="GarageId"
-          defaultValue={editedEmployee.GarageId}
-        /> */}
+
         <div style={{ width: "70%",alignSelf: "center" }}>
           <Controller
             name="GarageId"
@@ -227,16 +245,6 @@ function UsersModal({
           </span>
         )}
 
-        {/* <select
-          {...register("Role", {
-            required: "Role is required",
-          })}
-          placeholder="Role"
-          defaultValue={editedEmployee.salary}
-        >
-          <option value="garageadmin">Garage Admin</option>
-          <option value="customerservice">Customer Service</option>
-        </select> */}
         <div style={{ width: "70%",alignSelf: "center" }}>
             <Controller
               name="Role"

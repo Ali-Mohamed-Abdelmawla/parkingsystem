@@ -8,7 +8,9 @@ import {
 } from "react-router-dom";
 
 import Login from "./Login";
+
 import ResetPassword from "./ResetPassword";
+import NewPassword from "./NewPassword";
 import SystemAdmin from "./System-admin/index";
 import CustomerService from "./Customer-service/index";
 import TechnicalSupport from "./Technical-support/App";
@@ -75,7 +77,11 @@ function App() {
     },
     {
       path: "/resetpassword",
-      element: <Login />,
+      element: <ResetPassword />,
+    },
+    {
+      path: "/newpassword",
+      element: <NewPassword />,
     },
     {
       path: "/SystemAdmin",
@@ -142,10 +148,10 @@ function App() {
           path:"/TechnicalSupport/Garages",
           element:<Garages />
         },
-        {
-          path:"/TechnicalSupport/BulkEmails",
-          element:<BulkEmails />
-        },
+        // {
+        //   path:"/TechnicalSupport/BulkEmails",
+        //   element:<BulkEmails />
+        // },
       ],
     },
     {
