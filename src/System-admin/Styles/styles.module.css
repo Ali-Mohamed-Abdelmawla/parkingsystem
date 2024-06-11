@@ -290,6 +290,26 @@ main .rightSide .Header .titleBar .info {
   color: #917e6b;
 }
 
+main .rightSide .Header .hourPrice{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+main .rightSide .Header .hourPrice button{
+  background-color: #231F20;
+  color: var(--color-background);
+  height: 100%;
+  padding: 5px;
+  border-radius: var(--card-border-radius);
+  cursor: pointer;
+}
+
+[theme = dark] main .rightSide .Header .hourPrice button{
+  background-color: var(--special-color1);
+
+}
+
 main .rightSide .Header input {
   width: 80%;
   height: 40%;

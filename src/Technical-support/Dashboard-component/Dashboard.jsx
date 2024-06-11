@@ -69,7 +69,9 @@ const formatDate = (date) => {
   const month = date.getMonth() + 1; // months are 0-based
   const day = date.getDate();
   const year = date.getFullYear();
-  return `${year}-${month}-${day}`;
+  return `${year}-${month < 10 ? `0${month}` : month}-${
+    day < 10 ? `0${day}` : day
+  }`;
 };
 
 const DashboardforTechnicalSupport = () => {
@@ -99,6 +101,7 @@ const DashboardforTechnicalSupport = () => {
   const [startDate, setStartDate] = useState(
     formatDate(startOfCurrentMonthLastYear)
   );
+  const [selectedGarageId, setSelectedGarageId] = useState("");
   const [endDate, setEndDate] = useState(formatDate(startOfCurrentMonth));
   const [statistics, setStatistics] = useState(null);
   const [garagesIds, setGaragesIds] = useState(null);
@@ -142,7 +145,7 @@ const DashboardforTechnicalSupport = () => {
     setEndDate(event.target.value);
   };
 
-  useEffect(() => {
+  const GetGarageStatistics = () => {
     setLoading(true);
     axiosInstance
       .get(`/TechnicalSupport/GetAllGarageStatistics`, {
@@ -155,11 +158,17 @@ const DashboardforTechnicalSupport = () => {
       .then((response) => {
         setStatistics(response.data);
         console.log(response.data);
-
+        setStartDate(startDate);
+        setEndDate(endDate);
         const garageIds = [];
         for (let i = 0; i < response.data.length; i++) {
           garageIds.push(response.data[i].GarageId);
         }
+        setSelectedGarageId(garageIds[0]);
+        const initialGarageData = response.data.find(
+          (stat) => stat.GarageId === garageIds[0]
+        );
+        setSpecificGarageData(initialGarageData);
         setGaragesIds(garageIds);
         setLoading(false);
       })
@@ -172,6 +181,12 @@ const DashboardforTechnicalSupport = () => {
         });
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    // if (statistics === null) {
+    GetGarageStatistics();
+    // }
   }, [startDate, endDate]);
 
   useEffect(() => {
@@ -462,6 +477,8 @@ const DashboardforTechnicalSupport = () => {
         );
 
       setStaffactivityRows(rows);
+    } else {
+      setStaffactivityRows([]);
     }
   }, [specificGarageData]);
 
@@ -486,6 +503,7 @@ const DashboardforTechnicalSupport = () => {
       (stat) => stat.GarageId === selectedGarageId
     );
     setSpecificGarageData(garageData);
+    setSelectedGarageId(selectedGarageId);
   };
 
   return (
@@ -501,6 +519,7 @@ const DashboardforTechnicalSupport = () => {
                 id="start-date"
                 name="start-date"
                 value={startDate}
+                defaultValue={startDate}
                 onChange={handleStartDateChange}
                 required
               />
@@ -517,8 +536,20 @@ const DashboardforTechnicalSupport = () => {
               />
             </div>
             <label htmlFor="garage">Garage:</label>
-            <select id="garage" name="garage" onChange={handleGarageChange}>
+            {/* <select id="garage" name="garage" onChange={handleGarageChange}>
               <option value="">Select a garage</option>
+              {garagesIds.map((id) => (
+                <option key={id} value={id}>
+                  {id}
+                </option>
+              ))}
+            </select> */}
+            <select
+              id="garage"
+              name="garage"
+              value={selectedGarageId}
+              onChange={handleGarageChange}
+            >
               {garagesIds.map((id) => (
                 <option key={id} value={id}>
                   {id}
@@ -663,7 +694,8 @@ const DashboardforTechnicalSupport = () => {
 
             <div className={DashboardStyle.StatisticsTable}>
               <h4 style={{ textAlign: "left" }}>Staff activities</h4>
-              {staffactivityRows && (
+
+              {staffactivityRows.length > 0 ? (
                 <DataGrid
                   rows={staffactivityRows}
                   columns={columns}
@@ -674,6 +706,8 @@ const DashboardforTechnicalSupport = () => {
                   }}
                   pageSizeOptions={[5, 8, 11]}
                 />
+              ) : (
+                <div style={{ marginTop: "15px" }}>There is no staff activities in this garage</div>
               )}
             </div>
           </div>

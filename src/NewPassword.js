@@ -5,7 +5,7 @@ import { useState } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from "@mui/icons-material/Add";
 import Swal from "sweetalert2";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const Newpassword = () => {
   const [loading, setLoading] = useState(false);
   const {
@@ -15,8 +15,9 @@ const Newpassword = () => {
     watch,
   } = useForm();
   const location = useLocation();
-  const otp = location.state?.otp; // Get the OTP passed from Resetpassword component
-  const info = location.state?.passUpdateInfo
+  const info = location.state?.passUpdateInfo;
+const navigate = useNavigate();
+  console.log(info);
   const onSubmit = (data) => {
     setLoading(true);
     axiosInstance
@@ -24,6 +25,11 @@ const Newpassword = () => {
         "/api/Auth/ResetPassword",
         {
           NewPassword: data.password,
+
+          Email: info.Email,
+          Token: info.Token.toString(),
+
+          OTP: info.OTP,
         },
         {
           headers: {
@@ -37,8 +43,10 @@ const Newpassword = () => {
           icon: "success",
           title: "Success",
           text: "Password resetted successfully",
+        }).then(() => {
+            setLoading(false);
+            navigate("/");
         })
-        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -46,7 +54,7 @@ const Newpassword = () => {
           icon: "error",
           title: "Error",
           text: "Failed to reset password",
-        })
+        });
         setLoading(false);
       });
   };
@@ -56,12 +64,9 @@ const Newpassword = () => {
   return (
     <div className={Resetstyles.resetContainer}>
       <div className={Resetstyles.resetContent}>
-        <h2>
-          Please provide your new password
-        </h2>
+        <h2>Please provide your new password</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-
             <input
               type="password"
               placeholder="New Password"
@@ -77,13 +82,21 @@ const Newpassword = () => {
                 },
                 validate: {
                   lowercase: (value) =>
-                    value.match(/[a-z]/) ? true : "Password must contain at least one lowercase letter",
+                    value.match(/[a-z]/)
+                      ? true
+                      : "Password must contain at least one lowercase letter",
                   uppercase: (value) =>
-                    value.match(/[A-Z]/) ? true : "Password must contain at least one uppercase letter",
+                    value.match(/[A-Z]/)
+                      ? true
+                      : "Password must contain at least one uppercase letter",
                   number: (value) =>
-                    value.match(/[0-9]/) ? true : "Password must contain at least one number",
+                    value.match(/[0-9]/)
+                      ? true
+                      : "Password must contain at least one number",
                   specialChar: (value) =>
-                    value.match(/[@$!%*?&]/) ? true : "Password must contain at least one special character (@, $, !, %, *, ?, &)",
+                    value.match(/[@$!%*?&]/)
+                      ? true
+                      : "Password must contain at least one special character (@, $, !, %, *, ?, &)",
                 },
               })}
             />
@@ -96,12 +109,14 @@ const Newpassword = () => {
               placeholder="Confirm New Password"
               {...register("NewPassword", {
                 required: "Please confirm your password",
-                validate: value =>
-                  value === password || "The passwords do not match"
+                validate: (value) =>
+                  value === password || "The passwords do not match",
               })}
             />
             {errors.NewPassword && (
-              <div className={Resetstyles.error}>{errors.NewPassword.message}</div>
+              <div className={Resetstyles.error}>
+                {errors.NewPassword.message}
+              </div>
             )}
           </div>
           <LoadingButton

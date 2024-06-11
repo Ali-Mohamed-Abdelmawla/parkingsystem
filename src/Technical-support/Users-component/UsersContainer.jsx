@@ -71,6 +71,9 @@ function SystemUsers() {
 
   const handleFormSubmit = (data) => {
     console.log(data);
+    if(data.Role === "garageadmin"){
+      data.Salary = 0
+    }
     axiosInstance
       .put(`/TechnicalSupport/EditUser/${editedEmployee.Id}`, data, {
         headers: {
@@ -183,6 +186,7 @@ function SystemUsers() {
 
   const handleBulkEmailSend = (title, message) => {
     // Perform bulk email sending logic using selectedEmployeeEmails
+    setLoading(true);
     axiosInstance
       .post(
         `/TechnicalSupport/SendBulkEmails`,
@@ -203,11 +207,13 @@ function SystemUsers() {
         Swal.fire("Success", "Emails sent successfully", "success").then(() => {
           setShowBulkEmails(false); // Close the pop-up after sending emails
           document.body.classList.remove(Employeestyle.viewModalActive);
+          setLoading(false);
         });
       })
       .catch((error) => {
         console.error("Error sending emails:", error);
         Swal.fire("Error", `Failed to send emails, ${error}`, "error");
+        setLoading(false);
       });
   };
   const handleBulkEmailClose = () => {
@@ -266,6 +272,7 @@ function SystemUsers() {
         <BulkEmails
           onClose={handleBulkEmailClose}
           onSend={handleBulkEmailSend}
+          loading={loading}
         />
       )}
     </>

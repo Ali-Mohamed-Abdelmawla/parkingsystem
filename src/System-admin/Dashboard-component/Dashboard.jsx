@@ -60,20 +60,45 @@ function formatHourvalue(timeValue) {
   return formattedTime;
 }
 
+const formatDate = (date) => {
+  const month = date.getMonth() + 1; // months are 0-based
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${year}-${month < 10 ? `0${month}` : month}-${
+    day < 10 ? `0${day}` : day
+  }`;
+};
+
 const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const accessToken = sessionStorage.getItem("accessToken");
   const today = new Date();
-  const formattedToday = `${
-    today.getMonth() + 1
-  }-${today.getDate()}-${today.getFullYear()}`;
-  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-  const formattedStartOfMonth = `${
-    startOfMonth.getMonth() + 1
-  }-${startOfMonth.getDate()}-${startOfMonth.getFullYear()}`;
 
-  const [startDate, setStartDate] = useState(formattedStartOfMonth);
-  const [endDate, setEndDate] = useState(formattedToday);
+  const startOfCurrentMonth = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    1
+  );
+  const startOfPreviousMonth = new Date(
+    today.getFullYear(),
+    today.getMonth() - 1,
+    1
+  );
+  if (today.getMonth() === 0) {
+    // if current month is January
+    startOfPreviousMonth.setFullYear(today.getFullYear() - 1);
+  }
+  const startOfCurrentMonthLastYear = new Date(
+    today.getFullYear() - 1,
+    today.getMonth(),
+    1
+  );
+
+  const [startDate, setStartDate] = useState(
+    formatDate(startOfCurrentMonthLastYear)
+  );
+  const [endDate, setEndDate] = useState(formatDate(startOfCurrentMonth));
+
   const [statistics, setStatistics] = useState(null);
   const [revenueColumnChartData, setRevenueColumnChartData] = useState(null);
   const [revenueColumnChartOptions, setRevenueColumnChartOptions] =
@@ -417,6 +442,8 @@ const Dashboard = () => {
       );
 
       setStaffactivityRows(rows);
+    } else {
+      setStaffactivityRows([]);
     }
   }, [statistics]);
 
@@ -594,7 +621,8 @@ const Dashboard = () => {
 
             <div className={DashboardStyle.StatisticsTable}>
               <h4 style={{ textAlign: "left" }}>Staff activities</h4>
-              {staffactivityRows && (
+
+              {staffactivityRows?.length > 0 ? (
                 <DataGrid
                   rows={staffactivityRows}
                   columns={columns}
@@ -603,8 +631,10 @@ const Dashboard = () => {
                       paginationModel: { page: 0, pageSize: 5 },
                     },
                   }}
-                  pageSizeOptions={[5, 8, 13]}
+                  pageSizeOptions={[5, 8, 11]}
                 />
+              ) : (
+                <div style={{ marginTop: "15px" }}>There is no staff activities in this garage</div>
               )}
             </div>
           </div>

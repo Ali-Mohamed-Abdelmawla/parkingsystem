@@ -25,9 +25,9 @@ function UsersModal({
       PhoneNumber: editedEmployee?.PhoneNumber || "",
       GarageId: editedEmployee?.GarageId || "",
       Role: editedEmployee?.Role || "",
+      Salary: editedEmployee?.Salary || "",
     },
   });
-  
 
   const customStyles = {
     control: (styles, { isFocused }) => ({
@@ -91,10 +91,9 @@ function UsersModal({
 
   useEffect(() => {
     setRole(editedEmployee.Role);
-    if(editedEmployee.GarageId)
-      {
-        setGarageId(editedEmployee.GarageId)
-      }
+    if (editedEmployee.GarageId) {
+      setGarageId(editedEmployee.GarageId);
+    }
   }, [editedEmployee]);
 
   const roleOptions = [
@@ -152,29 +151,52 @@ function UsersModal({
         )}
 
         <input
-        defaultValue={editedEmployee.NationalId}
-            placeholder="National ID"
-            type="text"
-            {...register("NationalId", {
-              required: "National ID is required",
-              minLength: {
-                value: 14,
-                message: "National ID must be exactly 14 digits",
-              },
-              maxLength: {
-                value: 14,
-                message: "National ID must be exactly 14 digits",
-              },
-              pattern: {
-                value: /^\d+$/,
-                message: "The entered value should be a number",
-              },
-            })}
-          />
-          {errors.NationalId && (
-            <span className={Employeestyle.error}>{errors.NationalId.message}</span>
-          )}
+          defaultValue={editedEmployee.NationalId}
+          placeholder="National ID"
+          type="text"
+          {...register("NationalId", {
+            required: "National ID is required",
+            minLength: {
+              value: 14,
+              message: "National ID must be exactly 14 digits",
+            },
+            maxLength: {
+              value: 14,
+              message: "National ID must be exactly 14 digits",
+            },
+            pattern: {
+              value: /^\d+$/,
+              message: "The entered value should be a number",
+            },
+          })}
+        />
+        {errors.NationalId && (
+          <span className={Employeestyle.errorMessage}>
+            {errors.NationalId.message}
+          </span>
+        )}
 
+        {editedEmployee.Role === "customerservice" ? (
+          <>
+            <input
+              {...register("Salary", {
+                required: "Salary is required",
+                pattern: {
+                  value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
+                  message: "The entered value should be a number",
+                },
+              })}
+              type="text"
+              placeholder="Salary"
+              defaultValue={editedEmployee.Salary}
+            />
+            {errors.Salary && (
+              <span className={Employeestyle.errorMessage}>
+                {errors.Salary.message}
+              </span>
+            )}
+          </>
+        ) : null}
 
         <input
           {...register("Email", {
@@ -220,8 +242,7 @@ function UsersModal({
           </span>
         )}
 
-
-        <div style={{ width: "70%",alignSelf: "center" }}>
+        <div style={{ width: "70%", alignSelf: "center" }}>
           <Controller
             name="GarageId"
             control={control}
@@ -234,7 +255,7 @@ function UsersModal({
                   field.onChange(selectedOption.garageId);
                 }}
                 role={role}
-                defValue = {garageId}
+                defValue={garageId}
               />
             )}
           />
@@ -245,32 +266,36 @@ function UsersModal({
           </span>
         )}
 
-        <div style={{ width: "70%",alignSelf: "center" }}>
-            <Controller
-              name="Role"
-              control={control}
-              rules={{ required: "Role is required" }}
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  placeholder="Role"
-                  // value={
-                  //   role
-                  //     ? roleOptions.find((option) => option.value === role)
-                  //     : null
-                  // }
-                  // value={field.value ? roleOptions.find(option => option.value === field.value) : null}
-                  value={role ? roleOptions.find((option) => option.value === role) : null}
-                  defaultValue={role}
-                  options={roleOptions}
-                  onChange={(selectedOption) => {
-                    handleChange(selectedOption, field);
-                  }}
-                  styles={customStyles}
-                />
-              )}
-            />
-          </div>
+        <div style={{ width: "70%", alignSelf: "center" }}>
+          <Controller
+            name="Role"
+            control={control}
+            rules={{ required: "Role is required" }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Role"
+                // value={
+                //   role
+                //     ? roleOptions.find((option) => option.value === role)
+                //     : null
+                // }
+                // value={field.value ? roleOptions.find(option => option.value === field.value) : null}
+                value={
+                  role
+                    ? roleOptions.find((option) => option.value === role)
+                    : null
+                }
+                defaultValue={role}
+                options={roleOptions}
+                onChange={(selectedOption) => {
+                  handleChange(selectedOption, field);
+                }}
+                styles={customStyles}
+              />
+            )}
+          />
+        </div>
         {errors.Role && (
           <span className={Employeestyle.errorMessage}>
             {errors.Role.message}

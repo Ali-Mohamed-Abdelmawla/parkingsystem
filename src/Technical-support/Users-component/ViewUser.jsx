@@ -27,6 +27,15 @@ function UsersViewModal({ employee, handleCloseView }) {
             <span className={Employeestyle.data}>{employee.NationalId}</span>
           </span>
           <br />
+          {employee.Role === "customerservice" ? (
+            <>
+              <span className={Employeestyle.block}>
+                <b>Salary: </b>{" "}
+                <span className={Employeestyle.data}>{employee.Salary}$</span>
+              </span>
+              <br />
+            </>
+          ) : null}
           <span className={Employeestyle.block}>
             <b>Email Address: </b>{" "}
             <span className={Employeestyle.data}>{employee.Email}</span>

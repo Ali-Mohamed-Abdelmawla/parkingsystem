@@ -27,7 +27,7 @@ const Resetpassword = () => {
         },
       })
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
         setLoading(false);
         navigate("/newpassword", { state: { otp: data.otp, passUpdateInfo: response.data } });
 

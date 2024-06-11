@@ -16,6 +16,7 @@ import search from "./assets/light-mode/Search.svg";
 //pop-ups
 import AddEmployee from "./AddEmployee-component/AddEmployee";
 import AddReport from "./AddReport-component/AddReport";
+import Hourprice from "./Edit-hourPrice/EditHourPrice";
 
 //Routes
 import { useNavigate } from "react-router-dom";
@@ -28,6 +29,7 @@ function TheOne() {
 
   const [showAddPage, setShowAddPage] = useState(false);
   const [showAddReportPage, setShowAddReportPage] = useState(false);
+  const [showHourPriceEdit, setShowHourPriceEdit] = useState(false);
   const [userName, setUserName] = useState(null);
   const [garageData, setGarageData] = useState(null);
 
@@ -66,6 +68,17 @@ function TheOne() {
 
   const handleCloseComplaintsBtn = () => {
     setShowAddReportPage(false);
+    document.body.classList.remove(styles.addModalActive);
+  };
+
+  
+  const handleEditHourPriceClick = () => {
+    setShowHourPriceEdit(true);
+    document.body.classList.add(styles.addModalActive);
+  };
+
+  const handleCLoseEditHourPrice = () => {
+    setShowHourPriceEdit(false);
     document.body.classList.remove(styles.addModalActive);
   };
 
@@ -163,20 +176,18 @@ function TheOne() {
           <div className={styles.Header}>
             <div className={styles.titleBar}>
               <p>
-                {/* Need a secure spot for your car?
-                <span className={styles.info}> {garageData?.garageName} </span>
-                offers convenient parking for{" "}
-                <span className={styles.info}>${garageData?.HourPrice} </span>{" "}
-                per hour. */}
                 Garage:{" "}
                 <span className={styles.info}>{garageData?.garageName} </span>
-
               </p>
               <br></br>
               <p>
-              Price: 
-              <span className={styles.info}>{garageData?.HourPrice}</span>$ per hour
+                Price:
+                <span className={styles.info}>{garageData?.HourPrice}</span>$
+                per hour
               </p>
+            </div>
+            <div className={styles.hourPrice} onClick={handleEditHourPriceClick}>
+            <button>Edit Hour price for the Garage</button>
             </div>
             {/* here........................................................ */}
             <div className={styles.Theme}>
@@ -197,6 +208,9 @@ function TheOne() {
             {showAddPage && <AddEmployee onClose={handleCloseAddBtn} />}
             {showAddReportPage && (
               <AddReport onClose={handleCloseComplaintsBtn} />
+            )}
+            {showHourPriceEdit && (
+              <Hourprice onClose={handleCLoseEditHourPrice} />
             )}
             <Outlet /> {/* This will render child routes like Employees */}
           </div>

@@ -17,7 +17,7 @@ function EmployeesDeleteConfirmation({
           <p>Are you sure you want to delete this employee? </p>
         </div>
         <div className={Employeestyle.deleteModelButtons}>
-          <LoadingButton
+          {/* <LoadingButton
               endIcon={<DeleteIcon />}
               loading={loading}
               loadingPosition="end"
@@ -26,7 +26,8 @@ function EmployeesDeleteConfirmation({
               style={{ boxShadow: "none", fontSize: "12px" }}
             >
               <span>Confirm</span>
-            </LoadingButton>
+            </LoadingButton> */}
+            <button onClick={handleConfirmDelete}>Confirm</button>
           <button onClick={handleCancelDelete}>No</button>
         </div>
       </div>

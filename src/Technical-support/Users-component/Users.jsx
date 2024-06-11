@@ -55,6 +55,7 @@ function UsersTable({
     NationalId: employee.NationalId,
     email: employee.Email,
     Role: employee.Role,
+    Salary: employee.Salary,
     PhoneNumber: employee.PhoneNumber,
     GarageId: employee.GarageId,
   }));

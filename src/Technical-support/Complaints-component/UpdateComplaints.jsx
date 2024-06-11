@@ -16,7 +16,7 @@ const DeleteConfirmationModal = ({
         <p>This will mark this report as solved. Proceed?</p>
       </div>
       <div className={styles.deleteModelButtons}>
-        <LoadingButton
+        {/* <LoadingButton
           endIcon={<DeleteIcon />}
           loading={loading}
           loadingPosition="end"
@@ -25,7 +25,8 @@ const DeleteConfirmationModal = ({
           style={{ boxShadow: "none", fontSize: "12px" }}
         >
           <span>Confirm</span>
-        </LoadingButton>
+        </LoadingButton> */}
+        <button onClick={onConfirmUpdate}>Confirm</button>
         <button onClick={onCancelUpdate}>No</button>
       </div>
     </div>
