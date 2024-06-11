@@ -17,7 +17,6 @@ import LightModeLogout from '../assets/LightMode/log-out.svg';
 import DarkModeLogout from '../assets/DarkMode/log-out-dark.svg';
 import AddUser from '../assets/LightMode/add-employee-icon.svg';
 import DarkAddUser from '../assets/DarkMode/add-employee-dark.svg';
-
 import AddNewGaragePopup from '../Pages/garage-popup';
 import UserPopup from '../Pages/add-user-popup';
 
@@ -36,6 +35,10 @@ const Sidebar = ({ darkmode }) => {
     const handleClosePopup = () => {
         setIsGaragePopupOpen(false);
         setIsUserPopupOpen(false);
+    };
+    const handleLogout = () => {
+        // Clear the token from sessionStorage
+        sessionStorage.removeItem("accessToken");
     };
 
     return (
@@ -58,12 +61,12 @@ const Sidebar = ({ darkmode }) => {
                 </div>
             </div>
             {isGaragePopupOpen && <AddNewGaragePopup onClose={handleClosePopup} darkMode={darkmode} />}
-            {isUserPopupOpen && <UserPopup onClose={handleClosePopup} />}
-            <div className={styles['menu-item']}>
+            {isUserPopupOpen && <UserPopup onClose={handleClosePopup} darkMode={darkmode}/>}
+            <div className={styles['menu-item']} onClick={handleLogout}>
                 <Link to={'/'}>
                     <img src={darkmode ? DarkModeLogout : LightModeLogout} alt="Logout" />
+                    <p>{darkmode ? 'Logout' : 'Logout'}</p>
                 </Link>
-                <p>{darkmode ? 'Logout' : 'Logout'}</p>
             </div>
         </div>
     );

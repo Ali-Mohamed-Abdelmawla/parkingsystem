@@ -7,7 +7,7 @@ import DeleteConfirmationModal from "./DeleteComplaints";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import style from '../styles/Employees.module.css'
 
 const baseURL = "https://raknaapi.azurewebsites.net";
 const accessToken = sessionStorage.getItem("accessToken");
@@ -48,13 +48,13 @@ const ComplaintsContainer = () => {
   const handleOpenView = async (index) => {
     setShowViewDetails(true);
     setViewIndex(index);
-    document.body.classList.add("viewModalActive");
+    document.body.classList.add(style.viewModalActive);
   };
 
   const handleCloseView = () => {
     setShowViewDetails(false);
     setViewIndex(null);
-    document.body.classList.remove("viewModalActive");
+    document.body.classList.remove(style.viewModalActive);
   };
 
   // const handleForwardToAdminClick = async (reportId, garageAdminId) => {
@@ -85,11 +85,15 @@ const ComplaintsContainer = () => {
     setForwardAdminOpen(true)
     console.log(reportId)
     setForwardedReport(reportId)
+    document.body.classList.add(style.viewModalActive);
+
   }
 
   const handleCloseForwardToAdmin = () => {
     setForwardAdminOpen(false)
     setForwardedReport(null)
+    document.body.classList.remove(style.viewModalActive);
+
   }
   const handleForwardToTechnicalClick = async (reportId) => {
     const technicalSupportId = "af47b4b7-9e91-46a3-80f5-86f4167e2d08";
@@ -124,10 +128,14 @@ const ComplaintsContainer = () => {
     console.log("Solved");
     setShowSolvedConfirmation(true);
     setSolvedIndex(index);
+    document.body.classList.add(style.viewModalActive);
+
   };
 
   const handlecloseSolved = () => {
     setShowSolvedConfirmation(false);
+    document.body.classList.remove(style.viewModalActive);
+
   };
 
   const handleConfirmSolve = async () => {

@@ -1,23 +1,15 @@
-import React, { useState } from 'react';
-import close from '../assets/LightMode/false.svg';
+import React from 'react';
+import closeDark from '../assets/DarkMode/false-dark.svg';
+import closeLight from '../assets/LightMode/false.svg';
 import styles from './garage-popup.module.css';
 import axios from 'axios';
+import Swal from 'sweetalert2'; 
+import { useForm } from 'react-hook-form'; 
 
-const UserPopup = ({ onClose, darkMode }) => { 
-    const [userData, setUserData] = useState([]);
-    const [formData, setFormData] = useState({
-        fullName: '',
-        nationalId: '',
-        userName: '',
-        email: '',
-        role: '',
-        phoneNumber: '',
-        garageId:'',
-        salary:0
-    });
+const UserPopup = ({ onClose, darkMode }) => {
+    const { register, handleSubmit, formState: { errors }, reset } = useForm(); 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const onSubmit = async (data) => {
         try {
             const accessToken = sessionStorage.getItem('accessToken');
             const headers = {
@@ -25,7 +17,7 @@ const UserPopup = ({ onClose, darkMode }) => {
                 'Content-Type': 'application/json',
             };
 
-            const response = await axios.post('https://raknaapi.azurewebsites.net/TechnicalSupport/AddUser', formData, {
+            const response = await axios.post('https://raknaapi.azurewebsites.net/TechnicalSupport/AddUser', data, {
                 headers: headers
             });
 
@@ -33,41 +25,63 @@ const UserPopup = ({ onClose, darkMode }) => {
                 throw new Error('Failed to add user');
             }
 
-            console.log('Added newUser:', response.data);
-            setUserData([...userData, response.data]);
-            setFormData({
-                fullName: '',
-                nationalId: '',
-                userName: '',
-                email: '',
-                role: '',
-                phoneNumber: '',
-                garageId:'',
-                salary:0
+            console.log('Added new user:', response.data);
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'User added successfully!',
+                confirmButtonColor: '#4caf50'
+            }).then(() => {
+                reset();
+                onClose(); 
             });
         } catch (error) {
             console.error('Error adding user:', error.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to add user. Please try again later.',
+                confirmButtonColor: '#f44336'
+            });
         }
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
     };
 
     return (
         <div className={`${styles.popup} ${darkMode ? styles['dark-mode'] : ''}`}>
             <div className={styles['popup-inner']}>
-                <img src={close} alt="close" className={styles['close-icon']} onClick={onClose} />
+                <img src={darkMode ? closeDark : closeLight} alt="close" className={styles['close-icon']} onClick={onClose} /> 
                 <h2>Add User</h2>
-                <form onSubmit={handleSubmit}>
-                    <input placeholder='Full Name' type="text" name="fullName" value={formData.fullName} onChange={handleChange} />
-                    <input placeholder='National ID' type="text" name="nationalId" value={formData.nationalId} onChange={handleChange}  />
-                    <input placeholder='Username' type="text" name="userName" value={formData.userName} onChange={handleChange}  />
-                    <input placeholder='Email' type="email" name="email" value={formData.email} onChange={handleChange} />
-                    <input placeholder='Role' type="text" name="role" value={formData.role} onChange={handleChange} />
-                    <input placeholder='Phone Number' type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
-                    <input placeholder='GarageId' type="text" name="garageId" value={formData.garageId} onChange={handleChange} />
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <input placeholder='FullName' type="text" {...register("FullName", { required: true })} />
+                    {errors.FullName && <span className="error">FullName is required</span>}
+                    
+                    <input placeholder='National ID' type="text" {...register("NationalId", { required: true, minLength: 14, maxLength: 14 })} />
+                    {errors.NationalId && errors.NationalId.type === "required" && <span className="error">National ID is required</span>}
+                    {errors.NationalId && errors.NationalId.type === "minLength" && <span className="error">National ID must be exactly 14 digits</span>}
+                    {errors.NationalId && errors.NationalId.type === "maxLength" && <span className="error">National ID must be exactly 14 digits</span>}
+                    
+                    <input placeholder='Username' type="text" {...register('UserName', { required: true, pattern: /^[a-zA-Z0-9]{5,20}$/ })} />
+                    {errors.UserName && errors.UserName.type === "required" && <span className="error">Username is required</span>}
+                    {errors.UserName && errors.UserName.type === "pattern" && <span className="error">Username must be 5 to 20 characters long with no spaces and special characters</span>}
+                    
+                    <input placeholder='Email' type="email" {...register("Email", { required: true })} />
+                    {errors.Email && <span className="error">Email is required</span>}
+                    
+                    <select {...register("Role", { required: true })}>
+                        <option value="garageadmin">garageadmin</option>
+                        <option value="customerservice">customerservice </option>
+                    </select>
+                    {errors.Role && <span className="error">Role is required</span>}
+
+                    <input placeholder='Phone Number' type="text" {...register("PhoneNumber", { required: true })} />
+                    {errors.PhoneNumber && <span className="error">Phone Number is required</span>}
+                    
+                    <input placeholder='Garage Id' type="number" {...register("GarageId", { required: true })} />
+                    {errors.GarageId && <span className="error">Garage ID is required</span>}
+                    
+                    <input placeholder='Salary' type="number" {...register("Salary", { required: true })} />
+                    {errors.Salary && <span className="error">Salary is required</span>}
+                    
                     <button className={styles.submit} type="submit">Add</button>
                 </form>
             </div>

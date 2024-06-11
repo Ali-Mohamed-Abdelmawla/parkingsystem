@@ -8,10 +8,9 @@ import Card from "./Card";
 // import { BarChart, BarSeries, XAxis, YAxis, Title } from '@mui/x-charts';
 import { ColumnChart } from "./ColumnChart";
 import { PieChart } from "./PieChart";
-import { DataGrid } from "@mui/x-data-grid";
+import DataGrid from "../Styled-Table/CustomDataGrid";
 
 const baseURL = "https://raknaapi.azurewebsites.net";
-const accessToken = sessionStorage.getItem("accessToken");
 
 function formatFriendlyTime(timeString) {
   const [hours, minutes, secondsWithMilliseconds] = timeString
@@ -69,6 +68,7 @@ function formatHourvalue(timeValue) {
 }
 
 const Dashboard = () => {
+  const accessToken = sessionStorage.getItem("accessToken");
   // Initialize state for start and end dates
   const today = new Date();
   const formattedToday = `${
@@ -114,7 +114,14 @@ const Dashboard = () => {
     useState(null);
 
   const [staffactivityRows, setStaffactivityRows] = useState(null);
-  const [staffactivityColumns, setStaffactivityColumns] = useState(null);
+  const columns = [
+    { field: "StaffName", headerName: "Staff Name", flex: 1 },
+    {
+      field: "NumberOfSessions",
+      headerName: "Number of sessions",
+      flex: 1,
+    },
+  ];
 
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
@@ -365,16 +372,7 @@ const Dashboard = () => {
 
     //
 
-    if (statistics.StaffActivityRating.StaffActivities) {
-      const columns = [
-        { field: "StaffName", headerName: "Staff Name", flex: 1 },
-        {
-          field: "NumberOfSessions",
-          headerName: "Number of sessions",
-          flex: 1,
-        },
-      ];
-
+    if (statistics.StaffActivityRating.StaffActivities?.length > 0) {
       const rows = statistics.StaffActivityRating.StaffActivities?.map(
         (staffActivity, index) => ({
           id: index,
@@ -382,7 +380,6 @@ const Dashboard = () => {
         })
       );
 
-      setStaffactivityColumns(columns);
       setStaffactivityRows(rows);
     } else {
       return;
@@ -421,19 +418,7 @@ const Dashboard = () => {
           {/* ===================================================================================================== */}
           <div className={DashboardStyle.statisticsContents}>
             {/* Render Cards component here */}
-            {/* General */}
-            <Card
-              title="Average parking time"
-              value={formatFriendlyTime(
-                statistics.AverageParkingDuration.AverageDuration
-              )}
-              icon={operations}
-            />
-            <Card
-              title="Total salary paid"
-              value={formatCurrency(statistics.TotalSalaryPaid.TotalSalaryPaid)}
-              icon={revenue}
-            />
+
             {/* ===========================Reservation============================= */}
             <div className={DashboardStyle.StatisticsCard}>
               <h4 style={{ textAlign: "left" }}>Reservations</h4>
@@ -527,24 +512,37 @@ const Dashboard = () => {
             </div>
             <div className={DashboardStyle.StatisticsCard}>
               <h4 style={{ textAlign: "left" }}>Peak hours of the day</h4>
+              <div className={DashboardStyle.StatisticsCardContent}>
               <ColumnChart data={peakHoursData} options={peakHoursOptions} />
+              </div>
             </div>
+            {/* General */}
+            <Card
+              title="Average parking time"
+              value={formatFriendlyTime(
+                statistics.AverageParkingDuration.AverageDuration
+              )}
+              icon={operations}
+            />
+            <Card
+              title="Total salary paid"
+              value={formatCurrency(statistics.TotalSalaryPaid.TotalSalaryPaid)}
+              icon={revenue}
+            />
             <div className={DashboardStyle.StatisticsTable}>
               <h4 style={{ textAlign: "left" }}>Staff activities</h4>
               {/* staff activities */}
-              { staffactivityRows&&staffactivityColumns&& (
-                
-              
-              <DataGrid
-                rows={staffactivityRows}
-                columns={staffactivityColumns}
-                initialState={{
-                  pagination: {
-                    paginationModel: { page: 0, pageSize: 5 },
-                  },
-                }}
-                pageSizeOptions={[5, 8, 13]}
-              />
+              {staffactivityRows && (
+                <DataGrid
+                  rows={staffactivityRows}
+                  columns={columns}
+                  initialState={{
+                    pagination: {
+                      paginationModel: { page: 0, pageSize: 5 },
+                    },
+                  }}
+                  pageSizeOptions={[5, 8, 13]}
+                />
               )}
             </div>
           </div>

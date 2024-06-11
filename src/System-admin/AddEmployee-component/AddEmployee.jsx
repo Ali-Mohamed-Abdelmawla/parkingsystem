@@ -1,56 +1,27 @@
-// takes time IDK whyyy ??
+ // takes time IDK whyyy ??
 
-import React, { useState } from "react";
+
+
+import React from "react";
 import axios from "axios";
 import AddStyles from "./AddEmployee.module.css";
 import PropTypes from "prop-types";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
+import { useForm } from "react-hook-form";
+
 const AddEmployee = ({ onClose }) => {
-  const [addFormOpen, setAddFormOpen] = useState(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const accessToken = sessionStorage.getItem("accessToken");
-  const [formData, setFormData] = useState({
-    name: "",
-    userName: "",
-    email: "",
-    phoneNumber: "",
-    NationalId: "",
-    Salary: "",
-  });
 
-
-  const handleCloseAddBtn = () => {
-    setAddFormOpen(false);
-    onClose();
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    let isValidEmail = false;
-
-    // Validate email format if the input name is 'email'
-    if (name === "email") {
-      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-      isValidEmail = emailRegex.test(value);
-    }
-
-    // Update formData state with the new value
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-
-    // Optionally, you can set a state to indicate if the email is valid or not
-    // This can be used to display validation messages or disable the submit button
-    // setEmailValid(isValidEmail);
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    console.log(accessToken);
+  const onSubmit = (data) => {
     axios
       .post(
         "https://raknaapi.azurewebsites.net/api/GarageAdmin/AddStaff",
-        formData,
+        data,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -60,21 +31,12 @@ const AddEmployee = ({ onClose }) => {
       )
       .then((response) => {
         console.log("Employee added successfully:", response.data);
-        // Optionally, clear the form or close the modal here
-        setFormData({
-          name: "",
-          userName: "",
-          email: "",
-          phoneNumber: "",
-          NationalId: "",
-          Salary: "",
-        });
         Swal.fire({
           icon: "success",
           title: "Success",
           text: "Employee added successfully",
-        })
-        handleCloseAddBtn();
+        });
+        onClose();
       })
       .catch((error) => {
         console.error("Error adding employee:", error);
@@ -82,111 +44,149 @@ const AddEmployee = ({ onClose }) => {
           icon: "error",
           title: "Error",
           text: `Failed to add employee: ${error.response.data}`,
-        })
+        });
       });
-  };
-
-  AddEmployee.propTypes = {
-    onClose: PropTypes.func.isRequired,
   };
 
   return (
     <>
-      {addFormOpen && (
-        <div className={AddStyles.addModal}>
-          <div className={AddStyles.addTitle}>
-            <button onClick={handleCloseAddBtn}>
-              {/* Add close icon here */}
-            </button>
-          </div>
-          <form onSubmit={handleFormSubmit}>
-            <label>
-              <b>Add</b>
-            </label>
-            <input
-              required
-              type="text"
-              name="name"
-              placeholder="name"
-              value={formData.name}
-              onChange={handleInputChange}
-            />
-            <input
-              required
-              type="text"
-              name="userName"
-              placeholder="UserName"
-              value={formData.userName}
-              onChange={handleInputChange}
-            />
-            <input
-              required
-              type="text"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-            <input
-              required
-              type="text"
-              min="0"
-              id="number"
-              name="phoneNumber"
-              placeholder="phoneNumber"
-              value={formData.phoneNumber}
-              maxLength={11}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-                setFormData({
-                  ...formData,
-                  phoneNumber: value,
-                });
-              }}
-            />
-
-            <input
-              required
-              type="text"
-              min="0"
-              id="number"
-              name="NationalId"
-              placeholder="NationalId"
-              value={formData.NationalId}
-              maxLength={14}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-                setFormData({
-                  ...formData,
-                  NationalId: value,
-                });
-              }}
-            />
-            <input
-              required
-              type="text"
-              min="0"
-              id="number"
-              name="Salary"
-              placeholder="Salary"
-              value={formData.Salary}
-              maxLength={11}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-                setFormData({
-                  ...formData,
-                  Salary: value,
-                });
-              }}
-            />
-            <div className={AddStyles.addModelButtons}>
-              <button type="submit">Add</button>
-            </div>
-          </form>
+      <div className={AddStyles.addModal}>
+        <div className={AddStyles.addTitle}>
+          <button onClick={onClose}>{/* Add close icon here */}</button>
         </div>
-      )}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <label>
+            <b>Add an Employee</b>
+          </label>
+          <input
+            {...register("name", {
+              required: {
+                value: true,
+                message: "Full name for the user is required",
+              },
+            })}
+            type="text"
+            placeholder="name"
+          />
+          {errors.name && (
+            <span className={AddStyles.errorMessage}>
+              {errors.name.message}
+            </span>
+          )}
+          <input
+            {...register("userName", {
+              required: { value: true, message: "User name is required" },
+            })}
+            type="text"
+            placeholder="UserName"
+          />
+          {errors.userName && (
+            <span className={AddStyles.errorMessage}>
+              {errors.userName.message}
+            </span>
+          )}
+          <input
+            {...register("email", {
+              required: { value: true, message: "Email is required" },
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: "Please enter a valid email",
+              },
+            })}
+            type="text"
+            placeholder="Email"
+          />
+          {errors.email && (
+            <span className={AddStyles.errorMessage}>
+              {errors.email.message}
+            </span>
+          )}
+          <input
+            {...register("phoneNumber", {
+              required: {
+                value: true,
+                message: "phone number is required",
+              },
+              minLength: {
+                value: 11,
+                message: "The entered value should be 11 digits",
+              },
+              maxLength: {
+                value: 11,
+                message: "The entered value should be 11 digits",
+              },
+              pattern: {
+                value: /^\d+$/, // Regular expression to match only digits
+                message: "The entered value should be a number",
+              },
+            })}
+            type="text"
+            placeholder="phoneNumber"
+          />
+          {errors.phoneNumber && (
+            <span className={AddStyles.errorMessage}>
+              {errors.phoneNumber.message}
+            </span>
+          )}
+          <input
+            {...register("NationalId", {
+              required: {
+                value: true,
+                message: "NationalId is required",
+              },
+              minLength: {
+                value: 14,
+                message: "The entered value should be 14 digits",
+              },
+              maxLength: {
+                value: 14,
+                message: "The entered value should be 14 digits",
+              },
+              pattern: {
+                value: /^\d+$/, // Regular expression to match only digits
+                message: "The entered value should be a number",
+              },
+            })}
+            type="text"
+            placeholder="NationalId"
+          />
+          {errors.NationalId && (
+            <span className={AddStyles.errorMessage}>
+              {errors.NationalId.message}
+            </span>
+          )}
+          <input
+            {...register("Salary", {
+              required: {
+                value: true,
+                message: "Salary is required",
+              },
+              minLength: 1,
+              maxLength: 11,
+              pattern: {
+                value: /^\d+$/, // Regular expression to match only digits
+                message: "The entered value should be a number",
+              },
+            })}
+            type="text"
+            placeholder="Salary"
+          />
+          {errors.Salary && (
+            <span className={AddStyles.errorMessage}>
+              {errors.Salary.message}
+            </span>
+          )}
+          <div className={AddStyles.addModelButtons}>
+            <button type="submit">Add</button>
+          </div>
+        </form>
+      </div>
     </>
   );
+};
+
+AddEmployee.propTypes = {
+  onClose: PropTypes.func.isRequired,
 };
 
 export default AddEmployee;
