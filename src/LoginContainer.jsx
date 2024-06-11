@@ -16,7 +16,7 @@ const LoginForm = ({
   loading,
   showResetPassword,
   resetPasswordLoading,
-  setResetPasswordLoading
+  setResetPasswordLoading,
 }) => {
   const {
     register,
@@ -31,29 +31,31 @@ const LoginForm = ({
   const handleForgotPassword = () => {
     console.log(username);
     setResetPasswordLoading(true);
-    axiosInstance.post(
-      "/api/Auth/RequestPasswordReset",
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        params: {
-          email: username,
-        },
-      }
-    ).then((response) => {
-      console.log(response);
-      setResetPasswordLoading(false);
-      navigate("/resetpassword");
-
-    }).catch((error) => {
-      console.log(error);
-      setResetPasswordLoading(false);
-      if(error.response.data.includes("User not found.")){
-        Swal.fire("Error", "Email is not found", "error");
-      }
-    })
+    axiosInstance
+      .post(
+        "/api/Auth/RequestPasswordReset",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          params: {
+            email: username,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        setResetPasswordLoading(false);
+        navigate("/resetpassword", { state: { Email: username } });
+      })
+      .catch((error) => {
+        console.log(error);
+        setResetPasswordLoading(false);
+        if (error.response.data.includes("User not found.")) {
+          Swal.fire("Error", "Email is not found", "error");
+        }
+      });
   };
 
   return (
