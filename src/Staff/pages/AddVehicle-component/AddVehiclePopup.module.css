@@ -4,94 +4,101 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; 
-  direction: rtl;
+  z-index: 1000;
 }
 
 .popup {
-  background-color: #E2DCC8; 
+  background-color: #E2DCC8;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   position: relative;
 }
-
+.popup .header{
+  display: block;
+  margin: 5px;
+  margin-top: 15px;
+  color: #231F20;
+  margin-bottom: 20px;
+}
 .cancelIcon {
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
-  width:22px;
-  height:25px ;
+  width: 22px;
+  height: 25px;
 }
 
-.popup h2 {
-  margin-top: 0;
-  color: #231F20;
-  margin-bottom: 20px;
-  direction: ltr;
+
+.popup form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.popup .error {
+  color: #b32f2f;
+  align-self: center;
+  margin: 2px;
+
 }
 
 .plateNumberContainer {
   display: flex;
+  flex-direction: column;
 }
+
 .input {
-  border: 2px solid #E2DCC8;
+  border: 1px solid #8C8671;
   background-color: #F2F1F1;
   color: #231F20;
-  padding: 10px; 
-  width: 35px;
-  height: 40px; 
+  padding: 10px;
+  width: 80%;
+  height: 40px;
   box-sizing: border-box;
   border-radius: 7px;
   margin-right: 5px;
   margin-top: 10px;
+  direction: rtl;
+  transition: all 0.3s ease;
+}
+
+.input:hover {
+  border: 1px solid rgba(105, 105, 105, 0.425);
 }
 
 .plateNumberContainer {
   display: flex;
-  align-items: center; 
+  align-items: center;
 }
 
-.input {
-  text-align: end; 
-}
-
-.addInput {
-  
-}
-
-.errorMsg {
-  color: red;
-  margin-top: 10px;
-  direction: ltr;
-}
 
 
 .addButton {
-    /* padding: 10px 20px !important; */
-    background-color: #231F20 !important;
-    color: #F2F1F1 !important;
-    border: none !important;
-    width: 70px;
-    border-radius: 5px !important;
-    margin-left: auto !important;
-    margin-top: 20px !important;
-    direction: ltr;
-    line-height: 1px !important;
-    font-weight: bold !important;
+  justify-self: end;
+  background-color: #231F20 !important;
+  color: #F2F1F1 !important;
+  border: none !important;
+  width: 70px;
+  border-radius: 5px !important;
+  margin-left: auto !important;
+  margin-top: 20px !important;
+  direction: ltr;
+  line-height: 1px !important;
+  font-weight: bold !important;
 }
 
 
 .darkMode .popup {
-  background-color: #000000; 
+  background-color: #231F20;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .darkMode .popup h2 {
@@ -102,15 +109,15 @@
 
 .darkMode .input {
   border: 1px solid #8C8671;
-  background-color: #000000;
+  background-color: #3f3f3f;
   color: #ffffff;
 }
 
 .darkMode .addButton {
-  background-color: #8C8671 !important; 
-  color: #F2F1F1 !important; 
+  background-color: #8C8671 !important;
+  color: #F2F1F1 !important;
 }
 
 .darkMode .addButton:hover {
-  background-color: #6c6651 !important; 
+  background-color: #6c6651 !important;
 }

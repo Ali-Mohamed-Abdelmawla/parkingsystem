@@ -78,7 +78,6 @@
 
 .C-Vehicle-info {
   font-weight: bold;
-  color: #231f20;
 }
 
 .C-card-bottom {
@@ -120,6 +119,11 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.C-popup-content .C-popup-labels span {
+  margin-top: 25px;
+  display: block;
 }
 
 .C-popconfirm {
@@ -272,7 +276,7 @@
   Filter: invert(1)
 }
 
-.container .error-message{
+.container .error-message {
   color: #b32f2f;
 }
 
@@ -342,7 +346,7 @@
 .dark-mode .payment-input {
   background-color: #231F20;
   border-radius: 3px;
-  border: 2px solid #ffffff;
+  border: 1px solid #ffffff;
   color: #ffffff
 }
 

@@ -87,6 +87,8 @@ function TransactionPage() {
       }, 3000);
 
       return;
+    } else if(!paymentAmount){
+      return;
     }
     try {
       const requestData = {
@@ -234,17 +236,17 @@ function TransactionPage() {
                     <span>{plateNumber}</span>
                   </div>
                 </div>
-                <p>Duration: {duration}</p>
+                <span>
+                  <strong>Duration:</strong> {duration}
+                </span>
+                <span>
+                  <strong>Total cost: </strong>
+                  {vehicle.CurrentBill
+                    ? vehicle.CurrentBill.toFixed(2)
+                    : "N/A"}{" "}
+                  LE
+                </span>
                 <div className={styles["C-card-bottom"]}>
-                  <h3>
-                    Total cost:{" "}
-                    {vehicle.CurrentBill
-                      ? vehicle.CurrentBill.toFixed(2)
-                      : "N/A"}{" "}
-                    LE
-                  </h3>
-                </div>
-                <div  className={styles["C-card-bottom"]}>
                   <button
                     className={styles["C-confirm-button"]}
                     onClick={() =>
@@ -265,23 +267,35 @@ function TransactionPage() {
       {showConfirmPopup && selectedTransaction && (
         <div className={styles["C-popup"]}>
           <div className={styles["C-popup-content"]}>
-            <img
-              src={cancelIconSrc}
-              alt="Cancel Icon"
-              className={styles["cancel-icon"]}
-              onClick={() => setShowConfirmPopup(false)}
-            />
-            <p>
-              Plate Number: {selectedPlateLetters.split("").join(" ")}{" "}
+            <div>
+              <img
+                src={cancelIconSrc}
+                alt="Cancel Icon"
+                className={styles["cancel-icon"]}
+                onClick={() => setShowConfirmPopup(false)}
+              />
+            </div>
+            <div className={styles["C-popup-labels"]}>
+            <span>
+              <strong>
+                Plate Number: {selectedPlateLetters.split("").join(" ")}{" "}
+              </strong>
               {selectedPlateNumbers}
-            </p>
+            </span>
 
-            <p>
-              Entry Time:{" "}
+            <span>
+              <strong>Entry Time: </strong>
+
               {new Date(selectedTransaction.StartDate).toLocaleString()}
-            </p>
-            <p>Exit Time: {new Date().toLocaleString()}</p>
-            <p>Total Fee: {selectedTransaction.CurrentBill.toFixed(2)} LE</p>
+            </span>
+            <span>
+              <strong>Exit Time: </strong>
+              {new Date().toLocaleString()}
+            </span>
+            <span>
+              <strong>Total Fee: </strong>
+              {selectedTransaction.CurrentBill.toFixed(2)} LE
+            </span>
             <div className={styles["C-payment-options"]}>
               <label
                 htmlFor="paymentAmount"
@@ -302,6 +316,7 @@ function TransactionPage() {
               {paymentError && (
                 <span className={styles["error-message"]}>{paymentError}</span>
               )}
+            </div>
             </div>
 
             <LoadingButton

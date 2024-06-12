@@ -105,6 +105,14 @@ const AddGarage = ({ onClose }) => {
                 value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
                 message: "The entered value should be a number",
               },
+              minLength: {
+                value: -180,
+                message: "Minimum value should be -180",
+              },
+              maxLength: {
+                value: 180,
+                message: "Maximum value should be 180",
+              },
             })}
           />
           {errors.longitude && (
@@ -119,6 +127,14 @@ const AddGarage = ({ onClose }) => {
               pattern: {
                 value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
                 message: "The entered value should be a number",
+              },
+              minLength: {
+                value: -90,
+                message: "Minimum value should be -90",
+              },
+              maxLength: {
+                value: 90,
+                message: "Maximum value should be 90",
               },
             })}
           />

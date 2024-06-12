@@ -6,61 +6,85 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from "@mui/icons-material/Add";
 
 function AddVehiclePopupPresentational({
-  inputs,
+  register,
+  handleSubmit,
+  errors,
   darkMode,
   onClose,
-  handleSubmit,
-  handleInputChange,
-  handleAddInputClick,
-  inputRefs,
   loading,
 }) {
   const arabicRegex = /^[\u0600-\u06FF\s]+$/;
-  const numberOrLetterRegex = /^[\u0600-\u06FF\s0-9]+$/;
+  const numberRegex = /^[0-9]+$/;
 
   return (
-    <div className={`${styles.popupContainer} ${darkMode? styles.darkMode : ""}`}>
+    <div
+      className={`${styles.popupContainer} ${darkMode ? styles.darkMode : ""}`}
+    >
       <div className={styles.popup}>
-        <div className={styles.header}>
-          <h2>License Plate Number</h2>
+        <div>
           <img
-            src={darkMode? cancelIconDark : cancelIconLight}
+            src={darkMode ? cancelIconDark : cancelIconLight}
             alt="Cancel"
             className={styles.cancelIcon}
             onClick={onClose}
           />
         </div>
-        <div className={styles.plateNumberContainer}>
-          {inputs.map((input, index) => (
-            <input
-              key={index}
-              ref={(el) => (inputRefs.current[index] = el)}
-              type="text"
-              inputMode={index < 3? "text" : "none"} // Use "none" for mixed inputMode
-              value={input}
-              onChange={(e) => handleInputChange(index, e)}
-              onKeyDown={(e) => handleInputChange(index, e)}
-              maxLength={1}
-              className={styles.input}
-              pattern={index < 3? arabicRegex.source : numberOrLetterRegex.source} // Apply regex pattern
-            />
-          ))}
-          {inputs.length < 7 && (
-            <div className={styles.input} onClick={handleAddInputClick}>
-              +
-            </div>
-          )}
+        <div className={styles.header}>
+          <h2>License Plate Number</h2>
         </div>
-        <LoadingButton
-          endIcon={<AddIcon />}
-          loading={loading}
-          loadingPosition="end"
-          variant="contained"
-          onClick={handleSubmit}
-          className={`${styles.addButton} custom-loading-button`}
-        >
-          <span>Add</span>
-        </LoadingButton>
+
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            {...register("letters", {
+              required: "Arabic letters are required",
+              maxLength: {
+                value: 3,
+                message: "Maximum length is 3 characters",
+              },
+              pattern: {
+                value: arabicRegex,
+                message: "Please enter Arabic letters only",
+              },
+            })}
+            maxLength={3}
+            className={styles.input}
+            placeholder="Arabic Letters"
+          />
+          {errors.letters && (
+            <span className={styles.error}>{errors.letters.message}</span>
+          )}
+          <input
+            type="text"
+            {...register("numbers", {
+              required: "Numbers are required",
+              maxLength: {
+                value: 4,
+                message: "Maximum length is 4 digits",
+              },
+              pattern: {
+                value: numberRegex,
+                message: "Please enter numbers only",
+              },
+            })}
+            maxLength={4}
+            className={styles.input}
+            placeholder="Numbers"
+          />
+          {errors.numbers && (
+            <span className={styles.error}>{errors.numbers.message}</span>
+          )}
+          <LoadingButton
+            endIcon={<AddIcon />}
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+            type="submit"
+            className={`${styles.addButton} custom-loading-button`}
+          >
+            <span>Add</span>
+          </LoadingButton>
+        </form>
       </div>
     </div>
   );
