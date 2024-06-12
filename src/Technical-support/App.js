@@ -8,7 +8,6 @@ import ComplaintsIcon from "./assets/LightMode/complaints-icon.svg";
 import GaragesIcon from "./assets/LightMode/add-garage.svg";
 // import bulkEmailsIcon from "./assets/LightMode/bulkEmails.svg";
 
-
 import AddNewGarage from "./assets/LightMode/new-garage.svg";
 import AddUserIcon from "./assets/LightMode/add-employee-icon.svg";
 
@@ -135,11 +134,6 @@ function TheOne() {
             <img src={AddNewGarage} alt="complaints icon" />
             <b>Add Garage</b>
           </button>
-
-          <button onClick={handleLogoutBtn}>
-            <img src={Logout} alt="logout icon" />
-            <h3>Logout</h3>
-          </button>
         </div>
       </aside>
 
@@ -157,10 +151,22 @@ function TheOne() {
               </div>
             </div>
 
-            <p className={styles.Welcome}>
-              <small>Welcome, </small>
-              <h3> {userName} </h3>
-            </p>
+            <div className={styles.dropdown}>
+              <button className={styles.dropbtn}>User & Garage info</button>
+              <div className={styles.dropdownContent}>
+                <div>
+                  {" "}
+                  <strong>User name:</strong> {userName}
+                </div>
+
+                <div onClick={handleLogoutBtn}>
+                  <img src={Logout} alt="logout icon" />
+                  <strong>
+                    <span>Logout</span>
+                  </strong>
+                </div>
+              </div>
+            </div>
           </div>
           <div className={styles.Content}>
             {showAddPage && <AddUser onClose={handleCloseAddBtn} />}

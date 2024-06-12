@@ -11,7 +11,6 @@ import Salaries from "./assets/light-mode/Salaries.svg";
 import Logout from "./assets/light-mode/log-out.svg";
 import Add from "./assets/light-mode/Add-employee-icon.svg";
 import AddReporIcont from "./assets/light-mode/Add-Report.svg";
-import search from "./assets/light-mode/Search.svg";
 
 //pop-ups
 import AddEmployee from "./AddEmployee-component/AddEmployee";
@@ -71,7 +70,6 @@ function TheOne() {
     document.body.classList.remove(styles.addModalActive);
   };
 
-  
   const handleEditHourPriceClick = () => {
     setShowHourPriceEdit(true);
     document.body.classList.add(styles.addModalActive);
@@ -163,18 +161,18 @@ function TheOne() {
             <img src={AddReporIcont} alt="complaints icon" />
             <b>Add Report</b>
           </button>
-
+          {/* 
           <button onClick={handleLogoutBtn}>
             <img src={Logout} alt="logout icon" />
             <h3>Logout</h3>
-          </button>
+          </button> */}
         </div>
       </aside>
 
       <main>
         <div className={styles.rightSide}>
           <div className={styles.Header}>
-            <div className={styles.titleBar}>
+            {/* <div className={styles.titleBar}>
               <p>
                 Garage:{" "}
                 <span className={styles.info}>{garageData?.garageName} </span>
@@ -185,10 +183,13 @@ function TheOne() {
                 <span className={styles.info}>{garageData?.HourPrice}</span>$
                 per hour
               </p>
-            </div>
-            <div className={styles.hourPrice} onClick={handleEditHourPriceClick}>
-            <button>Edit Hour price for the Garage</button>
-            </div>
+            </div> */}
+            {/* <div
+              className={styles.hourPrice}
+              onClick={handleEditHourPriceClick}
+            >
+              <button>Edit Hour price for the Garage</button>
+            </div> */}
             {/* here........................................................ */}
             <div className={styles.Theme}>
               <div className={styles.themeSwitchContainer}>
@@ -199,10 +200,29 @@ function TheOne() {
               </div>
             </div>
 
-            <p className={styles.Welcome}>
-              <small>Welcome, </small>
-              <h3> {userName} </h3>
-            </p>
+            <div className={styles.dropdown}>
+              <button className={styles.dropbtn}>User & Garage info</button>
+              <div className={styles.dropdownContent}>
+                <div> <strong>User name:</strong> {userName}</div>
+                <div>
+                  {" "}
+                  <strong>Garage:</strong>
+                  {garageData?.garageName}
+                </div>
+                <div>
+                  <strong>Pricing:</strong>
+                  {garageData?.HourPrice}$
+                  per hour
+                </div>
+                <div onClick={handleEditHourPriceClick}>
+                  <strong>Edit Hour price for the Garage</strong>
+                </div>
+                <div onClick={handleLogoutBtn}>
+                  <img src={Logout} alt="logout icon" />
+                  <strong><span>Logout</span></strong>
+                </div>
+              </div>
+            </div>
           </div>
           <div className={styles.Content}>
             {showAddPage && <AddEmployee onClose={handleCloseAddBtn} />}

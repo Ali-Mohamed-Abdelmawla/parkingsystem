@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import axiosInstance from "./auth/axios";
 import Resetstyles from "./Login.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from "@mui/icons-material/Add";
 import SendIcon from "@mui/icons-material/Send";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import CountdownTimer from "./helper/Cound down timer/CountDown";
 const Resetpassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -14,6 +15,9 @@ const Resetpassword = () => {
   const [loading, setLoading] = useState(false);
   const [otpLoading, setOTPLoading] = useState(false);
   const [showResend, setShowResend] = useState(false);
+  const [canResend, setCanResend] = useState(false); // New state to control resend ability
+  const [cooldownSeconds, setCooldownSeconds] = useState(60); // Cooldown in seconds
+
   const {
     register,
     handleSubmit,
@@ -21,9 +25,10 @@ const Resetpassword = () => {
   } = useForm();
 
   const resendCode = () => {
+    if (!canResend) return; // Prevent sending if not allowed
     setOTPLoading(true);
     axiosInstance
-      .post(
+     .post(
         "/api/Auth/RequestPasswordReset",
         {},
         {
@@ -35,7 +40,7 @@ const Resetpassword = () => {
           },
         }
       )
-      .then((response) => {
+     .then((response) => {
         console.log(response);
         setOTPLoading(false);
         Swal.fire({
@@ -43,8 +48,9 @@ const Resetpassword = () => {
           title: "Success",
           text: "An OTP was sent to your email, please check it out",
         });
+        setCanResend(false); // Disable resend after successful request
       })
-      .catch((error) => {
+     .catch((error) => {
         console.log(error);
         setOTPLoading(false);
         if (error.response.data.includes("User not found.")) {
@@ -52,11 +58,23 @@ const Resetpassword = () => {
         }
       });
   };
+
+  // Example cooldown logic: disable resend for 60 seconds after a successful request
+  useEffect(() => {
+    let cooldownTimer;
+    if (showResend) {
+      cooldownTimer = setTimeout(() => {
+        setCanResend(true);
+      }, 60000); // 60 seconds cooldown
+    }
+    return () => clearTimeout(cooldownTimer);
+  }, [showResend]);
+
   const onSubmit = (data) => {
     console.log(data);
     setLoading(true);
     axiosInstance
-      .get("/api/Auth/SendResetPassword", {
+     .get("/api/Auth/SendResetPassword", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -64,14 +82,14 @@ const Resetpassword = () => {
           otp: data.otp,
         },
       })
-      .then((response) => {
+     .then((response) => {
         console.log(response.data);
         setLoading(false);
         navigate("/newpassword", {
           state: { otp: data.otp, passUpdateInfo: response.data },
         });
       })
-      .catch((error) => {
+     .catch((error) => {
         console.log(error);
         console.log(error.response.data.Success);
         if (error.response.data.Success === false) {
@@ -83,12 +101,10 @@ const Resetpassword = () => {
           }).then(() => {
             setShowResend(true);
           })
-          //   .then(() => {
-          //       navigate("/");
-          //   })
         }
       });
   };
+
   return (
     <div className={Resetstyles.resetContainer}>
       <div className={Resetstyles.resetContent}>
@@ -105,7 +121,7 @@ const Resetpassword = () => {
             ></input>
             {errors.otp && (
               <div className={Resetstyles.error}>{errors.otp.message}</div>
-            )}{" "}
+            )}
           </div>
           <LoadingButton
             endIcon={<AddIcon />}
@@ -117,6 +133,7 @@ const Resetpassword = () => {
             <span>Submit</span>
           </LoadingButton>
           {showResend && (
+            <>
             <LoadingButton
               endIcon={<SendIcon />}
               loading={otpLoading}
@@ -126,10 +143,14 @@ const Resetpassword = () => {
             >
               <span>Resend otp</span>
             </LoadingButton>
+            <CountdownTimer expiresIn={cooldownSeconds} /> {/* Display the countdown timer */}
+            </>
+
           )}
         </form>
       </div>
     </div>
   );
 };
+
 export default Resetpassword;

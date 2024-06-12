@@ -84,8 +84,7 @@ function TransactionPage() {
 
       setTimeout(() => {
         setPaymentError(initialMessage);
-
-      }, 3000)
+      }, 3000);
 
       return;
     }
@@ -244,6 +243,8 @@ function TransactionPage() {
                       : "N/A"}{" "}
                     LE
                   </h3>
+                </div>
+                <div  className={styles["C-card-bottom"]}>
                   <button
                     className={styles["C-confirm-button"]}
                     onClick={() =>

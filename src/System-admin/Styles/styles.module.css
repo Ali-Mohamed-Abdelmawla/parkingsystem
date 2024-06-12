@@ -43,21 +43,22 @@
   display: none;
 }
 
-[theme = dark] .container::-webkit-scrollbar {
+[theme=dark] .container::-webkit-scrollbar {
   width: 12px;
   background-color: #231F20;
   border-radius: 10px;
 }
 
-[theme = dark] .container::-webkit-scrollbar-thumb {
+[theme=dark] .container::-webkit-scrollbar-thumb {
   background-color: #8C8671;
   border-radius: 10px;
   border: 3px solid #231F20;
 }
 
-[theme = dark] .container::-webkit-scrollbar-button {
+[theme=dark] .container::-webkit-scrollbar-button {
   display: none;
 }
+
 aside {
   height: 100vh;
 }
@@ -97,7 +98,7 @@ aside .sidebar {
   flex-direction: column;
   background-color: var(--color-background);
   border-radius: 15px;
-  height: 88vh;
+  height: 100%;
   position: relative;
   top: 1.5rem;
   transition: all 0.3s ease-in-out;
@@ -145,11 +146,6 @@ aside .sidebar button img {
   filter: invert(1)
 }
 
-aside .sidebar button:last-child {
-  position: fixed;
-  bottom: 2rem;
-  margin-bottom: 0;
-}
 
 /* wowowowowo how to throw the logout to the end of the list */
 aside .sidebar button.active {
@@ -180,14 +176,6 @@ aside .sidebar button:hover {
 
 aside .sidebar button:hover img {
   margin-left: 0.6rem;
-}
-
-aside .sidebar .message-count {
-  background-color: var(--color-danger);
-  padding: 2px 6px;
-  color: var(--color-white);
-  font-size: 11px;
-  border-radius: var(--border-radius-1);
 }
 
 .themeSwitchContainer {
@@ -267,12 +255,15 @@ main .rightSide {
 main .rightSide .Header {
   display: flex;
   height: 10vh;
-  align-items: flex-end;
+  align-items: center;
   justify-content: flex-end;
   transition: all 0.3 ease;
+  padding: 10px;
 }
 
-main .rightSide .Header .titleBar {
+
+
+/* main .rightSide .Header .titleBar {
   height: 100%;
   width: 60%;
   display: flex;
@@ -286,17 +277,18 @@ main .rightSide .Header .titleBar .info {
   margin-left: 10px;
 }
 
-[theme = dark] main .rightSide .Header .titleBar .info {
+[theme=dark] main .rightSide .Header .titleBar .info {
   color: #917e6b;
-}
+} */
 
-main .rightSide .Header .hourPrice{
+main .rightSide .Header .hourPrice {
   height: 100%;
   display: flex;
   align-items: center;
   padding: 15px;
 }
-main .rightSide .Header .hourPrice button{
+
+main .rightSide .Header .hourPrice button {
   background-color: #231F20;
   color: var(--color-background);
   height: 100%;
@@ -305,40 +297,12 @@ main .rightSide .Header .hourPrice button{
   cursor: pointer;
 }
 
-[theme = dark] main .rightSide .Header .hourPrice button{
+[theme=dark] main .rightSide .Header .hourPrice button {
   background-color: var(--special-color1);
 
 }
 
-main .rightSide .Header input {
-  width: 80%;
-  height: 40%;
-  align-self: center;
-  display: none;
-  border-radius: var(--card-border-radius);
-  padding: 1rem;
-  position: relative;
-  background-color: var(--secondary-color);
-  box-shadow: var(--box-shadow);
-  transition: all 0.3s ease;
-  font-size: 15px;
-}
 
-[theme=dark] main .rightSide .Header input {
-  color: white
-}
-
-main .rightSide .Header input:hover {
-  box-shadow: none;
-}
-
-main .rightSide .Header img {
-  position: relative;
-  right: 2.2rem;
-  bottom: 0.01rem;
-  font-size: large;
-  display: none;
-}
 
 [theme=dark] main .rightSide .Header img {
   filter: invert(1);
@@ -353,7 +317,7 @@ main .rightSide .Header .Theme {
   align-items: center;
 }
 
-main .rightSide .Header .Welcome {
+/* main .rightSide .Header .Welcome {
   height: 100%;
   width: 20%;
   position: relative;
@@ -361,7 +325,78 @@ main .rightSide .Header .Welcome {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+} */
+
+/* drop down */
+
+.dropbtn {
+  background-color: var(--special-color1);
+  color: var(--font-color);
+  padding: 14px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--card-border-radius);
 }
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 270px;
+  text-align: center;
+  margin: 5px;
+}
+
+.dropdownContent {
+  display: none;
+  position: absolute;
+  background-color: var(--color-background);
+  color: var(--font-color);
+  width: 270px;
+  padding: 10px;
+  margin: 3px;
+  border: 1px solid var(--special-color1);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: var(--card-border-radius);
+}
+
+.dropdownContent div {
+  color: var(--font-color);
+  padding: 12px;
+  cursor: pointer;
+  border-radius: var(--card-border-radius);
+  text-decoration: none;
+  align-items: center;
+  justify-content: left;
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+.dropdownContent div span {
+  margin-left: 12px;
+}
+
+.dropdownContent div strong {
+  margin-right: 5px;
+}
+
+
+.dropdownContent div:hover {
+  background-color: #E2DCC8
+}
+
+[theme=dark] .dropdownContent div:hover {
+  background-color: var(--input-background-color)
+}
+
+.dropdown:hover .dropdownContent {
+  display: block;
+}
+
+
+
+/* drop down */
 
 main .rightSide .content {
   height: 90vh;

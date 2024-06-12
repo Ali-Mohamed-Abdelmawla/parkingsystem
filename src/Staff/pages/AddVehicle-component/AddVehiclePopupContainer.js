@@ -48,14 +48,12 @@ function AddVehiclePopupContainer({ onClose, darkMode }) {
           title: "Error!",
           text: "Car plate was registered before!",
           icon: "error",
-
         });
       } else {
         Swal.fire({
           title: "Success!",
           text: "Parking session started successfully!",
           icon: "success",
-
         }).then(() => {
           onClose();
           window.location.reload();

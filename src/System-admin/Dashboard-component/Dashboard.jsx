@@ -634,7 +634,9 @@ const Dashboard = () => {
                   pageSizeOptions={[5, 8, 11]}
                 />
               ) : (
-                <div style={{ marginTop: "15px" }}>There is no staff activities in this garage</div>
+                <div style={{ marginTop: "15px" }}>
+                  There is no staff activities in this garage
+                </div>
               )}
             </div>
           </div>

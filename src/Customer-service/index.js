@@ -66,20 +66,14 @@ token && (
 
 
 
-          <button onClick={handleLogoutBtn}>
-            <img src={Logout} alt="logout icon" />
-            <h3>Logout</h3>
-          </button>
+
         </div>
       </aside>
 
       <main>
         <div className={styles.rightSide}>
           <div className={styles.Header}>
-            <div className={styles.searchBar}>
-              <input type="text" placeholder="search" />
-              <img src={search} alt="icon"></img>
-            </div>
+
             <div className={styles.Theme}>
               <div className={styles.themeSwitchContainer}>
                 <label className={styles.themeSlider} htmlFor="checkbox">
@@ -89,10 +83,24 @@ token && (
               </div>
             </div>
 
-            <p className={styles.Welcome}>
-              <small>Welcome, </small>
-              <h3> {userName} </h3>
-            </p>
+
+            <div className={styles.dropdown}>
+              <button className={styles.dropbtn}>User & Garage info</button>
+              <div className={styles.dropdownContent}>
+                <div>
+                  {" "}
+                  <strong>User name:</strong> {userName}
+                </div>
+
+                <div onClick={handleLogoutBtn}>
+                  <img src={Logout} alt="logout icon" />
+                  <strong>
+                    <span>Logout</span>
+                  </strong>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
         <Outlet />

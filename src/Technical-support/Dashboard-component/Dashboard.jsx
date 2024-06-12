@@ -161,7 +161,7 @@ const DashboardforTechnicalSupport = () => {
         setStartDate(startDate);
         setEndDate(endDate);
         const garageIds = [];
-        for (let i = 0; i < response.data.length; i++) {
+        for (let i = 0; i < response?.data?.length; i++) {
           garageIds.push(response.data[i].GarageId);
         }
         setSelectedGarageId(garageIds[0]);
@@ -695,7 +695,7 @@ const DashboardforTechnicalSupport = () => {
             <div className={DashboardStyle.StatisticsTable}>
               <h4 style={{ textAlign: "left" }}>Staff activities</h4>
 
-              {staffactivityRows.length > 0 ? (
+              {staffactivityRows?.length > 0 ? (
                 <DataGrid
                   rows={staffactivityRows}
                   columns={columns}
