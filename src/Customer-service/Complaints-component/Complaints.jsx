@@ -1,20 +1,20 @@
 //=============================================== New Customer service ====================================
-import { useEffect, useState } from "react";
-import axiosInstance from "../../auth/axios";
-import Swal from "sweetalert2";
+import { useState } from "react";
+
 import DataGrid from "../../System-admin/Styled-Table/CustomDataGrid";
 
-
+import LoadingButton from "@mui/lab/LoadingButton";
+import ArrowForwardIosTwoToneIcon from "@mui/icons-material/ArrowForwardIosTwoTone";
+import ArrowBackIosNewTwoToneIcon from "@mui/icons-material/ArrowBackIosNewTwoTone";
+import Swal from "sweetalert2";
 function ComplaintsTable({
   complaints,
   handleViewComplaint,
   handleSolvedClick,
   handleForwardToAdminClick,
   handleForwardToTechnicalClick,
+  handleGetmoreComplaints,
 }) {
-  const accessToken = sessionStorage.getItem("accessToken");
-  const [helpingData, setHelpingData] = useState([]);
-
   const columns = [
     { field: "reportId", headerName: "Report_id", flex: 1 },
     { field: "reportType", headerName: "Report Type", flex: 1 },
@@ -67,11 +67,6 @@ function ComplaintsTable({
   ];
 
   const rows = complaints.map((complaint, index) => {
-    console.log(helpingData);
-    const reporterName =
-      helpingData.find((admin) => admin.AdminId === complaint.ReportId)?.name ||
-      "Technical Support";
-
     return {
       id: index,
       reportId: complaint.ReportId,
@@ -82,30 +77,55 @@ function ComplaintsTable({
     };
   });
 
-  // useEffect(() => {
-  //   console.log(accessToken);
-  //   const fetchGarageAdmins = async () => {
-  //     if (accessToken == null) {
-  //       fetchGarageAdmins();
-  //     }
-  //     try {
-  //       await axiosInstance
-  //         .get(`/api/Report/GetAllGarageAdmins`, {
-  //           headers: {
-  //             Authorization: `Bearer ${accessToken}`,
-  //             "Content-Type": "application/json",
-  //           },
-  //         })
-  //         .then((response) => {
-  //           setHelpingData(response.data);
-  //         });
-  //     } catch (error) {
-  //       console.error("Error fetching garage admins:", error);
-  //       Swal.fire("Error", "Error fetching garage admins", "error");
-  //     }
-  //   };
-  //   fetchGarageAdmins();
-  // }, []);
+  const getNextComplaints = () => {
+    let currentTurn = sessionStorage.getItem("currentTurn");
+
+    //swal confirmation message
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This action will get you the next group of complaints!",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ok",
+      cancelButtonText: "cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.reload();
+        currentTurn++;
+        sessionStorage.setItem("currentTurn", currentTurn);
+      }
+    });
+  };
+
+  const getPreviousComplaints = async () => {
+    let currentTurn = sessionStorage.getItem("currentTurn");
+    console.log(currentTurn);
+    if (currentTurn === "1") {
+      Swal.fire("Oops...", "There is no previous Complaints!", "info").then(() => {
+        return;
+      });
+    } else {
+      //swal confirmation message
+      Swal.fire({
+        title: "Are you sure?",
+        text: "This action will get you the previous group of complaints!",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "ok",
+        cancelButtonText: "cancel",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          currentTurn--;
+          sessionStorage.setItem("currentTurn", currentTurn);
+          window.location.reload();
+        }
+      });
+    }
+  };
 
   return (
     <div className="table-wrapper" style={{ flex: 1, overflow: "hidden" }}>
@@ -120,6 +140,33 @@ function ComplaintsTable({
         }}
         pageSizeOptions={[5, 8, 11]}
       />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "10px",
+        }}
+        className="buttonsUnderTable"
+      >
+        <LoadingButton
+          startIcon={<ArrowBackIosNewTwoToneIcon />}
+          // loading={loading}
+          loadingPosition="end"
+          variant="contained"
+          onClick={getPreviousComplaints}
+        >
+          <span>Get previous group of complaints</span>
+        </LoadingButton>
+        <LoadingButton
+          endIcon={<ArrowForwardIosTwoToneIcon />}
+          // loading={loading}
+          loadingPosition="end"
+          variant="contained"
+          onClick={getNextComplaints}
+        >
+          <span>Get next group of complaints</span>
+        </LoadingButton>
+      </div>
     </div>
   );
 }

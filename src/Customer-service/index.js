@@ -10,15 +10,13 @@ import Logout from "./assets/log-out.svg";
 import search from "./assets/Search.svg";
 // import AddReporIcont from "./assets/Add-Report.svg";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 export default function Layout() {
   const showComplaintsComponent = useState(true);
   // const [showAddPage, setShowAddPage] = useState(false);
-  const[userName, setUserName] = useState(null)
+  const [userName, setUserName] = useState(null);
   const navigate = useNavigate();
   const token = sessionStorage.getItem("accessToken");
-
-
 
   useEffect(() => {
     if (token) {
@@ -28,17 +26,23 @@ export default function Layout() {
     }
   }, [token]);
 
+  useEffect(() => {
+    const currentTurn = sessionStorage.getItem("currentTurn");
+    if (!currentTurn) {
+      sessionStorage.setItem("currentTurn", 1);
+    }
+  }, []);
 
-     const handleComplaintsClick = () => {
-      navigate("/CustomerService")
-     }
+  const handleComplaintsClick = () => {
+    navigate("/CustomerService");
+  };
 
-     const handleLogoutBtn = () => {
-      sessionStorage.removeItem("accessToken");
-      document.documentElement.setAttribute("theme", "light");
-      navigate("/");
-      // بنمسح التوكن بس و نريدايركت اليوزر لصفحه اللوجن
-    };
+  const handleLogoutBtn = () => {
+    sessionStorage.removeItem("accessToken");
+    document.documentElement.setAttribute("theme", "light");
+    navigate("/");
+    // بنمسح التوكن بس و نريدايركت اليوزر لصفحه اللوجن
+  };
 
   const switchTheme = (e) => {
     if (e.target.checked) {
@@ -48,65 +52,61 @@ export default function Layout() {
     }
   };
   return (
-token && (
-    <div className={styles.container}>
-      <aside>
-        <div className={styles.toggle}>
-          <div className={styles.logo}>
-            <img src={Whitelogo} alt={"logo"} />
-            <h2>Rakna</h2>
-          </div>
-        </div>
-
-        <div className={styles.sidebar}>
-          <button id="Complaintsbtn" onClick={handleComplaintsClick}>
-            <img src={Complaintsicon} alt="complaints icon" />
-            <b>Complaints</b>
-          </button>
-
-
-
-
-        </div>
-      </aside>
-
-      <main>
-        <div className={styles.rightSide}>
-          <div className={styles.Header}>
-
-            <div className={styles.Theme}>
-              <div className={styles.themeSwitchContainer}>
-                <label className={styles.themeSlider} htmlFor="checkbox">
-                  <input type="checkbox" id="checkbox" onChange={switchTheme} />
-                  <div className={`${styles.round} ${styles.slider}`}></div>
-                </label>
-              </div>
+    token && (
+      <div className={styles.container}>
+        <aside>
+          <div className={styles.toggle}>
+            <div className={styles.logo}>
+              <img src={Whitelogo} alt={"logo"} />
+              <h2>Rakna</h2>
             </div>
+          </div>
 
+          <div className={styles.sidebar}>
+            <button id="Complaintsbtn" onClick={handleComplaintsClick}>
+              <img src={Complaintsicon} alt="complaints icon" />
+              <b>Complaints</b>
+            </button>
+          </div>
+        </aside>
 
-            <div className={styles.dropdown}>
-              <button className={styles.dropbtn}>User & Garage info</button>
-              <div className={styles.dropdownContent}>
-                <div>
-                  {" "}
-                  <strong>User name:</strong> {userName}
-                </div>
-
-                <div onClick={handleLogoutBtn}>
-                  <img src={Logout} alt="logout icon" />
-                  <strong>
-                    <span>Logout</span>
-                  </strong>
+        <main>
+          <div className={styles.rightSide}>
+            <div className={styles.Header}>
+              <div className={styles.Theme}>
+                <div className={styles.themeSwitchContainer}>
+                  <label className={styles.themeSlider} htmlFor="checkbox">
+                    <input
+                      type="checkbox"
+                      id="checkbox"
+                      onChange={switchTheme}
+                    />
+                    <div className={`${styles.round} ${styles.slider}`}></div>
+                  </label>
                 </div>
               </div>
-            </div>
 
+              <div className={styles.dropdown}>
+                <button className={styles.dropbtn}>User & Garage info</button>
+                <div className={styles.dropdownContent}>
+                  <div>
+                    {" "}
+                    <strong>User name:</strong> {userName}
+                  </div>
+
+                  <div onClick={handleLogoutBtn}>
+                    <img src={Logout} alt="logout icon" />
+                    <strong>
+                      <span>Logout</span>
+                    </strong>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <Outlet />
-      </main>
-    </div>
+          <Outlet />
+        </main>
+      </div>
     )
-
   );
 }

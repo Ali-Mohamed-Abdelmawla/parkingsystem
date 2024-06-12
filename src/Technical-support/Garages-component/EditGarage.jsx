@@ -1,8 +1,8 @@
 import Garagestyle from "../../System-admin/Styles/Employees.module.css";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import EditIcon from "@mui/icons-material/Edit";
-import { useEffect } from "react";
 function EmployeesModal({
   title,
   onClose,
@@ -95,13 +95,13 @@ function EmployeesModal({
               message: "The entered value should be a number",
             },
             minLength: {
-                value: -90,
-                message: "Minimum value should be -90",
-              },
-              maxLength: {
-                value: 90,
-                message: "Maximum value should be 90",
-              },
+              value: -90,
+              message: "Minimum value should be -90",
+            },
+            maxLength: {
+              value: 90,
+              message: "Maximum value should be 90",
+            },
           })}
           type="text"
           placeholder="latitude"
@@ -170,7 +170,7 @@ function EmployeesModal({
             onClick={handleSubmit(onSubmit)}
           >
             <span>Edit</span>
-          </LoadingButton>
+          </LoadingButton>{" "}
         </div>
       </form>
     </div>

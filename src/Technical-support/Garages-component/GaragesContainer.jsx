@@ -14,6 +14,8 @@ import Loader from "../../helper/loading-component/loader";
 
 function Garages() {
   const [loading, setLoading] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
+
   const accessToken = sessionStorage.getItem("accessToken");
   const [employees, setEmployees] = useState([]);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -65,8 +67,8 @@ function Garages() {
   const handleFormSubmit = (data) => {
     console.log(editedEmployee);
     console.log(data);
-    data.HourPrice = (parseFloat(data.HourPrice)).toFixed(2);
-    setLoading(true);
+    data.HourPrice = parseFloat(data.HourPrice).toFixed(2);
+    setFormLoading(true);
     axiosInstance
       .put(`/TechnicalSupport/UpdateGarage`, data, {
         headers: {
@@ -78,10 +80,10 @@ function Garages() {
         },
       })
       .then((response) => {
-        const updatedEmployees = [...employees];
-        updatedEmployees[editIndex] = response.data;
-        setEmployees(updatedEmployees);
-        document.body.classList.remove(Employeestyle.deleteModalActive);
+        setFormLoading(false);
+        // const updatedEmployees = [...employees];
+        // updatedEmployees[editIndex] = response.data;
+        // setEmployees(updatedEmployees);
         swal
           .fire({
             icon: "success",
@@ -89,20 +91,21 @@ function Garages() {
             text: "Garage updated successfully",
           })
           .then(() => {
-            setLoading(false);
-            window.location.reload();
             setShowEditPage(false);
+            document.body.classList.remove(Employeestyle.deleteModalActive);
+            window.location.reload();
           });
       })
       .catch((error) => {
+        setFormLoading(false);
         console.error("Error updating employee:", error);
-        swal.fire({
-          icon: "error",
-          title: "Error",
-          text: `Failed to update employee: ${error.response.data.errors.FullName[0]}`,
-        }).then(() => {
-          setLoading(false);
-        })
+        swal
+          .fire({
+            icon: "error",
+            title: "Error",
+            text: `Failed to update employee: ${error.response.data.errors.FullName[0]}`,
+          })
+          .then(() => {});
       });
   };
 
@@ -120,7 +123,7 @@ function Garages() {
   };
 
   const handleConfirmDelete = () => {
-    setLoading(true);
+    setFormLoading(true);
     axiosInstance
       .delete(`/TechnicalSupport/DeleteGarage`, {
         headers: {
@@ -132,23 +135,23 @@ function Garages() {
         },
       })
       .then(() => {
-        const updatedEmployees = [...employees];
-        updatedEmployees.splice(deletionIndex, 1);
-        setEmployees(updatedEmployees);
-        document.body.classList.remove(Employeestyle.deleteModalActive);
+        // const updatedEmployees = [...employees];
+        // updatedEmployees.splice(deletionIndex, 1);
+        // setEmployees(updatedEmployees);
+        setFormLoading(false);
         Swal.fire("Success", "Garage deleted successfully", "success").then(
           () => {
-            setLoading(false);
-            window.location.reload();
+            document.body.classList.remove(Employeestyle.deleteModalActive);
             setShowDeleteConfirmation(false);
             setDeletionIndex(null);
+            window.location.reload();
 
           }
         );
       })
       .catch((error) => {
         console.error("Error deleting employee:", error);
-        setLoading(false);
+        setFormLoading(false);
       });
   };
 
@@ -180,7 +183,6 @@ function Garages() {
     document.body.classList.remove(Employeestyle.viewModalActive);
   };
 
-
   //============================= End ========================
 
   if (loading) {
@@ -210,7 +212,7 @@ function Garages() {
         <EmployeesDeleteConfirmation
           handleCancelDelete={handleCancelDelete}
           handleConfirmDelete={handleConfirmDelete}
-          loading = {loading}
+          loading={formLoading}
         />
       )}
       {showEditPage && (
@@ -220,7 +222,7 @@ function Garages() {
           onSubmit={handleFormSubmit}
           editedEmployee={editedEmployee}
           handleInputChange={handleInputChange}
-          loading = {loading}
+          loading={formLoading}
         />
       )}
       {showViewDetails && (

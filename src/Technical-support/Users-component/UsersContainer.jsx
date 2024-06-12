@@ -19,6 +19,8 @@ import Loader from "../../helper/loading-component/loader";
 
 function SystemUsers() {
   const [loading, setLoading] = useState(false);
+  const [formLoading,setFormLoading] = useState(false);
+
   const accessToken = sessionStorage.getItem("accessToken");
   const [employees, setEmployees] = useState([]);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -71,6 +73,7 @@ function SystemUsers() {
 
   const handleFormSubmit = (data) => {
     console.log(data);
+    setFormLoading(true);
     if(data.Role === "garageadmin"){
       data.Salary = 0
     }
@@ -88,6 +91,7 @@ function SystemUsers() {
         const updatedEmployees = [...employees];
         updatedEmployees[editIndex] = response.data;
         setEmployees(updatedEmployees);
+        setFormLoading(false);
         setShowEditPage(false);
         swal
           .fire({
@@ -100,6 +104,7 @@ function SystemUsers() {
           });
       })
       .catch((error) => {
+        setFormLoading(false);
         console.error("Error updating employee:", error);
         swal.fire({
           icon: "error",
@@ -123,6 +128,7 @@ function SystemUsers() {
   };
 
   const handleConfirmDelete = () => {
+    setFormLoading(true);
     axiosInstance
       .delete(`/TechnicalSupport/DeleteUser/${employees[deletionIndex].Id}`, {
         headers: {
@@ -131,18 +137,20 @@ function SystemUsers() {
         },
       })
       .then(() => {
-        const updatedEmployees = [...employees];
-        updatedEmployees.splice(deletionIndex, 1);
-        setEmployees(updatedEmployees);
-        setShowDeleteConfirmation(false);
-        setDeletionIndex(null);
-        Swal.fire("Success", "Employee deleted successfully", "success").then(
+        setFormLoading(false)
+        // const updatedEmployees = [...employees];
+        // updatedEmployees.splice(deletionIndex, 1);
+        // setEmployees(updatedEmployees);
+        Swal.fire("Success", "User deleted successfully", "success").then(
           () => {
+            setShowDeleteConfirmation(false);
+            setDeletionIndex(null);
             window.location.reload();
           }
         );
       })
       .catch((error) => {
+        setFormLoading(false)
         console.error("Error deleting employee:", error);
       });
   };
@@ -186,8 +194,8 @@ function SystemUsers() {
 
   const handleBulkEmailSend = (title, message) => {
     // Perform bulk email sending logic using selectedEmployeeEmails
-    setLoading(true);
-    axiosInstance
+    setFormLoading(true)
+      axiosInstance
       .post(
         `/TechnicalSupport/SendBulkEmails`,
         {
@@ -203,6 +211,7 @@ function SystemUsers() {
         }
       )
       .then((response) => {
+        setFormLoading(false)
         console.log(response);
         Swal.fire("Success", "Emails sent successfully", "success").then(() => {
           setShowBulkEmails(false); // Close the pop-up after sending emails
@@ -211,6 +220,7 @@ function SystemUsers() {
         });
       })
       .catch((error) => {
+        setFormLoading(false)
         console.error("Error sending emails:", error);
         Swal.fire("Error", `Failed to send emails, ${error}`, "error");
         setLoading(false);
@@ -251,6 +261,8 @@ function SystemUsers() {
         <UsersDeleteConfirmation
           handleCancelDelete={handleCancelDelete}
           handleConfirmDelete={handleConfirmDelete}
+          loading={formLoading}
+
         />
       )}
       {showEditPage && (
@@ -260,6 +272,8 @@ function SystemUsers() {
           onSubmit={handleFormSubmit}
           editedEmployee={editedEmployee}
           handleInputChange={handleInputChange}
+          loading={formLoading}
+
         />
       )}
       {showViewDetails && (
@@ -272,7 +286,8 @@ function SystemUsers() {
         <BulkEmails
           onClose={handleBulkEmailClose}
           onSend={handleBulkEmailSend}
-          loading={loading}
+          loading={formLoading}
+          
         />
       )}
     </>

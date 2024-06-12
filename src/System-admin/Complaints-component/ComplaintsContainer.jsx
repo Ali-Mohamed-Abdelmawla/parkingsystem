@@ -9,6 +9,7 @@ import Employeestyle from "../Styles/Employees.module.css";
 import Loader from "../../helper/loading-component/loader";
 const ComplaintsContainer = () => {
   const [loading, setLoading] = useState(false);
+  const [formLoading,setFormLoading] = useState(false);
   const [complaints, setComplaints] = useState([]);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [updateIndex, setUpdateIndex] = useState(null);
@@ -19,6 +20,7 @@ const ComplaintsContainer = () => {
 
   useEffect(() => {
     // Fetch employees from API on component mount
+    
     setLoading(true);
     axiosInstance
       .get(`/api/Report/GetReportsBasedOnRole`, {
@@ -50,7 +52,7 @@ const ComplaintsContainer = () => {
   };
 
   const handleUpdateStatus = async () => {
-    setShowDeleteConfirmation(false);
+    setFormLoading(true);
     try {
       axiosInstance
         .put(`/api/Report/UpdateReportStatus/${updateIndex}`, true, {
@@ -63,16 +65,18 @@ const ComplaintsContainer = () => {
           },
         })
         .then((response) => {
+          setFormLoading(false);
           console.log("Complaint marked as solved:", response.data);
-          setShowDeleteConfirmation(false);
-          document.body.classList.remove(Employeestyle.deleteModalActive);
           Swal.fire("Success", "Complaint marked as solved", "success").then(
             () => {
+              setShowDeleteConfirmation(false);
+              document.body.classList.remove(Employeestyle.deleteModalActive);
               window.location.reload();
             }
           );
         })
         .catch((error) => {
+          setFormLoading(false);
           console.error("Error marking complaint as solved:", error);
           Swal.fire("Error", "Failed to mark complaint as solved", "error");
           document.body.classList.remove(Employeestyle.deleteModalActive);
@@ -123,6 +127,7 @@ const ComplaintsContainer = () => {
         <DeleteConfirmationModal
           onConfirmUpdate={handleUpdateStatus}
           onCancelUpdate={handleCloseDelete}
+          loading={formLoading}
         />
       )}
       {showViewDetails && (

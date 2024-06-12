@@ -11,8 +11,12 @@ import Loader from "../../helper/loading-component/loader";
 
 const ComplaintsContainer = () => {
   const [loading, setLoading] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
+
   const accessToken = sessionStorage.getItem("accessToken");
+  var currentTurn = sessionStorage.getItem("currentTurn");
   const [complaints, setComplaints] = useState([]);
+  const [noComplaints, setNoComplaints] = useState(false);
   const [showSolvedConfirmation, setShowSolvedConfirmation] = useState(false);
   const [solvedIndex, setSolvedIndex] = useState(0);
 
@@ -22,8 +26,7 @@ const ComplaintsContainer = () => {
   const [forwardAdminOpen, setForwardAdminOpen] = useState(false);
   const [forwardedReport, setForwardedReport] = useState(null);
 
-  useEffect(() => {
-    // Fetch employees from API on component mount
+  const GetAllReports = () => {
     setLoading(true);
     axiosInstance
       .get(`/api/Report/GetAllReports`, {
@@ -31,15 +34,41 @@ const ComplaintsContainer = () => {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
+        params: {
+          turn: currentTurn,
+        },
       })
       .then((response) => {
         setComplaints(response.data);
         setLoading(false);
+        if (response.data.length === 0) {
+          setLoading(true);
+          if (currentTurn !== "1") {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "No Complaints Found, you will be returned to the latest group",
+            }).then(() => {
+              
+            currentTurn--;
+            sessionStorage.setItem("currentTurn", currentTurn);
+            GetAllReports();
+          })
+
+          } else {
+            setNoComplaints(true);
+          }
+        }
       })
       .catch((error) => {
         console.error("Error fetching employees:", error);
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    // Fetch employees from API on component mount
+    GetAllReports();
   }, []); //gets the complaints
 
   useEffect(() => {
@@ -72,6 +101,7 @@ const ComplaintsContainer = () => {
     document.body.classList.remove(style.viewModalActive);
   };
   const handleForwardToTechnicalClick = async (reportId) => {
+    setLoading(true);
     const technicalSupportId = "af47b4b7-9e91-46a3-80f5-86f4167e2d08";
     // كده كده مش هيكون عندنا غير واحد بس تكنكال
     try {
@@ -96,8 +126,10 @@ const ComplaintsContainer = () => {
         "success"
       ).then(() => {
         window.location.reload();
+        setLoading(false);
       });
     } catch (error) {
+      setLoading(false);
       console.error("Error marking complaint as solved:", error);
       Swal.fire("Error", "Error forwarding the complaint", "error");
     }
@@ -117,6 +149,7 @@ const ComplaintsContainer = () => {
   };
 
   const handleConfirmSolve = async () => {
+    setFormLoading(true);
     try {
       const response = await axiosInstance.put(
         `/api/Report/UpdateReportStatus/${solvedIndex}`,
@@ -132,17 +165,39 @@ const ComplaintsContainer = () => {
         }
       );
       console.log("Complaint marked as solved:", response.data);
+      setFormLoading(false);
       // Here, you can update your state based on the response, e.g., remove the solved complaint from the list
-      setShowSolvedConfirmation(false);
+
       document.body.classList.remove("deleteModalActive");
       Swal.fire("Success", "Complaint marked as solved", "success").then(() => {
+        setShowSolvedConfirmation(false);
+
         window.location.reload();
       });
     } catch (error) {
+      setFormLoading(false);
       console.error("Error marking complaint as solved:", error);
       Swal.fire("Error", "Error marking complaint as solved", "error");
       // Handle the error appropriately, e.g., show an error message to the user
     }
+  };
+
+  const handleGetmoreComplaints = () => {
+    axiosInstance
+      .get(`/api/Report/GetAllReports`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        setComplaints(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching employees:", error);
+        setLoading(false);
+      });
   };
 
   if (loading) {
@@ -159,7 +214,22 @@ const ComplaintsContainer = () => {
       </div>
     );
   }
-  
+
+  if (noComplaints) {
+    return (
+      <div
+        style={{
+          height: "50vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h1>No Complaints</h1>
+      </div>
+    );
+  }
+
   return (
     <>
       <ComplaintsTable
@@ -168,12 +238,14 @@ const ComplaintsContainer = () => {
         handleSolvedClick={handleSolvedClick}
         handleForwardToAdminClick={handleForwardToAdminClick}
         handleForwardToTechnicalClick={handleForwardToTechnicalClick}
+        handleGetmoreComplaints={handleGetmoreComplaints}
       />
       {showSolvedConfirmation && (
         <DeleteConfirmationModal
           complaint={complaints[solvedIndex]}
           onConfirmDelete={handleConfirmSolve}
           onCancelDelete={handlecloseSolved}
+          loading={formLoading}
         />
       )}
 

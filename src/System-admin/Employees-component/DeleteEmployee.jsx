@@ -1,9 +1,11 @@
 import Employeestyle from "../Styles/Employees.module.css";
 import WarningIcon from "../assets/light-mode/Delete-icon.svg";
-
+import LoadingButton from "@mui/lab/LoadingButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 function EmployeesDeleteConfirmation({
   handleCancelDelete,
   handleConfirmDelete,
+  loading,
 }) {
   return (
     <div className={Employeestyle.deleteConfirmation}>
@@ -14,7 +16,15 @@ function EmployeesDeleteConfirmation({
           <p>Are you sure you want to delete this employee? </p>
         </div>
         <div className={Employeestyle.deleteModelButtons}>
-          <button onClick={handleConfirmDelete}>Confirm</button>
+          <LoadingButton
+            endIcon={<DeleteIcon />}
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+            onClick={handleConfirmDelete}
+          >
+            <span>Confirm</span>
+          </LoadingButton>
           <button onClick={handleCancelDelete}>No</button>
         </div>
       </div>

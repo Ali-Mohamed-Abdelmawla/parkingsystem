@@ -1,6 +1,6 @@
 import styles from "../../System-admin/Styles/Employees.module.css";
 import WarningIcon from "../assets/LightMode/Delete-icon.svg";
-import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from '@mui/icons-material/Check';
 import LoadingButton from "@mui/lab/LoadingButton";
 const DeleteConfirmationModal = ({
   onConfirmUpdate,
@@ -16,17 +16,15 @@ const DeleteConfirmationModal = ({
         <p>This will mark this report as solved. Proceed?</p>
       </div>
       <div className={styles.deleteModelButtons}>
-        {/* <LoadingButton
-          endIcon={<DeleteIcon />}
-          loading={loading}
-          loadingPosition="end"
-          variant="contained"
-          onClick={onConfirmUpdate}
-          style={{ boxShadow: "none", fontSize: "12px" }}
-        >
-          <span>Confirm</span>
-        </LoadingButton> */}
-        <button onClick={onConfirmUpdate}>Confirm</button>
+      <LoadingButton
+            endIcon={<CheckIcon />}
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+            onClick={onConfirmUpdate}
+          >
+            <span>Confirm</span>
+          </LoadingButton>
         <button onClick={onCancelUpdate}>No</button>
       </div>
     </div>

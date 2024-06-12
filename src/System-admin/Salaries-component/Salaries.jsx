@@ -33,6 +33,7 @@ const Salaries = () => {
   const accessToken = sessionStorage.getItem("accessToken");
 
   const handlePayment = (id) => {
+    setLoading(true);
     axiosInstance
       .post(
         `/api/GarageAdmin/PaySalary/${id}`,
@@ -48,11 +49,13 @@ const Salaries = () => {
         }
       )
       .then((response) => {
+        setLoading(false);
         Swal.fire("Success", "Submitted successfully", "success").then(() => {
           window.location.reload();
         });
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
         Swal.fire(
           "Error",

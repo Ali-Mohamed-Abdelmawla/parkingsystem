@@ -17,17 +17,15 @@ function EmployeesDeleteConfirmation({
           <p>Are you sure you want to delete this employee? </p>
         </div>
         <div className={Employeestyle.deleteModelButtons}>
-          {/* <LoadingButton
-              endIcon={<DeleteIcon />}
-              loading={loading}
-              loadingPosition="end"
-              variant="contained"
-              onClick={handleConfirmDelete}
-              style={{ boxShadow: "none", fontSize: "12px" }}
-            >
-              <span>Confirm</span>
-            </LoadingButton> */}
-            <button onClick={handleConfirmDelete}>Confirm</button>
+        <LoadingButton
+            endIcon={<DeleteIcon />}
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+            onClick={handleConfirmDelete}
+          >
+            <span>Confirm</span>
+          </LoadingButton>
           <button onClick={handleCancelDelete}>No</button>
         </div>
       </div>

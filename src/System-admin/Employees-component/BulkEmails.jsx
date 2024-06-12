@@ -1,8 +1,9 @@
 // BulkEmails.js
 import { useForm } from 'react-hook-form';
 import Employeestyle from '../AddReport-component/AddReport.module.css';
-
-function BulkEmails({ onClose, onSend }) {
+import LoadingButton from "@mui/lab/LoadingButton";
+import SendIcon from "@mui/icons-material/Send";
+function BulkEmails({ onClose, onSend,loading }) {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
@@ -11,8 +12,9 @@ function BulkEmails({ onClose, onSend }) {
 
   return (
     <div className={Employeestyle.addReportModal}>
-      <div className={Employeestyle.addTitle}></div>
-      <h2>Send an email to your employees</h2>
+      <div className={Employeestyle.addTitle}>
+        <button onClick={onClose}></button>
+      </div>{" "}      <h2>Send an email to your employees</h2>
       <hr style={{ width: "300px", margin: "0 auto 15px" }}></hr>
       <form onSubmit={handleSubmit(onSubmit)}>
           <input
@@ -28,8 +30,15 @@ function BulkEmails({ onClose, onSend }) {
           />
           {errors.message && <span  className={Employeestyle.errorMessage}>{errors.message.message}</span>}
         <div className={Employeestyle.addModelButtons}>
-          <button type="submit">Confirm</button>
-          <button onClick={onClose}>Cancel</button>
+        <LoadingButton
+            endIcon={<SendIcon />}
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+            onClick={handleSubmit(onSubmit)}
+          >
+            <span>Send</span>
+          </LoadingButton>
         </div>
       </form>
     </div>

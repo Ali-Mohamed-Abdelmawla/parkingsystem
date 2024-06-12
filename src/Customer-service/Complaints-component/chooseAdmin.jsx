@@ -3,12 +3,15 @@ import styles from "../../System-admin/Styles/Employees.module.css";
 import GarageAdminSelect from "../../helper/Garage-admins-select";
 import axiosInstance from "../../auth/axios";
 import Swal from "sweetalert2";
-
+import LoadingButton from "@mui/lab/LoadingButton";
+import ForwardToInboxTwoToneIcon from "@mui/icons-material/ForwardToInboxTwoTone";
 const ViewModal = ({ reportId, onClose }) => {
+  const [loading, setLoading] = useState(false);
   const accessToken = sessionStorage.getItem("accessToken");
   const [selectedValue, setSelectedValue] = useState(null);
   const forwardTheComplaint = async () => {
     console.log(reportId);
+    setLoading(true);
     try {
       axiosInstance
         .post(
@@ -26,6 +29,7 @@ const ViewModal = ({ reportId, onClose }) => {
           }
         )
         .then((response) => {
+          setLoading(false);
           console.log("Complaint is forwarded successfully:", response.data);
           Swal.fire(
             "Success",
@@ -36,6 +40,7 @@ const ViewModal = ({ reportId, onClose }) => {
           });
         })
         .catch((error) => {
+          setLoading(false);
           console.error("Error forwarding complaint:", error);
           Swal.fire("Error", "Failed to forward complaint", "error");
         });
@@ -59,27 +64,33 @@ const ViewModal = ({ reportId, onClose }) => {
             }}
           />
           {selectedValue && (
-              <div className={styles.name} style={{ marginTop: "20px" }}>
-                {" "}
-                <span className={styles.block}>
-                  <b>Chosen admin: </b>{" "}
-                  <span className={styles.data}>{selectedValue.name}</span>
-                </span>
-                <br></br>
-                <span className={styles.block}>
-                  <b>garage name: </b>{" "}
-                  <span className={styles.data}>{selectedValue.garageName}</span>
-                </span>
-                <br></br>
-                <span className={styles.block}>
-                  <b>garage number:</b>{" "}
-                  <span className={styles.data}>{selectedValue.garageId}</span>
-                </span>
-                <div className={styles.editModelButtons}>
-
-                <button onClick={forwardTheComplaint}>Forward</button>
-                </div>
-
+            <div className={styles.name} style={{ marginTop: "20px" }}>
+              {" "}
+              <span className={styles.block}>
+                <b>Chosen admin: </b>{" "}
+                <span className={styles.data}>{selectedValue.name}</span>
+              </span>
+              <br></br>
+              <span className={styles.block}>
+                <b>garage name: </b>{" "}
+                <span className={styles.data}>{selectedValue.garageName}</span>
+              </span>
+              <br></br>
+              <span className={styles.block}>
+                <b>garage number:</b>{" "}
+                <span className={styles.data}>{selectedValue.garageId}</span>
+              </span>
+              <div className={styles.editModelButtons}>
+                <LoadingButton
+                  endIcon={<ForwardToInboxTwoToneIcon />}
+                  loading={loading}
+                  loadingPosition="end"
+                  variant="contained"
+                  onClick={forwardTheComplaint}
+                >
+                  <span>Forward</span>
+                </LoadingButton>
+              </div>
             </div>
           )}
         </div>

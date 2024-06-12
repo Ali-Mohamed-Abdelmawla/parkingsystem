@@ -10,6 +10,8 @@ import Employeestyle from "../../System-admin/Styles/Employees.module.css";
 import Loader from "../../helper/loading-component/loader";
 const ComplaintsforTechnicalSupport = () => {
   const [loading, setLoading] = useState(false);
+  const [formLoading,setFormLoading] = useState(false);
+
   const [complaints, setComplaints] = useState([]);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [updateIndex, setUpdateIndex] = useState(null);
@@ -51,7 +53,7 @@ const ComplaintsforTechnicalSupport = () => {
   };
 
   const handleUpdateStatus = async () => {
-    setLoading(true);
+    setFormLoading(true);
     try {
       axiosInstance
         .put(`/api/Report/UpdateReportStatus/${updateIndex}`, true, {
@@ -64,6 +66,7 @@ const ComplaintsforTechnicalSupport = () => {
           },
         })
         .then((response) => {
+          setFormLoading(false);
           document.body.classList.remove(Employeestyle.deleteModalActive);
           console.log("Complaint marked as solved:", response.data);
           setLoading(false);
@@ -76,6 +79,7 @@ const ComplaintsforTechnicalSupport = () => {
           );
         })
         .catch((error) => {
+          setFormLoading(false);
           console.error("Error marking complaint as solved:", error);
           setLoading(false);
           Swal.fire("Error", "Failed to mark complaint as solved", "error");
@@ -127,7 +131,7 @@ const ComplaintsforTechnicalSupport = () => {
         <DeleteConfirmationModal
           onConfirmUpdate={handleUpdateStatus}
           onCancelUpdate={handleCloseDelete}
-          loading={loading}
+          loading={formLoading}
         />
       )}
       {showViewDetails && (

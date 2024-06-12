@@ -16,9 +16,10 @@ function BulkEmails({ onClose, onSend, loading }) {
 
   return (
     <div className={Employeestyle.addReportModal}>
-          <div className={Employeestyle.addTitle}>
-            <button onClick={onClose}></button>
-          </div>      <h2>Send an email to System users</h2>
+      <div className={Employeestyle.addTitle}>
+        <button onClick={onClose}></button>
+      </div>{" "}
+      <h2>Send an email to System users</h2>
       <hr style={{ width: "300px", margin: "0 auto 15px" }}></hr>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input

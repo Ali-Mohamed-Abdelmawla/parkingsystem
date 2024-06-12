@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import Select, { components } from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import AllGaragesSelect from "../../helper/All-Garages-select/All-Garages-select";
-
+import LoadingButton from "@mui/lab/LoadingButton";
+import EditIcon from "@mui/icons-material/Edit";
 function UsersModal({
   title,
   onClose,
   onSubmit,
   editedEmployee,
   handleInputChange,
+  loading,
 }) {
   const {
     register,
@@ -303,7 +305,15 @@ function UsersModal({
         )}
 
         <div className={Employeestyle.editModelButtons}>
-          <button type="submit">Edit</button>
+          <LoadingButton
+            endIcon={<EditIcon />}
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+            onClick={handleSubmit(onSubmit)}
+          >
+            <span>Edit</span>
+          </LoadingButton>{" "}
         </div>
       </form>
     </div>

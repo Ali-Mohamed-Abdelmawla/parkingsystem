@@ -15,6 +15,7 @@ import Loader from "../../helper/loading-component/loader";
 
 function Employees() {
   const [loading, setLoading] = useState(false);
+  const [formLoading,setFormLoading] = useState(false);
   const accessToken = sessionStorage.getItem("accessToken");
   const [employees, setEmployees] = useState([]);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -67,6 +68,7 @@ function Employees() {
 
   const handleFormSubmit = (data) => {
     console.log(data);
+    setFormLoading(true);
     axiosInstance
       .put(`/api/GarageAdmin/EditStaff/${editedEmployee.Id}`, data, {
         headers: {
@@ -75,6 +77,7 @@ function Employees() {
         },
       })
       .then((response) => {
+        setFormLoading(false);
         const updatedEmployees = [...employees];
         updatedEmployees[editIndex] = response.data;
         setEmployees(updatedEmployees);
@@ -90,6 +93,7 @@ function Employees() {
           });
       })
       .catch((error) => {
+        setFormLoading(false);
         console.error("Error updating employee:", error);
         swal.fire({
           icon: "error",
@@ -113,6 +117,7 @@ function Employees() {
   };
 
   const handleConfirmDelete = () => {
+    setFormLoading(true);
     axiosInstance
       .delete(`/api/GarageAdmin/DeleteStaff/${employees[deletionIndex].Id}`, {
         headers: {
@@ -121,6 +126,7 @@ function Employees() {
         },
       })
       .then(() => {
+        setFormLoading(false);
         const updatedEmployees = [...employees];
         updatedEmployees.splice(deletionIndex, 1);
         setEmployees(updatedEmployees);
@@ -133,6 +139,7 @@ function Employees() {
         );
       })
       .catch((error) => {
+        setFormLoading(false);
         console.error("Error deleting employee:", error);
       });
   };
@@ -175,7 +182,8 @@ function Employees() {
   };
 
   const handleBulkEmailSend = (title, message) => {
-    // Perform bulk email sending logic using selectedEmployeeEmails
+    // Perform bulk email sending logic using se
+    setFormLoading(true);
     axiosInstance
       .post(
         `/api/GarageAdmin/SendBulkEmails`,
@@ -193,12 +201,14 @@ function Employees() {
       )
       .then((response) => {
         console.log(response);
+        setFormLoading(false);  
         Swal.fire("Success", "Emails sent successfully", "success").then(() => {
           setShowBulkEmails(false); // Close the pop-up after sending emails
           document.body.classList.remove(Employeestyle.viewModalActive);
         });
       })
       .catch((error) => {
+        setFormLoading(false);
         console.error("Error sending emails:", error);
         Swal.fire("Error", `Failed to send emails, ${error}`, "error");
       });
@@ -238,6 +248,8 @@ function Employees() {
         <EmployeesDeleteConfirmation
           handleCancelDelete={handleCancelDelete}
           handleConfirmDelete={handleConfirmDelete}
+          loading={formLoading}
+
         />
       )}
       {showEditPage && (
@@ -247,6 +259,8 @@ function Employees() {
           onSubmit={handleFormSubmit}
           editedEmployee={editedEmployee}
           handleInputChange={handleInputChange}
+          loading={formLoading}
+
         />
       )}
       {showViewDetails && (
@@ -259,6 +273,7 @@ function Employees() {
         <BulkEmails
           onClose={handleBulkEmailClose}
           onSend={handleBulkEmailSend}
+          loading={formLoading}
         />
       )}
     </>
