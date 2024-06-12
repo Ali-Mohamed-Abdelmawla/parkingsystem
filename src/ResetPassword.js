@@ -15,8 +15,28 @@ const Resetpassword = () => {
   const [loading, setLoading] = useState(false);
   const [otpLoading, setOTPLoading] = useState(false);
   const [showResend, setShowResend] = useState(false);
+  const [canSubmit, setCanSubmit] = useState(true);
   const [canResend, setCanResend] = useState(false); // New state to control resend ability
-  const [cooldownSeconds, setCooldownSeconds] = useState(60); // Cooldown in seconds
+  const [min, setMin] = useState(0);
+  const [sec, setSec] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(60);
+
+  const formatTime = (t) => (t < 10 ? "0" + t : t);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const m = Math.floor(timeLeft / 60);
+      const s = timeLeft - m * 60;
+
+      setMin(m);
+      setSec(s);
+      if (m <= 0 && s <= 0) return () => clearInterval(interval);
+
+      setTimeLeft((t) => t - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timeLeft]);
 
   const {
     register,
@@ -28,7 +48,7 @@ const Resetpassword = () => {
     if (!canResend) return; // Prevent sending if not allowed
     setOTPLoading(true);
     axiosInstance
-     .post(
+      .post(
         "/api/Auth/RequestPasswordReset",
         {},
         {
@@ -40,7 +60,7 @@ const Resetpassword = () => {
           },
         }
       )
-     .then((response) => {
+      .then((response) => {
         console.log(response);
         setOTPLoading(false);
         Swal.fire({
@@ -50,7 +70,7 @@ const Resetpassword = () => {
         });
         setCanResend(false); // Disable resend after successful request
       })
-     .catch((error) => {
+      .catch((error) => {
         console.log(error);
         setOTPLoading(false);
         if (error.response.data.includes("User not found.")) {
@@ -64,6 +84,7 @@ const Resetpassword = () => {
     let cooldownTimer;
     if (showResend) {
       cooldownTimer = setTimeout(() => {
+        setCanSubmit(true);
         setCanResend(true);
       }, 60000); // 60 seconds cooldown
     }
@@ -74,7 +95,7 @@ const Resetpassword = () => {
     console.log(data);
     setLoading(true);
     axiosInstance
-     .get("/api/Auth/SendResetPassword", {
+      .get("/api/Auth/SendResetPassword", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -82,14 +103,14 @@ const Resetpassword = () => {
           otp: data.otp,
         },
       })
-     .then((response) => {
+      .then((response) => {
         console.log(response.data);
         setLoading(false);
         navigate("/newpassword", {
           state: { otp: data.otp, passUpdateInfo: response.data },
         });
       })
-     .catch((error) => {
+      .catch((error) => {
         console.log(error);
         console.log(error.response.data.Success);
         if (error.response.data.Success === false) {
@@ -100,7 +121,8 @@ const Resetpassword = () => {
             text: "OTP validity has ended",
           }).then(() => {
             setShowResend(true);
-          })
+            setCanSubmit(false);
+          });
         }
       });
   };
@@ -123,29 +145,34 @@ const Resetpassword = () => {
               <div className={Resetstyles.error}>{errors.otp.message}</div>
             )}
           </div>
-          <LoadingButton
-            endIcon={<AddIcon />}
-            loading={loading}
-            loadingPosition="end"
-            variant="contained"
-            onClick={handleSubmit(onSubmit)}
-          >
-            <span>Submit</span>
-          </LoadingButton>
-          {showResend && (
-            <>
+          {canSubmit && (
             <LoadingButton
-              endIcon={<SendIcon />}
-              loading={otpLoading}
+              endIcon={<AddIcon />}
+              loading={loading}
               loadingPosition="end"
               variant="contained"
-              onClick={resendCode}
+              onClick={handleSubmit(onSubmit)}
             >
-              <span>Resend otp</span>
+              <span>Submit</span>
             </LoadingButton>
-            <CountdownTimer expiresIn={cooldownSeconds} /> {/* Display the countdown timer */}
+          )}
+          {canResend && (
+            <>
+              <LoadingButton
+                endIcon={<SendIcon />}
+                loading={otpLoading}
+                loadingPosition="end"
+                variant="contained"
+                onClick={resendCode}
+              >
+                <span>Resend otp</span>
+              </LoadingButton>
             </>
-
+          )}
+          {showResend && (
+            <div>
+              <span>{formatTime(min)}</span>:<span>{formatTime(sec)}</span>
+            </div>
           )}
         </form>
       </div>

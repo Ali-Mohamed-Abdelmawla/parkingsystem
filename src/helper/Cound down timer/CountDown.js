@@ -23,9 +23,9 @@ const CountdownTimer = ({ expiresIn }) => {
   }, [timeLeft]);
 
   return (
-    <>
+    <div>
       <span>{formatTime(min)}</span>:<span>{formatTime(sec)}</span>
-    </>
+    </div>
   );
 };
 
