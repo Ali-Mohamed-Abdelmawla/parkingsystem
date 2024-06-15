@@ -77,6 +77,7 @@ function SystemUsers() {
     if(data.Role === "garageadmin"){
       data.Salary = 0
     }
+    data.Salary = parseInt(data.Salary);
     axiosInstance
       .put(`/TechnicalSupport/EditUser/${editedEmployee.Id}`, data, {
         headers: {
@@ -97,7 +98,7 @@ function SystemUsers() {
           .fire({
             icon: "success",
             title: "Success",
-            text: "Employee updated successfully",
+            text: "User updated successfully",
           })
           .then(() => {
             window.location.reload();
@@ -105,11 +106,11 @@ function SystemUsers() {
       })
       .catch((error) => {
         setFormLoading(false);
-        console.error("Error updating employee:", error);
+        console.error("Error updating User:", error);
         swal.fire({
           icon: "error",
           title: "Error",
-          text: `Failed to update employee: ${error.response.data.errors.FullName[0]}`,
+          text: `Failed to update User: ${error.response.data.errors.FullName[0]}`,
         });
       });
   };
@@ -151,7 +152,7 @@ function SystemUsers() {
       })
       .catch((error) => {
         setFormLoading(false)
-        console.error("Error deleting employee:", error);
+        console.error("User deleting employee:", error);
       });
   };
 
@@ -267,7 +268,7 @@ function SystemUsers() {
       )}
       {showEditPage && (
         <UsersModal
-          title="Edit Employee"
+          title="Edit user"
           onClose={handleCloseEditClick}
           onSubmit={handleFormSubmit}
           editedEmployee={editedEmployee}

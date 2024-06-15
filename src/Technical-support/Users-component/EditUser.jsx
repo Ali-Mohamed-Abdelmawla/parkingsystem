@@ -90,6 +90,7 @@ function UsersModal({
 
   const [role, setRole] = useState(null);
   const [garageId, setGarageId] = useState(null);
+  const [customerService, setCustomerService] = useState(false);
 
   useEffect(() => {
     setRole(editedEmployee.Role);
@@ -107,6 +108,10 @@ function UsersModal({
     setRole(selectedOption.value);
     field.onChange(selectedOption.value);
   };
+
+  useEffect(() => {
+    setCustomerService(role === "customerservice");
+  }, [role]);
 
   return (
     <div className={Employeestyle.editModal}>
@@ -178,7 +183,7 @@ function UsersModal({
           </span>
         )}
 
-        {editedEmployee.Role === "customerservice" ? (
+        {customerService ? (
           <>
             <input
               {...register("Salary", {
@@ -244,28 +249,32 @@ function UsersModal({
           </span>
         )}
 
-        <div style={{ width: "70%", alignSelf: "center" }}>
-          <Controller
-            name="GarageId"
-            control={control}
-            rules={{ required: "Garage ID is required" }}
-            render={({ field }) => (
-              <AllGaragesSelect
-                {...field}
-                onGarageSelect={(selectedOption) => {
-                  console.log(selectedOption);
-                  field.onChange(selectedOption.garageId);
-                }}
-                role={role}
-                defValue={garageId}
+        {customerService ? null : (
+          <>
+            <div style={{ width: "70%", alignSelf: "center" }}>
+              <Controller
+                name="GarageId"
+                control={control}
+                rules={{ required: "Garage ID is required" }}
+                render={({ field }) => (
+                  <AllGaragesSelect
+                    {...field}
+                    onGarageSelect={(selectedOption) => {
+                      console.log(selectedOption);
+                      field.onChange(selectedOption.garageId);
+                    }}
+                    role={role}
+                    defValue={garageId}
+                  />
+                )}
               />
+            </div>
+            {errors.GarageId && (
+              <span className={Employeestyle.errorMessage}>
+                {errors.GarageId.message}
+              </span>
             )}
-          />
-        </div>
-        {errors.GarageId && (
-          <span className={Employeestyle.errorMessage}>
-            {errors.GarageId.message}
-          </span>
+          </>
         )}
 
         <div style={{ width: "70%", alignSelf: "center" }}>

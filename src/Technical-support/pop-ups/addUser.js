@@ -1,5 +1,5 @@
 import Select, { components } from "react-select";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import closeDark from "../assets/DarkMode/false-dark.svg";
 import closeLight from "../assets/LightMode/false.svg";
 import styles from "./garage-popup.module.css";
@@ -22,6 +22,11 @@ const AddUser = ({ onClose, darkMode }) => {
 
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState(null);
+  const [customerService, setCustomerService] = useState(false);
+
+  useEffect(() => {
+    setCustomerService(role === "customerservice");
+  }, [role]);
 
   const customStyles = {
     control: (styles, { isFocused }) => ({
@@ -87,6 +92,11 @@ const AddUser = ({ onClose, darkMode }) => {
   };
 
   const onSubmit = async (data) => {
+
+    if(data.Role === "garageadmin"){
+      data.Salary = 0
+    }
+
     try {
       const accessToken = sessionStorage.getItem("accessToken");
       const headers = {
@@ -260,44 +270,51 @@ const AddUser = ({ onClose, darkMode }) => {
           {errors.PhoneNumber && (
             <span className={styles.error}>{errors.PhoneNumber.message}</span>
           )}
-
-          <input
-            placeholder="Salary"
-            type="number"
-            {...register("Salary", {
-              required: "Salary is required",
-              pattern: {
-                value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
-                message: "The entered value should be a number",
-              },
-            })}
-          />
-          {errors.Salary && (
-            <span className={styles.error}>{errors.Salary.message}</span>
-          )}
-
-          <div style={{ width: "80%", margin: "8px",textAlign: "left" }}>
-            <Controller
-              name="GarageId"
-              control={control}
-              rules={{ required: "Garage ID is required" }}
-              render={({ field }) => (
-                <AllGaragesSelect
-                  {...field}
-                  onGarageSelect={(selectedOption) => {
-                    console.log(selectedOption);
-                    field.onChange(selectedOption.garageId);
-                  }}
-                  role={role}
-                />
+          {customerService ? (
+            <>
+              <input
+                placeholder="Salary"
+                type="number"
+                {...register("Salary", {
+                  required: "Salary is required",
+                  pattern: {
+                    value: /^\d+(\.\d+)?$/, // Regular expression to match only digits
+                    message: "The entered value should be a number",
+                  },
+                })}
+              />
+              {errors.Salary && (
+                <span className={styles.error}>{errors.Salary.message}</span>
               )}
-            />
-          </div>
-          {errors.GarageId && (
-            <span className={styles.error}>{errors.GarageId.message}</span>
+            </>
+          ) : null}
+
+          {customerService ? null : (
+            <>
+              <div style={{ width: "80%", margin: "8px", textAlign: "left" }}>
+                <Controller
+                  name="GarageId"
+                  control={control}
+                  rules={{ required: "Garage ID is required" }}
+                  render={({ field }) => (
+                    <AllGaragesSelect
+                      {...field}
+                      onGarageSelect={(selectedOption) => {
+                        console.log(selectedOption);
+                        field.onChange(selectedOption.garageId);
+                      }}
+                      role={role}
+                    />
+                  )}
+                />
+              </div>
+              {errors.GarageId && (
+                <span className={styles.error}>{errors.GarageId.message}</span>
+              )}
+            </>
           )}
 
-          <div style={{ width: "80%", margin: "8px",textAlign: "left" }}>
+          <div style={{ width: "80%", margin: "8px", textAlign: "left" }}>
             <Controller
               name="Role"
               control={control}

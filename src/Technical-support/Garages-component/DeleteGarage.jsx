@@ -14,7 +14,7 @@ function EmployeesDeleteConfirmation({
       <div className={Employeestyle.deleteContent}>
         <div className={Employeestyle.deleteMessage}>
           <img src={WarningIcon} alt="warning-icon" />
-          <p>Are you sure you want to delete this employee? </p>
+          <p>Are you sure you want to delete this garage? </p>
         </div>
         <div className={Employeestyle.deleteModelButtons}>
         <LoadingButton

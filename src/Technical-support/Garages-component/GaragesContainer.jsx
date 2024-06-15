@@ -49,7 +49,7 @@ function Garages() {
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching employees:", error);
+        console.error("Error fetching garages:", error);
         setLoading(false);
       });
   }, []);
@@ -98,12 +98,12 @@ function Garages() {
       })
       .catch((error) => {
         setFormLoading(false);
-        console.error("Error updating employee:", error);
+        console.error("Error updating garage:", error);
         swal
           .fire({
             icon: "error",
             title: "Error",
-            text: `Failed to update employee: ${error.response.data.errors.FullName[0]}`,
+            text: `Failed to update garage: ${error.response.data.errors.FullName[0]}`,
           })
           .then(() => {});
       });
@@ -150,7 +150,7 @@ function Garages() {
         );
       })
       .catch((error) => {
-        console.error("Error deleting employee:", error);
+        console.error("Error deleting garage:", error);
         setFormLoading(false);
       });
   };

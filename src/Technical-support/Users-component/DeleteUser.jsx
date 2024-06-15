@@ -13,7 +13,7 @@ function UsersDeleteConfirmation({
       <div className={Employeestyle.deleteContent}>
         <div className={Employeestyle.deleteMessage}>
           <img src={WarningIcon} alt="warning-icon" />
-          <p>Are you sure you want to delete this employee? </p>
+          <p>Are you sure you want to delete this user? </p>
         </div>
         <div className={Employeestyle.deleteModelButtons}>
           {/* <button onClick={handleConfirmDelete}>Confirm</button> */}
