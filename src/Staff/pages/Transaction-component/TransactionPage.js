@@ -10,6 +10,7 @@ import { useOutletContext } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CheckIcon from "@mui/icons-material/Check";
 import Loader from "../../../helper/loading-component/loader.jsx";
+
 function TransactionPage() {
   const [loading, setLoading] = useState(false);
   const { darkMode } = useOutletContext();
@@ -23,6 +24,11 @@ function TransactionPage() {
   const [paymentError, setPaymentError] = useState("");
 
   const accessToken = sessionStorage.getItem("accessToken");
+
+  const convertToArabicNumerals = (number) => {
+    const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    return number.toString().split('').map(digit => arabicNumerals[parseInt(digit, 10)]).join('');
+  };
 
   useEffect(() => {
     if (accessToken) {
@@ -143,6 +149,7 @@ function TransactionPage() {
       });
     }
   };
+
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -162,7 +169,6 @@ function TransactionPage() {
   };
 
   const carIconSrc = darkMode ? darkCarIcon : carIcon;
-  // const searchIconSrc = darkMode ? searchIconDark : searchIconLight;
   const cancelIconSrc = darkMode ? cancelIconDark : cancelIconLight;
 
   if (loading) {
@@ -187,11 +193,6 @@ function TransactionPage() {
     >
       <div className={styles["search-container"]}>
         <div className={styles["search-bar"]}>
-          {/* <img
-            src={searchIconSrc}
-            alt="Search Icon"
-            className={styles["search-icon"]}
-          /> */}
           <input
             type="text"
             placeholder="Search vehicle"
@@ -215,7 +216,7 @@ function TransactionPage() {
             }
 
             const plateLetters = vehicle.PlateLetters.split("").join(" ");
-            const plateNumber = `${plateLetters} ${vehicle.PlateNumbers}`;
+            const plateNumber = `${plateLetters} ${convertToArabicNumerals(vehicle.PlateNumbers)}`;
 
             const durationInHours = vehicle.CurSessionDuration_Hours || 0;
             const hours = Math.floor(durationInHours);
@@ -280,7 +281,7 @@ function TransactionPage() {
               <strong>
                 Plate Number: {selectedPlateLetters.split("").join(" ")}{" "}
               </strong>
-              {selectedPlateNumbers}
+              {convertToArabicNumerals(selectedPlateNumbers)}
             </span>
 
             <span>
@@ -327,7 +328,7 @@ function TransactionPage() {
               onClick={handleCloseConfirmPopup}
               className={styles["C-popconfirm"]} // Added custom class here
             >
-              <span>Submit Report</span>
+              <span>Confirm</span>
             </LoadingButton>
           </div>
         </div>
