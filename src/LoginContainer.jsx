@@ -61,7 +61,7 @@ const LoginForm = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input
-        {...register("username", { required: "Username is required" })}
+        {...register("username", { required: "Email is required" })}
         type="text"
         placeholder="ُEmail"
         value={username}

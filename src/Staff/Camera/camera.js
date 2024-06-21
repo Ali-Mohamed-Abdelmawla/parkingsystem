@@ -3,6 +3,12 @@ import Webcam from "react-webcam";
 import axiosInstance from "../../auth/axios";
 import styles from "./camera.module.css";
 import Swal from "sweetalert2";
+import Switch from "@mui/material/Switch";
+import TransactionPage from "../../Staff/pages/Transaction-component/TransactionPage";
+import LoadingButton from "@mui/lab/LoadingButton";
+import CheckIcon from "@mui/icons-material/Check";
+import lightModeCancelIcon from "../assets/light-mode/cancel.svg";
+import darkModeCancelIcon from "../assets/Dark-mode/cancel.svg";
 
 function CameraSwitcher({ darkMode }) {
   const accessToken = sessionStorage.getItem("accessToken");
@@ -13,62 +19,55 @@ function CameraSwitcher({ darkMode }) {
   const [arabicLetters, setArabicLetters] = useState([]);
   const [numbers, setNumbers] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [captureArabic, setCaptureArabic] = useState(false);
+  const [isEntry, setIsEntry] = useState(true); 
+  const [plateDetails, setPlateDetails] = useState(null);
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [paymentAmount, setPaymentAmount] = useState("");
+  const [paymentError, setPaymentError] = useState("");
 
-  // Function to handle switching cameras
   const switchCamera = (deviceId) => {
     setSelectedDevice(deviceId);
   };
 
-  // Function to capture photo from webcam and upload to ImgBB
   const capturePhoto = () => {
-    // Capture the image from the webcam
     const imageSrc = webcamRef.current.getScreenshot();
-    let recognizedText = "";
-    // Convert the Base64 image to a Blob
     const blob = dataURItoBlob(imageSrc);
-
-    // Create a FormData object
     const formData = new FormData();
     formData.append("image", blob);
 
-    // Upload the image to ImgBB
     axiosInstance
       .post(
         "https://api.imgbb.com/1/upload?key=b12524ab4b955c0548dbc0dc9c669d48",
         formData
       )
       .then((response) => {
-        console.log("Image uploaded successfully:", response.data.data.url);
-        // request to the database
         axiosInstance
           .post(
-            // "https://mohammed321735-rakna-api-gdkgivmppq-ew.a.run.app/ODLink"
             "https://octopus-intent-rapidly.ngrok-free.app/ODLink",
-            {
-              image_url: response.data.data.url,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
+            { image_url: response.data.data.url },
+            { headers: { "Content-Type": "application/json" } }
           )
           .then((response) => {
             let plateNumber = "";
             response.data[0]["Characters result"].forEach((element) => {
               plateNumber += element.Character;
             });
-            // Extract Arabic letters and numbers
+
+            if (!captureArabic) {
+              plateNumber = plateNumber.replace(/[\u0600-\u06FF]/g, "");
+            }
+
             const arabicLetters = plateNumber.match(/[\u0600-\u06FF]/g) || [];
             const numbers = plateNumber.match(/\d/g) || [];
-            console.log("Recognized plate:", plateNumber);
             setRecognizedPlate(plateNumber);
             setArabicLetters(arabicLetters);
             setNumbers(numbers);
             setShowConfirmation(true);
           })
           .catch((error) => {
-            console.error("Error processing the image:", error);
             Swal.fire({
               icon: "error",
               title: "Error",
@@ -81,21 +80,15 @@ function CameraSwitcher({ darkMode }) {
       });
   };
 
-  // Function to confirm the recognized plate and start parking session
   const confirmPlate = () => {
-
-    console.log("Recognized plate before starting session:", recognizedPlate);
-
-
-    const arabicLetters = recognizedPlate.match(/[\u0621-\u064A]/g) || [];
-const arabicNumbers = recognizedPlate.match(/[\u0660-\u0669]/g) || [];
-    // Start the parking session
+    if (isEntry) {
+      // Start parking session logic for entry
       axiosInstance
         .post(
           "/api/GarageStaff/StartParkingSession",
           {
-            PlateLetters: arabicLetters.join(""),
-            PlateNumbers: arabicNumbers.join(""),
+            PlateLetters: recognizedPlate.replace(/\d/g, ""),
+            PlateNumbers: recognizedPlate.replace(/[^\d]/g, ""),
           },
           {
             headers: {
@@ -105,25 +98,105 @@ const arabicNumbers = recognizedPlate.match(/[\u0660-\u0669]/g) || [];
           }
         )
         .then((response) => {
-          console.log("Parking session started successfully:", response.data);
           Swal.fire({
             icon: "success",
             title: "Success",
             text: "Parking session started successfully.",
           });
-          // Additional logic after starting the parking session
+          setShowConfirmation(false);
         })
         .catch((error) => {
-          console.error("Error starting parking session:", error);
-          // Handle error
-        })
-        .finally(() => {
-          setShowConfirmation(false); // Hide the confirmation dialog
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error starting parking session. Please try again.",
+          });
         });
-
+    } else {
+      // Fetch vehicle details for exit
+      axiosInstance
+        .get("/api/GarageStaff/CurrentParkingSessions", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          const currentSessions = response.data;
+          const vehicle = currentSessions.find(
+            (v) =>
+              v.PlateLetters === recognizedPlate.replace(/\d/g, "") &&
+              v.PlateNumbers === recognizedPlate.replace(/[^\d]/g, "")
+          );
+          if (vehicle) {
+            setSelectedTransaction(vehicle);
+            setShowConfirmPopup(true);
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Vehicle not found in current sessions.",
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching current parking sessions:", error);
+        });
+      setShowConfirmation(false);
+    }
   };
 
-  // Function to fetch list of available media devices
+  const handleCloseConfirmPopup = async () => {
+    setLoading(true);
+    const requestData = {
+      PlateLetters: selectedTransaction.PlateLetters,
+      PlateNumbers: selectedTransaction.PlateNumbers,
+    };
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    };
+
+    try {
+      const response = await axiosInstance.delete(
+        "/api/GarageStaff/EndParkingSession",
+        {
+          data: requestData,
+          headers,
+        }
+      );
+
+      console.log("Parking session ended successfully");
+      // Display success alert
+      Swal.fire({
+        title: "Payment Successful!",
+        text: "Payment has been processed successfully.",
+        icon: "success",
+        backdrop: false,
+        focusConfirm: false,
+        allowOutsideClick: false,
+      }).then(() => {
+        setShowConfirmPopup(false);
+        setLoading(false);
+        window.location.reload();
+      });
+    } catch (error) {
+      console.error("Error ending parking session:", error);
+      setShowConfirmPopup(false);
+      // Display error alert
+      Swal.fire({
+        title: "Payment Failed!",
+        text: "Failed to process payment. Please try again.",
+        icon: "error",
+        backdrop: false,
+        focusConfirm: false,
+        allowOutsideClick: false,
+      }).then(() => {
+        setLoading(false);
+      });
+    }
+  };
+
   const getMediaDevices = async () => {
     try {
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -139,14 +212,42 @@ const arabicNumbers = recognizedPlate.match(/[\u0660-\u0669]/g) || [];
     }
   };
 
-  // Effect to fetch media devices on component mount
   useEffect(() => {
     getMediaDevices();
   }, []);
 
+  const handlePaymentAmountChange = (e) => {
+    setPaymentAmount(e.target.value);
+  };
+
+  const convertToArabicNumerals = (numbers) => {
+    const arabicNumerals = {
+      0: "٠",
+      1: "١",
+      2: "٢",
+      3: "٣",
+      4: "٤",
+      5: "٥",
+      6: "٦",
+      7: "٧",
+      8: "٨",
+      9: "٩",
+    };
+    return numbers.replace(/\d/g, (d) => arabicNumerals[d]);
+  };
+
   return (
     <div className={`${styles.Container} ${darkMode ? styles.DarkMode : ""}`}>
       <div className={styles.Camera}>
+        <div className={styles.ToggleContainer}>
+          <span>Exit</span>
+          <Switch
+            checked={isEntry}
+            onChange={() => setIsEntry(!isEntry)}
+            color="primary"
+          />
+          <span>Entry</span>
+        </div>
         <select
           className={`${styles.Select} ${
             darkMode ? styles.DarkModeSelect : ""
@@ -164,20 +265,22 @@ const arabicNumbers = recognizedPlate.match(/[\u0660-\u0669]/g) || [];
           audio={false}
           videoConstraints={{
             deviceId: selectedDevice,
-            width: 1920, // Set to the maximum width your webcam supports
-            height: 1080, // Set to the maximum height your webcam supports
+            width: 1920,
+            height: 1080,
           }}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          screenshotQuality={1} // Set to 1 for highest quality
+          screenshotQuality={1}
           style={{ width: "100%", height: "auto" }}
         />
         {showConfirmation && (
           <div className={styles.RecognizedPlate}>
             <p>Recognized Plate Number:</p>
-            {/* <p>Arabic Letters: {arabicLetters.join("")}</p>
-            <p>Numbers: {numbers.join("")}</p> */}
-            <input defaultValue={recognizedPlate} onChange={(e) => setRecognizedPlate(e.target.value)} type="text" />
+            <input
+              defaultValue={recognizedPlate}
+              onChange={(e) => setRecognizedPlate(e.target.value)}
+              type="text"
+            />
             <div>
               <button onClick={confirmPlate}>Confirm</button>
             </div>
@@ -192,6 +295,82 @@ const arabicNumbers = recognizedPlate.match(/[\u0660-\u0669]/g) || [];
           Capture Photo
         </button>
       </div>
+      {plateDetails && (
+        <TransactionPage
+          plateLetters={plateDetails.PlateLetters}
+          plateNumbers={plateDetails.PlateNumbers}
+          onClose={() => setPlateDetails(null)}
+        />
+      )}
+      {showConfirmPopup && selectedTransaction && (
+        <div className={styles.CPopup}>
+          <div className={styles.CPopupContent}>
+            <div>
+              <img
+                src={darkMode ? darkModeCancelIcon : lightModeCancelIcon}
+                alt="Cancel Icon"
+                className={styles.CancelIcon}
+                onClick={() => setShowConfirmPopup(false)}
+              />
+            </div>
+            <div className={styles.CPopupLabels}>
+              <span>
+                <strong>
+                  Plate Number: {recognizedPlate.replace(/\d/g, "")}{" "}
+                </strong>
+                {convertToArabicNumerals(recognizedPlate.replace(/[^\d]/g, ""))}
+              </span>
+
+              <span>
+                <strong>Entry Time: </strong>
+                {new Date(selectedTransaction.StartDate).toLocaleString()}
+              </span>
+              <span>
+                <strong>Exit Time: </strong>
+                {new Date().toLocaleString()}
+              </span>
+              <span>
+                <strong>Total Fee: </strong>
+                {selectedTransaction.CurrentBill.toFixed(2)} LE
+              </span>
+              <div className={styles.CPaymentOptions}>
+                <label
+                  htmlFor="paymentAmount"
+                  className={styles.PaymentLabel}
+                >
+                  Payment Amount:
+                </label>
+                <br></br>
+                <input
+                  type="number"
+                  id="paymentAmount"
+                  value={paymentAmount}
+                  onChange={handlePaymentAmountChange}
+                  className={styles.PaymentInput}
+                  style={{ margin: "5px" }}
+                />
+                <br></br>
+                {paymentError && (
+                  <span className={styles.ErrorMessage}>
+                    {paymentError}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <LoadingButton
+              endIcon={<CheckIcon />}
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+              onClick={handleCloseConfirmPopup}
+              className={styles.CPopconfirm}
+            >
+              <span>Confirm</span>
+            </LoadingButton>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -199,22 +378,15 @@ const arabicNumbers = recognizedPlate.match(/[\u0660-\u0669]/g) || [];
 export default CameraSwitcher;
 
 function dataURItoBlob(dataURI) {
-  // convert base64/URLEncoded data component to raw binary data held in a string
   let byteString;
   if (dataURI.split(",")[0].indexOf("base64") >= 0)
     byteString = atob(dataURI.split(",")[1]);
   else byteString = unescape(dataURI.split(",")[1]);
-
-  // separate out the mime component
   let mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-
-  // write the bytes of the string to a typed array
   let ia = new Uint8Array(byteString.length);
   for (let i = 0; i < byteString.length; i++) {
     ia[i] = byteString.charCodeAt(i);
   }
-
   return new Blob([ia], { type: mimeString });
 }
 
-//============================================================================================================
