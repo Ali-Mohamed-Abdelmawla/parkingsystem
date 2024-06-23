@@ -38,6 +38,10 @@ function AddVehiclePopupPresentational({
             type="text"
             {...register("letters", {
               required: "Arabic letters are required",
+              minLength: {
+                value: 2,
+                message: "Minimum length is 2 characters",
+              },
               maxLength: {
                 value: 3,
                 message: "Maximum length is 3 characters",
@@ -58,6 +62,10 @@ function AddVehiclePopupPresentational({
             type="text"
             {...register("numbers", {
               required: "Numbers are required",
+              minLength: {
+                value: 3,
+                message: "Minimum length is 3 characters",
+              },
               maxLength: {
                 value: 4,
                 message: "Maximum length is 4 digits",
