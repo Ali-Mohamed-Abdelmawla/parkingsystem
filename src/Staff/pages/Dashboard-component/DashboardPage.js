@@ -25,14 +25,12 @@ const DashboardPage = () => {
           "Content-Type": "application/json",
         };
         console.log("Request Headers:", headers);
-        setLoading(true);
         const response = await axiosInstance.get(
           "/api/GarageStaff/AvailableSpaces",
           { headers }
         );
         console.log("Available spaces:", response.data);
         setAvailableSpaces(response.data.AvailableSpaces);
-        setLoading(false);
       } catch (error) {
         if (error.response) {
           console.error("Error status:", error.response.status);
@@ -41,13 +39,10 @@ const DashboardPage = () => {
               "Unauthorized: Access token may be invalid or expired"
             );
           }
-          setLoading(false);
         } else if (error.request) {
           console.error("No response received:", error.request);
-          setLoading(false);
         } else {
           console.error("Error setting up request:", error.message);
-          setLoading(false);
         }
       }
     };

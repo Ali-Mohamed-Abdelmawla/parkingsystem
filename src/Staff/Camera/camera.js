@@ -52,10 +52,11 @@ function CameraSwitcher({ darkMode }) {
           )
           .then((response) => {
             let plateNumber = "";
+            console.log(response.data);
             response.data[0]["Characters result"].forEach((element) => {
               plateNumber += element.Character;
             });
-            
+
             const arabicLetters = plateNumber.match(/[\u0600-\u06FF]/g) || [];
             const numbers = plateNumber.match(/\d/g) || [];
             setRecognizedPlate(plateNumber);
@@ -77,6 +78,7 @@ function CameraSwitcher({ darkMode }) {
       });
   };
   
+
 
   // Function to handle confirmation of plate number
   const confirmPlate = () => {
@@ -102,7 +104,6 @@ function CameraSwitcher({ darkMode }) {
             title: "Success",
             text: "Parking session started successfully.",
           });
-          setShowConfirmation(false);
         })
         .catch((error) => {
           Swal.fire({
@@ -111,6 +112,8 @@ function CameraSwitcher({ darkMode }) {
             text: "Error starting parking session. Please try again.",
           });
         });
+        setShowConfirmation(false); // دي كانت تحت ال .then بس المفروض تبقي بعد ال then و catch
+
     } else {
       // Fetch vehicle details for exit
       axiosInstance
@@ -274,7 +277,8 @@ function CameraSwitcher({ darkMode }) {
           <span>Exit</span>
           <Switch
             checked={isEntry}
-            onChange={() => setIsEntry(!isEntry)}
+            onChange={() => 
+              setIsEntry(!isEntry)}
             color="primary"
           />
           <span>Entry</span>
@@ -304,7 +308,7 @@ function CameraSwitcher({ darkMode }) {
           screenshotQuality={1}
           style={{ width: "100%", height: "auto" }}
         />
-        {showConfirmation && (
+        {showConfirmation && recognizedPlate && (
           <div className={styles.RecognizedPlate}>
             <p>Recognized Plate Number:</p>
             <input
