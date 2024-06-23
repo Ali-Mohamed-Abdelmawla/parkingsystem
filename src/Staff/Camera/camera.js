@@ -4,7 +4,6 @@ import axiosInstance from "../../auth/axios";
 import styles from "./camera.module.css";
 import Swal from "sweetalert2";
 import Switch from "@mui/material/Switch";
-import TransactionPage from "../../Staff/pages/Transaction-component/TransactionPage";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CheckIcon from "@mui/icons-material/Check";
 import lightModeCancelIcon from "../assets/light-mode/cancel.svg";
@@ -19,7 +18,6 @@ function CameraSwitcher({ darkMode }) {
   const [arabicLetters, setArabicLetters] = useState([]);
   const [numbers, setNumbers] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [captureArabic, setCaptureArabic] = useState(false);
   const [isEntry, setIsEntry] = useState(true); 
   const [plateDetails, setPlateDetails] = useState(null);
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
@@ -28,16 +26,18 @@ function CameraSwitcher({ darkMode }) {
   const [paymentAmount, setPaymentAmount] = useState("");
   const [paymentError, setPaymentError] = useState("");
 
+  // Function to switch camera based on deviceId
   const switchCamera = (deviceId) => {
     setSelectedDevice(deviceId);
   };
 
+  // Function to capture photo from webcam
   const capturePhoto = () => {
     const imageSrc = webcamRef.current.getScreenshot();
     const blob = dataURItoBlob(imageSrc);
     const formData = new FormData();
     formData.append("image", blob);
-
+  
     axiosInstance
       .post(
         "https://api.imgbb.com/1/upload?key=b12524ab4b955c0548dbc0dc9c669d48",
@@ -56,17 +56,11 @@ function CameraSwitcher({ darkMode }) {
             response.data[0]["Characters result"].forEach((element) => {
               plateNumber += element.Character;
             });
-            console.log(response.data[0]["Characters result"]);
-            console.log(plateNumber); 
-
-            // if (!captureArabic) {
-            //   console.log(plateNumber.replace(/[\u0600-\u06FF]/g, ""));
-            //   plateNumber = plateNumber.replace(/[\u0600-\u06FF]/g, "");
-            // }
 
             const arabicLetters = plateNumber.match(/[\u0600-\u06FF]/g) || [];
             const numbers = plateNumber.match(/\d/g) || [];
             setRecognizedPlate(plateNumber);
+            console.log('Recognized Plate:', plateNumber); // Print recognized plate here
             setArabicLetters(arabicLetters);
             setNumbers(numbers);
             setShowConfirmation(true);
@@ -83,14 +77,10 @@ function CameraSwitcher({ darkMode }) {
         console.error("Error uploading the image:", error);
       });
   };
+  
 
-  // useEffect(() => {
 
-  //   console.log(recognizedPlate);
-  //   console.log(arabicLetters);
-  //   console.log(numbers);
-  // }, [recognizedPlate]);
-
+  // Function to handle confirmation of plate number
   const confirmPlate = () => {
     if (isEntry) {
       // Start parking session logic for entry
@@ -135,11 +125,17 @@ function CameraSwitcher({ darkMode }) {
         })
         .then((response) => {
           const currentSessions = response.data;
-          const vehicle = currentSessions.find(
-            (v) =>
+          const vehicle = currentSessions.find((v) => {
+            const plateNumbersEnglish = convertToEnglishNumerals(
+              recognizedPlate.replace(/[^\d]/g, "")
+            );
+
+            return (
               v.PlateLetters === recognizedPlate.replace(/\d/g, "") &&
-              v.PlateNumbers === recognizedPlate.replace(/[^\d]/g, "")
-          );
+              v.PlateNumbers === plateNumbersEnglish
+            );
+          });
+
           if (vehicle) {
             setSelectedTransaction(vehicle);
             setShowConfirmPopup(true);
@@ -153,11 +149,16 @@ function CameraSwitcher({ darkMode }) {
         })
         .catch((error) => {
           console.error("Error fetching current parking sessions:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error fetching current parking sessions. Please try again.",
+          });
         });
-      setShowConfirmation(false);
     }
   };
 
+  // Function to handle closing of confirmation popup
   const handleCloseConfirmPopup = async () => {
     setLoading(true);
     const requestData = {
@@ -190,7 +191,7 @@ function CameraSwitcher({ darkMode }) {
       }).then(() => {
         setShowConfirmPopup(false);
         setLoading(false);
-        window.location.reload();
+        window.location.reload(); // Optional: Refresh page after successful payment
       });
     } catch (error) {
       console.error("Error ending parking session:", error);
@@ -209,6 +210,7 @@ function CameraSwitcher({ darkMode }) {
     }
   };
 
+  // Function to fetch available media devices
   const getMediaDevices = async () => {
     try {
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -228,10 +230,30 @@ function CameraSwitcher({ darkMode }) {
     getMediaDevices();
   }, []);
 
+  // Function to handle change in payment amount input
   const handlePaymentAmountChange = (e) => {
     setPaymentAmount(e.target.value);
   };
 
+  // Function to convert Arabic numerals to English
+  const convertToEnglishNumerals = (numbers) => {
+    const englishNumerals = {
+      '٠': '0',
+      '١': '1',
+      '٢': '2',
+      '٣': '3',
+      '٤': '4',
+      '٥': '5',
+      '٦': '6',
+      '٧': '7',
+      '٨': '8',
+      '٩': '9',
+    };
+    
+    return numbers.replace(/[\u0660-\u0669]/g, (c) => englishNumerals[c]);
+  };
+
+  // Function to convert numbers to Arabic numerals
   const convertToArabicNumerals = (numbers) => {
     const arabicNumerals = {
       0: "٠",
@@ -290,10 +312,13 @@ function CameraSwitcher({ darkMode }) {
           <div className={styles.RecognizedPlate}>
             <p>Recognized Plate Number:</p>
             <input
-              defaultValue={recognizedPlate}
-              onChange={(e) => setRecognizedPlate(e.target.value)}
-              type="text"
-            />
+      value={recognizedPlate}
+      onChange={(e) => {
+        setRecognizedPlate(e.target.value);
+        console.log('Updated Recognized Plate:', e.target.value); // Print recognized plate here
+      }}
+      type="text"
+    />
             <div>
               <button onClick={confirmPlate}>Confirm</button>
             </div>
@@ -308,13 +333,7 @@ function CameraSwitcher({ darkMode }) {
           Capture Photo
         </button>
       </div>
-      {plateDetails && (
-        <TransactionPage
-          plateLetters={plateDetails.PlateLetters}
-          plateNumbers={plateDetails.PlateNumbers}
-          onClose={() => setPlateDetails(null)}
-        />
-      )}
+      
       {showConfirmPopup && selectedTransaction && (
         <div className={styles.CPopup}>
           <div className={styles.CPopupContent}>
