@@ -4,7 +4,7 @@ import Resetstyles from "./Login.module.css";
 import { useState } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from "@mui/icons-material/Add";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "./helper/SweetAlert";
 import { useLocation, useNavigate } from "react-router-dom";
 const Newpassword = () => {
   const [loading, setLoading] = useState(false);
@@ -39,7 +39,7 @@ const navigate = useNavigate();
       )
       .then((response) => {
         console.log(response);
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "success",
           title: "Success",
           text: "Password resetted successfully",
@@ -50,7 +50,7 @@ const navigate = useNavigate();
       })
       .catch((error) => {
         console.log(error);
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "error",
           title: "Error",
           text: "Failed to reset password",

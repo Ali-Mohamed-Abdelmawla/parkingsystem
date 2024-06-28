@@ -10,9 +10,8 @@ import UsersModal from "./EditUser";
 import BulkEmails from "./BulkEmails";
 import axiosInstance from "../../auth/axios";
 import Employeestyle from "../../System-admin/Styles/Employees.module.css";
-import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import Loader from "../../helper/loading-component/loader";
 
 // لازم نريلود بعد التعديل
@@ -94,7 +93,7 @@ function SystemUsers() {
         setEmployees(updatedEmployees);
         setFormLoading(false);
         setShowEditPage(false);
-        swal
+        sweetAlertInstance
           .fire({
             icon: "success",
             title: "Success",
@@ -107,7 +106,7 @@ function SystemUsers() {
       .catch((error) => {
         setFormLoading(false);
         console.error("Error updating User:", error);
-        swal.fire({
+        sweetAlertInstance.fire({
           icon: "error",
           title: "Error",
           text: `Failed to update User: ${error.response.data.errors.FullName[0]}`,
@@ -142,7 +141,7 @@ function SystemUsers() {
         // const updatedEmployees = [...employees];
         // updatedEmployees.splice(deletionIndex, 1);
         // setEmployees(updatedEmployees);
-        Swal.fire("Success", "User deleted successfully", "success").then(
+        sweetAlertInstance.fire("Success", "User deleted successfully", "success").then(
           () => {
             setShowDeleteConfirmation(false);
             setDeletionIndex(null);
@@ -214,7 +213,7 @@ function SystemUsers() {
       .then((response) => {
         setFormLoading(false)
         console.log(response);
-        Swal.fire("Success", "Emails sent successfully", "success").then(() => {
+        sweetAlertInstance.fire("Success", "Emails sent successfully", "success").then(() => {
           setShowBulkEmails(false); // Close the pop-up after sending emails
           document.body.classList.remove(Employeestyle.viewModalActive);
           setLoading(false);
@@ -223,7 +222,7 @@ function SystemUsers() {
       .catch((error) => {
         setFormLoading(false)
         console.error("Error sending emails:", error);
-        Swal.fire("Error", `Failed to send emails, ${error}`, "error");
+        sweetAlertInstance.fire("Error", `Failed to send emails, ${error}`, "error");
         setLoading(false);
       });
   };

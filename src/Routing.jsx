@@ -35,7 +35,6 @@ import DashboardforTechnicalSupport from './Technical-support/Dashboard-componen
 import SystemUsers from "./Technical-support/Users-component/UsersContainer";
 import ComplaintsforTechnicalSupport from "./Technical-support/Complaints-component/ComplaintsContainer";
 import Garages from "./Technical-support/Garages-component/GaragesContainer";
-import BulkEmails from "./Technical-support/BulkEmails-component/BulkEmails";
 import GarageStaff from "./Staff/App";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";

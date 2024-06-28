@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import styles from "./Styles/styles.module.css";
-
-// importing icons
 import Whitelogo from "./assets/light-mode/White-logo.svg";
 import Dashboardicon from "./assets/light-mode/Dashboard.svg";
 import Empoloyeeicon from "./assets/light-mode/Employee-icon.svg";
@@ -18,8 +17,6 @@ import AddReport from "./AddReport-component/AddReport";
 import Hourprice from "./Edit-hourPrice/EditHourPrice";
 
 //Routes
-import { useNavigate } from "react-router-dom";
-import { Outlet } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import axiosInstance from "../auth/axios";
 
@@ -31,6 +28,7 @@ function TheOne() {
   const [showHourPriceEdit, setShowHourPriceEdit] = useState(false);
   const [userName, setUserName] = useState(null);
   const [garageData, setGarageData] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("accessToken");
@@ -49,6 +47,26 @@ function TheOne() {
         });
     }
   }, []);
+
+  // Initialize dark mode state from session storage
+  useEffect(() => {
+    const savedDarkMode = sessionStorage.getItem("darkMode");
+    if (savedDarkMode === null) {
+      sessionStorage.setItem("darkMode", "false"); // Default to light mode
+      setDarkMode(false);
+      document.documentElement.setAttribute("theme", "light");
+    } else {
+      const isDarkMode = savedDarkMode === "true";
+      setDarkMode(isDarkMode);
+      document.documentElement.setAttribute("theme", isDarkMode ? "dark" : "light");
+    }
+  }, []);
+
+  // Update session storage and document attribute whenever dark mode changes
+  useEffect(() => {
+    sessionStorage.setItem("darkMode", darkMode);
+    document.documentElement.setAttribute("theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
 
   const handleAddBtn = () => {
     setShowAddPage(true);
@@ -99,7 +117,9 @@ function TheOne() {
   const handleSalariesClick = () => {
     navigate("/SystemAdmin/Salaries");
   };
+
   const handleLogoutBtn = () => {
+    sessionStorage.removeItem("darkMode");
     sessionStorage.removeItem("accessToken");
     document.documentElement.setAttribute("theme", "light");
     navigate("/");
@@ -107,11 +127,7 @@ function TheOne() {
   };
 
   const switchTheme = (e) => {
-    if (e.target.checked) {
-      document.documentElement.setAttribute("theme", "dark");
-    } else {
-      document.documentElement.setAttribute("theme", "light");
-    }
+    setDarkMode(e.target.checked);
   };
 
   return (
@@ -122,12 +138,6 @@ function TheOne() {
             <img src={Whitelogo} alt="logo" />
             <h2>Rakna</h2>
           </div>
-          {/* <div className="close" id="close-btn">
-              <span className="material-icons-sharp">
-                close
-              </span>
-            </div> */}
-          {/* close icon is to be used for responsive design */}
         </div>
 
         <div className={styles.sidebar}>
@@ -161,40 +171,22 @@ function TheOne() {
             <img src={AddReporIcont} alt="complaints icon" />
             <b>Add Report</b>
           </button>
-          {/* 
-          <button onClick={handleLogoutBtn}>
-            <img src={Logout} alt="logout icon" />
-            <h3>Logout</h3>
-          </button> */}
         </div>
       </aside>
 
       <main>
         <div className={styles.rightSide}>
           <div className={styles.Header}>
-            {/* <div className={styles.titleBar}>
-              <p>
-                Garage:{" "}
-                <span className={styles.info}>{garageData?.garageName} </span>
-              </p>
-              <br></br>
-              <p>
-                Price:
-                <span className={styles.info}>{garageData?.HourPrice}</span>$
-                per hour
-              </p>
-            </div> */}
-            {/* <div
-              className={styles.hourPrice}
-              onClick={handleEditHourPriceClick}
-            >
-              <button>Edit Hour price for the Garage</button>
-            </div> */}
             {/* here........................................................ */}
             <div className={styles.Theme}>
               <div className={styles.themeSwitchContainer}>
                 <label className={styles.themeSlider} htmlFor="checkbox">
-                  <input type="checkbox" id="checkbox" onChange={switchTheme} />
+                  <input
+                    type="checkbox"
+                    id="checkbox"
+                    checked={darkMode}
+                    onChange={switchTheme}
+                  />
                   <div className={`${styles.round} ${styles.slider}`}></div>
                 </label>
               </div>

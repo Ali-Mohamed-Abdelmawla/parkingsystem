@@ -9,17 +9,16 @@ function EmployeesTable({
   handleViewClick,
 }) {
   const columns = [
-    { field: "GarageId", headerName: "GarageId", flex: 1 },
     { field: "GarageName", headerName: "GarageName", flex: 1 },
     {
       field: "HourPrice",
       headerName: "HourPrice",
-      flex: 0.75,
+      flex: 0.6,
     },
-    { field: "street", headerName: "street", flex: 0.75 },
-    { field: "city", headerName: "city", flex: 0.75 },
-    { field: "AvailableSpaces", headerName: "AvailableSpaces", flex: 1 },
-    { field: "TotalSpaces", headerName: "TotalSpaces", flex: 0.75 },
+    { field: "street", headerName: "street", flex: 0.6 },
+    { field: "city", headerName: "city", flex: 0.6 },
+    { field: "AvailableSpaces", headerName: "AvailableSpaces", flex: 0.6 },
+    { field: "TotalSpaces", headerName: "TotalSpaces", flex: 0.6 },
 
     {
       field: "actions",

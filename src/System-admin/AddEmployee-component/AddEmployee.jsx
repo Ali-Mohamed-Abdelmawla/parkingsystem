@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import AddStyles from "./AddEmployee.module.css";
 import PropTypes from "prop-types";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import { useForm } from "react-hook-form";
 import axiosInstance from "../../auth/axios";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -29,7 +29,7 @@ const AddEmployee = ({ onClose }) => {
       })
       .then((response) => {
         console.log("Employee added successfully:", response.data);
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "success",
           title: "Success",
           text: "Employee added successfully",
@@ -41,7 +41,7 @@ const AddEmployee = ({ onClose }) => {
       })
       .catch((error) => {
         console.error("Error adding employee:", error);
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "error",
           title: "Error",
           text: `Failed to add employee: ${error.response.data}`,

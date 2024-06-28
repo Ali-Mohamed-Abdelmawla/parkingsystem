@@ -7,7 +7,6 @@ function ComplaintsTable({
   const columns = [
     { field: "reportId", headerName: "Report_id", flex: 1 },
     { field: "reportType", headerName: "Report Type", flex: 1 },
-    { field: "reportMessage", headerName: "Report Message", flex: 1 },
     { field: "reporterId", headerName: "Reporter Name", flex: 1 },
     {
       field: "isFixed",

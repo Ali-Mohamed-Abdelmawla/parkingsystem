@@ -1,6 +1,6 @@
 //=================================================================================
 import { useState } from "react";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import DataGrid from "../../System-admin/Styled-Table/CustomDataGrid"
 function UsersTable({
   employees,
@@ -12,13 +12,10 @@ function UsersTable({
   const [selectedRows, setSelectedRows] = useState([]);
 
   const columns = [
-    { field: "FullName", headerName: "FullName", flex: 1 },
     { field: "UserName", headerName: "UserName", flex: 1 },
-    { field: "NationalId", headerName: "National Id", flex: 1 },
-    { field: "email", headerName: "Email", flex: 1 },
     { field: "Role", headerName: "Role", flex: 1 },
     { field: "PhoneNumber", headerName: "PhoneNumber", flex: 1 },
-    { field: "GarageId", headerName: "GarageId", flex: 1 },
+    { field: "GarageId", headerName: "GarageId", flex: 0.5 },
     {
       field: "actions",
       headerName: "Settings",
@@ -67,7 +64,7 @@ function UsersTable({
 
   const handleBulkEmailClick = () => {
     if (selectedRows.length === 0) {
-      Swal.fire("Error", "No employees selected", "error");
+      sweetAlertInstance.fire("Error", "No employees selected", "error");
     } else {
       console.log(selectedRows);
       onBulkEmailClick(selectedRows);

@@ -1,129 +1,43 @@
-//===============================chartJS===========================================================
+//container
 
-import { useEffect, useState } from "react";
-import DashboardStyle from "../Styles/Dashboard.module.css";
-import operations from "../assets/light-mode/parking-op.svg";
-import revenue from "../assets/light-mode/revenue.svg";
-import expenses from "../assets/light-mode/expenses.svg";
-import Card from "./Card";
-import ColumnChart from "./chartJS components/ColumnChart";
-import PieChart from "./chartJS components/PieChart";
-import DataGrid from "../Styled-Table/CustomDataGrid";
+// Dashboard.js
+import React, { useEffect, useState } from "react";
+import DashboardView from "./DashboardPresentation";
 import axiosInstance from "./../../auth/axios";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import Loader from "../../helper/loading-component/loader";
-function formatFriendlyTime(timeString) {
-  const [hours, minutes, secondsWithMilliseconds] = timeString
-    .split(":")
-    .map(Number);
-  const seconds = Math.floor(secondsWithMilliseconds);
-
-  let formattedTime = "";
-  if (hours > 0) {
-    formattedTime += `${hours} h `;
-  }
-  if (minutes > 0 || hours > 0) {
-    formattedTime += `${minutes} min `;
-  }
-  if (seconds > 0 || (hours === 0 && minutes === 0)) {
-    formattedTime += `${seconds} sec `;
-  }
-
-  return formattedTime.trim();
-}
-
-function formatCurrency(currencyValue, currencyCode = "USD") {
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: currencyCode,
-  });
-
-  return formatter.format(currencyValue);
-}
-
-function formatHourvalue(timeValue) {
-  const time = parseInt(timeValue);
-  const period = time < 12 ? "AM" : "PM";
-  let hours = Math.floor(time / 60);
-  const minutes = time % 60;
-
-  if (hours === 0) {
-    hours = 12;
-  } else if (hours > 12) {
-    hours -= 12;
-  }
-
-  const formattedTime = `${hours}:${
-    minutes < 10 ? "0" : ""
-  }${minutes} ${period}`;
-
-  return formattedTime;
-}
-
-const formatDate = (date) => {
-  const month = date.getMonth() + 1; // months are 0-based
-  const day = date.getDate();
-  const year = date.getFullYear();
-  return `${year}-${month < 10 ? `0${month}` : month}-${
-    day < 10 ? `0${day}` : day
-  }`;
-};
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const accessToken = sessionStorage.getItem("accessToken");
   const today = new Date();
 
-  const startOfCurrentMonth = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    1
-  );
-  const startOfPreviousMonth = new Date(
-    today.getFullYear(),
-    today.getMonth() - 1,
-    1
-  );
+  const startOfCurrentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const startOfPreviousMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
   if (today.getMonth() === 0) {
     // if current month is January
     startOfPreviousMonth.setFullYear(today.getFullYear() - 1);
   }
-  const startOfCurrentMonthLastYear = new Date(
-    today.getFullYear() - 1,
-    today.getMonth(),
-    1
-  );
+  const startOfCurrentMonthLastYear = new Date(today.getFullYear() - 1, today.getMonth(), 1);
 
-  const [startDate, setStartDate] = useState(
-    formatDate(startOfCurrentMonthLastYear)
-  );
+  const [startDate, setStartDate] = useState(formatDate(startOfCurrentMonthLastYear));
   const [endDate, setEndDate] = useState(formatDate(startOfCurrentMonth));
 
   const [statistics, setStatistics] = useState(null);
   const [revenueColumnChartData, setRevenueColumnChartData] = useState(null);
-  const [revenueColumnChartOptions, setRevenueColumnChartOptions] =
-    useState(null);
+  const [revenueColumnChartOptions, setRevenueColumnChartOptions] = useState(null);
   const [revenueBarChartData, setRevenueBarChartData] = useState(null);
   const [revenueBarChartOptions, setRevenueBarChartOptions] = useState(null);
   const [complaintsPieChartData, setComplaintsPieChartData] = useState(null);
-  const [complaintsPieChartOptions, setComplaintsPieChartOptions] =
-    useState(null);
+  const [complaintsPieChartOptions, setComplaintsPieChartOptions] = useState(null);
   const [reservationData, setReservationData] = useState(null);
   const [reservationOptions, setReservationOptions] = useState(null);
-  const [
-    nonResolvedComplaintsPieChartData,
-    setNonResolvedComplaintsPieChartData,
-  ] = useState(null);
-  const [
-    nonResolvedComplaintsPieChartOptions,
-    setNonResolvedComplaintsPieChartOptions,
-  ] = useState(null);
+  const [nonResolvedComplaintsPieChartData, setNonResolvedComplaintsPieChartData] = useState(null);
+  const [nonResolvedComplaintsPieChartOptions, setNonResolvedComplaintsPieChartOptions] = useState(null);
   const [peakHoursData, setPeakHoursData] = useState(null);
   const [peakHoursOptions, setPeakHoursOptions] = useState(null);
-  const [reservationPeakHoursData, setReservationPeakHoursData] =
-    useState(null);
-  const [reservationPeakHoursOptions, setReservationPeakHoursOptions] =
-    useState(null);
+  const [reservationPeakHoursData, setReservationPeakHoursData] = useState(null);
+  const [reservationPeakHoursOptions, setReservationPeakHoursOptions] = useState(null);
   const [staffactivityRows, setStaffactivityRows] = useState(null);
 
   const columns = [
@@ -156,7 +70,7 @@ const Dashboard = () => {
       })
       .catch((error) => {
         console.log(error);
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "error",
           title: "Oops...",
           text: "Something went wrong!",
@@ -223,7 +137,7 @@ const Dashboard = () => {
       responsive: true,
       plugins: {
         legend: { position: "top" },
-        title: { display: true, text: "Payment Summary" },
+        title: { display: true, text: "Revenue Summary" },
       },
     };
 
@@ -292,20 +206,13 @@ const Dashboard = () => {
         {
           label: "Types of complaints",
           data: [
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.Other ||
-              0,
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
-              .SystemError,
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
-              .BillingError,
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
-              .ServiceDelay,
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
-              .EquipmentIssue,
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
-              .PolicyViolation,
-            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType
-              .CustomerFeedback,
+            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.Other || 0,
+            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.SystemError,
+            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.BillingError,
+            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.ServiceDelay,
+            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.EquipmentIssue,
+            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.PolicyViolation,
+            statistics.ComplaintsStatistics_nonsolved.ComplaintsByType.CustomerFeedback,
           ],
           backgroundColor: [
             "#FF6384",
@@ -347,7 +254,6 @@ const Dashboard = () => {
     };
 
     const reservationOptions = {
-      responsive: true,
       plugins: {
         legend: { position: "top" },
         title: {
@@ -360,9 +266,11 @@ const Dashboard = () => {
     setReservationData(reservationData);
     setReservationOptions(reservationOptions);
 
+    const hourLabels = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0') + ':00');
+
     // Peak Hours
     const peakHoursData = {
-      labels: Array.from({ length: 24 }, (_, i) => i.toString()),
+      labels: hourLabels,
       datasets: [
         {
           label: "Peak",
@@ -378,7 +286,7 @@ const Dashboard = () => {
       responsive: true,
       plugins: {
         legend: { position: "top" },
-        title: { display: true, text: "Peak Hours for the Day" },
+        title: { display: true, text: "Most Profitable Hours (Normal Sessions)" },
       },
       scales: {
         x: { title: { display: true, text: "Hour" }, ticks: { stepSize: 1 } },
@@ -398,7 +306,7 @@ const Dashboard = () => {
 
     // Reservation Peak Hours
     const reservationPeakHoursData = {
-      labels: Array.from({ length: 24 }, (_, i) => i.toString()),
+      labels: hourLabels,
       datasets: [
         {
           label: "Peak",
@@ -414,7 +322,7 @@ const Dashboard = () => {
       responsive: true,
       plugins: {
         legend: { position: "top" },
-        title: { display: true, text: "Reservation Peak Hours for the Day" },
+        title: { display: true, text: "Most Profitable Days (Reserved Sessions)" },
       },
       scales: {
         x: { title: { display: true, text: "Hour" }, ticks: { stepSize: 1 } },
@@ -465,185 +373,39 @@ const Dashboard = () => {
   return (
     <>
       {statistics && (
-        <div className={DashboardStyle.GarageStatistics}>
-          <h1>Garage statistics</h1>
-          <div className={DashboardStyle.date}>
-            <div className={DashboardStyle.dateItems}>
-              <label htmlFor="start-date">Start Date:</label>
-              <input
-                type="date"
-                id="start-date"
-                name="start-date"
-                value={startDate}
-                onChange={handleStartDateChange}
-                required
-              />
-            </div>
-            <div className={DashboardStyle.dateItems}>
-              <label htmlFor="end-date">End Date:</label>
-              <input
-                type="date"
-                id="end-date"
-                name="end-date"
-                value={endDate}
-                onChange={handleEndDateChange}
-                required
-              />
-            </div>
-          </div>
-          <div className={DashboardStyle.statisticsContents}>
-            <div className={DashboardStyle.StatisticsCard}>
-              <h4 style={{ textAlign: "left" }}>Reservations</h4>
-              <p>
-                Total number of reservations:{" "}
-                <span>{statistics.TotalReservations.NumberOfReservations}</span>
-              </p>
-              <p>
-                Total revenue of reservations:{" "}
-                <span>
-                  {formatCurrency(
-                    statistics.TotalReservations.SumReservationMoney
-                  )}
-                </span>
-              </p>
-              <div className={DashboardStyle.StatisticsCardContent}>
-                {reservationData && reservationOptions && (
-                  <PieChart
-                    data={reservationData}
-                    options={reservationOptions}
-                  />
-                )}
-                <h6 style={{ textAlign: "center" }}>Reservation data</h6>
-              </div>
-              <div className={DashboardStyle.StatisticsCardContent}>
-                {reservationPeakHoursData && reservationPeakHoursOptions && (
-                  <ColumnChart
-                    data={reservationPeakHoursData}
-                    options={reservationPeakHoursOptions}
-                  />
-                )}
-                <h6 style={{ textAlign: "center" }}>Reservation peak hours</h6>
-              </div>
-            </div>
-
-            <div className={DashboardStyle.StatisticsCard}>
-              <h4 style={{ textAlign: "left" }}>Revenue</h4>
-              <p>
-                Required Payments are :{" "}
-                <span>
-                  {formatCurrency(statistics.TotalRevenue.SumRequiredPayments)}
-                </span>
-              </p>
-              <div className={DashboardStyle.StatisticsCardContent}>
-                {revenueBarChartData && revenueBarChartOptions && (
-                  <ColumnChart
-                    data={revenueBarChartData}
-                    options={revenueBarChartOptions}
-                  />
-                )}
-                <h6>Payments formation</h6>
-              </div>
-              <div className={DashboardStyle.StatisticsCardContent}>
-                {revenueColumnChartData && revenueColumnChartOptions && (
-                  <ColumnChart
-                    data={revenueColumnChartData}
-                    options={revenueColumnChartOptions}
-                  />
-                )}
-                <h6>Preferred types of payment</h6>
-              </div>
-            </div>
-
-            <div className={DashboardStyle.StatisticsCard}>
-              <h4 style={{ textAlign: "left" }}>Complaints</h4>
-              <p>
-                Average resolution time is :{" "}
-                <span>
-                  {formatFriendlyTime(
-                    statistics.ComplaintsStatistics.AverageResolutionTime
-                  )}
-                </span>
-              </p>
-              <p>
-                Total forwarded complaints:{" "}
-                <span>
-                  {statistics.ComplaintsStatistics
-                    .NumberOfComplaintsForwardedToGarage +
-                    statistics.ComplaintsStatistics_nonsolved
-                      .NumberOfComplaintsForwardedToGarage}
-                </span>
-              </p>
-              <div className={DashboardStyle.StatisticsCardContent}>
-                {complaintsPieChartData && complaintsPieChartOptions && (
-                  <PieChart
-                    data={complaintsPieChartData}
-                    options={complaintsPieChartOptions}
-                  />
-                )}
-                <h6>Solved Complaints</h6>
-              </div>
-              <div className={DashboardStyle.StatisticsCardContent}>
-                {nonResolvedComplaintsPieChartData &&
-                  nonResolvedComplaintsPieChartOptions && (
-                    <PieChart
-                      data={nonResolvedComplaintsPieChartData}
-                      options={nonResolvedComplaintsPieChartOptions}
-                    />
-                  )}
-              </div>
-              <h6>Un-Solved Complaints</h6>
-            </div>
-
-            <div className={DashboardStyle.StatisticsCard}>
-              <h4 style={{ textAlign: "left" }}>Peak hours of the day</h4>
-              <div className={DashboardStyle.StatisticsCardContent}>
-                {peakHoursData && peakHoursOptions && (
-                  <ColumnChart
-                    data={peakHoursData}
-                    options={peakHoursOptions}
-                  />
-                )}
-              </div>
-            </div>
-
-            <Card
-              title="Average parking time"
-              value={formatFriendlyTime(
-                statistics.AverageParkingDuration.AverageDuration
-              )}
-              icon={operations}
-            />
-            <Card
-              title="Total salary paid"
-              value={formatCurrency(statistics.TotalSalaryPaid.TotalSalaryPaid)}
-              icon={revenue}
-            />
-
-            <div className={DashboardStyle.StatisticsTable}>
-              <h4 style={{ textAlign: "left" }}>Staff activities</h4>
-
-              {staffactivityRows?.length > 0 ? (
-                <DataGrid
-                  rows={staffactivityRows}
-                  columns={columns}
-                  initialState={{
-                    pagination: {
-                      paginationModel: { page: 0, pageSize: 5 },
-                    },
-                  }}
-                  pageSizeOptions={[5, 8, 11]}
-                />
-              ) : (
-                <div style={{ marginTop: "15px" }}>
-                  There is no staff activities in this garage
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+        <DashboardView
+          startDate={startDate}
+          endDate={endDate}
+          handleStartDateChange={handleStartDateChange}
+          handleEndDateChange={handleEndDateChange}
+          statistics={statistics}
+          reservationData={reservationData}
+          reservationOptions={reservationOptions}
+          reservationPeakHoursData={reservationPeakHoursData}
+          reservationPeakHoursOptions={reservationPeakHoursOptions}
+          revenueBarChartData={revenueBarChartData}
+          revenueBarChartOptions={revenueBarChartOptions}
+          revenueColumnChartData={revenueColumnChartData}
+          revenueColumnChartOptions={revenueColumnChartOptions}
+          complaintsPieChartData={complaintsPieChartData}
+          complaintsPieChartOptions={complaintsPieChartOptions}
+          nonResolvedComplaintsPieChartData={nonResolvedComplaintsPieChartData}
+          nonResolvedComplaintsPieChartOptions={nonResolvedComplaintsPieChartOptions}
+          peakHoursData={peakHoursData}
+          peakHoursOptions={peakHoursOptions}
+          staffactivityRows={staffactivityRows}
+          columns={columns}
+        />
       )}
     </>
   );
 };
 
 export default Dashboard;
+
+const formatDate = (date) => {
+  const month = date.getMonth() + 1; // months are 0-based
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`;
+};

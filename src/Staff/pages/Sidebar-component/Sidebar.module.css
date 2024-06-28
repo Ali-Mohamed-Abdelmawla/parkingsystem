@@ -124,3 +124,8 @@
 .sidebar.dark-mode .menu-items p {
   color: white;
 }
+
+@media screen and (max-width: 1200px) {
+
+  
+}

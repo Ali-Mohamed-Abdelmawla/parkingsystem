@@ -6,8 +6,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from "@mui/icons-material/Add";
 import SendIcon from "@mui/icons-material/Send";
 import { useLocation, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import CountdownTimer from "./helper/Cound down timer/CountDown";
+import sweetAlertInstance from "./helper/SweetAlert";
+
 const Resetpassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -63,7 +63,7 @@ const Resetpassword = () => {
       .then((response) => {
         console.log(response);
         setOTPLoading(false);
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "success",
           title: "Success",
           text: "An OTP was sent to your email, please check it out",
@@ -74,7 +74,7 @@ const Resetpassword = () => {
         console.log(error);
         setOTPLoading(false);
         if (error.response.data.includes("User not found.")) {
-          Swal.fire("Error", "Email is not found", "error");
+          sweetAlertInstance.fire("Error", "Email is not found", "error");
         }
       });
   };
@@ -115,7 +115,7 @@ const Resetpassword = () => {
         console.log(error.response.data.Success);
         if (error.response.data.Success === false) {
           setLoading(false);
-          Swal.fire({
+          sweetAlertInstance.fire({
             icon: "error",
             title: "Error",
             text: "OTP validity has ended",

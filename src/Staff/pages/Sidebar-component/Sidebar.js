@@ -31,9 +31,9 @@ const Sidebar = ({ darkMode, name, toggleDarkMode }) => {
     navigate(route);
   };
   const handleLogout = () => {
-    // Clear the token from sessionStorage
+    document.documentElement.setAttribute("theme", "light");
+    sessionStorage.removeItem("darkMode");
     sessionStorage.removeItem("accessToken");
-    // Redirect to login page
     navigate("/");
   };
   return (

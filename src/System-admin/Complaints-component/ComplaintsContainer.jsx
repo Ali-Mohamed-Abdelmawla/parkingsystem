@@ -4,7 +4,7 @@ import ComplaintsTable from "./Complaints";
 import ViewModal from "./ViewComplaints";
 import DeleteConfirmationModal from "./UpdateComplaints";
 import axiosInstance from "../../auth/axios";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import Employeestyle from "../Styles/Employees.module.css";
 import Loader from "../../helper/loading-component/loader";
 const ComplaintsContainer = () => {
@@ -67,7 +67,7 @@ const ComplaintsContainer = () => {
         .then((response) => {
           setFormLoading(false);
           console.log("Complaint marked as solved:", response.data);
-          Swal.fire("Success", "Complaint marked as solved", "success").then(
+          sweetAlertInstance.fire("Success", "Complaint marked as solved", "success").then(
             () => {
               setShowDeleteConfirmation(false);
               document.body.classList.remove(Employeestyle.deleteModalActive);
@@ -78,12 +78,12 @@ const ComplaintsContainer = () => {
         .catch((error) => {
           setFormLoading(false);
           console.error("Error marking complaint as solved:", error);
-          Swal.fire("Error", "Failed to mark complaint as solved", "error");
+          sweetAlertInstance.fire("Error", "Failed to mark complaint as solved", "error");
           document.body.classList.remove(Employeestyle.deleteModalActive);
         });
     } catch (error) {
       console.error("Error marking complaint as solved:", error);
-      Swal.fire("Error", "Failed to mark complaint as solved", "error");
+      sweetAlertInstance.fire("Error", "Failed to mark complaint as solved", "error");
       document.body.classList.remove(Employeestyle.deleteModalActive);
     }
   };

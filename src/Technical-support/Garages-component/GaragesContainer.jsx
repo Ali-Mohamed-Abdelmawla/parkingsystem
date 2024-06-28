@@ -5,9 +5,8 @@ import EmployeesDeleteConfirmation from "./DeleteGarage";
 import EmployeesViewModal from "./ViewGarage";
 import axiosInstance from "../../auth/axios";
 import Employeestyle from "../../System-admin/Styles/Employees.module.css";
-import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import Loader from "../../helper/loading-component/loader";
 
 // لازم نريلود بعد التعديل
@@ -84,7 +83,7 @@ function Garages() {
         // const updatedEmployees = [...employees];
         // updatedEmployees[editIndex] = response.data;
         // setEmployees(updatedEmployees);
-        swal
+        sweetAlertInstance
           .fire({
             icon: "success",
             title: "Success",
@@ -99,7 +98,7 @@ function Garages() {
       .catch((error) => {
         setFormLoading(false);
         console.error("Error updating garage:", error);
-        swal
+        sweetAlertInstance
           .fire({
             icon: "error",
             title: "Error",
@@ -139,7 +138,7 @@ function Garages() {
         // updatedEmployees.splice(deletionIndex, 1);
         // setEmployees(updatedEmployees);
         setFormLoading(false);
-        Swal.fire("Success", "Garage deleted successfully", "success").then(
+        sweetAlertInstance.fire("Success", "Garage deleted successfully", "success").then(
           () => {
             document.body.classList.remove(Employeestyle.deleteModalActive);
             setShowDeleteConfirmation(false);

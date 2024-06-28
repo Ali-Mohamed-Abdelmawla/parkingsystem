@@ -1,7 +1,7 @@
 //=================================================================================
 import { useState } from "react";
 import DataGrid from "../Styled-Table/CustomDataGrid";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 
 function EmployeesTable({
   employees,
@@ -15,7 +15,7 @@ function EmployeesTable({
   const columns = [
     { field: "name", headerName: "Name", flex: 1 },
     { field: "email", headerName: "Email", flex: 1 },
-    { field: "salary", headerName: "Salary", flex: 1 },
+    { field: "salary", headerName: "Salary", flex: 0.7 },
     { field: "nationalId", headerName: "National ID", flex: 1 },
     {
       field: "actions",
@@ -61,7 +61,7 @@ function EmployeesTable({
 
   const handleBulkEmailClick = () => {
     if (selectedRows.length === 0) {
-      Swal.fire("Error", "No employees selected", "error");
+      sweetAlertInstance.fire("Error", "No employees selected", "error");
     } else {
       console.log(selectedRows);
       onBulkEmailClick(selectedRows);

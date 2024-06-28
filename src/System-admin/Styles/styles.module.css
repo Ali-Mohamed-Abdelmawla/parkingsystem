@@ -414,3 +414,27 @@ body.addModalActive::before {
   z-index: 999;
   -webkit-user-select: none;
 }
+
+@media screen and (max-width: 1200px) {
+  
+  .container{
+    grid-template-columns: 7rem auto;
+
+  }
+
+    aside{
+      width:10%;
+
+    }
+
+    .sidebar button b {
+      display: none 
+    }
+
+    aside .logo h2{
+      display: none;
+    }
+
+
+}
+

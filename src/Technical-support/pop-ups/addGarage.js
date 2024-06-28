@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axiosInstance from "../../auth/axios";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import closeLight from "../assets/LightMode/false.svg";
 import styles from "./garage-popup.module.css";
 import { useForm } from "react-hook-form";
@@ -32,7 +32,7 @@ const AddGarage = ({ onClose }) => {
       );
 
       console.log("Added new garage:", response.data);
-      Swal.fire({
+      sweetAlertInstance.fire({
         icon: "success",
         title: "Success",
         text: "Garage added successfully!",
@@ -46,7 +46,7 @@ const AddGarage = ({ onClose }) => {
     } catch (error) {
       console.error("Error adding garage:", error);
 
-      Swal.fire({
+      sweetAlertInstance.fire({
         icon: "error",
         title: "Error",
         text: "Failed to add garage. Please try again later.",

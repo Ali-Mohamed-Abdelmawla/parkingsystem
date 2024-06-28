@@ -21,6 +21,8 @@
 .popup-inner {
     background-color: #E2DCC8;
     padding: 5px;
+    min-width: 400px;
+
     border-radius: 15px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     width: 23vw;

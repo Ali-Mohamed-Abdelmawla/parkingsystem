@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import AddStyles from "../AddEmployee-component/AddEmployee.module.css";
 import PropTypes from "prop-types";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import { useForm } from "react-hook-form";
 import axiosInstance from "../../auth/axios";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -29,7 +29,7 @@ const Hourprice = ({ onClose }) => {
       })
       .then((response) => {
         console.log("Garage's fee updated successfully:", response.data);
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "success",
           title: "Success",
           text: "Garage's fee updated successfully",
@@ -41,7 +41,7 @@ const Hourprice = ({ onClose }) => {
       })
       .catch((error) => {
         console.error("Error updating garage's fee:", error);
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "error",
           title: "Error",
           text: `Failed to update garage's fee: ${error.response.data}`,

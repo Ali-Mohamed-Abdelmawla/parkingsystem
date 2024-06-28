@@ -59,7 +59,7 @@ const ActiveSessionsContainer = () => {
       field: "CurrentBill",
       headerName: "Current Bill",
       valueFormatter: (params) => formatCurrency(params.value),
-      flex: 1,
+      flex: 0.5,
     },
     {
       field: "StartDate",

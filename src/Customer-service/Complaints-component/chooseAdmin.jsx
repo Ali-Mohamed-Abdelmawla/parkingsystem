@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "../../System-admin/Styles/Employees.module.css";
 import GarageAdminSelect from "../../helper/Garage-admins-select";
 import axiosInstance from "../../auth/axios";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import LoadingButton from "@mui/lab/LoadingButton";
 import ForwardToInboxTwoToneIcon from "@mui/icons-material/ForwardToInboxTwoTone";
 const ViewModal = ({ reportId, onClose }) => {
@@ -31,7 +31,7 @@ const ViewModal = ({ reportId, onClose }) => {
         .then((response) => {
           setLoading(false);
           console.log("Complaint is forwarded successfully:", response.data);
-          Swal.fire(
+          sweetAlertInstance.fire(
             "Success",
             "Complaint is forwarded successfully",
             "success"
@@ -42,11 +42,11 @@ const ViewModal = ({ reportId, onClose }) => {
         .catch((error) => {
           setLoading(false);
           console.error("Error forwarding complaint:", error);
-          Swal.fire("Error", "Failed to forward complaint", "error");
+          sweetAlertInstance.fire("Error", "Failed to forward complaint", "error");
         });
     } catch (error) {
       console.error("Error marking complaint as solved:", error);
-      Swal.fire("Error", "Error forwarding the complaint", "error");
+      sweetAlertInstance.fire("Error", "Error forwarding the complaint", "error");
     }
   };
   return (
