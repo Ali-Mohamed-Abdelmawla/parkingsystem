@@ -14,7 +14,7 @@ function AddVehiclePopupPresentational({
   loading,
 }) {
   const arabicRegex = /^[\u0600-\u06FF\s]+$/;
-  const numberRegex = /^[0-9]+$/;
+  const numberRegex = /^[0-9\u0660-\u0669]+$/;
 
   return (
     <div
@@ -38,9 +38,13 @@ function AddVehiclePopupPresentational({
             type="text"
             {...register("letters", {
               required: "Arabic letters are required",
+              minLength: {
+                value: 2,
+                message: "Please enter at least 2 characters.",
+              },
               maxLength: {
                 value: 3,
-                message: "Maximum length is 3 characters",
+                message: "Please keep it to a maximum of 3 characters.",
               },
               pattern: {
                 value: arabicRegex,
@@ -58,9 +62,13 @@ function AddVehiclePopupPresentational({
             type="text"
             {...register("numbers", {
               required: "Numbers are required",
+              minLength: {
+                value: 3,
+                message: "Please enter at least 3 numbers.",
+              },
               maxLength: {
                 value: 4,
-                message: "Maximum length is 4 digits",
+                message: "Please keep it to a maximum of 4 numbers.",
               },
               pattern: {
                 value: numberRegex,

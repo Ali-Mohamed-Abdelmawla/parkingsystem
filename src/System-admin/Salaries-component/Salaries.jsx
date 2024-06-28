@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../auth/axios";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import DataGrid from "../Styled-Table/CustomDataGrid";
 import Loader from "../../helper/loading-component/loader";
 const displayDateAfterDays = (daysUntilPayment) => {
@@ -50,14 +50,14 @@ const Salaries = () => {
       )
       .then((response) => {
         setLoading(false);
-        Swal.fire("Success", "Submitted successfully", "success").then(() => {
+        sweetAlertInstance.fire("Success", "Submitted successfully", "success").then(() => {
           window.location.reload();
         });
       })
       .catch((error) => {
         setLoading(false);
         console.log(error);
-        Swal.fire(
+        sweetAlertInstance.fire(
           "Error",
           `Failed to submit payment for the employee`,
           "error"
@@ -86,7 +86,7 @@ const Salaries = () => {
       })
       .catch((error) => {
         console.log(error);
-        Swal.fire("Error", `Failed to fetch employees, ${error}`, "error");
+        sweetAlertInstance.fire("Error", `Failed to fetch employees, ${error}`, "error");
         setLoading(false);
       });
   }, []);

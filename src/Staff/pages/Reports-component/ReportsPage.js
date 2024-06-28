@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./ReportsPage.module.css";
 import axiosInstance from "../../../auth/axios";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../../helper/SweetAlert";
 import { useOutletContext } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from "@mui/icons-material/Add";
@@ -36,18 +36,18 @@ function ReportsPage() {
         setSubmitted(true);
 
         // Show SweetAlert confirmation
-        Swal.fire({
+        sweetAlertInstance.fire({
           title: "Success!",
           text: "Report submitted successfully!",
           icon: "success",
           customClass: {
             container: darkMode
-              ? "custom-swal-container-dark"
-              : "custom-swal-container-light",
-            popup: "custom-swal-popup",
-            title: "custom-swal-title",
-            content: "custom-swal-content",
-            confirmButton: "custom-swal-confirm-button",
+              ? "custom-sweetAlertInstance-container-dark"
+              : "custom-sweetAlertInstance-container-light",
+            popup: "custom-sweetAlertInstance-popup",
+            title: "custom-sweetAlertInstance-title",
+            content: "custom-sweetAlertInstance-content",
+            confirmButton: "custom-sweetAlertInstance-confirm-button",
           },
         }).then(() => {
           setLoading(false);
@@ -58,7 +58,7 @@ function ReportsPage() {
           console.error("Error response:", error.response.data);
           console.error("Status code:", error.response.status);
           if (error.response.status === 500) {
-            Swal.fire({
+            sweetAlertInstance.fire({
               title: "Error!",
               text: "Something went wrong!",
               icon: "error",
@@ -76,18 +76,18 @@ function ReportsPage() {
       }
     } else {
       // Alert the user to provide a description
-      Swal.fire({
+      sweetAlertInstance.fire({
         title: "Error!",
         text: "Please provide a description of the issue.",
         icon: "error",
         customClass: {
           container: darkMode
-            ? "custom-swal-container-dark"
-            : "custom-swal-container-light",
-          popup: "custom-swal-popup",
-          title: "custom-swal-title",
-          content: "custom-swal-content",
-          confirmButton: "custom-swal-confirm-button",
+            ? "custom-sweetAlertInstance-container-dark"
+            : "custom-sweetAlertInstance-container-light",
+          popup: "custom-sweetAlertInstance-popup",
+          title: "custom-sweetAlertInstance-title",
+          content: "custom-sweetAlertInstance-content",
+          confirmButton: "custom-sweetAlertInstance-confirm-button",
         },
       });
       setLoading(false);

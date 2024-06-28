@@ -1,12 +1,11 @@
 //=============================================== New Customer service ====================================
-import { useState } from "react";
 
 import DataGrid from "../../System-admin/Styled-Table/CustomDataGrid";
 
 import LoadingButton from "@mui/lab/LoadingButton";
 import ArrowForwardIosTwoToneIcon from "@mui/icons-material/ArrowForwardIosTwoTone";
 import ArrowBackIosNewTwoToneIcon from "@mui/icons-material/ArrowBackIosNewTwoTone";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 function ComplaintsTable({
   complaints,
   handleViewComplaint,
@@ -16,18 +15,10 @@ function ComplaintsTable({
   handleGetmoreComplaints,
 }) {
   const columns = [
-    { field: "reportId", headerName: "Report_id", flex: 1 },
-    { field: "reportType", headerName: "Report Type", flex: 1 },
-    { field: "reportMessage", headerName: "Report Message", flex: 1 },
     { field: "reporterId", headerName: "Reporter Name", flex: 1 },
-    {
-      field: "isFixed",
-      headerName: "Report status",
-      flex: 1,
-      renderCell: (params) => (
-        <span>{params.value ? "Fixed" : "Not Fixed"}</span>
-      ),
-    },
+
+    { field: "reportType", headerName: "Report Type", flex: 1 },
+
     {
       field: "actions",
       headerName: "Settings",
@@ -80,8 +71,8 @@ function ComplaintsTable({
   const getNextComplaints = () => {
     let currentTurn = sessionStorage.getItem("currentTurn");
 
-    //swal confirmation message
-    Swal.fire({
+    //sweetAlertInstance confirmation message
+    sweetAlertInstance.fire({
       title: "Are you sure?",
       text: "This action will get you the next group of complaints!",
       icon: "info",
@@ -103,12 +94,12 @@ function ComplaintsTable({
     let currentTurn = sessionStorage.getItem("currentTurn");
     console.log(currentTurn);
     if (currentTurn === "1") {
-      Swal.fire("Oops...", "There is no previous Complaints!", "info").then(() => {
+      sweetAlertInstance.fire("Oops...", "There is no previous Complaints!", "info").then(() => {
         return;
       });
     } else {
-      //swal confirmation message
-      Swal.fire({
+      //sweetAlertInstance confirmation message
+      sweetAlertInstance.fire({
         title: "Are you sure?",
         text: "This action will get you the previous group of complaints!",
         icon: "info",

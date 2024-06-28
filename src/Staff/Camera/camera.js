@@ -2,13 +2,20 @@ import React, { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 import axiosInstance from "../../auth/axios";
 import styles from "./camera.module.css";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import Switch from "@mui/material/Switch";
-import TransactionPage from "../../Staff/pages/Transaction-component/TransactionPage";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CheckIcon from "@mui/icons-material/Check";
 import lightModeCancelIcon from "../assets/light-mode/cancel.svg";
 import darkModeCancelIcon from "../assets/Dark-mode/cancel.svg";
+import PhotoCameraTwoToneIcon from "@mui/icons-material/PhotoCameraTwoTone";
+import CheckTwoToneIcon from "@mui/icons-material/CheckTwoTone";
+import cancelIconLight from "../assets/light-mode/cancel.svg";
+import cancelIconDark from "../assets/Dark-mode/cancel.svg";
+import { IconButton } from "@mui/material";
+import CancelPresentationTwoToneIcon from "@mui/icons-material/CancelPresentationTwoTone";
+import { styled } from "@mui/material/styles";
+import { useForm } from "react-hook-form";
 
 function CameraSwitcher({ darkMode }) {
   const accessToken = sessionStorage.getItem("accessToken");
@@ -19,18 +26,25 @@ function CameraSwitcher({ darkMode }) {
   const [arabicLetters, setArabicLetters] = useState([]);
   const [numbers, setNumbers] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [captureArabic, setCaptureArabic] = useState(false);
-  const [isEntry, setIsEntry] = useState(true); 
-  const [plateDetails, setPlateDetails] = useState(null);
+  const [isEntry, setIsEntry] = useState(true);
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [loading, setLoading] = useState(false);
   const [paymentAmount, setPaymentAmount] = useState("");
   const [paymentError, setPaymentError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm();
 
   const switchCamera = (deviceId) => {
     setSelectedDevice(deviceId);
   };
+
+  const arabicRegex = /^[\u0600-\u06FF\s]+$/;
+  const numberRegex = /^[0-9\u0660-\u0669]+$/;
 
   const capturePhoto = () => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -38,6 +52,7 @@ function CameraSwitcher({ darkMode }) {
     const formData = new FormData();
     formData.append("image", blob);
 
+    setLoading(true);
     axiosInstance
       .post(
         "https://api.imgbb.com/1/upload?key=b12524ab4b955c0548dbc0dc9c669d48",
@@ -51,44 +66,74 @@ function CameraSwitcher({ darkMode }) {
             { headers: { "Content-Type": "application/json" } }
           )
           .then((response) => {
+            setLoading(false);
+            // if response.data is an empty array
+
+            if (response.data.length === 0) {
+              sweetAlertInstance.fire({
+                icon: "error",
+                title: "Error",
+                text: "No plate detected. Please try again.",
+              });
+              return;
+            }
+
             let plateNumber = "";
             response.data[0]["Characters result"].forEach((element) => {
               plateNumber += element.Character;
             });
 
-            if (!captureArabic) {
-              plateNumber = plateNumber.replace(/[\u0600-\u06FF]/g, "");
-            }
+            const letters = plateNumber.replace(/[\u0660-\u0669]+/g, "");
+            const reversedLetters = letters.split("").reverse().join("");
 
-            const arabicLetters = plateNumber.match(/[\u0600-\u06FF]/g) || [];
-            const numbers = plateNumber.match(/\d/g) || [];
+            const extractedNumbers =
+              plateNumber.match(/[\u0660-\u0669]+/g) || [];
+            const numbers = extractedNumbers.join("");
+
             setRecognizedPlate(plateNumber);
-            setArabicLetters(arabicLetters);
+            setArabicLetters(reversedLetters);
             setNumbers(numbers);
+            setValue("letters", reversedLetters);
+            setValue("numbers", numbers);
             setShowConfirmation(true);
           })
           .catch((error) => {
-            Swal.fire({
+            setLoading(false);
+            sweetAlertInstance.fire({
               icon: "error",
               title: "Error",
-              text: "Error processing the image. Please try again.",
+              text: "Error while processing the image. Please try again.",
             });
           });
       })
       .catch((error) => {
+        setLoading(false);
+        sweetAlertInstance.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error while uploading the image. Please try again.",
+        });
         console.error("Error uploading the image:", error);
       });
   };
 
-  const confirmPlate = () => {
+  useEffect(() => {
+    console.log(recognizedPlate);
+    console.log(arabicLetters);
+    console.log(numbers);
+  }, [numbers]);
+
+  const confirmPlate = (data) => {
     if (isEntry) {
+      console.log(data);
       // Start parking session logic for entry
+      setLoading(true);
       axiosInstance
         .post(
           "/api/GarageStaff/StartParkingSession",
           {
-            PlateLetters: recognizedPlate.replace(/\d/g, ""),
-            PlateNumbers: recognizedPlate.replace(/[^\d]/g, ""),
+            PlateLetters: data.letters,
+            PlateNumbers: convertNumerals(data.numbers),
           },
           {
             headers: {
@@ -98,15 +143,29 @@ function CameraSwitcher({ darkMode }) {
           }
         )
         .then((response) => {
-          Swal.fire({
+          setLoading(false);
+          sweetAlertInstance.fire({
             icon: "success",
             title: "Success",
             text: "Parking session started successfully.",
           });
+
+          if (response.data.Message.includes("Session already exists")) {
+            sweetAlertInstance.fire({
+              title: "Error!",
+              text: "Car plate was registered before!",
+              icon: "error",
+            });
+            return;
+          }
+
+          setRecognizedPlate(recognizedPlate);
           setShowConfirmation(false);
         })
         .catch((error) => {
-          Swal.fire({
+          console.log(error);
+          setLoading(false);
+          sweetAlertInstance.fire({
             icon: "error",
             title: "Error",
             text: "Error starting parking session. Please try again.",
@@ -114,6 +173,7 @@ function CameraSwitcher({ darkMode }) {
         });
     } else {
       // Fetch vehicle details for exit
+      setLoading(true);
       axiosInstance
         .get("/api/GarageStaff/CurrentParkingSessions", {
           headers: {
@@ -122,17 +182,57 @@ function CameraSwitcher({ darkMode }) {
           },
         })
         .then((response) => {
+          setLoading(false);
           const currentSessions = response.data;
-          const vehicle = currentSessions.find(
-            (v) =>
-              v.PlateLetters === recognizedPlate.replace(/\d/g, "") &&
-              v.PlateNumbers === recognizedPlate.replace(/[^\d]/g, "")
-          );
+          console.log(currentSessions);
+          console.log("before Search", arabicLetters);
+          console.log("before Search", numbers);
+          console.log("before Search", convertNumerals(numbers));
+
+          const vehicle = currentSessions.find((v) => {
+            const trimmedPlateLetters = v.PlateLetters.trim();
+            const trimmedPlateNumbers = v.PlateNumbers.trim();
+            const trimmedArabicLetters = data.letters.trim();
+            const trimmedConvertedNumbers = convertNumerals(data.numbers).trim();
+
+            console.log(
+              "Comparing PlateLetters:",
+              trimmedPlateLetters,
+              "with",
+              trimmedArabicLetters
+            );
+            console.log(
+              "Comparing PlateLetters lengths:",
+              trimmedPlateLetters.length,
+              trimmedArabicLetters.length
+            );
+
+            console.log(
+              "Comparing PlateNumbers:",
+              trimmedPlateNumbers,
+              "with",
+              trimmedConvertedNumbers
+            );
+            console.log(
+              "Comparing PlateNumbers lengths:",
+              trimmedPlateNumbers.length,
+              trimmedConvertedNumbers.length
+            );
+
+            return (
+              trimmedPlateLetters === trimmedArabicLetters &&
+              trimmedPlateNumbers === trimmedConvertedNumbers
+            );
+          });
           if (vehicle) {
+            console.log(vehicle);
             setSelectedTransaction(vehicle);
+            setShowConfirmation(false);
             setShowConfirmPopup(true);
           } else {
-            Swal.fire({
+            console.log(vehicle);
+
+            sweetAlertInstance.fire({
               icon: "error",
               title: "Error",
               text: "Vehicle not found in current sessions.",
@@ -140,24 +240,39 @@ function CameraSwitcher({ darkMode }) {
           }
         })
         .catch((error) => {
+          setLoading(false);
           console.error("Error fetching current parking sessions:", error);
         });
-      setShowConfirmation(false);
     }
   };
 
   const handleCloseConfirmPopup = async () => {
-    setLoading(true);
-    const requestData = {
-      PlateLetters: selectedTransaction.PlateLetters,
-      PlateNumbers: selectedTransaction.PlateNumbers,
-    };
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    };
+    if (paymentError) {
+      const initialMessage = paymentError;
+      setPaymentError("Payment amount needs to at least equal the total fee");
 
+      setTimeout(() => {
+        setPaymentError(initialMessage);
+      }, 3000);
+
+      return;
+    } else if (!paymentAmount) {
+      return;
+    }
     try {
+      const requestData = {
+        plateLetters: arabicLetters,
+        plateNumbers: convertNumerals(numbers),
+        payment: parseFloat(paymentAmount),
+        paymentType: "Cash",
+      };
+
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      };
+
+      setLoading(true);
       const response = await axiosInstance.delete(
         "/api/GarageStaff/EndParkingSession",
         {
@@ -167,33 +282,32 @@ function CameraSwitcher({ darkMode }) {
       );
 
       console.log("Parking session ended successfully");
+      setShowConfirmPopup(false);
+      setLoading(false);
+
       // Display success alert
-      Swal.fire({
-        title: "Payment Successful!",
-        text: "Payment has been processed successfully.",
-        icon: "success",
-        backdrop: false,
-        focusConfirm: false,
-        allowOutsideClick: false,
-      }).then(() => {
-        setShowConfirmPopup(false);
-        setLoading(false);
-        window.location.reload();
-      });
+      sweetAlertInstance
+        .fire({
+          title: "Payment Successful!",
+          text: "Payment has been processed successfully.",
+          icon: "success",
+        })
+        .then(() => {
+          window.location.reload();
+        });
     } catch (error) {
       console.error("Error ending parking session:", error);
       setShowConfirmPopup(false);
       // Display error alert
-      Swal.fire({
-        title: "Payment Failed!",
-        text: "Failed to process payment. Please try again.",
-        icon: "error",
-        backdrop: false,
-        focusConfirm: false,
-        allowOutsideClick: false,
-      }).then(() => {
-        setLoading(false);
-      });
+      sweetAlertInstance
+        .fire({
+          title: "Payment Failed!",
+          text: "Failed to process payment. Please try again.",
+          icon: "error",
+        })
+        .then(() => {
+          setLoading(false);
+        });
     }
   };
 
@@ -216,24 +330,35 @@ function CameraSwitcher({ darkMode }) {
     getMediaDevices();
   }, []);
 
-  const handlePaymentAmountChange = (e) => {
-    setPaymentAmount(e.target.value);
+  const handlePaymentAmountChange = (event) => {
+    const value = event.target.value;
+    setPaymentAmount(value);
+    if (parseFloat(value) < selectedTransaction.CurrentBill) {
+      setPaymentError(
+        `Payment amount must be at least ${selectedTransaction.CurrentBill.toFixed(
+          2
+        )} LE`
+      );
+    } else {
+      setPaymentError("");
+    }
   };
 
-  const convertToArabicNumerals = (numbers) => {
-    const arabicNumerals = {
-      0: "٠",
-      1: "١",
-      2: "٢",
-      3: "٣",
-      4: "٤",
-      5: "٥",
-      6: "٦",
-      7: "٧",
-      8: "٨",
-      9: "٩",
-    };
-    return numbers.replace(/\d/g, (d) => arabicNumerals[d]);
+  const arabicNumerals = {
+    0: "٠",
+    1: "١",
+    2: "٢",
+    3: "٣",
+    4: "٤",
+    5: "٥",
+    6: "٦",
+    7: "٧",
+    8: "٨",
+    9: "٩",
+  };
+
+  const convertNumerals = (input) => {
+    return input.replace(/\d/g, (d) => arabicNumerals[d]);
   };
 
   return (
@@ -275,50 +400,112 @@ function CameraSwitcher({ darkMode }) {
         />
         {showConfirmation && (
           <div className={styles.RecognizedPlate}>
-            <p>Recognized Plate Number:</p>
-            <input
-              defaultValue={recognizedPlate}
-              onChange={(e) => setRecognizedPlate(e.target.value)}
-              type="text"
-            />
-            <div>
-              <button onClick={confirmPlate}>Confirm</button>
+            <IconButton
+              aria-label="delete"
+              size="small"
+              onClick={() => setShowConfirmation(false)}
+            >
+              <CancelPresentationTwoToneIcon />
+            </IconButton>
+
+            <div className={styles.confirmationBody}>
+              <h3>Recognized Plate Number</h3>
+              <br></br>
+              <input
+                defaultValue={arabicLetters}
+                maxLength={10}
+
+                onChange={(e) => setArabicLetters(e.target.value)}
+                type="text"
+                {...register("letters", {
+                  required: "Arabic letters are required",
+                  minLength: {
+                    value: 2,
+                    message: "Please enter at least 2 characters.",
+                  },
+                  maxLength: {
+                    value: 3,
+                    message: "Please keep it to a maximum of 3 characters.",
+                  },
+                  pattern: {
+                    value: arabicRegex,
+                    message: "Please enter Arabic letters only",
+                  },
+
+                })}
+              />
+              {errors.letters && (
+                <span className={styles.addVehicleerror}>{errors.letters.message}</span>
+              )}
+              <input
+                defaultValue={numbers}
+                style={{ direction: "ltr" }}
+                onChange={(e) => setNumbers(convertNumerals(e.target.value))}
+                maxLength={10}
+                type="text"
+                {...register("numbers", {
+                  required: "Numbers are required",
+                  minLength: {
+                    value: 3,
+                    message: "Please enter at least 3 numbers.",
+                  },
+                  maxLength: {
+                    value: 4,
+                    message: "Please keep it to a maximum of 4 numbers.",
+                  },
+                  pattern: {
+                    value: numberRegex,
+                    message: "Please enter numbers only",
+                  },
+                })}
+              />
+              {errors.numbers && (
+                <span className={styles.addVehicleerror}>{errors.numbers.message}</span>
+              )}
+              <LoadingButton
+                endIcon={<CheckTwoToneIcon />}
+                loading={loading}
+                loadingPosition="end"
+                variant="contained"
+                onClick={handleSubmit(confirmPlate)}
+                className={`${styles.Button} ${
+                  darkMode ? styles.DarkModeButton : ""
+                } custom-loading-button`}
+              >
+                <span> Confirm</span>
+              </LoadingButton>
             </div>
           </div>
         )}
-        <button
-          className={`${styles.Button} ${
-            darkMode ? styles.DarkModeButton : ""
-          }`}
-          onClick={capturePhoto}
-        >
-          Capture Photo
-        </button>
+        {!showConfirmation && (
+          <LoadingButton
+            endIcon={<PhotoCameraTwoToneIcon />}
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+            onClick={capturePhoto}
+            className={`${styles.captureButton} ${
+              darkMode ? styles.DarkModecaptureButton : ""
+            } custom-loading-button`}
+          >
+            <span> Capture Photo</span>
+          </LoadingButton>
+        )}
       </div>
-      {plateDetails && (
-        <TransactionPage
-          plateLetters={plateDetails.PlateLetters}
-          plateNumbers={plateDetails.PlateNumbers}
-          onClose={() => setPlateDetails(null)}
-        />
-      )}
       {showConfirmPopup && selectedTransaction && (
-        <div className={styles.CPopup}>
-          <div className={styles.CPopupContent}>
-            <div>
+        <div className={styles["C-popup"]}>
+          <div className={styles["C-popup-content"]}>
+            <div onClick={() => setShowConfirmPopup(false)}>
               <img
                 src={darkMode ? darkModeCancelIcon : lightModeCancelIcon}
                 alt="Cancel Icon"
-                className={styles.CancelIcon}
-                onClick={() => setShowConfirmPopup(false)}
+                className={styles["cancel-icon"]}
               />
             </div>
-            <div className={styles.CPopupLabels}>
+            <div className={styles["C-popup-labels"]}>
               <span>
-                <strong>
-                  Plate Number: {recognizedPlate.replace(/\d/g, "")}{" "}
-                </strong>
-                {convertToArabicNumerals(recognizedPlate.replace(/[^\d]/g, ""))}
+                <strong>Plate Number: </strong>
+                {`${arabicLetters}   ${convertNumerals(numbers)}`}
               </span>
 
               <span>
@@ -333,10 +520,10 @@ function CameraSwitcher({ darkMode }) {
                 <strong>Total Fee: </strong>
                 {selectedTransaction.CurrentBill.toFixed(2)} LE
               </span>
-              <div className={styles.CPaymentOptions}>
+              <div className={styles["C-payment-options"]}>
                 <label
                   htmlFor="paymentAmount"
-                  className={styles.PaymentLabel}
+                  className={styles["payment-label"]}
                 >
                   Payment Amount:
                 </label>
@@ -346,12 +533,15 @@ function CameraSwitcher({ darkMode }) {
                   id="paymentAmount"
                   value={paymentAmount}
                   onChange={handlePaymentAmountChange}
-                  className={styles.PaymentInput}
+                  className={styles["payment-input"]}
                   style={{ margin: "5px" }}
                 />
                 <br></br>
                 {paymentError && (
-                  <span className={styles.ErrorMessage}>
+                  <span
+                    className={styles["error-message"]}
+                    style={{ color: "#b32f2f" }}
+                  >
                     {paymentError}
                   </span>
                 )}
@@ -364,7 +554,7 @@ function CameraSwitcher({ darkMode }) {
               loadingPosition="end"
               variant="contained"
               onClick={handleCloseConfirmPopup}
-              className={styles.CPopconfirm}
+              className={styles["C-popconfirm"]} // Added custom class here
             >
               <span>Confirm</span>
             </LoadingButton>
@@ -389,4 +579,3 @@ function dataURItoBlob(dataURI) {
   }
   return new Blob([ia], { type: mimeString });
 }
-

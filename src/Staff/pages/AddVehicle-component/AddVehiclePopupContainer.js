@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axiosInstance from "../../../auth/axios.js";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../../helper/SweetAlert.jsx";
 import AddVehiclePopupPresentational from "./AddVehiclePopupPresentational.js";
 import { useForm } from "react-hook-form";
 
@@ -16,7 +16,7 @@ function AddVehiclePopupContainer({ onClose, darkMode }) {
   const startParkingSession = async (data) => {
     try {
       const plateLetters = data.letters.trim();
-      const plateNumbers = data.numbers.trim();
+      const plateNumbers = convertNumerals(data.numbers.trim());
       setLoading(true);
 
       const response = await axiosInstance.post(
@@ -34,13 +34,13 @@ function AddVehiclePopupContainer({ onClose, darkMode }) {
       );
 
       if (response.data.Message.includes("Session already exists")) {
-        Swal.fire({
+        sweetAlertInstance.fire({
           title: "Error!",
           text: "Car plate was registered before!",
           icon: "error",
         });
       } else {
-        Swal.fire({
+        sweetAlertInstance.fire({
           title: "Success!",
           text: "Parking session started successfully!",
           icon: "success",
@@ -81,3 +81,21 @@ function AddVehiclePopupContainer({ onClose, darkMode }) {
 }
 
 export default AddVehiclePopupContainer;
+
+
+const arabicNumerals = {
+  0: "٠",
+  1: "١",
+  2: "٢",
+  3: "٣",
+  4: "٤",
+  5: "٥",
+  6: "٦",
+  7: "٧",
+  8: "٨",
+  9: "٩",
+};
+
+const convertNumerals = (input) => {
+  return input.replace(/\d/g, (d) => arabicNumerals[d]);
+};

@@ -4,7 +4,7 @@ import LoginForm from "./LoginContainer";
 import Logo from "./Login-assets/login-logo.svg";
 import { jwtDecode } from "jwt-decode"; // Import jwt-decode
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import swal from "sweetalert2";
+import sweetAlertInstance from "./helper/SweetAlert";
 import axiosInstance from "./auth/axios";
 import Loader from "./helper/loading-component/loader";
 function App() {
@@ -49,7 +49,7 @@ function App() {
                   response.data.IsAuthenticated === false &&
                   response.data.Message === "Email is not confirmed yet!"
                 ) {
-                  swal
+                  sweetAlertInstance
                     .fire("Error", "please, verify your account", "error")
                     .then(() => {
                       setLoading(false);
@@ -59,7 +59,7 @@ function App() {
                   response.data.IsAuthenticated === false &&
                   response.data.Message === "Email or Password is incorrect!"
                 ) {
-                  swal
+                  sweetAlertInstance
                     .fire("Error", "Email or Password is incorrect", "error")
                     .then(() => {
                       navigate("");
@@ -67,7 +67,7 @@ function App() {
                       setShowResetPassword(true);
                     });
                 } else if (response.data.IsAuthenticated === false) {
-                  swal
+                  sweetAlertInstance
                     .fire("Error", "Something wrong happened !", "error")
                     .then(() => {
                       navigate("");
@@ -105,7 +105,7 @@ function App() {
           }
         } else {
           navigate("");
-          swal("Error", "login failed", "error");
+          sweetAlertInstance("Error", "login failed", "error");
         }
       } catch (error) {
         console.error("Error decoding token:", error);

@@ -1,8 +1,8 @@
 .Container {
   margin-top: 180px;
   display: flex;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
   height: 100vh;
 }
 
@@ -22,34 +22,23 @@
   background-color: #E2DCC8;
   font-weight: bold;
 }
-
-.Button {
-  background-color: #231f20;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 15px;
-  margin-top: 5px;
+.addVehicleerror{
+  color: #b32f2f;
 }
 
-.Button:hover {
-  background-color: #000000;
-}
 
 
 .DarkModeButton {
-  background-color: #8C8671;
-  color: #ffffff; 
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
+  background-color: #8C8671 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 5px !important;
+  padding: 10px 20px !important;
+  cursor: pointer !important;
 }
 
 .DarkModeButton:hover {
-  background-color: #6c6651;
+  background-color: #6c6651 !important;
 }
 
 .DarkModeSelect {
@@ -61,108 +50,421 @@
 }
 
 .DarkModeSelect:hover {
-  background-color: #6c6651; 
-}
-.RecognizedPlate {
-margin-top: 20px;
-background-color: #E2DCC8;
-padding: 10px;
-border-radius: 5px;
-text-align: center;
+  background-color: #6c6651;
 }
 
+.RecognizedPlate {
+  margin-top: 20px;
+  background-color: #E2DCC8;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #8C8671;
+  margin-top: 20px;
+  border-radius: 5px;
+  text-align: center;
+  width: auto;
+}
+
+.RecognizedPlate .confirmationBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+}
+
+
 .RecognizedPlate.DarkMode {
-background-color:  #000000;
-color: #fff;
+  background-color: #000000;
+  color: #fff;
 }
 
 .RecognizedPlate p {
-margin-bottom: 10px;
-color: #000;
+  margin-bottom: 10px;
+  color: #000;
 }
 
 .RecognizedPlate p.DarkMode {
-color: #fff;
+  color: #fff;
+}
+
+.captureButton {
+  width: fit-content !important;
+  margin: 5px !important;
+  padding: 10px 16px !important;
+  border: none !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  background-color: #231f20 !important;
+  color: #fff !important;
+  font-size: 15px !important;
+  box-shadow: none !important;
+  letter-spacing: 0.5px !important;
+}
+
+.captureButton:hover {
+  background-color: #000000 !important;
+}
+
+.DarkModecaptureButton {
+  background-color: #8C8671 !important;
+  color: #fff;
+}
+.DarkModecaptureButton:hover  {
+  background-color: #6c6651 !important;
 }
 
 .RecognizedPlate button {
-margin: 5px;
-padding: 8px 16px;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-background-color: #231f20;
-color: #fff;
+  width: fit-content;
+  margin: 5px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #231f20;
+  color: #fff;
+  font-size: 13px;
+  box-shadow: none !important;
+  letter-spacing: 0.5px;
 }
 
 .RecognizedPlate button:hover {
-background-color: #000;
+  background-color: #000000 !important;
+
+}
+
+.RecognizedPlate .confirmationBody button {
+  align-self: flex-end;
+}
+
+.RecognizedPlate h3 {
+  margin-bottom: 10px;
+}
+
+.RecognizedPlate button:hover {
+  background-color: #000;
 }
 
 .RecognizedPlate button.DarkMode {
-background-color:  #8C8671;
-color: #fff;
+  background-color: #8C8671;
+  color: #fff;
 }
 
 .RecognizedPlate button.DarkMode:hover {
-background-color:  #6c6651;
-}
-.RecognizedPlate {
-margin-top: 20px;
-padding: 10px;
-border-radius: 5px;
-text-align: center;
+  background-color: #6c6651;
 }
 
 .RecognizedPlate p {
-display: inline-block;
-margin-bottom: 10px;
+  display: inline-block;
+  margin-bottom: 10px;
 }
 
 .RecognizedPlate button {
-margin: 5px;
-padding: 8px 16px;
-border-radius: 5px;
-cursor: pointer;
-font-size: 16px; 
+  margin: 5px;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
 }
 
 
 /* Dark mode styles */
 .DarkMode .RecognizedPlate {
-background-color: #000000;
-color: #fff;
+  background-color: #000000;
+  color: #fff;
 }
 
 .DarkMode .RecognizedPlate p {
-color: #fff;
+  color: #fff;
 }
 
 .DarkMode .RecognizedPlate button {
-background-color: #8C8671;
-color: #fff;
+  background-color: #8C8671;
+  color: #fff;
 }
 
 .DarkMode .RecognizedPlate button:hover {
-background-color: #6c6651;
+  background-color: #6c6651 !important;
 }
 
 .RecognizedPlate input[type="text"] {
-width: 30%;
-padding: 0.5rem;
-border-radius: 5px;
-border: 1px solid black; 
-background-color: #E2DCC8; 
-color: black; 
-font-size: 16px; 
-font-weight: bold; 
+  width: 98%;
+  margin: 2%;
+  direction: rtl;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color: #f2f2f1;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .DarkMode .RecognizedPlate input[type="text"] {
-border: 1px solid #8C8671;
-background-color: #000000; 
-color: white; 
+  border: 1px solid #8C8671;
+  background-color: #3f3f3f;
+  color: white;
 
+}
+
+.C-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.C-popup-content {
+  background-color: #E2DCC8;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.C-popup-content .C-popup-labels span {
+  margin-top: 25px;
+  display: block;
+}
+
+.C-popconfirm {
+  background-color: #231f20 !important;
+  color: #f2f1f1 !important;
+  border: none !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  margin-top: 20px !important;
+}
+
+.C-popconfirm:hover {
+  background-color: #000000 !important;
+}
+
+.dark-mode.container {
+  background-color: #231F20;
+  color: #FFFFFF;
+}
+
+.dark-mode .search-bar {
+  background-color: #000000;
+}
+
+.dark-mode .search-input {
+  color: #FFFFFF;
+}
+
+.dark-mode .C-card {
+  background-color: #000000;
+  border-color: #000000;
+  color: #FFFFFF;
+}
+
+.dark-mode .C-card p {
+  color: #FFFFFF;
+}
+
+.dark-mode .C-confirm-button {
+  background-color: #8C8671;
+  color: #FFFFFF;
+}
+
+.dark-mode .C-confirm-button:hover {
+  background-color: #6c6651;
+}
+
+.dark-mode .C-popup-content {
+  background-color: #231F20;
+}
+
+.dark-mode .C-popconfirm {
+  background-color: #8C8671 !important;
+  color: #FFFFFF !important;
+}
+
+.dark-mode .C-popconfirm:hover {
+  background-color: #6c6651 !important;
+}
+
+.C-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.C-popup-content {
+  background-color: #E2DCC8;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.C-popup-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.close-popup-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #E2DCC8;
+  color: #231F20;
+  cursor: pointer;
+}
+
+.C-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.C-popup-content {
+  font-family: '231F20', sans-serif;
+  position: relative;
+}
+
+.C-popup-content p {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+  color: #000000;
+}
+
+.C-payment-options {
+  margin-top: 20px;
+}
+
+.C-confirm {
+  background-color: #231F20;
+  color: #F2F1F1;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: '231F20', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+
+}
+
+.C-confirm:hover {
+  background-color: #000000;
+}
+
+.C-card-bottom .C-confirm-button {
+  margin-top: 10px;
+}
+
+.dark-mode {
+  background: #231F20;
+  color: #FFFFFF;
+}
+
+.dark-mode .C-icon {
+  Filter: invert(1)
+}
+
+.container .error-message {
+  color: #b32f2f;
+}
+
+
+.dark-mode .C-Vehicle-info {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.dark-mode .C-popup-content {
+  background-color: #231F20;
+}
+
+.dark-mode .C-popup-content p {
+  color: #ffffff;
+}
+
+
+.dark-mode .C-card p {
+  color: #FFFFFF;
+}
+
+.dark-mode .C-card {
+  background-color: #000000;
+  border: #000000;
+  color: #FFFFFF;
+}
+
+.dark-mode .C-confirm-button:hover {
+  background-color: #6c6651;
+}
+
+.dark-mode .C-confirm-button {
+  background-color: #8C8671;
+  color: #FFFFFF;
+  font-size: 15px;
+}
+
+.C-card:hover {
+  box-shadow: none;
+}
+
+.dark-mode .C-icon {
+  Filter: invert(1)
+}
+
+.payment-label {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.payment-input {
+  background-color: #E2DCC8;
+  border-radius: 3px;
+  border: 1px solid #231F20;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #231F20
+}
+
+.C-payment-options {
+  margin-top: 20px;
+}
+
+.dark-mode .payment-input {
+  background-color: #231F20;
+  border-radius: 3px;
+  border: 1px solid #ffffff;
+  color: #ffffff
+}
+
+.cancel-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
 }
 
 

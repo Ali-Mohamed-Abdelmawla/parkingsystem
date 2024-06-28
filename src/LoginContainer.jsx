@@ -1,12 +1,10 @@
-import { useState } from "react";
 import Loginstyles from "./Login.module.css";
 import { useForm } from "react-hook-form";
 import LoadingButton from "@mui/lab/LoadingButton";
-// import SendIcon from "@mui/icons-material/Send";
 import LoginIcon from "@mui/icons-material/Login";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "./auth/axios";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "./helper/SweetAlert";
 const LoginForm = ({
   username,
   password,
@@ -53,7 +51,7 @@ const LoginForm = ({
         console.log(error);
         setResetPasswordLoading(false);
         if (error.response.data.includes("User not found.")) {
-          Swal.fire("Error", "Email is not found", "error");
+          sweetAlertInstance.fire("Error", "Email is not found", "error");
         }
       });
   };

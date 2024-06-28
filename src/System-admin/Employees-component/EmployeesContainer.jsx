@@ -6,10 +6,10 @@ import EmployeesViewModal from "./ViewEmployee";
 import BulkEmails from "./BulkEmails";
 import axiosInstance from "../../auth/axios";
 import Employeestyle from "../Styles/Employees.module.css";
-import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+
 import Loader from "../../helper/loading-component/loader";
+import sweetAlertInstance from "../../helper/SweetAlert";
 
 // لازم نريلود بعد التعديل
 
@@ -82,7 +82,7 @@ function Employees() {
         updatedEmployees[editIndex] = response.data;
         setEmployees(updatedEmployees);
         setShowEditPage(false);
-        swal
+        sweetAlertInstance
           .fire({
             icon: "success",
             title: "Success",
@@ -95,7 +95,7 @@ function Employees() {
       .catch((error) => {
         setFormLoading(false);
         console.error("Error updating employee:", error);
-        swal.fire({
+        sweetAlertInstance.fire({
           icon: "error",
           title: "Error",
           text: `Failed to update employee: ${error.response.data.errors.FullName[0]}`,
@@ -132,7 +132,7 @@ function Employees() {
         setEmployees(updatedEmployees);
         setShowDeleteConfirmation(false);
         setDeletionIndex(null);
-        Swal.fire("Success", "Employee deleted successfully", "success").then(
+        sweetAlertInstance.fire("Success", "Employee deleted successfully", "success").then(
           () => {
             window.location.reload();
           }
@@ -202,7 +202,7 @@ function Employees() {
       .then((response) => {
         console.log(response);
         setFormLoading(false);  
-        Swal.fire("Success", "Emails sent successfully", "success").then(() => {
+        sweetAlertInstance.fire("Success", "Emails sent successfully", "success").then(() => {
           setShowBulkEmails(false); // Close the pop-up after sending emails
           document.body.classList.remove(Employeestyle.viewModalActive);
         });
@@ -210,7 +210,7 @@ function Employees() {
       .catch((error) => {
         setFormLoading(false);
         console.error("Error sending emails:", error);
-        Swal.fire("Error", `Failed to send emails, ${error}`, "error");
+        sweetAlertInstance.fire("Error", `Failed to send emails, ${error}`, "error");
       });
   };
   const handleBulkEmailClose = () => {

@@ -5,7 +5,7 @@ import darkCarIcon from "../../assets/light-mode/carIcon.svg";
 import axiosInstance from "../../../auth/axios.js";
 import cancelIconLight from "../../assets/light-mode/cancel.svg";
 import cancelIconDark from "../../assets/Dark-mode/cancel.svg";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../../helper/SweetAlert.jsx";
 import { useOutletContext } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CheckIcon from "@mui/icons-material/Check";
@@ -25,9 +25,21 @@ function TransactionPage() {
 
   const accessToken = sessionStorage.getItem("accessToken");
 
-  const convertToArabicNumerals = (number) => {
-    const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-    return number.toString().split('').map(digit => arabicNumerals[parseInt(digit, 10)]).join('');
+  const arabicNumerals = {
+    0: "٠",
+    1: "١",
+    2: "٢",
+    3: "٣",
+    4: "٤",
+    5: "٥",
+    6: "٦",
+    7: "٧",
+    8: "٨",
+    9: "٩",
+  };
+
+  const convertNumerals = (input) => {
+    return input.replace(/\d/g, (d) => arabicNumerals[d]);
   };
 
   useEffect(() => {
@@ -93,7 +105,7 @@ function TransactionPage() {
       }, 3000);
 
       return;
-    } else if(!paymentAmount){
+    } else if (!paymentAmount) {
       return;
     }
     try {
@@ -121,32 +133,30 @@ function TransactionPage() {
       console.log("Parking session ended successfully");
 
       // Display success alert
-      Swal.fire({
-        title: "Payment Successful!",
-        text: "Payment has been processed successfully.",
-        icon: "success",
-        backdrop: false,
-        focusConfirm: false,
-        allowOutsideClick: false,
-      }).then(() => {
-        setShowConfirmPopup(false);
-        setLoading(false);
-        window.location.reload();
-      });
+      sweetAlertInstance
+        .fire({
+          title: "Payment Successful!",
+          text: "Payment has been processed successfully.",
+          icon: "success",
+        })
+        .then(() => {
+          setShowConfirmPopup(false);
+          window.location.reload();
+        });
+
     } catch (error) {
       console.error("Error ending parking session:", error);
       setShowConfirmPopup(false);
       // Display error alert
-      Swal.fire({
-        title: "Payment Failed!",
-        text: "Failed to process payment. Please try again.",
-        icon: "error",
-        backdrop: false,
-        focusConfirm: false,
-        allowOutsideClick: false,
-      }).then(() => {
-        setLoading(false);
-      });
+      sweetAlertInstance
+        .fire({
+          title: "Payment Failed!",
+          text: "Failed to process payment. Please try again.",
+          icon: "error",
+        })
+        .then(() => {
+          setLoading(false);
+        });
     }
   };
 
@@ -205,7 +215,7 @@ function TransactionPage() {
       <div className={styles["C-card-grid"]}>
         {inGarageVehicles
           .filter((vehicle) => {
-            const plateNumber = `${vehicle.PlateLetters} ${vehicle.PlateNumbers}`;
+            const plateNumber = `${vehicle?.PlateLetters} ${vehicle.PlateNumbers}`;
             return plateNumber
               .toLowerCase()
               .includes(searchQuery.toLowerCase());
@@ -216,7 +226,9 @@ function TransactionPage() {
             }
 
             const plateLetters = vehicle.PlateLetters.split("").join(" ");
-            const plateNumber = `${plateLetters} ${convertToArabicNumerals(vehicle.PlateNumbers)}`;
+            const plateNumber = `${plateLetters} ${convertNumerals(
+              vehicle.PlateNumbers
+            )}`;
 
             const durationInHours = vehicle.CurSessionDuration_Hours || 0;
             const hours = Math.floor(durationInHours);
@@ -277,47 +289,49 @@ function TransactionPage() {
               />
             </div>
             <div className={styles["C-popup-labels"]}>
-            <span>
-              <strong>
-                Plate Number: {selectedPlateLetters.split("").join(" ")}{" "}
-              </strong>
-              {convertToArabicNumerals(selectedPlateNumbers)}
-            </span>
+              <span>
+                <strong>
+                  Plate Number: {selectedPlateLetters.split("").join(" ")}{" "}
+                </strong>
+                {convertNumerals(selectedPlateNumbers)}
+              </span>
 
-            <span>
-              <strong>Entry Time: </strong>
+              <span>
+                <strong>Entry Time: </strong>
 
-              {new Date(selectedTransaction.StartDate).toLocaleString()}
-            </span>
-            <span>
-              <strong>Exit Time: </strong>
-              {new Date().toLocaleString()}
-            </span>
-            <span>
-              <strong>Total Fee: </strong>
-              {selectedTransaction.CurrentBill.toFixed(2)} LE
-            </span>
-            <div className={styles["C-payment-options"]}>
-              <label
-                htmlFor="paymentAmount"
-                className={styles["payment-label"]}
-              >
-                Payment Amount:
-              </label>
-              <br></br>
-              <input
-                type="number"
-                id="paymentAmount"
-                value={paymentAmount}
-                onChange={handlePaymentAmountChange}
-                className={styles["payment-input"]}
-                style={{ margin: "5px" }}
-              />
-              <br></br>
-              {paymentError && (
-                <span className={styles["error-message"]}>{paymentError}</span>
-              )}
-            </div>
+                {new Date(selectedTransaction.StartDate).toLocaleString()}
+              </span>
+              <span>
+                <strong>Exit Time: </strong>
+                {new Date().toLocaleString()}
+              </span>
+              <span>
+                <strong>Total Fee: </strong>
+                {selectedTransaction.CurrentBill.toFixed(2)} LE
+              </span>
+              <div className={styles["C-payment-options"]}>
+                <label
+                  htmlFor="paymentAmount"
+                  className={styles["payment-label"]}
+                >
+                  Payment Amount:
+                </label>
+                <br></br>
+                <input
+                  type="number"
+                  id="paymentAmount"
+                  value={paymentAmount}
+                  onChange={handlePaymentAmountChange}
+                  className={styles["payment-input"]}
+                  style={{ margin: "5px" }}
+                />
+                <br></br>
+                {paymentError && (
+                  <span className={styles["error-message"]}>
+                    {paymentError}
+                  </span>
+                )}
+              </div>
             </div>
 
             <LoadingButton

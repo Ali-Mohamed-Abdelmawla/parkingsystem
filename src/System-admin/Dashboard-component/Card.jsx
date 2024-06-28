@@ -1,8 +1,8 @@
 import DashboardStyle from '../Styles/Dashboard.module.css'
 
-const Card = ({ title, value, icon }) => {
+const Card = ({ title, value, icon, gridName }) => {
   return (
-    <div className={DashboardStyle.card}>
+    <div className={DashboardStyle.card} style={{ gridArea: gridName }}>
       <div className={DashboardStyle.cardTitle}>
         <h3>{title}</h3>
         <img src={icon} alt="icon" />

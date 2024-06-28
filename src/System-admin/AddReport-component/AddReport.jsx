@@ -2,7 +2,7 @@
 import { useState } from "react";
 import AddStyles from "./AddReport.module.css";
 import PropTypes from "prop-types";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import { useForm } from "react-hook-form";
 import axiosInstance from "../../auth/axios";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -28,7 +28,7 @@ const AddReport = ({ onClose }) => {
       })
       .then((response) => {
         console.log("Complaint submitted successfully:", response.data);
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "success",
           title: "Success",
           // text: ` ${response.data.Message}`,
@@ -40,7 +40,7 @@ const AddReport = ({ onClose }) => {
       })
       .catch((error) => {
         console.error("Error submitting complaint:", error);
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "error",
           title: "Error",
           text: `Failed to submit the complaint: ${error.response.data}`,

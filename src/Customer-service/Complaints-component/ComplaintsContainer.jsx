@@ -5,7 +5,7 @@ import ViewModal from "./ViewComplaints";
 import ChooseAdmin from "./chooseAdmin";
 import DeleteConfirmationModal from "./DeleteComplaints";
 import axiosInstance from "../../auth/axios";
-import Swal from "sweetalert2";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import style from "../styles/Employees.module.css";
 import Loader from "../../helper/loading-component/loader";
 
@@ -44,7 +44,7 @@ const ComplaintsContainer = () => {
         if (response.data.length === 0) {
           setLoading(true);
           if (currentTurn !== "1") {
-            Swal.fire({
+            sweetAlertInstance.fire({
               icon: "error",
               title: "Oops...",
               text: "No Complaints Found, you will be returned to the latest group",
@@ -120,7 +120,7 @@ const ComplaintsContainer = () => {
         }
       );
       console.log("Complaint is forwarded succesfully:", response.data);
-      Swal.fire(
+      sweetAlertInstance.fire(
         "Success",
         "Complaint is forwarded succesfully",
         "success"
@@ -131,7 +131,7 @@ const ComplaintsContainer = () => {
     } catch (error) {
       setLoading(false);
       console.error("Error marking complaint as solved:", error);
-      Swal.fire("Error", "Error forwarding the complaint", "error");
+      sweetAlertInstance.fire("Error", "Error forwarding the complaint", "error");
     }
   };
 
@@ -169,7 +169,7 @@ const ComplaintsContainer = () => {
       // Here, you can update your state based on the response, e.g., remove the solved complaint from the list
 
       document.body.classList.remove("deleteModalActive");
-      Swal.fire("Success", "Complaint marked as solved", "success").then(() => {
+      sweetAlertInstance.fire("Success", "Complaint marked as solved", "success").then(() => {
         setShowSolvedConfirmation(false);
 
         window.location.reload();
@@ -177,7 +177,7 @@ const ComplaintsContainer = () => {
     } catch (error) {
       setFormLoading(false);
       console.error("Error marking complaint as solved:", error);
-      Swal.fire("Error", "Error marking complaint as solved", "error");
+      sweetAlertInstance.fire("Error", "Error marking complaint as solved", "error");
       // Handle the error appropriately, e.g., show an error message to the user
     }
   };

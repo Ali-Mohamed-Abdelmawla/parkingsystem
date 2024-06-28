@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../System-admin/Styles/styles.module.css";
 // importing icons
 import Whitelogo from "./assets/LightMode/White-logo.svg";
@@ -18,9 +18,8 @@ import AddGarage from "./pop-ups/addGarage";
 import AddUser from "./pop-ups/addUser";
 
 //Routes
-import { useNavigate } from "react-router-dom";
-import { Outlet } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { useNavigate, Outlet } from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 function TheOne() {
   const navigate = useNavigate();
@@ -28,6 +27,7 @@ function TheOne() {
   const [showAddPage, setShowAddPage] = useState(false);
   const [showAddGaragePage, setShowAddGaragePage] = useState(false);
   const [userName, setUserName] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("accessToken");
@@ -37,6 +37,24 @@ function TheOne() {
       setUserName(decodedToken.FullName);
     }
   }, []);
+
+  useEffect(() => {
+    const savedDarkMode = sessionStorage.getItem("darkMode");
+    if (savedDarkMode === null) {
+      sessionStorage.setItem("darkMode", "false"); // Default to light mode
+      setDarkMode(false);
+      document.documentElement.setAttribute("theme", "light");
+    } else {
+      const isDarkMode = savedDarkMode === "true";
+      setDarkMode(isDarkMode);
+      document.documentElement.setAttribute("theme", isDarkMode ? "dark" : "light");
+    }
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem("darkMode", darkMode);
+    document.documentElement.setAttribute("theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
 
   const handleAddBtn = () => {
     setShowAddPage(true);
@@ -74,11 +92,8 @@ function TheOne() {
     navigate("/TechnicalSupport/Garages");
   };
 
-  // const handleBulkEmailsClick = () => {
-  //   navigate("/TechnicalSupport/BulkEmails");
-  // };
-
   const handleLogoutBtn = () => {
+    sessionStorage.removeItem("darkMode");
     sessionStorage.removeItem("accessToken");
     document.documentElement.setAttribute("theme", "light");
     navigate("/");
@@ -86,11 +101,7 @@ function TheOne() {
   };
 
   const switchTheme = (e) => {
-    if (e.target.checked) {
-      document.documentElement.setAttribute("theme", "dark");
-    } else {
-      document.documentElement.setAttribute("theme", "light");
-    }
+    setDarkMode(e.target.checked);
   };
 
   return (
@@ -145,7 +156,12 @@ function TheOne() {
             <div className={styles.Theme}>
               <div className={styles.themeSwitchContainer}>
                 <label className={styles.themeSlider} htmlFor="checkbox">
-                  <input type="checkbox" id="checkbox" onChange={switchTheme} />
+                  <input
+                    type="checkbox"
+                    id="checkbox"
+                    checked={darkMode}
+                    onChange={switchTheme}
+                  />
                   <div className={`${styles.round} ${styles.slider}`}></div>
                 </label>
               </div>
@@ -155,7 +171,6 @@ function TheOne() {
               <button className={styles.dropbtn}>User & Garage info</button>
               <div className={styles.dropdownContent}>
                 <div>
-                  {" "}
                   <strong>User name:</strong> {userName}
                 </div>
 

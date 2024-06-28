@@ -1,13 +1,14 @@
 import Select, { components } from "react-select";
 import React, { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import LoadingButton from "@mui/lab/LoadingButton";
+import AddIcon from "@mui/icons-material/Add";
+
 import closeDark from "../assets/DarkMode/false-dark.svg";
 import closeLight from "../assets/LightMode/false.svg";
 import styles from "./garage-popup.module.css";
 import axiosInstance from "../../auth/axios";
-import Swal from "sweetalert2";
-import { useForm, Controller } from "react-hook-form";
-import LoadingButton from "@mui/lab/LoadingButton";
-import AddIcon from "@mui/icons-material/Add";
+import sweetAlertInstance from "../../helper/SweetAlert";
 import AllGaragesSelect from "../../helper/All-Garages-select/All-Garages-select";
 import "../../helper/Garage-admins-select.css";
 
@@ -117,7 +118,7 @@ const AddUser = ({ onClose, darkMode }) => {
       }
 
       console.log("Added new user:", response.data);
-      Swal.fire({
+      sweetAlertInstance.fire({
         icon: "success",
         title: "Success",
         text: "User added successfully!",
@@ -132,7 +133,7 @@ const AddUser = ({ onClose, darkMode }) => {
       console.error("Error adding user:", error);
       console.log(error.response.data);
       if (error.response.data.includes("Email is already registered!")) {
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "error",
           title: "Error",
           text: "Email is already registered!",
@@ -141,7 +142,7 @@ const AddUser = ({ onClose, darkMode }) => {
           setLoading(false);
         });
       } else if (error.response.data.includes("Username is already used !")) {
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "error",
           title: "Error",
           text: "Username is already used !",
@@ -150,7 +151,7 @@ const AddUser = ({ onClose, darkMode }) => {
           setLoading(false);
         });
       } else {
-        Swal.fire({
+        sweetAlertInstance.fire({
           icon: "error",
           title: "Error",
           text: "Failed to add user. Please try again later.",

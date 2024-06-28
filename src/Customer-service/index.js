@@ -1,20 +1,14 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import styles from "../System-admin/Styles/styles.module.css";
-
-// import AddReport from "./AddReport-component/AddReport";
-import { useState, useEffect } from "react";
 import Whitelogo from "./assets/White-logo.svg";
 import Complaintsicon from "./assets/complaints-icon.svg";
 import Logout from "./assets/log-out.svg";
-import search from "./assets/Search.svg";
-// import AddReporIcont from "./assets/Add-Report.svg";
-import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
+
 export default function Layout() {
-  const showComplaintsComponent = useState(true);
-  // const [showAddPage, setShowAddPage] = useState(false);
   const [userName, setUserName] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
   const token = sessionStorage.getItem("accessToken");
 
@@ -33,11 +27,32 @@ export default function Layout() {
     }
   }, []);
 
+  // Initialize dark mode state from session storage
+  useEffect(() => {
+    const savedDarkMode = sessionStorage.getItem("darkMode");
+    if (savedDarkMode === null) {
+      sessionStorage.setItem("darkMode", "false"); // Default to light mode
+      setDarkMode(false);
+      document.documentElement.setAttribute("theme", "light");
+    } else {
+      const isDarkMode = savedDarkMode === "true";
+      setDarkMode(isDarkMode);
+      document.documentElement.setAttribute("theme", isDarkMode ? "dark" : "light");
+    }
+  }, []);
+
+  // Update session storage and document attribute whenever dark mode changes
+  useEffect(() => {
+    sessionStorage.setItem("darkMode", darkMode);
+    document.documentElement.setAttribute("theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
+
   const handleComplaintsClick = () => {
     navigate("/CustomerService");
   };
 
   const handleLogoutBtn = () => {
+    sessionStorage.removeItem("darkMode");
     sessionStorage.removeItem("accessToken");
     document.documentElement.setAttribute("theme", "light");
     navigate("/");
@@ -45,12 +60,9 @@ export default function Layout() {
   };
 
   const switchTheme = (e) => {
-    if (e.target.checked) {
-      document.documentElement.setAttribute("theme", "dark");
-    } else {
-      document.documentElement.setAttribute("theme", "light");
-    }
+    setDarkMode(e.target.checked);
   };
+
   return (
     token && (
       <div className={styles.container}>
@@ -79,6 +91,7 @@ export default function Layout() {
                     <input
                       type="checkbox"
                       id="checkbox"
+                      checked={darkMode}
                       onChange={switchTheme}
                     />
                     <div className={`${styles.round} ${styles.slider}`}></div>
@@ -90,7 +103,6 @@ export default function Layout() {
                 <button className={styles.dropbtn}>User & Garage info</button>
                 <div className={styles.dropdownContent}>
                   <div>
-                    {" "}
                     <strong>User name:</strong> {userName}
                   </div>
 
