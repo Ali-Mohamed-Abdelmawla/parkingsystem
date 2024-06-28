@@ -27,6 +27,7 @@ function CameraSwitcher({ darkMode }) {
   const [numbers, setNumbers] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isEntry, setIsEntry] = useState(true);
+
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -39,12 +40,14 @@ function CameraSwitcher({ darkMode }) {
     setValue,
   } = useForm();
 
+  // Function to switch camera based on deviceId
   const switchCamera = (deviceId) => {
     setSelectedDevice(deviceId);
   };
 
   const arabicRegex = /^[\u0600-\u06FF\s]+$/;
   const numberRegex = /^[0-9\u0660-\u0669]+$/;
+
 
   const capturePhoto = () => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -53,6 +56,7 @@ function CameraSwitcher({ darkMode }) {
     formData.append("image", blob);
 
     setLoading(true);
+
     axiosInstance
       .post(
         "https://api.imgbb.com/1/upload?key=b12524ab4b955c0548dbc0dc9c669d48",
@@ -79,6 +83,7 @@ function CameraSwitcher({ darkMode }) {
             }
 
             let plateNumber = "";
+            console.log(response.data);
             response.data[0]["Characters result"].forEach((element) => {
               plateNumber += element.Character;
             });
@@ -92,6 +97,7 @@ function CameraSwitcher({ darkMode }) {
 
             setRecognizedPlate(plateNumber);
             setArabicLetters(reversedLetters);
+
             setNumbers(numbers);
             setValue("letters", reversedLetters);
             setValue("numbers", numbers);
@@ -116,6 +122,7 @@ function CameraSwitcher({ darkMode }) {
         console.error("Error uploading the image:", error);
       });
   };
+  
 
   useEffect(() => {
     console.log(recognizedPlate);
@@ -124,6 +131,7 @@ function CameraSwitcher({ darkMode }) {
   }, [numbers]);
 
   const confirmPlate = (data) => {
+
     if (isEntry) {
       console.log(data);
       // Start parking session logic for entry
@@ -161,6 +169,7 @@ function CameraSwitcher({ darkMode }) {
 
           setRecognizedPlate(recognizedPlate);
           setShowConfirmation(false);
+
         })
         .catch((error) => {
           console.log(error);
@@ -171,6 +180,8 @@ function CameraSwitcher({ darkMode }) {
             text: "Error starting parking session. Please try again.",
           });
         });
+        setShowConfirmation(false); // دي كانت تحت ال .then بس المفروض تبقي بعد ال then و catch
+
     } else {
       // Fetch vehicle details for exit
       setLoading(true);
@@ -224,6 +235,7 @@ function CameraSwitcher({ darkMode }) {
               trimmedPlateNumbers === trimmedConvertedNumbers
             );
           });
+
           if (vehicle) {
             console.log(vehicle);
             setSelectedTransaction(vehicle);
@@ -242,10 +254,16 @@ function CameraSwitcher({ darkMode }) {
         .catch((error) => {
           setLoading(false);
           console.error("Error fetching current parking sessions:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error fetching current parking sessions. Please try again.",
+          });
         });
     }
   };
 
+  // Function to handle closing of confirmation popup
   const handleCloseConfirmPopup = async () => {
     if (paymentError) {
       const initialMessage = paymentError;
@@ -295,6 +313,7 @@ function CameraSwitcher({ darkMode }) {
         .then(() => {
           window.location.reload();
         });
+
     } catch (error) {
       console.error("Error ending parking session:", error);
       setShowConfirmPopup(false);
@@ -311,6 +330,7 @@ function CameraSwitcher({ darkMode }) {
     }
   };
 
+  // Function to fetch available media devices
   const getMediaDevices = async () => {
     try {
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -359,6 +379,7 @@ function CameraSwitcher({ darkMode }) {
 
   const convertNumerals = (input) => {
     return input.replace(/\d/g, (d) => arabicNumerals[d]);
+
   };
 
   return (
@@ -368,7 +389,8 @@ function CameraSwitcher({ darkMode }) {
           <span>Exit</span>
           <Switch
             checked={isEntry}
-            onChange={() => setIsEntry(!isEntry)}
+            onChange={() => 
+              setIsEntry(!isEntry)}
             color="primary"
           />
           <span>Entry</span>
@@ -398,7 +420,7 @@ function CameraSwitcher({ darkMode }) {
           screenshotQuality={1}
           style={{ width: "100%", height: "auto" }}
         />
-        {showConfirmation && (
+        {showConfirmation && recognizedPlate && (
           <div className={styles.RecognizedPlate}>
             <IconButton
               aria-label="delete"
@@ -474,6 +496,7 @@ function CameraSwitcher({ darkMode }) {
               >
                 <span> Confirm</span>
               </LoadingButton>
+
             </div>
           </div>
         )}
@@ -492,6 +515,7 @@ function CameraSwitcher({ darkMode }) {
           </LoadingButton>
         )}
       </div>
+
       {showConfirmPopup && selectedTransaction && (
         <div className={styles["C-popup"]}>
           <div className={styles["C-popup-content"]}>
