@@ -7,7 +7,7 @@
   padding: 20px;
   background-color: #F2F1F1;
   overflow: auto;
-  
+
 }
 
 .dashboard-title {
@@ -19,23 +19,27 @@
 
 .card-container {
   display: flex;
-  justify-content: space-between;
   gap: 30px;
+  justify-content: flex-start;
+
 }
 
 .card {
-  /* width: calc(33.33% - 20px); */
   background-color: #E2DCC8;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-left: 30px;
+  min-width: 250px;
+  padding: 16px;
+  min-height: 145px;
+
 }
+
+
 
 .card span {
   font-weight: bold;
-  margin-top: 10px;
 }
+
 .card p {
   font-weight: bold;
   margin-top: 10px;
@@ -43,25 +47,28 @@
 
 .card-content {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  
+  height: 100%;
+
 }
 
 .number {
-  font-size: 55px;
+  font-size: 40px;
   font-weight: bold;
+  text-align: end;
+
 }
 
 .icon {
   width: 20px;
   height: 20px;
-  margin-left: 220px; 
 }
 
-.card:hover{
+.card:hover {
   box-shadow: none;
 }
+
 .dashboard-container.dark-mode {
   background-color: #231F20;
   color: #FFFFFF;
@@ -75,12 +82,15 @@
   background-color: #000000;
   color: #FFFFFF;
 }
+
 .dashboard-container.dark-mode .number {
   color: #FFFFFF;
 }
 
+@media screen and (max-width: 1270px) {
 
+  .dashboard-container {
+    left: 100px;
+  }
 
-
-
-
+}

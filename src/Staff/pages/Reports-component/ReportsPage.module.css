@@ -7,14 +7,14 @@
     padding: 20px;
     background-color: #F2F1F1;
     overflow: auto;
-    
+
 }
 
 .container h2 {
     font-size: 24px;
     font-weight: bold;
     color: #231F20;
-    margin-top: 25px; 
+    margin-top: 25px;
 }
 
 .form-group {
@@ -26,6 +26,7 @@
     font-weight: bold;
     margin-bottom: 5px;
 }
+
 .container {
     background-color: #F2F1F1;
     padding: 20px;
@@ -35,7 +36,7 @@
     font-size: 24px;
     font-weight: bold;
     color: #231F20;
-    margin-top: 20px; 
+    margin-top: 20px;
 }
 
 .form-group {
@@ -59,9 +60,9 @@
 }
 
 .form-group select {
-    width: 15%; 
+    width: 15%;
     padding: 10px;
-    background-color: #E2DCC8; 
+    background-color: #E2DCC8;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -89,9 +90,11 @@
 .dark-mode .heading {
     color: #FFFFFF;
 }
-.dark-mode .form-group{
+
+.dark-mode .form-group {
     border: #000000;
 }
+
 .dark-mode .form-group label {
     color: #FFFFFF;
 }
@@ -109,29 +112,13 @@
 }
 
 .dark-mode .submitReport:hover {
-    background-color: #6c6651 !important; 
+    background-color: #6c6651 !important;
 }
 
-@media only screen and (max-width: 768px) {
+@media screen and (max-width: 1270px) {
+
     .container {
-        left: 0;
-        width: 100%;
+        left: 100px;
     }
-    
-    textarea {
-        width: 100%;
-    }
-    
-    select {
-        width: 100%;
-    }
+
 }
-
-@media only screen and (max-width: 480px) {
-    .container h2 {
-        font-size: 20px;
-    }
-}
-
-
-

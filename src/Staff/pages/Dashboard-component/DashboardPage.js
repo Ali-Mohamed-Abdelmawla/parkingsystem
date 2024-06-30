@@ -23,9 +23,8 @@ const DashboardPage = () => {
     "Content-Type": "application/json",
   };
 
-  const getCurrentParkingSessions = async() => 
-    setLoading(true)
-    axiosInstance
+  const getCurrentParkingSessions = async () => setLoading(true);
+  axiosInstance
     .get("/api/GarageStaff/CurrentParkingSessions", { headers })
     .then((response) => {
       console.log(
@@ -69,8 +68,7 @@ const DashboardPage = () => {
             "CurrentSessions",
             currentSessionsCount + withinHalfHourCount
           );
-          setLoading(false)
-
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching all reservations:", error);
@@ -83,9 +81,7 @@ const DashboardPage = () => {
     });
 
   useEffect(() => {
-
     if (reservationsCount > 0) {
-
       sweetAlertInstance.fire({
         title: "",
         text: `${reservationsCount} ${
@@ -115,7 +111,6 @@ const DashboardPage = () => {
         console.error("Error status:", error.response.status);
         if (error.response.status === 401) {
           console.error("Unauthorized: Access token may be invalid or expired");
-
         }
       } else if (error.request) {
         console.error("No response received:", error.request);
@@ -159,50 +154,52 @@ const DashboardPage = () => {
         {/* First Card */}
         <div className={styles.card}>
           <div className={styles["card-content"]}>
-            <div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span>Total Spaces</span>
               <img
                 src={darkMode ? groupiconDark : groupiconLight}
                 alt="Icon"
                 className={styles.icon}
               />
-              <p className={styles.number}>
-                {parseInt(sessionStorage.getItem("CurrentSessions")) +
-                  parseInt(availableSpaces)}
-              </p>
             </div>
+            <p className={styles.number}>
+              {parseInt(sessionStorage.getItem("CurrentSessions")) +
+                parseInt(availableSpaces)}
+            </p>
           </div>
         </div>
         {/* Second Card */}
         <div className={styles.card}>
           <div className={styles["card-content"]}>
-            <div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span>Occupied Spaces</span>
               <img
                 src={darkMode ? updateiconDark : updateiconLight}
                 alt="Icon"
                 className={styles.icon}
               />
-              <p className={styles.number}>
-                {sessionStorage.getItem("CurrentSessions")}
-              </p>
             </div>
+
+            <p className={styles.number}>
+              {sessionStorage.getItem("CurrentSessions")}
+            </p>
           </div>
         </div>
         {/* Third Card */}
         <div className={styles.card}>
           <div className={styles["card-content"]}>
-            <div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span>Available Spaces</span>
               <img
                 src={darkMode ? updateiconDark : updateiconLight}
                 alt="Icon"
                 className={styles.icon}
               />
-              <p className={styles.number} style={{ color: "#ED7F16" }}>
-                {availableSpaces}
-              </p>
             </div>
+
+            <p className={styles.number} style={{ color: "#ED7F16" }}>
+              {availableSpaces}
+            </p>
           </div>
         </div>
       </div>

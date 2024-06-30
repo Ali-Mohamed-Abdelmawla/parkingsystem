@@ -41,7 +41,6 @@ function AddVehiclePopupPresentational({
               minLength: {
                 value: 2,
                 message: "Please enter at least 2 characters.",
-
               },
               maxLength: {
                 value: 3,
@@ -66,7 +65,6 @@ function AddVehiclePopupPresentational({
               minLength: {
                 value: 3,
                 message: "Please enter at least 3 numbers.",
-
               },
               maxLength: {
                 value: 4,

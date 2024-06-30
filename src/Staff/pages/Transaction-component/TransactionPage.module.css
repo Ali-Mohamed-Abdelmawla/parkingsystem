@@ -50,8 +50,9 @@
 
 .C-card-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(350px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 30px;
 }
 
 .C-card {
@@ -61,7 +62,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #e2dcc8;
   display: grid;
-  margin-left: 30px;
   flex-direction: column;
 }
 
@@ -358,3 +358,15 @@
   width: 25px;
   height: 25px;
 }
+
+@media screen and (max-width: 1270px) {
+
+  .container {
+      left: 100px;
+  }
+
+  .C-card-grid{
+    gap: 10px;
+  }
+}
+

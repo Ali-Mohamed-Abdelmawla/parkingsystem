@@ -279,7 +279,7 @@ const DashboardView = ({
             {reservationData && reservationOptions && (
               <PieChart data={reservationData} options={reservationOptions} />
             )}
-            <h6 style={{ textAlign: "center" }}>Reservation data</h6>
+            {/* <h6 style={{ textAlign: "center" }}>Reservation data</h6> */}
           </div>
         </div>
 
