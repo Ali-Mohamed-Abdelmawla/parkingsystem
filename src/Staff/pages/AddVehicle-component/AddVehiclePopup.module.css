@@ -11,6 +11,48 @@
   z-index: 1000;
 }
 
+.allowedLettersTooltip {
+  padding: 10px;
+}
+
+.allowedLettersTooltip p {
+  margin: 0 0 10px 0;
+  font-weight: bold;
+}
+
+.letterGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+}
+
+.letter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: #f0f0f0;
+  color: black;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  direction: rtl;
+
+}
+
+.infoIcon {
+  margin-right: 10px;
+  color: #888;
+  cursor: pointer;
+}
+
+/* Add any additional styling as needed */
 .popup {
   background-color: #E2DCC8;
   padding: 20px;
