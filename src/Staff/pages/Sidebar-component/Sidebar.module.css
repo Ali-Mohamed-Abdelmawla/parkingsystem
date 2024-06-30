@@ -100,12 +100,12 @@
 }
 
 /* Dark mode styles */
-.sidebar .dark-mode {
+.sidebar.dark-mode {
   background-color: #231f20;
   color: white;
 }
 
-.sidebar .dark-mode .menu-item:hover {
+.sidebar.dark-mode .menu-item:hover {
   background-color: #000000;
 }
 
