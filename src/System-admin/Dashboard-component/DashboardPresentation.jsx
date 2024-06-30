@@ -98,7 +98,7 @@ const DashboardView = ({
         </div>
       </div>
       <hr className={DashboardStyle.divider}></hr>
-      <h2 style={{ textAlign: "center" }}>Statistics</h2>
+      <h2 style={{ textAlign: "center" }}>Insights into your Garage</h2>
       <hr className={DashboardStyle.divider2}></hr>
       <div className={DashboardStyle.statisticsContents}>
         {/* ============================================================================================== */}
