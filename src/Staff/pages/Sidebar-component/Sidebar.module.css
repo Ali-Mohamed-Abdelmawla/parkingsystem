@@ -100,28 +100,28 @@
 }
 
 /* Dark mode styles */
-.sidebar .dark-mode {
+.sidebar.dark-mode {
   background-color: #231f20;
   color: white;
 }
 
-.sidebar .dark-mode .menu-item:hover {
+.sidebar.dark-mode .menu-item:hover {
   background-color: #000000;
 }
 
-.sidebar .dark-mode .menu-items button {
+.sidebar.dark-mode .menu-items button {
   color: white;
 }
 
-.sidebar .dark-mode .logout {
+.sidebar.dark-mode .logout {
   border-top: 1px solid #555;
 }
 
-.sidebar .dark-mode .logout span {
+.sidebar.dark-mode .logout span {
   color: white;
 }
 
-.sidebar .dark-mode .menu-items p {
+.sidebar.dark-mode .menu-items p {
   color: white;
 }
 
