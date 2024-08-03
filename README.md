@@ -1,70 +1,102 @@
-# Getting Started with Create React App
+Rakna
+Rakna is a web application designed to help garage owners automate their garage processes. The application allows owners to log in as users to benefit from the services it offers.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Table of Contents
+Purpose
+Target Audience
+System Architecture
+Key Features
+Available Scripts
+Dependencies
+Contributing
+Configuration
+Screenshots
+Learn More
+Purpose
+Rakna aims to streamline and automate the operations within garages, providing a comprehensive solution for garage management.
 
-## Available Scripts
+Target Audience
+Rakna is primarily targeted at garage owners who want to benefit from an automated system to manage their garages efficiently.
 
+System Architecture
+Rakna consists of three main parts:
+
+Back-end: Serves both the front-end and mobile applications.
+Front-end: This repository, built with React.js (Create React App).
+Mobile: Designed for drivers who want to park their cars.
+Key Features
+Rakna consists of four interfaces:
+
+Garage Admin Interface:
+
+Manage employees (add, delete, edit)
+View complaints forwarded to the admin
+Monitor current sessions in the garage
+Dashboard with statistics (revenue, expenses, etc.)
+Garage Staff Interface:
+
+Integrated camera for monitoring cars entering/exiting the garage, linked to an AI model for plate number extraction (manual entry also available)
+View all current sessions in the garage
+Submit reports/complaints
+Technical Support Interface:
+
+Designed for the developers to facilitate system management
+Customer Service Interface:
+
+View and forward complaints to the appropriate personnel or resolve them
+Additionally, the system provides login and password reset functionalities using OTP.
+
+Available Scripts
 In the project directory, you can run:
 
-### `npm start`
+npm start
+Runs the app in development mode.
+Open http://localhost:3000 to view it in your browser.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+npm test
+Launches the test runner in the interactive watch mode.
+See the section about running tests for more information.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
+npm run build
+Builds the app for production to the build folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
+The build is minified and the filenames include the hashes.
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+See the section about deployment for more information.
 
-### `npm run eject`
+npm run eject
+Note: this is a one-way operation. Once you eject, you can't go back! This command will remove the single build dependency from your project, giving you full control over the configuration files and dependencies.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Dependencies
+sweetalert
+axios
+MUI (datagrid, loading buttons, etc.)
+react-hook-form (form validation)
+chart.js (dashboard charts)
+Contributing
+To contribute to Rakna, please fork the repository and use a feature branch. Pull requests are warmly welcome.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Configuration
+Refer to the dependencies listed above for specific configuration requirements before running the app.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Screenshots
+Garage Admin Interface
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Garage Staff Interface
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Technical Support Interface
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Customer Service Interface
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
