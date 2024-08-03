@@ -1,6 +1,6 @@
 # Rakna
 
-Rakna is a web application designed to help garage owners automate their garage processes. The application allows owners to log in as users to benefit from the services it offers.
+Rakna is a web application designed to help garage owners automate their garage processes. The application allows owners to log in as users to benefit from the services it offers. This project was developed as part of a graduation requirement.
 
 ## Table of Contents
 - [Purpose](#purpose)
@@ -16,7 +16,7 @@ Rakna is a web application designed to help garage owners automate their garage 
 
 ## Purpose
 
-Rakna aims to streamline and automate the operations within garages, providing a comprehensive solution for garage management.
+Rakna aims to streamline and automate the operations within garages, providing a comprehensive solution for garage management. This project was created as part of a graduation project to demonstrate our skills in software development.
 
 ## Target Audience
 
@@ -98,25 +98,16 @@ Refer to the dependencies listed above for specific configuration requirements b
 ## Screenshots
 
 ### Garage Admin Interface
-1. ![Admin Interface Screenshot 1](#)
-2. ![Admin Interface Screenshot 2](#)
-3. ![Admin Interface Screenshot 3](#)
-4. ![Admin Interface Screenshot 4](#)
+![image](https://github.com/user-attachments/assets/1de3be39-65f7-4fd1-880c-a1409274641b)
+
 
 ### Garage Staff Interface
-1. ![Staff Interface Screenshot 1](#)
-2. ![Staff Interface Screenshot 2](#)
-3. ![Staff Interface Screenshot 3](#)
-4. ![Staff Interface Screenshot 4](#)
+![image](https://github.com/user-attachments/assets/808b474a-b13f-44ac-b58a-da6ab18e4d96)
+
 
 ### Technical Support Interface
-1. ![Support Interface Screenshot 1](#)
-2. ![Support Interface Screenshot 2](#)
-3. ![Support Interface Screenshot 3](#)
-4. ![Support Interface Screenshot 4](#)
+![image](https://github.com/user-attachments/assets/e061e686-2293-4a55-a034-bb7d9feaae23)
+
 
 ### Customer Service Interface
-1. ![Customer Service Interface Screenshot 1](#)
-2. ![Customer Service Interface Screenshot 2](#)
-3. ![Customer Service Interface Screenshot 3](#)
-4. ![Customer Service Interface Screenshot 4](#)
+![image](https://github.com/user-attachments/assets/ef7fc348-3191-45a8-986a-f0a59588d48e)
